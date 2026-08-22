@@ -9,6 +9,12 @@
 
 html { -webkit-text-size-adjust: 100%; }
 
+/* Scroll lock while the menu overlay is open. This has to sit on the ROOT
+   element: <html> is the scroll container, so `body { overflow: hidden }` does
+   not lock anything, and it deforms the body box, which is what left a blank
+   band below the footer. */
+html.is-menu-open { overflow: hidden; }
+
 body {
   margin: 0;
   background: var(--pg-bg);

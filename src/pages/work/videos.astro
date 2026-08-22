@@ -415,7 +415,7 @@ const breadcrumbs = [
     if (!player || !slot) return;
     slot.replaceChildren();
     player.hidden = true;
-    document.body.style.overflow = '';
+    document.documentElement.classList.remove('is-menu-open');
     opener?.focus();
   }
 
@@ -433,7 +433,7 @@ const breadcrumbs = [
 
       if (caption) caption.textContent = button.dataset.videoTitle ?? '';
       player.hidden = false;
-      document.body.style.overflow = 'hidden';
+      document.documentElement.classList.add('is-menu-open');
       closeBtn?.focus();
     });
   });

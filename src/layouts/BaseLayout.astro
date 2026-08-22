@@ -1,6 +1,7 @@
 ---
 import '../styles/tokens.css';
 import '../styles/base.css';
+import SiteMenu from '../components/SiteMenu.astro';
 
 /**
  * Document shell: head, fonts, theme bootstrap, SEO and structured data.
@@ -100,6 +101,10 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
   <body data-theme="light">
     <a class="skip-link" href="#main">Skip to content</a>
     <slot />
+
+    <!-- Outside .page-root on purpose: a fixed overlay nested inside an
+         `overflow: hidden` / `overflow-x: clip` ancestor gets clipped. -->
+    <SiteMenu active={path} />
 
     <script is:inline>
       document.body.dataset.theme = document.documentElement.dataset.themeInit || 'light';

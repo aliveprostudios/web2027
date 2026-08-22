@@ -147,7 +147,7 @@
       opener = from;
       show(i);
       root!.hidden = false;
-      document.body.style.overflow = 'hidden';
+      document.documentElement.classList.add('is-menu-open');
       startAutoSlide();
       nextBtn.focus();
     }
@@ -156,7 +156,7 @@
       clearInterval(timer);
       timer = undefined;
       root!.hidden = true;
-      document.body.style.overflow = '';
+      document.documentElement.classList.remove('is-menu-open');
       opener?.focus();
     }
 
