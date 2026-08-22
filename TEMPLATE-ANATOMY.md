@@ -319,7 +319,48 @@ crawling the built HTML rather than by inspection.
 
 `/thank-you` and `/brand-pulse` also have no route yet.
 
-## 11. Open items
+## 11. Deployment (Cloudflare)
+
+Fully static: every route is prerendered, there is no SSR and no server
+function, so no adapter is involved. `dist/` is plain files.
+
+| Setting | Value |
+|---|---|
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Production branch | `main` |
+| Staging branch | `staging` (any non-`main` branch is treated as staging) |
+
+`wrangler.jsonc` sets `html_handling: "drop-trailing-slash"` so
+`/foundation/brand-name-identity` serves the `.html` and the trailing-slash form
+redirects to it. This MUST match the canonical URLs or every page gets two
+addresses.
+
+**`_headers` and `_redirects` are GENERATED** by `scripts/postbuild.mjs` on every
+build. Never hand-edit them:
+
+- **63 redirects** parsed from the table in `SITEMAP.md`, which stays the single
+  source of truth. The script throws rather than shipping an empty file.
+- **CSP** with script hashes computed from the built HTML, so no
+  `'unsafe-inline'` and no hash drift when a component script changes. Only
+  executable scripts are hashed; `application/ld+json` and `application/json` are
+  data blocks the browser never executes.
+- **Staging gets `X-Robots-Tag: noindex, nofollow`**, detected from
+  `WORKERS_CI_BRANCH` / `CF_PAGES_BRANCH`, or forced with `STAGING=1`.
+  Put Cloudflare Access in front of the staging hostname as well: noindex is a
+  request, Access is a wall.
+
+Verified through `wrangler dev` (a plain static server does not apply headers):
+all 63 redirects resolve exactly as specified, headers are present, the
+trailing-slash form canonicalises, `/nope` returns a real 404 with the §8 page,
+and the site runs clean under the CSP with no violations, with fonts, both video
+providers, the theme toggle, the menu and the lightbox all working.
+
+**10 of the 63 redirects still point at unbuilt routes** (`/contact` and the
+`/resources` tree). They 301 correctly but land on the 404 until those routes
+exist.
+
+## 12. Open items
 
 | # | Item | Blocks |
 |---|---|---|

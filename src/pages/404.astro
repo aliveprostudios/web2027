@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BgRails from '../components/BgRails.astro';
+import SiteNav from '../components/SiteNav.astro';
+import VideoHero from '../components/VideoHero.astro';
+import NextStep from '../components/NextStep.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+/**
+ * 404 (STYLEGUIDE.md §8): Master template shell, dark hero, H1 "Lost the
+ * thread." and a primary pill back home. Same rails and video pool as every
+ * other page.
+ *
+ * Cloudflare serves this for unmatched paths via `not_found_handling` in
+ * wrangler.jsonc.
+ */
+---
+
+<BaseLayout title="Page not found" path="/404" description="That page does not exist.">
+  <div class="page-root">
+    <BgRails />
+
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav />
+
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Error&nbsp;&nbsp;·&nbsp;&nbsp;404</p>
+
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask">
+              <span class="hero__line dot">Lost the thread.</span>
+            </span>
+          </h1>
+
+          <p class="hero__caption">
+            <span class="hero__caption-lead">That page does not exist.</span> Every route below is
+            still exactly where it should be.
+          </p>
+
+          <div class="hero__actions">
+            <a href="/" class="aps-btn aps-btn-primary">
+              <span class="roll"><span>Back to Home</span><span>Back to Home</span></span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17L17 7M9 7h8v8"></path>
+              </svg>
+            </a>
+            <a href="/work" class="aps-btn aps-btn-ghost">
+              <span class="roll"><span>Explore Our Work</span><span>Explore Our Work</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main id="main">
+      <VideoHero route="/404" title="Alive ProStudios reel" />
+    </main>
+
+    <NextStep sectionNum="03" />
+    <SiteFooter nextLabel="All Services" nextHref="/foundation" />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+
+  .hero__caption {
+    max-width: 680px;
+    margin: 40px 0 0;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--brand-orange);
+    animation: heroFade 800ms var(--ease-settle) both 600ms;
+  }
+  .hero__caption-lead { color: #fff; }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 44px;
+    animation: heroFade 800ms var(--ease-settle) both 750ms;
+  }
+</style>

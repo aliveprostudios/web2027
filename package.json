@@ -5,18 +5,22 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "check": "astro check"
+    "build": "astro build && node scripts/postbuild.mjs",
+    "build:staging": "STAGING=1 npm run build",
+    "preview": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:staging": "npm run build:staging && wrangler deploy --env staging",
+    "check": "astro check",
+    "video-meta": "node scripts/fetch-video-meta.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.7",
     "@astrojs/sitemap": "^3.7.3",
-    "@astrojs/vercel": "^11.0.7",
     "astro": "^7.2.4"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.125.0"
   }
 }

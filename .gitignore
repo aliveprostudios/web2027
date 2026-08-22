@@ -3,6 +3,7 @@ dist/
 .output/
 .vercel/
 .netlify/
+.wrangler/
 
 # Dependencies
 node_modules/
