@@ -331,6 +331,26 @@ function, so no adapter is involved. `dist/` is plain files.
 | Production branch | `main` |
 | Staging branch | `staging` (any non-`main` branch is treated as staging) |
 
+Deployed from GitHub (`aliveprostudios/web2027`) via Workers Builds, so a push
+redeploys. There is no manual deploy path for staging on purpose: a hand-run
+`wrangler deploy --env staging` would create a second, stale worker that never
+updates on push.
+
+| | URL |
+|---|---|
+| Production (`main`) | `aliveprostudios.javad-ade.workers.dev` |
+| Staging (`staging`) | `staging-aliveprostudios.javad-ade.workers.dev` |
+| Per-build snapshot | `<version>-aliveprostudios.javad-ade.workers.dev` |
+
+The staging address is a BRANCH ALIAS and is stable. The per-version URLs change
+on every push, so they are for freezing one build for review, not for
+bookmarking.
+
+**Build image gotcha:** the image runs npm 10.x. A lockfile written by npm 11
+fails `npm ci` there with transitive optional deps "missing from lock file",
+even though `npm ci` passes locally. Regenerate with
+`npx npm@10 install --package-lock-only` and check `npm ci` under both.
+
 `wrangler.jsonc` sets `html_handling: "drop-trailing-slash"` so
 `/foundation/brand-name-identity` serves the `.html` and the trailing-slash form
 redirects to it. This MUST match the canonical URLs or every page gets two

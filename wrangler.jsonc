@@ -19,15 +19,5 @@
 
   "observability": {
     "enabled": true
-  },
-
-  "env": {
-    // Staging deploys from the `staging` branch. `npm run build` detects the
-    // branch and adds X-Robots-Tag: noindex to _headers, but put Cloudflare
-    // Access in front of this hostname too: noindex is a request, Access is a
-    // wall.
-    "staging": {
-      "name": "aliveprostudios-staging"
-    }
   }
 }
