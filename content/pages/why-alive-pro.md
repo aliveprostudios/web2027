@@ -1,5 +1,6 @@
 ---
 title: "Why Alive Pro"
+caption: ""
 slug: "why-alive-pro"
 seoTitle: "Why Alive Pro"
 seoDescription: "We are not a vendor. We are your brand transformation partner. Here is what makes working with us different."

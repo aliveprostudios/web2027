@@ -1,0 +1,72 @@
+---
+/**
+ * Global animated grid rails (STYLEGUIDE.md §2).
+ *
+ * One per page. Sits above section backgrounds (z-index 5) but below every
+ * content wrapper (z-index 6), so text always paints over it.
+ */
+const RAILS = [
+  { left: 'var(--gutter)', pulse: 'orange', height: '5%', duration: '26s', delay: '0s' },
+  { left: 'calc(var(--gutter) + (100% - var(--gutter) * 2) * 0.25)', pulse: 'grey', height: '6%', duration: '34s', delay: '7s' },
+  { left: 'calc(var(--gutter) + (100% - var(--gutter) * 2) * 0.5)', pulse: 'orange', height: '5%', duration: '30s', delay: '14s' },
+  { left: 'calc(var(--gutter) + (100% - var(--gutter) * 2) * 0.75)', pulse: 'grey', height: '5%', duration: '38s', delay: '3s' },
+  { left: 'calc(100% - var(--gutter))', pulse: 'orange', height: '5%', duration: '32s', delay: '10s' },
+] as const;
+---
+
+<div class="bg-rails" aria-hidden="true">
+  {
+    RAILS.map((rail) => (
+      <div class="rail" style={`left:${rail.left}`}>
+        <div
+          class:list={['rail__pulse', `rail__pulse--${rail.pulse}`]}
+          style={`height:${rail.height};animation-duration:${rail.duration};animation-delay:${rail.delay}`}
+        />
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .bg-rails {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-rails);
+    pointer-events: none;
+  }
+
+  .rail {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--rail-color);
+  }
+
+  .rail__pulse {
+    position: absolute;
+    left: 0;
+    width: 1px;
+    animation-name: lineSweep;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .rail__pulse--orange {
+    background: linear-gradient(
+      180deg,
+      rgba(247, 110, 30, 0) 0%,
+      var(--rail-pulse-orange) 50%,
+      rgba(247, 110, 30, 0) 100%
+    );
+  }
+
+  .rail__pulse--grey {
+    background: linear-gradient(
+      180deg,
+      rgba(128, 128, 128, 0) 0%,
+      var(--rail-pulse-grey) 50%,
+      rgba(128, 128, 128, 0) 100%
+    );
+  }
+</style>

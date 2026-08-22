@@ -1,5 +1,6 @@
 ---
 title: "Lead Generation"
+caption: ""
 slug: "lead-generation"
 category: "growth"
 url: "/growth/lead-generation"

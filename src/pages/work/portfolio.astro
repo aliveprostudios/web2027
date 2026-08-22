@@ -1,0 +1,209 @@
+---
+import { Image, getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BgRails from '../../components/BgRails.astro';
+import { relatedServices } from '../../lib/nav';
+import SiteNav from '../../components/SiteNav.astro';
+import VideoHero from '../../components/VideoHero.astro';
+import BookConsult from '../../components/BookConsult.astro';
+import RelatedServices from '../../components/RelatedServices.astro';
+import NextStep from '../../components/NextStep.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import { galleryImages } from '../../lib/gallery';
+
+/**
+ * Gallery Page Template (STYLEGUIDE.md §9).
+ *
+ * Order: 1 Hero · 2 VideoHero · 3 Gallery grid · 4 Lightbox · 5 BookConsult
+ *        6 Related Services · 7 NextStep · 8 Footer
+ *
+ * The tile count is dynamic. An empty `content/assets/portfolio/` renders the
+ * page without a grid rather than erroring.
+ */
+const path = '/work/portfolio';
+const title = 'Portfolio';
+const caption = '';
+const description =
+  'Brand transformations, creative productions, and strategic projects from ' +
+  'Alive ProStudios. Every piece represents a real business challenge, solved.';
+
+// Lightbox needs a larger render than the thumbnail: 900px display, 2x for
+// retina, capped at the source width so nothing is upscaled.
+const slides = await Promise.all(
+  galleryImages.map(async (image) => {
+    const full = await getImage({
+      src: image.src,
+      width: Math.min(1800, image.src.width),
+      format: 'webp',
+    });
+    return { full: full.src, alt: `Alive ProStudios portfolio, ${image.name}` };
+  }),
+);
+
+const schema = [
+  {
+    '@type': 'ImageGallery',
+    '@id': `https://aliveprostudios.com${path}#gallery`,
+    name: 'Alive ProStudios Portfolio',
+    description,
+    numberOfItems: galleryImages.length,
+    publisher: { '@id': 'https://aliveprostudios.com/#organization' },
+  },
+];
+
+// Work routes sit outside the four pillars; Execution holds the disciplines
+// that produce this work.
+const related = await relatedServices('execution', path);
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Work', url: '/work' },
+  { name: title, url: path },
+];
+---
+
+<BaseLayout {title} {description} {path} {schema} {breadcrumbs}>
+  <div class="page-root">
+    <BgRails />
+
+    <!-- 1. Hero -->
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav active={path} />
+
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Work&nbsp;&nbsp;·&nbsp;&nbsp;Portfolio</p>
+
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask">
+              <span class="hero__line dot">{title}</span>
+            </span>
+          </h1>
+
+          {caption && <p class="hero__caption"><span class="hero__caption-lead">{caption}</span></p>}
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. VideoHero -->
+    <VideoHero route={path} title="Alive ProStudios portfolio reel" />
+
+    <main id="main">
+      <!-- 3. Gallery grid -->
+      {
+        galleryImages.length > 0 && (
+          <section class="gallery section" aria-label={`Portfolio, ${galleryImages.length} images`}>
+            <div class="gallery__grid z-content">
+              {galleryImages.map((image, i) => (
+                <button type="button" class="tile" data-gallery-item aria-label={`Open image ${i + 1} of ${galleryImages.length}`}>
+                  <Image
+                    src={image.src}
+                    alt={`Alive ProStudios portfolio, ${image.name}`}
+                    widths={[400, 800]}
+                    sizes="(max-width: 760px) 100vw, 33vw"
+                    loading={i < 6 ? 'eager' : 'lazy'}
+                  />
+                </button>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <!-- 4. Lightbox -->
+      <script id="gallery-data" type="application/json" is:inline set:html={JSON.stringify(slides)} />
+      <Lightbox />
+
+      <!-- 5. Book a Consult -->
+      <BookConsult />
+
+      <!-- 6. Related Services -->
+      <section class="section">
+        <RelatedServices items={related} num="02" />
+      </section>
+    </main>
+
+    <!-- 7. Next Step -->
+    <NextStep sectionNum="03" />
+
+    <!-- 8. Footer -->
+    <SiteFooter nextLabel="Videos" nextHref="/work/videos" />
+  </div>
+</BaseLayout>
+
+<style>
+  /* ---- 1. Hero — grey gradient, theme-invariant ------------------------ */
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+
+  .hero__caption {
+    max-width: 680px;
+    margin: 40px 0 0;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--brand-orange);
+    animation: heroFade 800ms var(--ease-settle) both 600ms;
+  }
+  .hero__caption-lead { color: #fff; }
+
+  /* ---- 3. Gallery grid: 3 cols desktop, 1 col mobile, 30px gutter ------ */
+  .gallery { padding: 96px var(--gutter); }
+
+  .gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+
+  .tile {
+    display: block;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+    transform: translateY(0);
+    transition: transform 500ms var(--ease-settle);
+  }
+  .tile:hover { transform: translateY(-6px); }
+
+  .tile :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 19 / 9;
+    object-fit: cover;
+    border-radius: 8px;
+    transform: scale(1);
+    transition: opacity 300ms ease, transform 700ms var(--ease-settle);
+  }
+  .tile:hover :global(img) { opacity: 0.85; transform: scale(1.07); }
+
+  @media (max-width: 760px) {
+    .gallery__grid { grid-template-columns: 1fr; }
+  }
+</style>

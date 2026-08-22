@@ -6,7 +6,7 @@ Domain: **aliveprostudios.com**
 Locale: English only at launch. Architecture should stay i18n-ready
 (`/fr/`, `/de/`, `/es/`, `/zh/`, `/ar/` are Phase 2; English carries no prefix).
 
-**Totals:** 29 service pages · 8 Alive Pro pages · 3 blog posts · 26 videos · 63 redirects
+**Totals:** 28 service pages · 8 Alive Pro pages · 3 blog posts · 26 videos · 63 redirects
 
 ---
 
@@ -75,7 +75,7 @@ Locale: English only at launch. Architecture should stay i18n-ready
 | `/growth/seo-search-engine-optimization` | SEO (Search Engine Optimization) | `content/services/growth/seo-search-engine-optimization.md` |
 | `/growth/social-media-management` | Social Media Management | `content/services/growth/social-media-management.md` |
 
-### /infrastructure (6)
+### /infrastructure (5)
 
 | URL | Title | Source file |
 |---|---|---|
@@ -84,7 +84,6 @@ Locale: English only at launch. Architecture should stay i18n-ready
 | `/infrastructure/intelligent-systems-integration` | Intelligent Systems Integration | `content/services/infrastructure/intelligent-systems-integration.md` |
 | `/infrastructure/lifecycle-support` | LifeCycle Support | `content/services/infrastructure/lifecycle-support.md` |
 | `/infrastructure/solution-architecture-design` | Solution Architecture & Design | `content/services/infrastructure/solution-architecture-design.md` |
-| `/infrastructure/zoho` | Zoho | `content/services/infrastructure/zoho.md` |
 
 ---
 
@@ -206,7 +205,5 @@ In Astro, set them in `astro.config.mjs` under `redirects`, or at the host.
   was recovered from the rendered live site. Re-read it before reuse.
 - `/privacy-policy` (1,159 words) was likewise hardcoded. It still needs the legal
   review that was outstanding on the old site.
-- `services/infrastructure/zoho.md` exists in the content but is **not** in the
-  old navigation. Decide whether it ships.
 - `homepage.md` exports as structured field dumps rather than prose, because the
   old homepage was assembled from page-builder blocks.

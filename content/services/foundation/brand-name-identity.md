@@ -1,5 +1,6 @@
 ---
 title: "Brand Name & Identity"
+caption: "Your identity is the first thing people see and the last thing they forget. We create naming, visual systems, and brand assets that are distinctive and ownable."
 slug: "brand-name-identity"
 category: "foundation"
 url: "/foundation/brand-name-identity"
@@ -8,7 +9,9 @@ seoDescription: "Build the visual and verbal identity that commands attention."
 ---
 ## First Impressions, Engineered
 
-Your brand name is the first word your market hears. Your identity is the first thing they see. Together, they form the single most important signal your business sends before a conversation even begins. Get them right, and you start every interaction from a position of credibility. Get them wrong, and you spend years trying to overcome a first impression that’s working against you.
+Your brand name is the first word your market hears. Your identity is the first thing they see. Together, they form the single most important signal your business sends before a conversation even begins.
+
+Get them right, and you start every interaction from a position of credibility. Get them wrong, and you spend years trying to overcome a first impression that’s working against you.
 
 We treat naming and identity as one connected discipline, not two separate tasks. The name sets the tone. The visual identity carries it forward across every touchpoint. When both are built from the same strategic foundation, the result is a brand that feels intentional, cohesive, and impossible to confuse with anyone else in your market.
 

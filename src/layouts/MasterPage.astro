@@ -1,0 +1,380 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import BgRails from '../components/BgRails.astro';
+import SiteNav from '../components/SiteNav.astro';
+import VideoHero from '../components/VideoHero.astro';
+import BookConsult from '../components/BookConsult.astro';
+import RelatedServices from '../components/RelatedServices.astro';
+import NextStep from '../components/NextStep.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { splitSentences, type Anatomy } from '../lib/anatomy';
+import type { RelatedItem } from '../components/RelatedServices.astro';
+
+/**
+ * Master Page Template (STYLEGUIDE.md §9).
+ *
+ * Section order is locked:
+ *   1 Hero · 2 VideoHero · 3 Why It Matters · 4 Content rows · 5 Quote band
+ *   6 Closing statement · 7 BookConsult · 8 Related Services · 9 NextStep
+ *   10 Footer
+ *
+ * A slot with no source is omitted, never filled. See TEMPLATE-ANATOMY.md §3.
+ */
+interface Props {
+  title: string;
+  description?: string | undefined;
+  path: string;
+  anatomy: Anatomy;
+  /** Frontmatter caption. Falls back to anatomy.caption per §9. */
+  caption?: string | undefined;
+  videoId?: string | undefined;
+  /** Breadcrumb eyebrow above the H1, derived from the route by the caller. */
+  crumb: string;
+  /** Related rows, already resolved from the collection. */
+  related?: RelatedItem[];
+  relatedLabel?: string;
+  breadcrumbs: Array<{ name: string; url: string }>;
+  footerLabel: string;
+  footerHref: string;
+  /** schema.org type for this page. Service pages are Services; the rest WebPage. */
+  schemaType?: string;
+}
+
+const {
+  title,
+  description,
+  path,
+  anatomy,
+  caption,
+  videoId,
+  crumb,
+  related = [],
+  relatedLabel = 'Related Services',
+  breadcrumbs,
+  footerLabel,
+  footerHref,
+  schemaType = 'Service',
+} = Astro.props;
+
+const heroCaption = caption ?? anatomy.caption;
+
+// §3: the caption is two-tone. First sentence white, the remainder brand orange.
+const captionParts = heroCaption ? splitSentences(heroCaption) : [];
+const captionLead = captionParts[0] ?? '';
+const captionRest = captionParts.slice(1).join(' ');
+
+const schema = [
+  schemaType === 'Service'
+    ? {
+        '@type': 'Service',
+        '@id': `https://aliveprostudios.com${path}#service`,
+        name: title,
+        ...(description ? { description } : {}),
+        provider: { '@id': 'https://aliveprostudios.com/#organization' },
+        areaServed: ['CA', 'US', 'DE'],
+      }
+    : {
+        '@type': schemaType,
+        '@id': `https://aliveprostudios.com${path}#page`,
+        name: title,
+        ...(description ? { description } : {}),
+        isPartOf: { '@id': 'https://aliveprostudios.com/#organization' },
+      },
+];
+---
+
+<BaseLayout {title} {description} {path} {schema} {breadcrumbs}>
+  <div class="page-root">
+    <BgRails />
+
+    <!-- 1. Hero -->
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav active={path} />
+
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">{crumb}</p>
+
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask">
+              <span class="hero__line dot">{title}</span>
+            </span>
+          </h1>
+
+          {
+            heroCaption && (
+              <p class="hero__caption">
+                <span class="hero__caption-lead">{captionLead}</span>
+                {captionRest && ` ${captionRest}`}
+              </p>
+            )
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. VideoHero -->
+    <VideoHero route={path} videoId={videoId} title={`${title} reel`} />
+
+    <main id="main">
+      <!-- 3. Why It Matters -->
+      {
+        anatomy.h2 && (
+          <section class="why section" data-stack>
+            <p class="why__label t-eyebrow z-content">
+              <span class="why__num">(01)</span>&nbsp;&nbsp;Why It Matters
+            </p>
+
+            <div class="z-content">
+              <h2 class="t-h2">{anatomy.h2}</h2>
+
+              {anatomy.statement && (
+                <p class="why__statement t-h4">
+                  <Fragment set:html={anatomy.statement.lead} />{' '}
+                  <span class="muted" set:html={anatomy.statement.muted} />{' '}
+                  <Fragment set:html={anatomy.statement.tail} />
+                </p>
+              )}
+
+              {anatomy.intro.length > 0 && (
+                <div class="why__body md">
+                  {anatomy.intro.map((block) =>
+                    block.kind === 'p' ? (
+                      <p set:html={block.html} />
+                    ) : (
+                      <ul>
+                        {block.items.map((item) => (
+                          <li set:html={item} />
+                        ))}
+                      </ul>
+                    ),
+                  )}
+                </div>
+              )}
+
+              {anatomy.stat && (
+                <div class="stat">
+                  <div class="stat__figure">{anatomy.stat.figure}</div>
+                  <p class="stat__caption">
+                    <Fragment set:html={anatomy.stat.caption.lead} />{' '}
+                    <span class="stat__strong" set:html={anatomy.stat.caption.muted} />
+                  </p>
+                </div>
+              )}
+            </div>
+          </section>
+        )
+      }
+
+      <!-- 4. Content rows -->
+      {
+        anatomy.rows.length > 0 && (
+          <section class="rows">
+            {anatomy.rows.map((row, i) => (
+              <div class="row z-content" data-stack>
+                <span class="row__num">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3 class="t-h3 row__heading">{row.heading}</h3>
+                  <div class="md">
+                    {row.blocks.map((block) =>
+                      block.kind === 'p' ? (
+                        <p set:html={block.html} />
+                      ) : (
+                        <div class="row__list">
+                          {block.label && <p class="row__list-label t-eyebrow">{block.label}</p>}
+                          <ul>
+                            {block.items.map((item) => (
+                              <li set:html={item} />
+                            ))}
+                          </ul>
+                        </div>
+                      ),
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </section>
+        )
+      }
+
+      <!-- 5. Quote band -->
+      {
+        anatomy.quote && (
+          <section class="quote">
+            <div class="quote__inner z-content">
+              <blockquote class="t-h4 quote__text" set:html={anatomy.quote.html} />
+              {anatomy.quote.name && (
+                <p class="quote__by">
+                  {anatomy.quote.name}
+                  {anatomy.quote.role && <span class="quote__role">{anatomy.quote.role}</span>}
+                </p>
+              )}
+            </div>
+          </section>
+        )
+      }
+
+      <!-- 6. Closing statement -->
+      {
+        anatomy.closing && (
+          <section class="section">
+            <p class="closing t-h4 z-content">
+              <Fragment set:html={anatomy.closing.lead} />{' '}
+              <span class="muted" set:html={anatomy.closing.muted} />{' '}
+              <Fragment set:html={anatomy.closing.tail} />
+            </p>
+          </section>
+        )
+      }
+
+      <!-- 7. Book a Consult -->
+      <BookConsult />
+
+      <!-- 8. Related Services -->
+      {
+        related.length > 0 && (
+          <section class="section">
+            <RelatedServices items={related} num="02" label={relatedLabel} />
+          </section>
+        )
+      }
+    </main>
+
+    <!-- 9. Next Step -->
+    <NextStep sectionNum="03" />
+
+    <!-- 10. Footer -->
+    <SiteFooter nextHref={footerHref} nextLabel={footerLabel} />
+  </div>
+</BaseLayout>
+
+<style>
+  /* ---- 1. Hero (§3) — theme-invariant --------------------------------- */
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+
+  /* Nav must beat the video (§1.5). */
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+
+  .hero__copy { padding: 56px var(--gutter) 0; }
+
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line {
+    display: block;
+    animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms;
+  }
+
+  .hero__caption {
+    max-width: 680px;
+    margin: 40px 0 0;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--brand-orange);
+    animation: heroFade 800ms var(--ease-settle) both 600ms;
+  }
+  .hero__caption-lead { color: #fff; }
+
+  /* ---- 3. Why It Matters ---------------------------------------------- */
+  .why {
+    display: grid;
+    grid-template-columns: var(--col-label) 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .why__label { color: var(--pg-fg); margin: 0; }
+  .why__num { color: var(--orange-ink); }
+
+  .why__statement { max-width: 680px; margin: 56px 0 0; }
+  .why__body { margin-top: 32px; }
+
+  /* Stat block (§5) */
+  .stat {
+    border-top: 2px solid var(--brand-orange);
+    padding-top: 24px;
+    margin-top: 64px;
+    max-width: 680px;
+  }
+  .stat__figure {
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: clamp(64px, 6vw, 112px);
+    line-height: 1;
+    color: var(--orange-ink);
+  }
+  .stat__caption {
+    margin: 16px 0 0;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--pg-fg3);
+  }
+  .stat__strong { color: var(--pg-fg); }
+
+  /* ---- 4. Numbered rows ------------------------------------------------ */
+  .rows { padding: 0 var(--gutter) 64px; }
+
+  .row {
+    display: grid;
+    grid-template-columns: var(--col-num) 1fr;
+    gap: clamp(24px, 3vw, 56px);
+    border-top: 1px solid var(--pg-line);
+    padding: 56px 0;
+    align-items: start;
+  }
+
+  .row__num {
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--orange-ink);
+  }
+
+  .row__heading { margin: 0 0 20px; }
+
+  .row__list { margin-top: 40px; max-width: 720px; }
+  .row__list-label { margin: 0 0 20px; color: var(--pg-fg); }
+  /* A paragraph closing out a labelled list needs the same rhythm as p + p. */
+  .row__list + p { margin-top: 32px; }
+
+  /* ---- 5. Quote band --------------------------------------------------- */
+  .quote { background: var(--pg-band); padding: 96px var(--gutter); }
+  .quote__inner { max-width: 960px; margin: 0 auto; }
+  .quote__text { margin: 0; }
+  .quote__by {
+    margin: 32px 0 0;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--pg-fg);
+  }
+  .quote__role {
+    margin-left: 12px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pg-fg3);
+  }
+
+  /* ---- 6. Closing ------------------------------------------------------ */
+  .closing { max-width: 760px; margin: 0; }
+</style>

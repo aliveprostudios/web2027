@@ -1,0 +1,104 @@
+import { getEntry } from 'astro:content';
+
+/**
+ * Landing-page parser.
+ *
+ * The landing files are scrapes of the live site, so they arrive with orphan
+ * index numbers on their own lines and the two-tone display headline run
+ * together ("see what weBUILD"). This reads that shape into structured data.
+ *
+ * Used for `/work`, whose children (Portfolio, Videos) are NOT collection
+ * entries and so have to come from the landing file itself. The four pillar
+ * landings take their child rows from the services collection instead.
+ */
+export type LandingChild = { num: string; name: string; blurb: string; url: string };
+
+export type Landing = {
+  /** "05 Work" -> "Work" */
+  eyebrow: string;
+  /** Display headline, word breaks restored. */
+  heading: string;
+  intro: string;
+  children: LandingChild[];
+};
+
+function unmash(heading: string): string {
+  return heading.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\s+/g, ' ').trim();
+}
+
+export function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+/**
+ * Everything below "## Featured Work" (or a similar trailing block) is live-site
+ * furniture: stat counters, marquee text, and a duplicate CTA that the template
+ * already supplies as global components. Stop before it.
+ */
+const TRAILING = /^##\s+(Featured Work|READY TO TRANSFORM)/i;
+
+export async function parseLanding(id: string, base: string): Promise<Landing | null> {
+  const entry = await getEntry('landing', id);
+  if (!entry) return null;
+
+  const chunks = (entry.body ?? '')
+    .replace(/\r\n/g, '\n')
+    .split(/\n{2,}/)
+    .map((c) => c.trim())
+    .filter(Boolean);
+
+  const landing: Landing = { eyebrow: '', heading: '', intro: '', children: [] };
+  let pendingNum: string | null = null;
+  let current: LandingChild | null = null;
+
+  for (const chunk of chunks) {
+    if (TRAILING.test(chunk)) break;
+
+    // "05 Work"
+    const eyebrow = chunk.match(/^(\d{1,2})\s+(.+)$/);
+    if (eyebrow && !chunk.includes('\n') && !landing.eyebrow) {
+      landing.eyebrow = eyebrow[2]!.trim();
+      continue;
+    }
+
+    // Orphan index number ahead of a child heading.
+    if (/^\d{1,2}$/.test(chunk)) {
+      pendingNum = chunk.padStart(2, '0');
+      continue;
+    }
+
+    const h1 = chunk.match(/^#\s+(.*)$/);
+    if (h1) {
+      landing.heading = unmash(h1[1]!.trim());
+      continue;
+    }
+
+    const h2 = chunk.match(/^##\s+(.*)$/);
+    if (h2) {
+      const name = h2[1]!.trim();
+      current = {
+        num: pendingNum ?? String(landing.children.length + 1).padStart(2, '0'),
+        name,
+        blurb: '',
+        url: `${base}/${slugify(name)}`,
+      };
+      landing.children.push(current);
+      pendingNum = null;
+      continue;
+    }
+
+    if (/^[-*+>|#]/.test(chunk)) continue;
+
+    if (current && !current.blurb) {
+      current.blurb = chunk.replace(/\n/g, ' ');
+    } else if (!current && !landing.intro) {
+      landing.intro = chunk.replace(/\n/g, ' ');
+    }
+  }
+
+  return landing;
+}

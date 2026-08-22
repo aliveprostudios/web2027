@@ -1,5 +1,6 @@
 ---
 title: "Brand Marketing Toronto"
+caption: ""
 slug: "brand-marketing-toronto"
 date: "2026-04-04"
 author: "Javad Ahmadi"

@@ -1,5 +1,6 @@
 ---
 title: "Rebranding"
+caption: ""
 slug: "rebranding"
 category: "foundation"
 url: "/foundation/rebranding"

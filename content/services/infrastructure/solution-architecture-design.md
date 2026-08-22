@@ -1,5 +1,6 @@
 ---
 title: "Solution Architecture & Design"
+caption: ""
 slug: "solution-architecture-design"
 category: "infrastructure"
 url: "/infrastructure/solution-architecture-design"

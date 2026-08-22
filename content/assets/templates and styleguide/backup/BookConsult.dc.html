@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <style>
+    @keyframes ctaMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    @keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    .aps-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:14px;border-radius:999px;padding:20px 40px;font-family:var(--font-sans);font-size:13px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;overflow:hidden;cursor:pointer;transition:background-color 300ms ease,color 300ms ease,border-color 300ms ease,transform 150ms ease}
+    .aps-btn:active{transform:translateY(2px)}
+    .aps-btn .roll{display:block;position:relative;overflow:hidden;height:1.3em}
+    .aps-btn .roll span{display:block;line-height:1.3em;transition:transform 400ms cubic-bezier(0.22,1,0.36,1)}
+    .aps-btn .roll span + span{position:absolute;top:100%;left:0;width:100%}
+    .aps-btn:hover .roll span{transform:translateY(-100%)}
+    .aps-btn svg{transition:transform 300ms cubic-bezier(0.22,1,0.36,1)}
+    .aps-btn:hover svg{transform:translate(3px,-3px)}
+    a.aps-btn-dark{background:#000;color:#fff;border:1px solid #000}
+    a.aps-btn-dark:hover{background:#fff;color:#000;border-color:#fff}
+    a.aps-btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.55)}
+    a.aps-btn-ghost:hover{background:#fff;color:#000;border-color:#fff}
+    @media (max-width:760px){ [data-stack]{display:flex !important;flex-direction:column !important;align-items:flex-start !important;gap:32px !important} }
+  </style>
+</helmet>
+<section data-screen-label="Book a consult" style="position:relative;background:#F76E1E;color:#fff;padding:96px 0 0;overflow:hidden;font-family:var(--font-sans)">
+  <div data-stack="" style="position:relative;z-index:6;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;padding:0 clamp(24px,4vw,56px) 96px">
+    <div>
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(0,0,0,0.55);margin:0 0 28px;padding-bottom:16px;border-bottom:1px solid rgba(0,0,0,0.35);width:fit-content">Book a Consult</p>
+      <h2 style="margin:0;text-transform:uppercase;display:flex;flex-direction:column;gap:10px;line-height:1">
+        <span style="font-size:clamp(26px,3.4vw,58px);font-weight:200;letter-spacing:-0.01em">{{ lineLight }}</span>
+        <span style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(44px,7vw,124px);line-height:0.92">{{ lineBold }}<span style="display:inline-block;width:0.14em;height:0.14em;background:#000;border-radius:999px;margin-left:0.06em"></span></span>
+        <span style="font-size:clamp(26px,3.4vw,58px);font-weight:200;color:rgba(0,0,0,0.65)">{{ lineClose }}</span>
+      </h2>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:44px">
+        <a href="Contact.dc.html" class="aps-btn aps-btn-dark">
+          <span class="roll"><span>Book a Consult</span><span>Book a Consult</span></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+        </a>
+        <a href="Work.dc.html" class="aps-btn aps-btn-ghost">
+          <span class="roll"><span>Explore Our Work</span><span>Explore Our Work</span></span>
+        </a>
+        <a href="tel:+19055533044" style="margin-left:12px;font-family:var(--font-sans);font-weight:600;font-size:clamp(18px,1.6vw,24px);color:#fff;text-decoration:none;transition:color 220ms ease" style-hover="color:#000">905-553-3044</a>
+      </div>
+    </div>
+    <a href="Contact.dc.html" aria-label="Book a consult" style="position:relative;display:flex;align-items:center;justify-content:center;width:clamp(180px,16vw,240px);height:clamp(180px,16vw,240px);color:#000;transform:scale(1);transition:transform 300ms var(--ease-out)" style-hover="transform:scale(1.06)">
+      <svg viewBox="0 0 200 200" style="position:absolute;inset:0;width:100%;height:100%;animation:spinSlow 22s linear infinite">
+        <defs><path id="ctaCircle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"></path></defs>
+        <text style="font-family:var(--font-sans);font-size:13.5px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;fill:#000"><textPath href="#ctaCircle">Book a consult · 29 years of brand marketing · </textPath></text>
+      </svg>
+      <span style="display:flex;align-items:center;justify-content:center;width:44%;height:44%;border-radius:999px;background:#000">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+      </span>
+    </a>
+  </div>
+  <div style="position:relative;z-index:6;border-top:1px solid rgba(0,0,0,0.25);padding:18px 0;overflow:hidden;white-space:nowrap">
+    <div style="display:flex;width:max-content;animation:ctaMarquee 26s linear infinite;font-family:var(--font-sans);font-weight:200;font-size:22px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(0,0,0,0.7)">
+      <div style="display:flex;gap:48px;padding-right:48px;flex:none"><span>Let's talk</span><span>·</span><span>Book a consult</span><span>·</span><span>Request a quote</span><span>·</span></div>
+      <div style="display:flex;gap:48px;padding-right:48px;flex:none"><span>Let's talk</span><span>·</span><span>Book a consult</span><span>·</span><span>Request a quote</span><span>·</span></div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:&quot;640px&quot;},&quot;lineLight&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;The first word&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;lineBold&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;your market hears&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;lineClose&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Make it count.&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      lineLight: this.props.lineLight ?? 'The first word',
+      lineBold: this.props.lineBold ?? 'your market hears',
+      lineClose: this.props.lineClose ?? 'Make it count.',
+    };
+  }
+}
+</script>
+</body>
+</html>

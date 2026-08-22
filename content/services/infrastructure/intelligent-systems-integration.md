@@ -1,5 +1,6 @@
 ---
 title: "Intelligent Systems Integration"
+caption: ""
 slug: "intelligent-systems-integration"
 category: "infrastructure"
 url: "/infrastructure/intelligent-systems-integration"
@@ -8,7 +9,9 @@ seoDescription: "Connect your tools and platforms into a unified ecosystem."
 ---
 ## Connected by Design
 
-The average mid-sized business runs on dozens of disconnected tools. CRM in one place. Accounting in another. Marketing platform in a separate tab. Data trapped in silos. Teams duplicating effort without even realizing it.
+The average mid-sized business runs on dozens of disconnected tools.
+
+CRM in one place. Accounting in another. Marketing platform in a separate tab. Data trapped in silos. Teams duplicating effort without even realizing it.
 
 Intelligent Systems Integration eliminates that fragmentation. We connect your applications, platforms, and data sources into a unified operational environment so information flows where it needs to, when it needs to, without manual intervention.
 

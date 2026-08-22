@@ -1,0 +1,273 @@
+/* =========================================================================
+   Alive ProStudios — global base layer
+   Resets, keyframes, shared component classes. STYLEGUIDE.md §1.2, §4.3, §4.7, §6.
+   ========================================================================= */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--pg-bg);
+  color: var(--pg-fg);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Global theme transition (§1.2) */
+body * {
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+}
+
+img, svg, video, iframe { display: block; max-width: 100%; }
+
+h1, h2, h3, h4, h5, h6, p, blockquote, figure { margin: 0; }
+
+/* ---- Links (§1.2) ------------------------------------------------------ */
+a { color: var(--brand-forest); text-decoration: none; }
+a:hover { color: var(--orange-ink); }
+body[data-theme='dark'] a { color: var(--brand-lime); }
+
+/* ---- Focus ring (§6): 4px orange glow, never removed ------------------- */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 2px;
+}
+
+/* ---- Skip link --------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  padding: 14px 24px;
+  background: var(--brand-orange);
+  color: #000;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.skip-link:focus { left: 0; color: #000; }
+
+/* =========================================================================
+   Keyframes
+   ========================================================================= */
+
+@keyframes heroRise  { from { transform: translateY(110%); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+@keyframes heroFade  { from { opacity: 0 } to { opacity: 1 } }
+@keyframes lineSweep { 0% { transform: translateY(-100%) } 100% { transform: translateY(2100%) } }
+@keyframes ctaMarquee{ from { transform: translateX(0) } to { transform: translateX(-50%) } }
+@keyframes spinSlow  { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
+@keyframes dotPulse  { 0%, 100% { opacity: 1; transform: scale(1) } 50% { opacity: 0.55; transform: scale(0.82) } }
+@keyframes navFade   { from { opacity: 0 } to { opacity: 1 } }
+@keyframes navRise   { from { transform: translateY(40px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+
+/* =========================================================================
+   Page shell
+   ========================================================================= */
+
+.page-root {
+  position: relative;
+  background: var(--pg-bg);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+/* Every content wrapper paints OVER the rails (§1.5) */
+.z-content { position: relative; z-index: var(--z-content); }
+
+.section { padding: 112px var(--gutter); }
+.section--tight { padding: 96px var(--gutter); }
+
+/* Orange dot device (§1.3): 0.14em circle, headline-ending only */
+.dot::after {
+  content: '';
+  display: inline-block;
+  width: 0.14em;
+  height: 0.14em;
+  margin-left: 0.05em;
+  background: var(--brand-orange);
+  border-radius: 999px;
+}
+.dot--pulse::after {
+  width: 0.13em;
+  height: 0.13em;
+  animation: dotPulse 2.4s ease-in-out infinite;
+}
+
+/* Two-tone display copy: the muted span inside a statement */
+.muted { color: var(--pg-fg3); }
+
+/* =========================================================================
+   Typography roles (§1.3). Visual specs locked; tags are semantic only.
+   ========================================================================= */
+
+.t-h1 {
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: clamp(30px, 7.6vw, 144px);
+  line-height: 0.88;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.t-h2 {
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: clamp(48px, 6vw, 104px);
+  line-height: 0.92;
+  text-transform: uppercase;
+  color: var(--pg-fg);
+}
+
+.t-h3 {
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  font-size: clamp(32px, 3.4vw, 56px);
+  line-height: 0.96;
+  text-transform: uppercase;
+  color: var(--pg-fg);
+}
+
+.t-h4 {
+  font-family: var(--font-condensed);
+  font-weight: 700;
+  font-size: clamp(24px, 2.4vw, 38px);
+  line-height: 1.12;
+  text-transform: uppercase;
+  color: var(--pg-fg);
+}
+
+.t-h5 {
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange-ink);
+}
+
+.t-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.t-body {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--pg-fg2);
+  max-width: 720px;
+}
+
+.t-index {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--pg-fg3);
+}
+
+/* Markdown body copy (§5) */
+.md p { font-size: 17px; line-height: 1.6; color: var(--pg-fg2); max-width: 720px; }
+.md p + p { margin-top: 24px; }
+.md ul {
+  margin: 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--pg-fg2);
+  list-style: disc;
+}
+.md strong { font-weight: 700; color: var(--pg-fg); }
+
+/* =========================================================================
+   4.3 Pill buttons — rolling label
+   ========================================================================= */
+
+.aps-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border-radius: 999px;
+  padding: 20px 40px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease,
+              transform 150ms ease;
+}
+.aps-btn:active { transform: translateY(2px); }
+.aps-btn .roll { display: block; position: relative; overflow: hidden; height: 1.3em; }
+.aps-btn .roll span { display: block; line-height: 1.3em; transition: transform var(--dur-roll) var(--ease-settle); }
+.aps-btn .roll span + span { position: absolute; top: 100%; left: 0; width: 100%; }
+.aps-btn:hover .roll span { transform: translateY(-100%); }
+.aps-btn svg { transition: transform 300ms var(--ease-settle); }
+.aps-btn:hover svg { transform: translate(3px, -3px); }
+
+a.aps-btn-dark  { background: #000; color: #fff; border: 1px solid #000; }
+a.aps-btn-dark:hover  { background: #fff; color: #000; border-color: #fff; }
+a.aps-btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.55); }
+a.aps-btn-ghost:hover { background: #fff; color: #000; border-color: #fff; }
+a.aps-btn-primary { background: var(--brand-orange); color: #000; border: 1px solid var(--brand-orange); }
+a.aps-btn-primary:hover { background: #fff; color: var(--orange-ink); border-color: var(--brand-orange); }
+
+/* =========================================================================
+   4.7 Marquee — two identical halves, translateX(-50%). Never one copy.
+   ========================================================================= */
+
+.marquee { overflow: hidden; white-space: nowrap; }
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: ctaMarquee 26s linear infinite;
+}
+.marquee__half {
+  display: flex;
+  gap: 48px;
+  padding-right: 48px;
+  flex: none;
+}
+
+/* =========================================================================
+   Responsive (§8): one breakpoint at 760px. 761-1280 is fluid via clamp().
+   ========================================================================= */
+
+@media (max-width: 760px) {
+  [data-stack] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 24px !important;
+  }
+  .t-h1 { font-size: 44px !important; white-space: normal !important; }
+  .section { padding: 72px var(--gutter); }
+}
+
+/* =========================================================================
+   §6 Reduced motion kills every animation
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

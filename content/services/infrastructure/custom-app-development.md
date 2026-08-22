@@ -1,5 +1,6 @@
 ---
 title: "Custom App Development"
+caption: ""
 slug: "custom-app-development"
 category: "infrastructure"
 url: "/infrastructure/custom-app-development"

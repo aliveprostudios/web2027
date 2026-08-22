@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <script src="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/_ds_bundle.js"></script>
+  <script src="image-slot.js"></script>
+  <style>
+    body{margin:0;background:#fff}
+    a{color:#346632;text-decoration:none} a:hover{color:#F76E1E}
+    @keyframes heroRise{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes heroFade{from{opacity:0}to{opacity:1}}
+  </style>
+</helmet>
+<div style="font-family:var(--font-sans);background:#fff" data-screen-label="Photography">
+  <section data-screen-label="Photography hero" style="background:var(--forest-900);color:#fff;padding-bottom:88px">
+    <dc-import name="SiteNav" active="services" hint-size="100%,96px"></dc-import>
+    <div style="padding:56px clamp(24px,4vw,56px) 0">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--brand-lime);margin:0 0 24px;animation:heroFade 800ms var(--ease-out) both 100ms">Execution&nbsp;&nbsp;·&nbsp;&nbsp;Stage 02</p>
+      <h1 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(80px,12vw,210px);line-height:0.88;margin:0;text-transform:uppercase">
+        <span style="display:block;overflow:hidden"><span style="display:block;animation:heroRise 900ms var(--ease-out) both 150ms">Photography<span style="display:inline-block;width:0.14em;height:0.14em;background:#F76E1E;border-radius:999px;margin-left:0.05em"></span></span></span>
+      </h1>
+      <p style="max-width:620px;margin:40px 0 0;font-weight:600;font-size:18px;line-height:1.5;text-transform:uppercase;color:rgba(255,255,255,0.65);animation:heroFade 800ms var(--ease-out) both 600ms"><span style="color:#fff">Real imagery builds trust.</span> We provide professional brand photography, product shoots, team portraits, and environmental photography.</p>
+    </div>
+  </section>
+
+  <section data-screen-label="Hero image" style="position:relative;min-height:88vh;background:var(--forest-900)">
+    <image-slot id="photo-hero" shape="rect" placeholder="Full-bleed shot — creative product branding photography"></image-slot>
+  </section>
+
+  <section data-screen-label="Images that elevate" style="display:grid;grid-template-columns:220px 1fr;gap:40px;padding:112px clamp(24px,4vw,56px);align-items:start">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000;margin:0"><span style="color:#F76E1E">(01)</span>&nbsp;&nbsp;Why It Matters</p>
+    <div>
+      <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,6vw,104px);line-height:0.92;color:#000;margin:0;text-transform:uppercase">Images that elevate.</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;margin-top:56px">
+        <div style="border-top:2px solid #000;padding-top:24px">
+          <div style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(64px,6vw,112px);line-height:1;color:#000">75%</div>
+          <p style="margin:16px 0 0;font-weight:600;font-size:15px;line-height:1.5;text-transform:uppercase;color:var(--fg3)">of online shoppers depend on product images before making a purchasing decision.</p>
+        </div>
+        <div style="border-top:2px solid #F76E1E;padding-top:24px">
+          <div style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(64px,6vw,112px);line-height:1;color:#F76E1E">+33%</div>
+          <p style="margin:16px 0 0;font-weight:600;font-size:15px;line-height:1.5;text-transform:uppercase;color:var(--fg3)">higher conversion rate for products with professional photos.</p>
+        </div>
+      </div>
+      <p style="max-width:680px;margin:64px 0 0;font-family:var(--font-condensed);font-weight:700;font-size:clamp(24px,2.4vw,38px);line-height:1.12;color:#000;text-transform:uppercase">The quality of your photography shapes how people perceive your brand. <span style="color:var(--fg3)">Stock images tell your audience you didn't invest.</span> Custom photography tells them you're serious.</p>
+      <p style="max-width:640px;margin:32px 0 0;font-size:17px;line-height:1.6;color:var(--fg2)">We produce professional photography that is strategically aligned with your brand identity, your marketing goals, and the platforms where the images will live. Every shoot is planned with intent: what story does this image need to tell, where will it appear, and what action should it inspire?</p>
+    </div>
+  </section>
+
+  <section data-screen-label="Photography types" style="padding:0 clamp(24px,4vw,56px) 128px">
+    <sc-for list="{{ types }}" as="t" hint-placeholder-count="3">
+      <div style="display:grid;grid-template-columns:120px 1fr;gap:clamp(24px,3vw,56px);border-top:1px solid var(--ink-200);padding:56px 0;align-items:start">
+        <span style="font-family:var(--font-condensed);font-weight:800;font-size:56px;line-height:1;color:#F76E1E">{{ t.num }}</span>
+        <div>
+          <h3 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(32px,3.4vw,56px);line-height:0.96;color:#000;margin:0 0 20px;text-transform:uppercase">{{ t.title }}</h3>
+          <p style="margin:0;font-size:17px;line-height:1.6;color:var(--fg2);max-width:720px">{{ t.body }}</p>
+        </div>
+      </div>
+    </sc-for>
+    <div style="border-top:1px solid var(--ink-200);padding-top:56px">
+      <p style="max-width:760px;margin:0;font-family:var(--font-condensed);font-weight:700;font-size:clamp(24px,2.6vw,40px);line-height:1.12;color:#000;text-transform:uppercase">Every image we deliver is brand-ready. <span style="color:var(--fg3)">Colour-corrected, retouched, and formatted for the specific channels and formats you need. Print, web, social, advertising.</span> One shoot, multiple applications.</p>
+    </div>
+  </section>
+
+  <section data-screen-label="Book a consult" style="background:var(--brand-orange);color:#fff;padding:112px clamp(24px,4vw,56px)">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:40px">
+      <div>
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(0,0,0,0.55);margin:0 0 20px">Book a Consult</p>
+        <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,6vw,104px);line-height:0.92;margin:0;text-transform:uppercase;max-width:11em">Let's show your audience what your brand <span style="color:#000">really</span> looks like.</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px;align-items:flex-start">
+        <a href="tel:+19055533044" style="font-family:var(--font-mono);font-size:24px;color:#fff">905-553-3044</a>
+        <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="dark" hint-size="auto,48px">Get Started</x-import>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Related services" style="padding:112px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000;margin:0 0 40px"><span style="color:#F76E1E">(02)</span>&nbsp;&nbsp;Related Services</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.ServiceCard" category="Execution" title="Sales & Marketing Collateral" hint-size="100%,260px">Sales tools and collateral produced within your brand's visual system.</x-import>
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.ServiceCard" category="Execution" title="Motion Graphics & Animation" hint-size="100%,260px">Movement that carries the brand — explainers, titles, and social motion.</x-import>
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.ServiceCard" category="Execution" title="Web Solutions" hint-size="100%,260px">High-converting, sales-ready websites built on your brand foundation.</x-import>
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.ServiceCard" category="Execution" title="Video Production" hint-size="100%,260px">Brand films, testimonials, product showcases, and social content.</x-import>
+    </div>
+  </section>
+
+  <section data-screen-label="Transform CTA" style="background:var(--forest-900);color:#fff;padding:128px clamp(24px,4vw,56px);text-align:center">
+    <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(56px,8vw,140px);line-height:0.9;margin:0;text-transform:uppercase">Ready to transform <span style="color:#F76E1E">your brand.</span></h2>
+    <p style="margin:36px auto 0;max-width:480px;font-weight:600;font-size:16px;line-height:1.5;text-transform:uppercase;color:rgba(255,255,255,0.65)">Let's talk about where your brand is today and where it needs to go.</p>
+    <div style="display:inline-flex;margin-top:44px">
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="primary" hint-size="auto,48px">Book a Consultation</x-import>
+    </div>
+  </section>
+
+  <footer style="background:#000;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:32px clamp(24px,4vw,56px);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase">
+    <a href="Home.dc.html" style="color:#fff">← Alive ProStudios</a>
+    <span style="color:rgba(255,255,255,0.45)">Alive ProStudios Inc. Toronto, Canada</span>
+    <a href="Services.dc.html" style="color:#fff">All Services →</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      types: [
+        { num: '01', title: 'Product Photography', slotId: 'photo-product', placeholder: 'Studio product shot',
+          body: "Clean, precise, and designed to sell. We photograph products in controlled studio environments and styled settings that highlight features, quality, and craftsmanship. Every image is produced within your brand's visual system so it works seamlessly across your website, eCommerce platform, catalogues, social media, and advertising campaigns." },
+        { num: '02', title: 'Architectural Photography', slotId: 'photo-arch', placeholder: 'Architecture / interior shot',
+          body: "Buildings, interiors, and spaces captured with the composition, lighting, and perspective that communicate scale, design quality, and atmosphere. Whether it's a completed project, a commercial property, or a retail environment, we deliver images that showcase the work at its best." },
+        { num: '03', title: 'Environmental Photography', slotId: 'photo-env', placeholder: 'On-location team shot',
+          body: "On-location photography that captures your business in context. Workspaces, teams in action, facilities, events, and real-world settings that give your audience an authentic view of who you are and how you operate. These images build trust in a way that staged stock photography never can." },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

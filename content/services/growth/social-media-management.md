@@ -1,5 +1,6 @@
 ---
 title: "Social Media Management"
+caption: ""
 slug: "social-media-management"
 category: "growth"
 url: "/growth/social-media-management"
@@ -8,7 +9,9 @@ seoDescription: "Managed social presence that builds community."
 ---
 ## Reach, Engage, Convert
 
-Your brand has social media accounts. But do you have a system for managing them? There’s a difference. Accounts are presence. A managed social media program is performance. And the gap between the two is where most businesses lose time, consistency, and opportunity.
+Your brand has social media accounts. But do you have a system for managing them? There’s a difference.
+
+Accounts are presence. A managed social media program is performance. And the gap between the two is where most businesses lose time, consistency, and opportunity.
 
 **If your social media went silent for two weeks, would anyone notice? If the answer is no, you don’t have a social media presence. You have social media accounts.**
 

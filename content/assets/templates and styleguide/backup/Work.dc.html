@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <script src="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/_ds_bundle.js"></script>
+  <script src="image-slot.js"></script>
+  <style>
+    body{margin:0;background:#fff}
+    a{color:#346632;text-decoration:none} a:hover{color:#F76E1E}
+    @keyframes heroRise{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+  </style>
+</helmet>
+<div style="font-family:var(--font-sans);background:#fff" data-screen-label="Work">
+  <section data-screen-label="Work hero" style="background:var(--forest-900);color:#fff;padding-bottom:80px">
+    <dc-import name="SiteNav" active="work" hint-size="100%,96px"></dc-import>
+    <div style="padding:64px clamp(24px,4vw,56px) 0">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--brand-lime);margin:0 0 24px">(03)&nbsp;&nbsp;The Work <span style="color:rgba(255,255,255,0.45)">(6)</span></p>
+      <h1 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(72px,10vw,176px);line-height:0.9;margin:0;text-transform:uppercase">
+        <span style="display:block;overflow:hidden"><span style="display:block;animation:heroRise 900ms var(--ease-out) both 150ms">Proof, not</span></span>
+        <span style="display:block;overflow:hidden"><span style="display:block;animation:heroRise 900ms var(--ease-out) both 300ms">promises<span style="display:inline-block;width:0.16em;height:0.16em;background:#F76E1E;border-radius:999px;margin-left:0.06em"></span></span></span>
+      </h1>
+    </div>
+  </section>
+
+  <section data-screen-label="Deep dive" style="padding:96px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000;margin:0 0 40px"><span style="color:#F76E1E">Featured</span>&nbsp;&nbsp;Placeholder Case Study</p>
+    <div style="position:relative;height:72vh;border-radius:20px;overflow:hidden">
+      <image-slot id="work-featured" shape="rect" placeholder="Featured case study — hero campaign image"></image-slot>
+    </div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:64px;margin-top:56px">
+      <div>
+        <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(40px,4.5vw,76px);line-height:0.94;color:#000;margin:0;text-transform:uppercase">Meridian Health<span style="color:#F76E1E">.</span> From six vendors to one system.</h2>
+        <p style="margin:32px 0 0;max-width:560px;font-weight:600;font-size:16px;line-height:1.5;text-transform:uppercase;color:var(--fg3)">Placeholder story — rebrand, new site, and a demand engine built in one engagement. <span style="color:#000">Foundation to infrastructure in nine months.</span></p>
+        <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
+          <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Chip" tone="forest" hint-size="auto,32px">Foundation</x-import>
+          <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Chip" tone="lime" hint-size="auto,32px">Execution</x-import>
+          <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Chip" tone="orange" hint-size="auto,32px">Growth</x-import>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:32px">
+        <sc-for list="{{ featuredStats }}" as="fs" hint-placeholder-count="3">
+          <div style="border-top:1px solid var(--ink-200);padding-top:20px">
+            <div style="font-family:var(--font-condensed);font-weight:800;font-size:56px;line-height:1;color:#000">{{ fs.value }}</div>
+            <div style="margin-top:8px;font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg3)">{{ fs.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Project grid" style="padding:32px clamp(24px,4vw,56px) 128px">
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px">
+      <sc-for list="{{ projects }}" as="proj" hint-placeholder-count="6">
+        <div>
+          <div style="position:relative;aspect-ratio:4/3;border-radius:12px;overflow:hidden">
+            <image-slot id="{{ proj.slotId }}" shape="rect" placeholder="{{ proj.placeholder }}"></image-slot>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:16px">
+            <h3 style="font-family:var(--font-condensed);font-weight:800;font-size:28px;margin:0;color:#000;text-transform:uppercase">{{ proj.name }}</h3>
+            <span style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg3)">{{ proj.scope }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <p style="margin:48px 0 0;font-size:13px;color:var(--fg-muted)">All projects shown are placeholders — swap in real case studies and imagery.</p>
+  </section>
+
+  <section data-screen-label="Work CTA" style="background:var(--brand-orange);color:#fff;padding:112px clamp(24px,4vw,56px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:40px">
+    <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,5.5vw,96px);line-height:0.94;margin:0;text-transform:uppercase;max-width:12em">Your brand could be next<span style="color:#000">.</span></h2>
+    <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="dark" hint-size="auto,48px">Start the Conversation</x-import>
+  </section>
+
+  <footer style="background:#000;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:32px clamp(24px,4vw,56px);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase">
+    <a href="Home.dc.html" style="color:#fff">← Alive ProStudios</a>
+    <span style="color:rgba(255,255,255,0.45)">© 2026 · Est. 1997 · Toronto</span>
+    <a href="About.dc.html" style="color:#fff">Next: About →</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      featuredStats: [
+        { value: '+47%*', label: 'Qualified inbound, 6 months' },
+        { value: '9 mo', label: 'Foundation to infrastructure' },
+        { value: '1', label: 'Team, end to end' },
+      ],
+      projects: [
+        { slotId: 'work-p1', name: 'Northline', scope: 'Rebrand · Web', placeholder: 'Project image — logistics rebrand' },
+        { slotId: 'work-p2', name: 'Vantaro', scope: 'Identity · Campaigns', placeholder: 'Project image — retail campaign' },
+        { slotId: 'work-p3', name: 'Kestrel Co.', scope: 'Naming · Foundation', placeholder: 'Project image — naming system' },
+        { slotId: 'work-p4', name: 'Oro Foods', scope: 'Packaging · Social', placeholder: 'Project image — packaging line' },
+        { slotId: 'work-p5', name: 'Atlas Freight', scope: 'Web · Demand Gen', placeholder: 'Project image — web platform' },
+        { slotId: 'work-p6', name: 'Placeholder Co.', scope: 'Full lifecycle', placeholder: 'Project image — brand film still' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

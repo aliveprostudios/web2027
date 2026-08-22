@@ -1,0 +1,126 @@
+---
+/**
+ * Next Step, the pre-footer block (STYLEGUIDE.md §4.6).
+ * --surface-dark, theme-invariant.
+ */
+interface Props {
+  sectionNum?: string;
+}
+
+const { sectionNum = '03' } = Astro.props;
+
+const MARQUEE = ['Impossible to ignore', '·', 'One team', '·', 'One system', '·'];
+---
+
+<section class="next" aria-labelledby="next-heading">
+  <p class="next__eyebrow t-eyebrow z-content">({sectionNum})&nbsp;&nbsp;Next Step</p>
+
+  <h2 class="next__heading z-content" id="next-heading">
+    <span class="next__light">Ready to transform</span>
+    <span class="next__bold dot dot--pulse">your brand</span>
+  </h2>
+
+  <a href="/contact" class="next__link z-content">
+    <span>Start the conversation</span>
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M7 17L17 7M9 7h8v8"></path>
+    </svg>
+  </a>
+
+  <div class="next__contact z-content">
+    <a href="mailto:info@aliveprostudios.com">info@aliveprostudios.com</a>
+    <a href="tel:+19055533044">905-553-3044</a>
+    <span>Toronto, Canada</span>
+  </div>
+
+  <div class="next__marquee marquee z-content" aria-hidden="true">
+    <div class="marquee__track">
+      <div class="marquee__half">{MARQUEE.map((word) => <span>{word}</span>)}</div>
+      <div class="marquee__half">{MARQUEE.map((word) => <span>{word}</span>)}</div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .next {
+    position: relative;
+    background: var(--surface-dark);
+    color: #fff;
+    padding: 128px var(--gutter) 0;
+    overflow: hidden;
+    font-family: var(--font-sans);
+  }
+
+  .next__eyebrow { color: var(--brand-orange); margin: 0 0 40px; }
+
+  .next__heading { margin: 0; text-transform: uppercase; }
+
+  .next__light {
+    display: block;
+    font-size: clamp(36px, 4vw, 68px);
+    font-weight: 200;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .next__bold {
+    display: block;
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: clamp(44px, 11vw, 200px);
+    line-height: 0.88;
+  }
+
+  .next__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    margin-top: 72px;
+    padding: 36px 0;
+    color: #fff;
+    transform: translateX(0);
+    transition: transform var(--dur-micro) var(--ease-settle), color var(--dur-micro) ease;
+  }
+  .next__link:hover { color: var(--brand-orange); transform: translateX(12px); }
+  .next__link span {
+    font-size: clamp(24px, 2.6vw, 44px);
+    font-weight: 200;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .next__link svg { flex: none; }
+
+  .next__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 64px;
+    padding: 32px 0 96px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .next__contact a {
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    transition: color var(--dur-micro) ease;
+  }
+  .next__contact a:hover { color: var(--brand-orange); }
+  .next__contact span { color: rgba(255, 255, 255, 0.6); }
+
+  .next__marquee {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 16px 0;
+    margin: 0 calc(var(--gutter) * -1);
+  }
+  .next__marquee :global(.marquee__track) {
+    animation-duration: 30s;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+  }
+</style>

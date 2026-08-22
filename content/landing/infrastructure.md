@@ -1,5 +1,6 @@
 ---
 title: "Infrastructure — category landing"
+caption: ""
 url: "/infrastructure"
 source: "rendered from live site 2026-08-22"
 ---

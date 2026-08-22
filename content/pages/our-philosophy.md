@@ -1,5 +1,6 @@
 ---
 title: "Our Philosophy"
+caption: ""
 slug: "our-philosophy"
 seoTitle: "Our Philosophy"
 seoDescription: "Strategy before execution. Quality over speed. Clarity over complexity. The principles that guide everything we build."
@@ -8,7 +9,9 @@ seoDescription: "Strategy before execution. Quality over speed. Clarity over com
 
 > What separates brands that lead their market from brands that blend into it? It’s not budget. It’s not luck. It’s four things working together.
 
-Over 29 years of building brands, we’ve learned that the ones that succeed share four things in common. They have a clear foundation. They hold a distinct position in their market. Their internal culture reflects their external promise. And every interaction with their audience is designed, not accidental.
+Over 29 years of building brands, we’ve learned that the ones that succeed share four things in common.
+
+They have a clear foundation. They hold a distinct position in their market. Their internal culture reflects their external promise. And every interaction with their audience is designed, not accidental.
 
 These four pillars aren’t a framework we invented for a slide deck. They’re the principles we’ve observed in every brand that has sustained growth, earned loyalty, and led its market. And they’re the principles we apply to every client we work with.
 

@@ -1,0 +1,118 @@
+---
+/**
+ * Related Services (STYLEGUIDE.md §4.4).
+ *
+ * Rows arrive already resolved so this works for any group, not just the four
+ * pillars: service pages pass their section's siblings, Alive Pro pages pass the
+ * other Alive Pro pages. Either way the list is built from the content
+ * collection at build time and never hard-coded.
+ *
+ * Scales 4 to 11 rows without change. Renders nothing when the list is empty.
+ */
+export type RelatedItem = { num: string; title: string; url: string };
+
+interface Props {
+  items: RelatedItem[];
+  num?: string;
+  label?: string;
+}
+
+const { items, num = '02', label = 'Related Services' } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <div class="related">
+      <p class="related__eyebrow t-eyebrow z-content">
+        <span class="related__num">({num})</span>&nbsp;&nbsp;{label}&nbsp;&nbsp;
+        <span class="related__count">({items.length})</span>
+      </p>
+
+      <div class="related__rows z-content">
+        {items.map((item) => (
+          <a href={item.url} class="related__row">
+            <span class="related__name-group">
+              <span class="related__index">{item.num}</span>
+              <span class="related__name">{item.title}</span>
+            </span>
+            <span class="related__explore" data-explore>
+              <span>Explore Now</span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17L17 7M9 7h8v8"></path>
+              </svg>
+            </span>
+          </a>
+        ))}
+        <div class="related__end" />
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .related { font-family: var(--font-sans); }
+
+  .related__eyebrow { color: var(--pg-fg); margin: 0 0 40px; }
+  .related__num { color: var(--orange-ink); }
+  .related__count { color: var(--pg-fg3); }
+
+  .related__rows { display: flex; flex-direction: column; }
+
+  .related__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 32px;
+    border-top: 1px solid var(--pg-line);
+    padding: 28px 0;
+    text-decoration: none;
+    color: var(--pg-fg);
+    transform: translateX(0);
+    transition: transform var(--dur-micro) var(--ease-settle), color var(--dur-micro) ease;
+  }
+  .related__row:hover { color: var(--orange-ink); transform: translateX(12px); }
+
+  .related__name-group { display: flex; align-items: baseline; gap: 28px; min-width: 0; }
+
+  .related__index {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--pg-fg3);
+    width: 40px;
+    flex: none;
+  }
+
+  .related__name {
+    font-size: clamp(28px, 3.6vw, 60px);
+    font-weight: 200;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    color: inherit;
+    transition: color var(--dur-micro) ease;
+  }
+
+  .related__explore {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: none;
+    color: var(--orange-ink);
+    transform: translate(0, 0);
+    transition: transform var(--dur-micro) var(--ease-settle);
+  }
+  .related__row:hover .related__explore { transform: translate(4px, -4px); }
+  .related__explore span {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .related__end { border-top: 1px solid var(--pg-line); }
+
+  /* When the row wraps, EXPLORE NOW aligns to the NAME, not the number. */
+  @media (max-width: 760px) {
+    .related__explore { margin-left: 68px; }
+  }
+</style>

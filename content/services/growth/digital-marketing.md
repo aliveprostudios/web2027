@@ -1,5 +1,6 @@
 ---
 title: "Digital Marketing"
+caption: ""
 slug: "digital-marketing"
 category: "growth"
 url: "/growth/digital-marketing"

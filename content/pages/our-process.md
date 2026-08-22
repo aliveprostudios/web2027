@@ -1,5 +1,6 @@
 ---
 title: "Our Process"
+caption: ""
 slug: "our-process"
 seoTitle: "Our Process"
 seoDescription: "A proven, structured approach to brand transformation. From discovery to delivery, every step is intentional."
@@ -8,7 +9,9 @@ seoDescription: "A proven, structured approach to brand transformation. From dis
 
 > Most marketing fails for one reason: it starts in the middle. Campaigns launch before the strategy is clear. Websites go live before the positioning is defined. Content gets published before the voice is established. The tactics come first, the thinking comes later, and the results never add up.
 
-Our process reverses that pattern. It’s a structured, four-phase methodology designed to build your brand from the ground up, then scale it systematically through execution, revenue generation, and long-term market leadership. Every phase builds on the one before it. Nothing is skipped. Nothing is improvised.
+Our process reverses that pattern. It’s a structured, four-phase methodology designed to build your brand from the ground up, then scale it systematically through execution, revenue generation, and long-term market leadership.
+
+Every phase builds on the one before it. Nothing is skipped. Nothing is improvised.
 
 This is the Brand Transformation System. It’s the framework behind every engagement we deliver, and it’s the reason our clients see compounding results rather than one-off wins.
 

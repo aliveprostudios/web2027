@@ -1,5 +1,6 @@
 ---
 title: "Ongoing Brand Guardianship"
+caption: ""
 slug: "ongoing-brand-guardianship"
 category: "growth"
 url: "/growth/ongoing-brand-guardianship"
@@ -8,7 +9,9 @@ seoDescription: "Continuous brand management and quality assurance."
 ---
 ## Protect What You’ve Built
 
-Building a brand takes years. Diluting it takes months. It happens gradually and almost invisibly. A sales team starts improvising their own slide decks. A new hire creates marketing materials that don’t follow the guidelines. Social posts drift off-voice. A vendor uses an old logo. One compromise at a time, the brand that was built with strategic precision starts to blur.
+Building a brand takes years. Diluting it takes months.
+
+It happens gradually and almost invisibly. A sales team starts improvising their own slide decks. A new hire creates marketing materials that don’t follow the guidelines. Social posts drift off-voice. A vendor uses an old logo. One compromise at a time, the brand that was built with strategic precision starts to blur.
 
 Brand guardianship is the discipline of making sure that doesn’t happen.
 

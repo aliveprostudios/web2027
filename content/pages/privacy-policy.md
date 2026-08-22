@@ -1,5 +1,6 @@
 ---
 title: "Privacy Policy"
+caption: ""
 url: "/privacy-policy"
 source: "rendered from live site 2026-08-22"
 ---

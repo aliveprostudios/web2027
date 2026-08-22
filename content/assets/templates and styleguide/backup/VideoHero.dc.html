@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<section data-screen-label="Hero video" style="position:relative;background:#1A1A1A;aspect-ratio:1280/600;overflow:hidden">
+  <iframe src="{{ videoSrc }}" title="Brand reel" allow="autoplay; fullscreen" style="position:absolute;inset:0;width:100%;height:100%;border:none;z-index:1"></iframe>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:&quot;600px&quot;},&quot;videoId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  // Global hero-video pool — add your 8-10 Vimeo IDs here; every page picks one
+  // deterministically from its own URL, so each page keeps "its" video.
+  static POOL = ['1211175804'];
+  renderVals() {
+    const pool = Component.POOL;
+    let id = this.props.videoId;
+    if (!id) {
+      let h = 0;
+      const s = location.pathname;
+      for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+      id = pool[h % pool.length];
+    }
+    return { videoSrc: 'https://player.vimeo.com/video/' + id + '?autoplay=1&muted=1&loop=1&background=1&controls=0&dnt=1&playsinline=1' };
+  }
+}
+</script>
+</body>
+</html>

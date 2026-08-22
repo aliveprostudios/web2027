@@ -1,5 +1,6 @@
 ---
 title: "Communication Design"
+caption: ""
 slug: "communication-design"
 category: "execution"
 url: "/execution/communication-design"

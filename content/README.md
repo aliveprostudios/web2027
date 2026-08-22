@@ -64,7 +64,6 @@ Pulled from Sanity on 2026-08-22. Text only.
 - intelligent-systems-integration.md
 - lifecycle-support.md
 - solution-architecture-design.md
-- zoho.md
 
 **root/**
 

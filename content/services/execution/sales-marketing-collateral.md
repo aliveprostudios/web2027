@@ -1,5 +1,6 @@
 ---
 title: "Sales & Marketing Collateral"
+caption: ""
 slug: "sales-marketing-collateral"
 category: "execution"
 url: "/execution/sales-marketing-collateral"
@@ -8,7 +9,9 @@ seoDescription: "Materials that support your sales process at every stage."
 ---
 ## The Tools That Close Deals
 
-Your sales team is only as good as the materials they walk into the room with. The brochure they hand over. The presentation they project. The sell sheet they leave behind. The trade show display that draws people to your booth. Every one of these touchpoints either reinforces your brand and advances the sale, or it undermines everything your team just said.
+Your sales team is only as good as the materials they walk into the room with.
+
+The brochure they hand over. The presentation they project. The sell sheet they leave behind. The trade show display that draws people to your booth. Every one of these touchpoints either reinforces your brand and advances the sale, or it undermines everything your team just said.
 
 This is one of the most important things we do. And it’s one of the reasons even companies with in-house designers and copywriters bring their collateral projects to us.
 

@@ -1,5 +1,6 @@
 ---
 title: "Social Media Branding"
+caption: ""
 slug: "social-media-branding"
 category: "execution"
 url: "/execution/social-media-branding"
@@ -8,7 +9,9 @@ seoDescription: "Consistent brand presence across every platform."
 ---
 ## Your Brand, Everywhere It Matters
 
-Here’s a test. Pull up your company’s Instagram, LinkedIn, and Facebook right now. Do they look like they belong to the same brand? Do they sound like the same voice? Or do they feel like three different companies that happen to share a logo?
+Here’s a test. Pull up your company’s Instagram, LinkedIn, and Facebook right now.
+
+Do they look like they belong to the same brand? Do they sound like the same voice? Or do they feel like three different companies that happen to share a logo?
 
 78% of consumers say a brand’s social media presence has a larger impact on whether they trust it compared to a year ago. Social media isn’t optional anymore. It’s where your market forms its first impression, validates your credibility, and decides whether you’re worth a conversation. But presence alone isn’t enough. Unbranded, inconsistent presence can actually work against you.
 

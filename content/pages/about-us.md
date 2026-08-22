@@ -1,5 +1,6 @@
 ---
 title: "About Us"
+caption: ""
 slug: "about-us"
 seoTitle: "About Us"
 seoDescription: "Founded in 1997, Alive ProStudios has been transforming brands for over 27 years. Based in Toronto, serving visionary businesses worldwide."

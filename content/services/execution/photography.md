@@ -1,5 +1,6 @@
 ---
 title: "Photography"
+caption: ""
 slug: "photography"
 category: "execution"
 url: "/execution/photography"

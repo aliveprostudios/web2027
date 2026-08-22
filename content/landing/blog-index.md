@@ -1,5 +1,6 @@
 ---
 title: "Blog index"
+caption: ""
 url: "/resources/blog"
 source: "rendered from live site 2026-08-22"
 ---

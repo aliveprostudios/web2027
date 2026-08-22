@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <style>
+    @media (max-width:760px){ [data-explore]{margin-left:68px} }
+  </style>
+</helmet>
+<div style="font-family:var(--font-sans)">
+  <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--pg-fg,#000);margin:0 0 40px;position:relative;z-index:6"><span style="color:#F76E1E">({{ num }})</span>&nbsp;&nbsp;Related Services&nbsp;&nbsp;<span style="color:var(--pg-fg3,rgba(0,0,0,0.55))">({{ count }})</span></p>
+  <div style="position:relative;z-index:6;display:flex;flex-direction:column">
+    <sc-for list="{{ items }}" as="r" hint-placeholder-count="7">
+      <a href="#" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px;border-top:1px solid var(--pg-line,#E6E7E8);padding:28px 0;text-decoration:none;color:var(--pg-fg,#000);transform:translateX(0);transition:transform 220ms var(--ease-out),color 220ms ease" style-hover="color:#F76E1E;transform:translateX(12px)">
+        <span style="display:flex;align-items:baseline;gap:28px;min-width:0">
+          <span style="font-family:var(--font-mono);font-size:13px;color:var(--pg-fg3,rgba(0,0,0,0.55));width:40px;flex:none">{{ r.num }}</span>
+          <span style="font-size:clamp(28px,3.6vw,60px);font-weight:200;letter-spacing:-0.01em;line-height:1.05;color:inherit;transition:color 220ms ease">{{ r.name }}</span>
+        </span>
+        <span data-explore="" style="display:flex;align-items:center;gap:14px;flex:none;color:#F76E1E;transform:translate(0,0);transition:transform 220ms var(--ease-out)" style-hover="transform:translate(4px,-4px)">
+          <span style="font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase">Explore Now</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+        </span>
+      </a>
+    </sc-for>
+    <div style="border-top:1px solid var(--pg-line,#E6E7E8)"></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:&quot;620px&quot;},&quot;section&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;foundation&quot;,&quot;execution&quot;,&quot;growth&quot;,&quot;infrastructure&quot;],&quot;default&quot;:&quot;foundation&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;exclude&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;num&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;02&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  // One source of truth per pillar — in Astro this map comes from the collection;
+  // the page only passes its section.
+  static SECTIONS = {
+    foundation: ['Brand Strategy & Positioning', 'Brand Name & Identity', 'Brand Voice', 'Rebranding'],
+    execution: ['Communication Design', 'Web Solutions', 'Sales & Marketing Collateral', 'Video Production', 'Motion Graphics & Animation', 'Photography', 'AI-Generated Production', 'Social Media Branding'],
+    growth: ['Sales Funnel Building', 'Digital Marketing', 'Lead Generation', 'Content Marketing', 'Marketing Innovation', 'Ongoing Brand Guardianship', 'Social Media Management', 'Customer Retention Marketing', 'Reputation Management', 'AEO (Answer Engine Optimization)', 'SEO (Search Engine Optimization)'],
+    infrastructure: ['Solution Architecture & Design', 'Custom App Development', 'Intelligent Systems Integration', 'Dashboards & Analytics', 'LifeCycle Support'],
+  };
+  renderVals() {
+    const section = (this.props.section ?? 'foundation').toLowerCase();
+    const exclude = this.props.exclude ?? '';
+    const items = (Component.SECTIONS[section] || [])
+      .filter(n => n !== exclude)
+      .map((name, i) => ({ name, num: String(i + 1).padStart(2, '0') }));
+    return { items, count: items.length, num: this.props.num ?? '02' };
+  }
+}
+</script>
+</body>
+</html>

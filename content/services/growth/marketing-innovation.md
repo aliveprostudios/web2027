@@ -1,5 +1,6 @@
 ---
 title: "Marketing Innovation"
+caption: ""
 slug: "marketing-innovation"
 category: "growth"
 url: "/growth/marketing-innovation"
@@ -8,7 +9,9 @@ seoDescription: "Emerging tactics that keep you ahead of the market."
 ---
 ## Stay Ahead, Not Behind
 
-The marketing landscape doesn’t stand still. Platforms evolve. Consumer behaviour shifts. New technologies create new opportunities. The businesses that win over the long term aren’t the ones with the biggest budgets. They’re the ones that spot what’s changing and act on it before their competitors do.
+The marketing landscape doesn’t stand still.
+
+Platforms evolve. Consumer behaviour shifts. New technologies create new opportunities. The businesses that win over the long term aren’t the ones with the biggest budgets. They’re the ones that spot what’s changing and act on it before their competitors do.
 
 Most businesses don’t have the time, the bandwidth, or the expertise to stay on top of what’s emerging. They’re focused on running operations and executing the current plan. By the time they notice a shift, they’re reacting instead of leading. That’s the gap Marketing Innovation fills.
 

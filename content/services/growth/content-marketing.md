@@ -1,5 +1,6 @@
 ---
 title: "Content Marketing"
+caption: ""
 slug: "content-marketing"
 category: "growth"
 url: "/growth/content-marketing"
@@ -10,7 +11,9 @@ seoDescription: "Strategic content that builds authority and trust."
 
 ### Brand Storytelling with Content.
 
-Your brand has a story. The question is whether your content is telling it, or just adding noise. Great content marketing doesn’t start with a topic calendar. It starts with a narrative. Who are you, what do you believe, what problem do you solve, and why should anyone care? When content is built from that foundation, every blog post, every email, every video becomes a chapter in a larger story your audience actually wants to follow.
+Your brand has a story. The question is whether your content is telling it, or just adding noise.
+
+Great content marketing doesn’t start with a topic calendar. It starts with a narrative. Who are you, what do you believe, what problem do you solve, and why should anyone care? When content is built from that foundation, every blog post, every email, every video becomes a chapter in a larger story your audience actually wants to follow.
 
 ### Authenticity & Clarity with Content.
 

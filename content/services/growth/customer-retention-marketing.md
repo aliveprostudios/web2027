@@ -1,5 +1,6 @@
 ---
 title: "Customer Retention Marketing"
+caption: ""
 slug: "customer-retention-marketing"
 category: "growth"
 url: "/growth/customer-retention-marketing"

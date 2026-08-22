@@ -1,0 +1,222 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BgRails from '../../components/BgRails.astro';
+import SiteNav from '../../components/SiteNav.astro';
+import VideoHero from '../../components/VideoHero.astro';
+import BookConsult from '../../components/BookConsult.astro';
+import NextStep from '../../components/NextStep.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { parseLanding } from '../../lib/landing';
+import { servicesInSection } from '../../lib/nav';
+import { SECTIONS, sectionLabel, stageIndex, breadcrumb, isSection } from '../../lib/sections';
+
+/**
+ * The four pillar landings: /foundation, /execution, /growth, /infrastructure.
+ *
+ * Rows come from the SERVICES COLLECTION, which is the source of truth
+ * (§9 Clarifications). One-line blurbs are matched in from the landing scrape by
+ * name where one exists, so a new service file produces a row immediately even
+ * before the landing copy mentions it.
+ */
+export async function getStaticPaths() {
+  return SECTIONS.map((section) => ({ params: { section } }));
+}
+
+const { section } = Astro.params;
+if (!isSection(section!)) throw new Error(`Unknown section: ${section}`);
+
+const path = `/${section}`;
+const label = sectionLabel(section);
+
+const landing = await parseLanding(section, path);
+const services = await servicesInSection(section);
+
+const blurbs = new Map(
+  (landing?.children ?? []).map((child) => [child.name.toLowerCase(), child.blurb]),
+);
+
+const rows = services.map((service, i) => ({
+  num: String(i + 1).padStart(2, '0'),
+  name: service.title,
+  url: service.url,
+  blurb: blurbs.get(service.title.toLowerCase()) ?? '',
+}));
+
+const description =
+  landing?.intro ||
+  `${label} services from Alive ProStudios, a Toronto brand transformation studio.`;
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `https://aliveprostudios.com${path}#collection`,
+    name: `${label} services`,
+    description,
+    isPartOf: { '@id': 'https://aliveprostudios.com/#organization' },
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: label, url: path },
+];
+---
+
+<BaseLayout title={label} {description} {path} {schema} {breadcrumbs}>
+  <div class="page-root">
+    <BgRails />
+
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav active={path} />
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">{breadcrumb(section)}</p>
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask">
+              <span class="hero__line dot">{landing?.heading || label}</span>
+            </span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <VideoHero route={path} title={`${label} reel`} />
+
+    <main id="main">
+      {
+        landing?.intro && (
+          <section class="section">
+            <p class="lede t-h4 z-content">{landing.intro}</p>
+          </section>
+        )
+      }
+
+      <section class="rows">
+        <p class="rows__eyebrow t-eyebrow z-content">
+          <span class="rows__num">({stageIndex(section)})</span>&nbsp;&nbsp;{label} Services&nbsp;&nbsp;
+          <span class="rows__count">({rows.length})</span>
+        </p>
+
+        {
+          rows.map((row) => (
+            <a class="row z-content" href={row.url} data-stack>
+              <span class="row__num">{row.num}</span>
+              <div class="row__body">
+                <h2 class="row__name">
+                  {row.name}
+                  <span class="row__dot" />
+                </h2>
+                {row.blurb && <p class="row__blurb">{row.blurb}</p>}
+              </div>
+              <span class="row__explore">
+                <span>Explore Now</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17L17 7M9 7h8v8"></path>
+                </svg>
+              </span>
+            </a>
+          ))
+        }
+        <div class="rows__end"></div>
+      </section>
+
+      <BookConsult />
+    </main>
+
+    <NextStep sectionNum="03" />
+    <SiteFooter nextLabel={rows[0]?.name ?? 'All Services'} nextHref={rows[0]?.url ?? '/'} />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+
+  .lede { max-width: 760px; margin: 0; }
+
+  .rows { padding: 0 var(--gutter) 64px; }
+  .rows__eyebrow { color: var(--pg-fg); margin: 0 0 40px; }
+  .rows__num { color: var(--orange-ink); }
+  .rows__count { color: var(--pg-fg3); }
+
+  .row {
+    display: grid;
+    grid-template-columns: var(--col-num) 1fr auto;
+    gap: clamp(24px, 3vw, 56px);
+    align-items: center;
+    border-top: 1px solid var(--pg-line);
+    padding: 40px 0;
+    text-decoration: none;
+    color: var(--pg-fg);
+    transform: translateX(0);
+    transition: transform var(--dur-micro) var(--ease-settle), color var(--dur-micro) ease;
+  }
+  .row:hover { transform: translateX(12px); color: var(--orange-ink); }
+
+  .row__num { font-family: var(--font-mono); font-size: 13px; color: var(--pg-fg3); }
+
+  .row__name {
+    margin: 0;
+    font-size: clamp(28px, 3.6vw, 60px);
+    font-weight: 200;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    color: inherit;
+    text-transform: none;
+  }
+  .row__dot {
+    display: inline-block;
+    width: 0.14em;
+    height: 0.14em;
+    margin-left: 0.06em;
+    background: var(--brand-orange);
+    border-radius: 999px;
+  }
+
+  .row__blurb {
+    margin: 10px 0 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--pg-fg2);
+    max-width: 620px;
+  }
+
+  .row__explore {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: none;
+    color: var(--orange-ink);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transform: translate(0, 0);
+    transition: transform var(--dur-micro) var(--ease-settle);
+  }
+  .row:hover .row__explore { transform: translate(4px, -4px); }
+
+  .rows__end { border-top: 1px solid var(--pg-line); }
+
+  @media (max-width: 760px) {
+    .row__explore { margin-left: 68px; }
+  }
+</style>

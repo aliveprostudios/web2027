@@ -1,0 +1,108 @@
+---
+import '../styles/tokens.css';
+import '../styles/base.css';
+
+/**
+ * Document shell: head, fonts, theme bootstrap, SEO and structured data.
+ * STYLEGUIDE.md §8 (SEO/meta) and the non-negotiables in CLAUDE.md.
+ */
+interface Props {
+  title: string;
+  description?: string | undefined;
+  /** Canonical path for THIS page. Never inherit the homepage canonical. */
+  path: string;
+  /** Extra JSON-LD entities beyond Organization + BreadcrumbList. */
+  schema?: Record<string, unknown>[];
+  breadcrumbs?: Array<{ name: string; url: string }>;
+}
+
+const { title, description, path, schema = [], breadcrumbs = [] } = Astro.props;
+
+const SITE = 'https://aliveprostudios.com';
+const canonical = new URL(path, SITE).href;
+const pageTitle = `${title} | Alive ProStudios`;
+
+const organization = {
+  '@type': 'Organization',
+  '@id': `${SITE}/#organization`,
+  name: 'Alive ProStudios Inc.',
+  url: SITE,
+  logo: `${SITE}/assets/logo-full.svg`,
+  foundingDate: '1997',
+  email: 'info@aliveprostudios.com',
+  telephone: '+1-905-553-3044',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Toronto',
+    addressRegion: 'ON',
+    addressCountry: 'CA',
+  },
+};
+
+const breadcrumbList =
+  breadcrumbs.length > 0
+    ? {
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((crumb, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: crumb.name,
+          item: new URL(crumb.url, SITE).href,
+        })),
+      }
+    : null;
+
+const graph = [organization, breadcrumbList, ...schema].filter(Boolean);
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{pageTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" type="image/svg+xml" href="/assets/icon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Alive ProStudios" />
+    <meta property="og:title" content={pageTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Barlow:wght@200;300;400;500;600;700&family=Barlow+Condensed:wght@700;800&family=JetBrains+Mono:wght@400&display=swap"
+    />
+
+    <script is:inline>
+      // Applied before first paint so the theme never flashes.
+      (function () {
+        try {
+          var stored = localStorage.getItem('aps-theme');
+          document.documentElement.dataset.themeInit = stored === 'dark' ? 'dark' : 'light';
+        } catch (e) {
+          document.documentElement.dataset.themeInit = 'light';
+        }
+      })();
+    </script>
+
+    <script is:inline type="application/ld+json" set:html={jsonLd} />
+  </head>
+
+  <body data-theme="light">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot />
+
+    <script is:inline>
+      document.body.dataset.theme = document.documentElement.dataset.themeInit || 'light';
+    </script>
+  </body>
+</html>

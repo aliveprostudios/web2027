@@ -1,0 +1,44 @@
+---
+/** Black footer bar (STYLEGUIDE.md §4.8). Theme-invariant. */
+interface Props {
+  backLabel?: string;
+  backHref?: string;
+  nextLabel?: string;
+  nextHref?: string;
+}
+
+const {
+  backLabel = 'Alive ProStudios',
+  backHref = '/',
+  nextLabel = 'All Services',
+  nextHref = '/foundation',
+} = Astro.props;
+---
+
+<footer class="foot">
+  <a href={backHref}>&larr; {backLabel}</a>
+  <span>Alive ProStudios Inc. Toronto, Canada</span>
+  <a href={nextHref}>{nextLabel} &rarr;</a>
+</footer>
+
+<style>
+  .foot {
+    position: relative;
+    z-index: var(--z-content);
+    background: #000;
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 32px var(--gutter);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .foot a { color: #fff; }
+  .foot a:hover { color: var(--brand-orange); }
+  .foot span { color: rgba(255, 255, 255, 0.6); }
+</style>

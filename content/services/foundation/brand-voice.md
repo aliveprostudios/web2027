@@ -1,5 +1,6 @@
 ---
 title: "Brand Voice"
+caption: ""
 slug: "brand-voice"
 category: "foundation"
 url: "/foundation/brand-voice"
@@ -8,7 +9,9 @@ seoDescription: "Establish a consistent voice across every touchpoint."
 ---
 ## The Words That Sell
 
-Read your website out loud. Does it sound like you? Does it sound like anyone at your company? Or does it sound like it was written by a committee, patched together from competitor sites, and approved by someone who just wanted it done?
+Read your website out loud. Does it sound like you? Does it sound like anyone at your company?
+
+Or does it sound like it was written by a committee, patched together from competitor sites, and approved by someone who just wanted it done?
 
 If your brand doesn’t have a defined voice, every piece of content you produce is a coin flip. Sometimes it lands. Sometimes it confuses. And your audience can feel the inconsistency even if they can’t name it.
 

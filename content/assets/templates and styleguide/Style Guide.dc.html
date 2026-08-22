@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/thin/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+  <style>
+    body{margin:0;background:#fff}
+    a{color:#346632;text-decoration:none} a:hover{color:#F76E1E}
+    @keyframes ctaMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    @keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    @keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.55;transform:scale(0.82)}}
+    @keyframes lineSweep{0%{transform:translateY(-100%)}100%{transform:translateY(700%)}}
+    .aps-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:14px;border-radius:999px;padding:20px 40px;font-family:var(--font-sans);font-size:13px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;overflow:hidden;cursor:pointer;transition:background-color 300ms ease,color 300ms ease,border-color 300ms ease,transform 150ms ease}
+    .aps-btn:active{transform:translateY(2px)}
+    .aps-btn .roll{display:block;position:relative;overflow:hidden;height:1.3em}
+    .aps-btn .roll span{display:block;line-height:1.3em;transition:transform 400ms cubic-bezier(0.22,1,0.36,1)}
+    .aps-btn .roll span + span{position:absolute;top:100%;left:0;width:100%}
+    .aps-btn:hover .roll span{transform:translateY(-100%)}
+    .aps-btn svg{transition:transform 300ms cubic-bezier(0.22,1,0.36,1)}
+    .aps-btn:hover svg{transform:translate(3px,-3px)}
+    a.aps-btn-dark{background:#000;color:#fff;border:1px solid #000}
+    a.aps-btn-dark:hover{background:#fff;color:#000;border-color:#000}
+    a.aps-btn-ghost-dark{background:transparent;color:#000;border:1px solid rgba(0,0,0,0.35)}
+    a.aps-btn-ghost-dark:hover{background:#000;color:#fff;border-color:#000}
+    a.aps-btn-primary{background:#F76E1E;color:#fff;border:1px solid #F76E1E}
+    a.aps-btn-primary:hover{background:#fff;color:#F76E1E;border-color:#F76E1E}
+  </style>
+</helmet>
+<div style="font-family:var(--font-sans);color:#000;background:#fff" data-screen-label="Style Guide">
+  <header style="background:linear-gradient(180deg,#333 0%,#1A1A1A 100%);color:#fff;padding:72px clamp(24px,4vw,56px) 88px">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--brand-lime);margin:0 0 20px;padding-bottom:14px;border-bottom:1px solid #F76E1E;width:fit-content">Alive ProStudios · Website Design System</p>
+    <h1 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,7vw,132px);line-height:0.9;margin:0;text-transform:uppercase">Style guide<span style="display:inline-block;width:0.14em;height:0.14em;background:#F76E1E;border-radius:999px;margin-left:0.05em"></span></h1>
+    <p style="max-width:640px;margin:28px 0 0;font-weight:600;font-size:16px;line-height:1.5;text-transform:uppercase;color:rgba(255,255,255,0.6)">The single source of truth for the Astro build. <span style="color:#fff">Everything below is a token, a component, or a rule.</span></p>
+  </header>
+
+  <section data-screen-label="Logos" style="padding:96px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 40px"><span style="color:#F76E1E">(01)</span>&nbsp;&nbsp;Logos &amp; Marks</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+      <sc-for list="{{ logos }}" as="l" hint-placeholder-count="6">
+        <div style="border:1px solid #E6E7E8;border-radius:12px;overflow:hidden">
+          <div style="height:150px;display:flex;align-items:center;justify-content:center;background:{{ l.bg }};padding:24px"><img src="{{ l.src }}" alt="{{ l.name }}" style="max-height:{{ l.h }};max-width:80%"></div>
+          <div style="padding:16px">
+            <div style="font-weight:700;font-size:14px">{{ l.name }}</div>
+            <div style="font-family:var(--font-mono);font-size:12px;color:rgba(0,0,0,0.55);margin-top:4px">{{ l.file }}</div>
+            <div style="font-size:12px;color:rgba(0,0,0,0.55);margin-top:6px;line-height:1.5">{{ l.use }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <p style="max-width:720px;margin:32px 0 0;font-size:15px;line-height:1.6;color:rgba(0,0,0,0.72)"><strong>Clear space:</strong> at least the height of the "a" in "alive" on all sides. <strong>Minimum width:</strong> 96px full wordmark, 32px icon. Nav uses the full white wordmark on dark; favicon/avatar uses the icon mark.</p>
+  </section>
+
+  <section data-screen-label="Colors" style="padding:0 clamp(24px,4vw,56px) 96px">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 40px"><span style="color:#F76E1E">(02)</span>&nbsp;&nbsp;Brand Palette · Fixed, never theme-switched</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px">
+      <sc-for list="{{ brand }}" as="c" hint-placeholder-count="8">
+        <div style="border:1px solid #E6E7E8;border-radius:12px;overflow:hidden">
+          <div style="height:120px;background:{{ c.hex }}"></div>
+          <div style="padding:16px">
+            <div style="font-weight:700;font-size:14px">{{ c.name }}</div>
+            <div style="font-family:var(--font-mono);font-size:12px;color:rgba(0,0,0,0.55);margin-top:4px">{{ c.hex }}</div>
+            <div style="font-size:12px;color:rgba(0,0,0,0.55);margin-top:6px;line-height:1.5">{{ c.use }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <p style="max-width:720px;margin:40px 0 0;font-size:15px;line-height:1.6;color:rgba(0,0,0,0.72)"><strong>Rule:</strong> orange leads, lime supports, forest grounds. One orange primary CTA per view. Never stack orange and lime at equal weight.</p>
+  </section>
+
+  <section data-screen-label="Theme tokens" style="background:#F4F4F4;padding:96px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 16px"><span style="color:#F76E1E">(03)</span>&nbsp;&nbsp;Light &amp; Dark Mode Tokens</p>
+    <p style="max-width:720px;margin:0 0 40px;font-size:15px;line-height:1.6;color:rgba(0,0,0,0.72)">Theme = <code style="font-family:var(--font-mono);font-size:13px">data-theme="light|dark"</code> on <code style="font-family:var(--font-mono);font-size:13px">&lt;body&gt;</code>, persisted in localStorage (<code style="font-family:var(--font-mono);font-size:13px">aps-theme</code>). Content sections style ONLY against these variables. Hero, orange CTA, Next Step, and black footer are theme-invariant.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px" data-stack="">
+      <div style="background:#fff;border-radius:12px;padding:32px">
+        <p style="margin:0 0 20px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Light (default)</p>
+        <sc-for list="{{ lightTokens }}" as="t" hint-placeholder-count="6">
+          <div style="display:flex;align-items:center;gap:14px;padding:8px 0;border-bottom:1px solid #E6E7E8">
+            <span style="width:28px;height:28px;border-radius:6px;border:1px solid #E6E7E8;background:{{ t.val }};flex:none"></span>
+            <span style="font-family:var(--font-mono);font-size:13px;width:110px;flex:none">{{ t.name }}</span>
+            <span style="font-family:var(--font-mono);font-size:12px;color:rgba(0,0,0,0.55)">{{ t.val }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="background:#111;border-radius:12px;padding:32px;color:#fff">
+        <p style="margin:0 0 20px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Dark</p>
+        <sc-for list="{{ darkTokens }}" as="t" hint-placeholder-count="6">
+          <div style="display:flex;align-items:center;gap:14px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.16)">
+            <span style="width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);background:{{ t.val }};flex:none"></span>
+            <span style="font-family:var(--font-mono);font-size:13px;width:110px;flex:none">{{ t.name }}</span>
+            <span style="font-family:var(--font-mono);font-size:12px;color:rgba(255,255,255,0.55)">{{ t.val }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Typography" style="padding:96px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 16px"><span style="color:#F76E1E">(04)</span>&nbsp;&nbsp;Typography · Barlow 200 vs Barlow Condensed 800</p>
+    <p style="max-width:720px;margin:0 0 24px;font-size:15px;line-height:1.6;color:rgba(0,0,0,0.72)">The core move is extreme weight contrast: extra-light against extra-bold condensed. No middle-weight display type. Fonts: Barlow (200-700), Barlow Condensed (700/800), JetBrains Mono (index numbers only).</p>
+    <p style="max-width:720px;margin:0 0 48px;font-size:15px;line-height:1.6;color:rgba(0,0,0,0.72)"><strong>Semantic mapping (SEO / web standards):</strong> every style below is mapped to a standard tag — H1 through H6, p, or a named class. The mapping renames only; <strong>visual specs are locked exactly as designed in the templates and must not change.</strong> One H1 per page; heading levels never skip.</p>
+    <sc-for list="{{ typeSpecs }}" as="t" hint-placeholder-count="8">
+      <div style="border-top:1px solid #E6E7E8;padding:32px 0;display:grid;grid-template-columns:260px 1fr;gap:32px;align-items:center" data-stack="">
+        <div>
+          <div style="font-size:13px;font-weight:700">{{ t.role }}</div>
+          <div style="font-family:var(--font-mono);font-size:11.5px;color:rgba(0,0,0,0.55);margin-top:6px;line-height:1.6">{{ t.spec }}</div>
+        </div>
+        <div style="{{ t.style }};overflow:hidden">{{ t.sample }}</div>
+      </div>
+    </sc-for>
+    <div style="border-top:1px solid #E6E7E8;padding:32px 0;display:grid;grid-template-columns:260px 1fr;gap:32px;align-items:center" data-stack="">
+      <div>
+        <div style="font-size:13px;font-weight:700">Orange dot device</div>
+        <div style="font-family:var(--font-mono);font-size:11.5px;color:rgba(0,0,0,0.55);margin-top:6px;line-height:1.6">0.14em circle · headline-ending only · one per screen zone</div>
+      </div>
+      <div style="font-family:var(--font-condensed);font-weight:800;font-size:56px;text-transform:uppercase;line-height:1">Let's talk<span style="display:inline-block;width:0.14em;height:0.14em;background:#F76E1E;border-radius:999px;margin-left:0.06em"></span></div>
+    </div>
+  </section>
+
+  <section data-screen-label="Grid and rails" style="background:#161616;color:#fff;padding:96px clamp(24px,4vw,56px);position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;pointer-events:none">
+      <div style="position:absolute;top:0;bottom:0;left:clamp(24px,4vw,56px);width:1px;background:rgba(128,128,128,0.25)"><div style="position:absolute;left:0;width:1px;height:18%;background:linear-gradient(180deg,rgba(247,110,30,0) 0%,rgba(247,110,30,0.7) 50%,rgba(247,110,30,0) 100%);animation:lineSweep 9s linear infinite"></div></div>
+      <div style="position:absolute;top:0;bottom:0;left:calc(clamp(24px,4vw,56px) + (100% - clamp(24px,4vw,56px)*2)*0.25);width:1px;background:rgba(128,128,128,0.25)"></div>
+      <div style="position:absolute;top:0;bottom:0;left:calc(clamp(24px,4vw,56px) + (100% - clamp(24px,4vw,56px)*2)*0.5);width:1px;background:rgba(128,128,128,0.25)"><div style="position:absolute;left:0;width:1px;height:18%;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 50%,rgba(255,255,255,0) 100%);animation:lineSweep 12s linear infinite 3s"></div></div>
+      <div style="position:absolute;top:0;bottom:0;left:calc(clamp(24px,4vw,56px) + (100% - clamp(24px,4vw,56px)*2)*0.75);width:1px;background:rgba(128,128,128,0.25)"></div>
+      <div style="position:absolute;top:0;bottom:0;left:calc(100% - clamp(24px,4vw,56px));width:1px;background:rgba(128,128,128,0.25)"></div>
+    </div>
+    <div style="position:relative">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 16px;color:#F76E1E">(05)&nbsp;&nbsp;Grid, Gutter &amp; Animated Rails</p>
+      <p style="max-width:720px;margin:0;font-size:15px;line-height:1.6;color:rgba(255,255,255,0.75)">Gutter: <code style="font-family:var(--font-mono);font-size:13px">clamp(24px, 4vw, 56px)</code>. Five 1px rails at the gutter edges and quarter columns span the FULL page behind content (z-index 5; content wrappers at 6). Pulses sweep down on 26-38s linear loops, alternating orange and grey. Shown here at boosted opacity — production is rgba(128,128,128,0.12).</p>
+      <p style="max-width:720px;margin:24px 0 0;font-size:15px;line-height:1.6;color:rgba(255,255,255,0.75)">Section rhythm 96-128px · label column 220px · number column 120px · everything stacks below 760px.</p>
+    </div>
+  </section>
+
+  <section data-screen-label="Motion" style="padding:96px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 40px"><span style="color:#F76E1E">(06)</span>&nbsp;&nbsp;Motion · One easing, four durations</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:24px">
+        <div style="font-weight:700;font-size:14px">Easing</div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:rgba(0,0,0,0.55);margin-top:6px">cubic-bezier(0.22, 1, 0.36, 1)</div>
+        <div style="font-size:13px;color:rgba(0,0,0,0.55);margin-top:8px">Fast start, soft settle. Never springy.</div>
+      </div>
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:24px">
+        <div style="font-weight:700;font-size:14px">Durations</div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:rgba(0,0,0,0.55);margin-top:6px;line-height:1.8">220ms hover color<br>350ms transform settle<br>400ms button roll<br>900ms hero reveal</div>
+      </div>
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:24px">
+        <div style="font-weight:700;font-size:14px">Pulsing dot</div>
+        <div style="margin-top:14px"><span style="display:inline-block;width:22px;height:22px;background:#F76E1E;border-radius:999px;animation:dotPulse 2.4s var(--ease-in-out) infinite"></span></div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:rgba(0,0,0,0.55);margin-top:10px">dotPulse 2.4s infinite</div>
+      </div>
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:24px">
+        <div style="font-weight:700;font-size:14px">Spinning badge</div>
+        <div style="margin-top:14px;width:64px;height:64px;border:1px dashed rgba(0,0,0,0.3);border-radius:999px;display:flex;align-items:center;justify-content:center;animation:spinSlow 22s linear infinite"><span style="font-size:10px;letter-spacing:0.2em">APS</span></div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:rgba(0,0,0,0.55);margin-top:10px">spinSlow 22s linear</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;border:1px solid #E6E7E8;border-radius:12px;overflow:hidden">
+      <div style="padding:16px 24px;font-weight:700;font-size:14px;border-bottom:1px solid #E6E7E8">Seamless marquee — two identical halves, translateX(-50%)</div>
+      <div style="padding:14px 0;overflow:hidden;white-space:nowrap;background:#F76E1E;color:rgba(0,0,0,0.7)">
+        <div style="display:flex;width:max-content;animation:ctaMarquee 26s linear infinite;font-weight:200;font-size:20px;letter-spacing:0.1em;text-transform:uppercase">
+          <div style="display:flex;gap:48px;padding-right:48px;flex:none"><span>Let's talk</span><span>·</span><span>Book a consult</span><span>·</span><span>Request a quote</span><span>·</span></div>
+          <div style="display:flex;gap:48px;padding-right:48px;flex:none"><span>Let's talk</span><span>·</span><span>Book a consult</span><span>·</span><span>Request a quote</span><span>·</span></div>
+        </div>
+      </div>
+    </div>
+    <p style="margin:24px 0 0;font-size:14px;color:rgba(0,0,0,0.55)">prefers-reduced-motion: reduce → all animation off. Hover states always transition both enter and leave.</p>
+  </section>
+
+  <section data-screen-label="Buttons" style="background:#F4F4F4;padding:96px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 40px"><span style="color:#F76E1E">(07)</span>&nbsp;&nbsp;Buttons · Rolling-label pills (hover them)</p>
+    <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+      <a href="#" class="aps-btn aps-btn-primary"><span class="roll"><span>Book a Consult</span><span>Book a Consult</span></span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+      <a href="#" class="aps-btn aps-btn-dark"><span class="roll"><span>Explore Our Work</span><span>Explore Our Work</span></span></a>
+      <a href="#" class="aps-btn aps-btn-ghost-dark"><span class="roll"><span>Request a Quote</span><span>Request a Quote</span></span></a>
+    </div>
+    <p style="max-width:720px;margin:32px 0 0;font-size:15px;line-height:1.6;color:rgba(0,0,0,0.72)">Label duplicated inside <code style="font-family:var(--font-mono);font-size:13px">.roll</code>; hover rolls it up and the twin rolls in (400ms settle). Arrow nudges ↗ 3px. Press = 2px down. Variants: primary (orange, one per view), dark, ghost. Text links instead use color→orange + translateX settle. EXPLORE NOW rows: orange 14px/700/0.16em + 22px ↗ arrow.</p>
+  </section>
+
+  <section data-screen-label="Icons" style="padding:96px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 40px"><span style="color:#F76E1E">(08)</span>&nbsp;&nbsp;Icons · Phosphor</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px" data-stack="">
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:32px">
+        <p style="margin:0 0 20px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Weights — Light is the default</p>
+        <div style="display:flex;align-items:center;gap:28px;font-size:32px;color:#000">
+          <i class="ph-thin ph-arrow-up-right"></i>
+          <i class="ph-light ph-arrow-up-right" style="color:#F76E1E"></i>
+          <i class="ph ph-arrow-up-right"></i>
+          <i class="ph-bold ph-arrow-up-right"></i>
+        </div>
+        <p style="margin:20px 0 0;font-size:13px;line-height:1.6;color:rgba(0,0,0,0.55)">thin · <span style="color:#F76E1E;font-weight:700">light (default)</span> · regular · bold. Light matches the Barlow 200 display type; use regular/bold only at 16px and below.</p>
+      </div>
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:32px">
+        <p style="margin:0 0 20px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Core set</p>
+        <div style="display:flex;flex-wrap:wrap;gap:24px;font-size:26px;color:#000">
+          <i class="ph-light ph-arrow-up-right"></i><i class="ph-light ph-arrow-right"></i><i class="ph-light ph-plus"></i><i class="ph-light ph-minus"></i><i class="ph-light ph-x"></i><i class="ph-light ph-list"></i><i class="ph-light ph-sun"></i><i class="ph-light ph-moon"></i><i class="ph-light ph-phone"></i><i class="ph-light ph-envelope-simple"></i><i class="ph-light ph-play"></i><i class="ph-light ph-caret-down"></i>
+        </div>
+        <p style="margin:20px 0 0;font-size:13px;line-height:1.6;color:rgba(0,0,0,0.55)">Sizes 16 / 20 / 24 / 32 (never below 14px). Color via currentColor — inherits text color; orange only when the icon IS the action cue (Explore ↗).</p>
+      </div>
+    </div>
+    <p style="max-width:760px;margin:32px 0 0;font-size:15px;line-height:1.6;color:rgba(0,0,0,0.72)"><strong>Rules:</strong> one icon family site-wide, no emoji, no unicode glyph icons in copy. The signature ↗ arrow, hamburger, close X, and sun/moon in the templates map to Phosphor <code style="font-family:var(--font-mono);font-size:13px">arrow-up-right · list · x · sun · moon</code> (light weight). Astro: use <code style="font-family:var(--font-mono);font-size:13px">@phosphor-icons/web</code> or per-icon SVG imports from <code style="font-family:var(--font-mono);font-size:13px">@phosphor-icons/core</code> to keep the build lightweight.</p>
+  </section>
+
+  <section data-screen-label="Astro rules" style="background:#161616;color:#fff;padding:96px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 40px;color:#F76E1E">(09)&nbsp;&nbsp;Content Model · Rules for the Astro build</p>
+    <div style="display:flex;flex-direction:column;max-width:900px">
+      <sc-for list="{{ astroRules }}" as="r" hint-placeholder-count="5">
+        <div style="display:grid;grid-template-columns:200px 1fr;gap:32px;border-top:1px solid rgba(255,255,255,0.16);padding:28px 0" data-stack="">
+          <div style="font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:0.08em;color:#F76E1E">{{ r.name }}</div>
+          <div style="font-size:15px;line-height:1.65;color:rgba(255,255,255,0.78)">{{ r.body }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section data-screen-label="Forms imagery states" style="padding:96px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 40px"><span style="color:#F76E1E">(10)</span>&nbsp;&nbsp;Forms · Imagery · States · Breakpoints · SEO</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:32px">
+        <p style="margin:0 0 20px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Form inputs</p>
+        <label style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
+          <span style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(0,0,0,0.55)">Name</span>
+          <input type="text" placeholder="Your name" style="background:none;border:none;border-bottom:1px solid rgba(0,0,0,0.3);padding:12px 0;font-family:var(--font-sans);font-size:20px;color:#000;outline:none">
+        </label>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:rgba(0,0,0,0.55)">No boxes: bottom hairline only, 20px Barlow, uppercase 12px labels, placeholder at 35% opacity. Focus = hairline turns orange. Errors = orange hairline + 13px message. Submit = primary pill. Short forms only (name / email / message).</p>
+      </div>
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:32px">
+        <p style="margin:0 0 20px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Imagery treatment</p>
+        <p style="margin:0;font-size:13px;line-height:1.9;color:rgba(0,0,0,0.55)"><strong style="color:#000">Hero video</strong> 1280/600, edge-to-edge, no radius<br><strong style="color:#000">Full-bleed feature photo</strong> 100vh desktop / 52vh mobile, no radius<br><strong style="color:#000">Gallery thumbs</strong> 19:9, 8px radius, 30px gutter<br><strong style="color:#000">Portraits</strong> 4:5 or square, 12px radius<br><strong style="color:#000">Hover</strong> opacity 0.85 + scale 1.07 (700ms settle)<br><strong style="color:#000">Lightbox</strong> 900px wide on rgba(0,0,0,0.9)<br>Warm, professional, people-forward. No stock slop, no illustrations, no patterns.</p>
+      </div>
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:32px">
+        <p style="margin:0 0 20px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Interaction states</p>
+        <p style="margin:0;font-size:13px;line-height:1.9;color:rgba(0,0,0,0.55)"><strong style="color:#000">Hover</strong> color→orange + translateX settle (rows), roll (buttons)<br><strong style="color:#000">Focus-visible</strong> 4px orange glow ring — always visible, never removed<br><strong style="color:#000">Active</strong> 2px press-down<br><strong style="color:#000">Disabled</strong> 40% opacity, no pointer<br><strong style="color:#000">Current page</strong> black label in orange menu<br><strong style="color:#000">Loading</strong> icon mark as spinner (spinSlow)</p>
+      </div>
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:32px">
+        <p style="margin:0 0 20px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Breakpoints</p>
+        <p style="margin:0;font-size:13px;line-height:1.9;color:rgba(0,0,0,0.55)"><strong style="color:#000">≤760px</strong> mobile: grids stack, hero 62vh, caption hidden, H1 44px wrapping, 1-col gallery, EXPLORE indents to name<br><strong style="color:#000">761-1280px</strong> fluid via clamp() — no separate tablet layout<br><strong style="color:#000">>1440px</strong> type caps at clamp() maximums<br>Tap targets ≥44px throughout.</p>
+      </div>
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:32px">
+        <p style="margin:0 0 20px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">SEO &amp; meta</p>
+        <p style="margin:0;font-size:13px;line-height:1.9;color:rgba(0,0,0,0.55)"><strong style="color:#000">Title</strong> {Page Title} | Alive ProStudios<br><strong style="color:#000">Description</strong> from MD frontmatter (150-160 chars)<br><strong style="color:#000">Favicon</strong> icon.svg · <strong style="color:#000">OG image</strong> 1200×630, dark grey bg + white Condensed title + orange dot<br><strong style="color:#000">Alt text</strong> required on every image; empty alt on decorative<br>One H1, ordered headings, semantic nav/main/footer landmarks.</p>
+      </div>
+      <div style="border:1px solid #E6E7E8;border-radius:12px;padding:32px">
+        <p style="margin:0 0 20px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Performance budget</p>
+        <p style="margin:0;font-size:13px;line-height:1.9;color:rgba(0,0,0,0.55)"><strong style="color:#000">Videos</strong> lazy background embeds, poster frame first<br><strong style="color:#000">Images</strong> AVIF/WebP via Astro Image, width-capped srcset<br><strong style="color:#000">Fonts</strong> only the 6 weights listed, swap display<br><strong style="color:#000">JS</strong> zero framework runtime on content pages — menu, theme, lightbox are small vanilla islands<br>All animation is CSS; reduced-motion kills it.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:#000;color:#fff;display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;align-items:center;padding:32px clamp(24px,4vw,56px);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase">
+    <span>Alive ProStudios · Website Style Guide</span>
+    <span style="color:rgba(255,255,255,0.45)">Master · Home · Gallery templates</span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      logos: [
+        { name: 'Full wordmark · colour', file: 'assets/logo-full.svg', src: 'assets/logo-full.svg', bg: '#FFFFFF', h: '52px', use: 'Primary. Light backgrounds, documents, light mode.' },
+        { name: 'Full wordmark · white', file: 'assets/logo-full-white.svg', src: 'assets/logo-full-white.svg', bg: '#161616', h: '52px', use: 'Dark hero, dark sections, footer, orange menu overlay.' },
+        { name: 'Wordmark · white (alt)', file: 'assets/logo-white.svg', src: 'assets/logo-white.svg', bg: '#161616', h: '52px', use: 'Alternate white lockup for tight horizontal spaces.' },
+        { name: 'Icon mark · colour', file: 'assets/icon.svg', src: 'assets/icon.svg', bg: '#FFFFFF', h: '72px', use: 'Favicon, avatar, social profile, loaders on light.' },
+        { name: 'Icon mark · white', file: 'assets/icon-white.svg', src: 'assets/icon-white.svg', bg: '#161616', h: '72px', use: 'Icon on dark or photographic backgrounds.' },
+        { name: 'Icon mark · orange', file: 'assets/icon-orange.svg', src: 'assets/icon-orange.svg', bg: '#FFFFFF', h: '72px', use: 'Single-colour accent contexts. Never on orange.' },
+      ],
+      brand: [
+        { name: 'Brand Black', hex: '#000000', use: 'Wordmark, display headlines, dark buttons, footer' },
+        { name: 'Brand Forest', hex: '#346632', use: 'Workhorse dark green — links on light' },
+        { name: 'Brand Lime', hex: '#95C83F', use: 'Energy accents, eyebrows on dark, links in dark mode' },
+        { name: 'Brand Orange', hex: '#F76E1E', use: 'THE signal — CTAs, dots, highlights, hover. One per view' },
+        { name: 'Brand Mist', hex: '#E6E7E8', use: 'Hairlines, soft chips, light-mode dividers' },
+        { name: 'Hero Grey Top', hex: '#333333', use: 'Hero gradient start' },
+        { name: 'Surface Dark', hex: '#161616', use: 'Dark section blocks (Next Step)' },
+        { name: 'Video Backing', hex: '#1A1A1A', use: 'Hero gradient end, video letterbox' },
+      ],
+      lightTokens: [
+        { name: '--pg-bg', val: '#FFFFFF' },
+        { name: '--pg-fg', val: '#000000' },
+        { name: '--pg-fg2', val: 'rgba(0,0,0,0.72)' },
+        { name: '--pg-fg3', val: 'rgba(0,0,0,0.55)' },
+        { name: '--pg-line', val: '#E6E7E8' },
+        { name: '--pg-band', val: '#F4F4F4' },
+      ],
+      darkTokens: [
+        { name: '--pg-bg', val: '#111111' },
+        { name: '--pg-fg', val: '#FFFFFF' },
+        { name: '--pg-fg2', val: 'rgba(255,255,255,0.78)' },
+        { name: '--pg-fg3', val: 'rgba(255,255,255,0.55)' },
+        { name: '--pg-line', val: 'rgba(255,255,255,0.16)' },
+        { name: '--pg-band', val: '#1A1A1A' },
+      ],
+      typeSpecs: [
+        { role: 'H1 — Page title', spec: 'One per page, from MD frontmatter title. Barlow Condensed 800 · clamp(30px, 7.6vw, 144px) · lh 0.9 · uppercase · one line + orange dot', style: 'font-family:var(--font-condensed);font-weight:800;font-size:clamp(30px,5.5vw,96px);line-height:0.9;text-transform:uppercase;white-space:nowrap', sample: 'Supercharge your brand' },
+        { role: 'H2 — Section heading', spec: 'Barlow Condensed 800 · clamp(48px, 6vw, 104px) · lh 0.92 · uppercase', style: 'font-family:var(--font-condensed);font-weight:800;font-size:clamp(40px,4.6vw,80px);line-height:0.92;text-transform:uppercase', sample: 'First impressions, engineered.' },
+        { role: 'H3 — Subsection / pillar heading', spec: 'Barlow Condensed 800 · clamp(40px, 4.4vw, 72px) · lh 0.96 · uppercase + orange dot', style: 'font-family:var(--font-condensed);font-weight:800;font-size:clamp(36px,3.8vw,64px);line-height:0.96;text-transform:uppercase', sample: 'Foundation' },
+        { role: 'H4 — Statement / lede', spec: 'Barlow Condensed 700 · clamp(24px, 2.4vw, 38px) · lh 1.12 · uppercase · two-tone fg/fg3', style: 'font-family:var(--font-condensed);font-weight:700;font-size:clamp(22px,2vw,34px);line-height:1.12;text-transform:uppercase;max-width:760px', sample: 'Your name and identity are not cosmetic decisions. They\u2019re commercial ones.' },
+        { role: 'H5 — Kicker / pillar subheader', spec: 'Barlow 700 · 17px · 0.14em · uppercase · brand orange', style: 'font-weight:700;font-size:17px;letter-spacing:0.14em;text-transform:uppercase;color:#F76E1E', sample: 'Where every great brand begins' },
+        { role: 'H6 — Breadcrumb / eyebrow', spec: 'Barlow 600 · 12px · 0.14em · uppercase · lime on dark + 1px orange rule · generated from route', style: 'font-weight:600;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#346632;border-bottom:1px solid #F76E1E;padding-bottom:12px;width:fit-content', sample: 'Foundation · Stage 01' },
+        { role: 'p — Body copy (Markdown)', spec: 'Barlow 400 · 17px · lh 1.6 · fg2 · plain p + disc ul, 22px indent · min 16px mobile', style: 'font-size:17px;line-height:1.6;color:rgba(0,0,0,0.72);max-width:720px', sample: 'Strategy and identity are the bedrock. Without a strong foundation, execution is just noise. We build the strategic framework that makes everything else work.' },
+        { role: '.hero-caption — p, hero only', spec: 'Barlow 600 · 22px · lh 1.5 · uppercase · white + orange two-tone · hidden on mobile · from MD frontmatter caption', style: 'font-weight:600;font-size:22px;line-height:1.5;text-transform:uppercase;color:#F76E1E;max-width:640px', sample: 'Your identity is the first thing people see and the last thing they forget.' },
+        { role: '.display-light — span in display stacks', spec: 'Barlow 200 · clamp(26px, 3.4vw, 58px) · -0.01em · uppercase — decorative line paired against Condensed 800, never a heading tag', style: 'font-weight:200;font-size:clamp(26px,3vw,52px);letter-spacing:-0.01em;text-transform:uppercase;line-height:1.05', sample: 'The first word your market hears' },
+        { role: '.list-display — a, index rows', spec: 'Barlow 200 · clamp(28px, 3.6vw, 60px) · related-services / menu rows · hover orange + translateX(12px)', style: 'font-weight:200;font-size:clamp(28px,3vw,52px);letter-spacing:-0.01em;line-height:1.05', sample: 'Brand Strategy & Positioning' },
+        { role: '.index — span, mono numbers', spec: 'JetBrains Mono 400 · 11-13px · fg3 · numbers only, never body text (phone uses Barlow 600, not mono)', style: 'font-family:var(--font-mono);font-size:13px;color:rgba(0,0,0,0.55)', sample: '01 02 03 · 72% · 905-553-3044' },
+      ],
+      astroRules: [
+        { name: 'Templates', body: 'Three masters only: Master Page Template (inside/service pages), Home Page Template, Gallery Page Template. Every route composes one of these with shared global components: SiteNav, VideoHero, BookConsult, RelatedServices, NextStep.' },
+        { name: 'Breadcrumb', body: 'The small eyebrow above the H1 ("FOUNDATION · STAGE 01") is a breadcrumb generated from the route: {section} · Stage {sectionIndex} (Foundation 01, Execution 02, Growth 03, Infrastructure 04). Never hard-coded per page.' },
+        { name: 'Page content', body: 'Each page has a Markdown file: frontmatter carries title, caption, and section; the body renders with the body-copy rules (plain paragraphs and disc bullets). Templates supply layout only — no copy lives in templates.' },
+        { name: 'Related services', body: 'DYNAMIC, never hard-coded: build the list from the content collection — every page under the current section, excluding the current page, numbered in collection order, with auto count. The nav accordion sub-menus derive from the same collection. Menu items change constantly; the lists must follow automatically.' },
+        { name: 'Hero videos', body: 'Every page has an edge-to-edge looping background video (1280/600, background embed, no controls, muted, playsinline). One shared pool of 12 Vimeo/YouTube links; each page picks deterministically (hash of route mod pool length) so assignment is stable per page.' },
+        { name: 'Theme toggle', body: 'Sun/moon icon button in the nav between EST. 1997 and the hamburger. Sets data-theme on body, persists to localStorage. Only white content sections flip; hero, orange CTA, Next Step, and footer are invariant.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import MasterPage from '../../layouts/MasterPage.astro';
+import { parseAnatomy } from '../../lib/anatomy';
+import { breadcrumb, isSection, sectionLabel } from '../../lib/sections';
+import { relatedServices } from '../../lib/nav';
+
+/**
+ * All 29 service pages, built from the Master Page Template.
+ * One Markdown file in, one route out. Adding a file adds a page, its nav
+ * sub-menu entry, and its Related Services row, with no code change.
+ */
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+
+  return services.map((entry) => {
+    const slug = entry.id.split('/').pop()!;
+    return {
+      params: { section: entry.data.category, slug },
+      props: { entry },
+    };
+  });
+}
+
+const { entry } = Astro.props;
+const { section } = Astro.params;
+
+if (!isSection(section!)) throw new Error(`Unknown section: ${section}`);
+
+const path = entry.data.url ?? `/${section}/${entry.id.split('/').pop()}`;
+
+// `caption: ""` is a placeholder awaiting copy, not a caption. Normalise it to
+// undefined so the §9 intro-sentence fallback still applies on those pages.
+const caption = entry.data.caption?.trim() || undefined;
+const anatomy = parseAnatomy(entry.body ?? '', caption);
+const related = await relatedServices(section, path);
+---
+
+<MasterPage
+  title={entry.data.title}
+  description={entry.data.seoDescription}
+  {path}
+  {anatomy}
+  {caption}
+  {related}
+  videoId={entry.data.videoId}
+  crumb={breadcrumb(section)}
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: sectionLabel(section), url: `/${section}` },
+    { name: entry.data.title, url: path },
+  ]}
+  footerLabel={`All ${sectionLabel(section)}`}
+  footerHref={`/${section}`}
+  schemaType="Service"
+/>

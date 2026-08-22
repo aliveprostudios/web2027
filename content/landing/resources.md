@@ -1,5 +1,6 @@
 ---
 title: "Resources — category landing"
+caption: ""
 url: "/resources"
 source: "rendered from live site 2026-08-22"
 ---

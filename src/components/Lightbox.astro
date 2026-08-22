@@ -1,0 +1,197 @@
+---
+/**
+ * Gallery lightbox (STYLEGUIDE.md §9, Gallery slot 4).
+ *
+ * rgba(0,0,0,0.9) backdrop, 900px image, prev/next, close, mono counter,
+ * 2s auto-slide. Arrows reset the timer; close stops it.
+ *
+ * Vanilla island, no framework runtime on the page.
+ */
+---
+
+<div class="lb" data-lightbox hidden role="dialog" aria-modal="true" aria-label="Gallery image viewer">
+  <div class="lb__scrim" data-lb-close></div>
+
+  <img class="lb__img" data-lb-img src="" alt="" />
+
+  <button type="button" class="lb__nav lb__nav--prev" data-lb-prev aria-label="Previous image">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M15 18l-6-6 6-6"></path>
+    </svg>
+  </button>
+
+  <button type="button" class="lb__nav lb__nav--next" data-lb-next aria-label="Next image">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 6l6 6-6 6"></path>
+    </svg>
+  </button>
+
+  <button type="button" class="lb__close" data-lb-close aria-label="Close lightbox">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+      <path d="M5 5l14 14M19 5L5 19"></path>
+    </svg>
+  </button>
+
+  <span class="lb__counter" data-lb-counter aria-live="polite"></span>
+</div>
+
+<style>
+  .lb {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lb[hidden] { display: none; }
+
+  .lb__scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    border: none;
+    cursor: pointer;
+  }
+
+  .lb__img {
+    position: relative;
+    width: 900px;
+    max-width: 90vw;
+    max-height: 86vh;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+  }
+
+  .lb__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: none;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--dur-micro) ease, color var(--dur-micro) ease;
+  }
+  .lb__nav:hover { border-color: var(--brand-orange); color: var(--brand-orange); }
+  .lb__nav--prev { left: clamp(8px, 3vw, 48px); }
+  .lb__nav--next { right: clamp(8px, 3vw, 48px); }
+
+  .lb__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: color var(--dur-micro) ease;
+  }
+  .lb__close:hover { color: var(--brand-orange); }
+
+  .lb__counter {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.7);
+  }
+</style>
+
+<script>
+  type Slide = { full: string; alt: string };
+
+  const root = document.querySelector<HTMLElement>('[data-lightbox]');
+  const payload = document.getElementById('gallery-data');
+  if (root && payload) {
+    const slides: Slide[] = JSON.parse(payload.textContent || '[]');
+    const img = root.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const counter = root.querySelector<HTMLElement>('[data-lb-counter]')!;
+    const nextBtn = root.querySelector<HTMLButtonElement>('[data-lb-next]')!;
+
+    let index = 0;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    let opener: HTMLElement | null = null;
+
+    const pad = (n: number) => String(n).padStart(2, '0');
+
+    function show(i: number) {
+      if (slides.length === 0) return;
+      index = (i + slides.length) % slides.length;
+      const slide = slides[index]!;
+      img.src = slide.full;
+      img.alt = slide.alt;
+      counter.textContent = `${pad(index + 1)} / ${slides.length}`;
+    }
+
+    function startAutoSlide() {
+      clearInterval(timer);
+      // 2s auto-advance. Reduced-motion users get a static view instead.
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      timer = setInterval(() => show(index + 1), 2000);
+    }
+
+    function open(i: number, from: HTMLElement) {
+      opener = from;
+      show(i);
+      root!.hidden = false;
+      document.body.style.overflow = 'hidden';
+      startAutoSlide();
+      nextBtn.focus();
+    }
+
+    function close() {
+      clearInterval(timer);
+      timer = undefined;
+      root!.hidden = true;
+      document.body.style.overflow = '';
+      opener?.focus();
+    }
+
+    // Arrows reset the timer so a deliberate step does not get yanked forward.
+    function step(delta: number) {
+      show(index + delta);
+      startAutoSlide();
+    }
+
+    document.querySelectorAll<HTMLElement>('[data-gallery-item]').forEach((tile, i) => {
+      tile.addEventListener('click', () => open(i, tile));
+    });
+
+    root.querySelectorAll('[data-lb-close]').forEach((el) => el.addEventListener('click', close));
+    root.querySelector('[data-lb-prev]')!.addEventListener('click', () => step(-1));
+    nextBtn.addEventListener('click', () => step(1));
+
+    document.addEventListener('keydown', (event) => {
+      if (root.hidden) return;
+      if (event.key === 'Escape') close();
+      if (event.key === 'ArrowLeft') step(-1);
+      if (event.key === 'ArrowRight') step(1);
+      // Keep focus inside the dialog while it is open.
+      if (event.key === 'Tab') {
+        const focusable = root.querySelectorAll<HTMLElement>('button');
+        const first = focusable[0]!;
+        const last = focusable[focusable.length - 1]!;
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+  }
+</script>

@@ -1,5 +1,6 @@
 ---
 title: "AI-Generated Production"
+caption: ""
 slug: "ai-generated-production"
 category: "execution"
 url: "/execution/ai-generated-production"

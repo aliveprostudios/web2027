@@ -1,5 +1,6 @@
 ---
 title: "Dashboards & Analytics"
+caption: ""
 slug: "dashboards-analytics"
 category: "infrastructure"
 url: "/infrastructure/dashboards-analytics"

@@ -1,5 +1,6 @@
 ---
 title: "Digital Marketing Redefined"
+caption: ""
 slug: "digital-marketing-redefined"
 date: "2026-04-03"
 author: "Javad Ahmadi"

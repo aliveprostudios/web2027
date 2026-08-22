@@ -1,5 +1,6 @@
 ---
 title: "Reputation Management"
+caption: ""
 slug: "reputation-management"
 category: "growth"
 url: "/growth/reputation-management"
@@ -8,7 +9,9 @@ seoDescription: "Protect and strengthen your brand reputation online."
 ---
 ## Control the Narrative
 
-What shows up when someone searches your company name? Whatever they find, that’s your reputation. Not what you think it is. What Google, social media, and review platforms say it is.
+What shows up when someone searches your company name? Whatever they find, that’s your reputation.
+
+Not what you think it is. What Google, social media, and review platforms say it is.
 
 Most businesses don’t think about reputation management until something goes wrong. A negative review surfaces. A competitor’s content outranks your own brand name. By then, the damage is already shaping how prospects perceive you before your sales team ever gets a chance to speak.
 

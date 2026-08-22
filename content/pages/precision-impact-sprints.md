@@ -1,12 +1,15 @@
 ---
 title: "Precision Impact Sprints"
+caption: ""
 slug: "precision-impact-sprints"
 seoTitle: "Precision Impact Sprints"
 seoDescription: "Focused, time-boxed engagements that deliver fast, measurable results. Perfect for businesses that need momentum now."
 ---
 ## 90 Minutes. Total Clarity. Thousands Saved.
 
-You’re spending money on marketing. But is it working? Are your campaigns generating qualified leads or just burning budget? Is your messaging landing or getting ignored? Are your sales and marketing teams pulling in the same direction or working against each other?
+You’re spending money on marketing. But is it working?
+
+Are your campaigns generating qualified leads or just burning budget? Is your messaging landing or getting ignored? Are your sales and marketing teams pulling in the same direction or working against each other?
 
 If you’re not sure, that uncertainty is costing you more than you realize.
 

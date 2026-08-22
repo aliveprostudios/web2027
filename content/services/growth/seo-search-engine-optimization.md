@@ -1,5 +1,6 @@
 ---
 title: "SEO (Search Engine Optimization)"
+caption: ""
 slug: "seo-search-engine-optimization"
 category: "growth"
 url: "/growth/seo-search-engine-optimization"
@@ -8,7 +9,9 @@ seoDescription: "Organic visibility that compounds over time."
 ---
 ## Own the Search Results
 
-If your business doesn’t show up when your ideal customer searches for what you offer, you don’t exist to them. It’s that simple. Your competitors are showing up. The question is whether you’re letting them own the space that should be yours.
+If your business doesn’t show up when your ideal customer searches for what you offer, you don’t exist to them. It’s that simple.
+
+Your competitors are showing up. The question is whether you’re letting them own the space that should be yours.
 
 SEO is not a technical checkbox. It’s a market domination strategy. When done right, it puts your brand in front of high-intent buyers at the exact moment they’re looking for solutions. No ad spend required. No interruption. Just your brand, positioned as the answer, exactly when it matters most.
 

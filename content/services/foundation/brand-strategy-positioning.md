@@ -1,5 +1,6 @@
 ---
 title: "Brand Strategy & Positioning"
+caption: ""
 slug: "brand-strategy-positioning"
 category: "foundation"
 url: "/foundation/brand-strategy-positioning"
@@ -8,7 +9,9 @@ seoDescription: "Define where your brand stands and why it matters."
 ---
 ## The Foundation
 
-Most businesses don’t have a marketing problem. They have a strategy problem disguised as one. Campaigns underperform. Messaging feels scattered. Sales teams struggle to articulate what makes the company different. The root cause is almost always the same: there’s no clear brand strategy anchoring the effort, and no positioning sharp enough to cut through a crowded market.
+Most businesses don’t have a marketing problem. They have a strategy problem disguised as one.
+
+Campaigns underperform. Messaging feels scattered. Sales teams struggle to articulate what makes the company different. The root cause is almost always the same: there’s no clear brand strategy anchoring the effort, and no positioning sharp enough to cut through a crowded market.
 
 Brand Strategy & Positioning is where we fix that. We dig into the core of your business, your market, your competition, and your customer to build a strategic foundation that gives every marketing dollar a purpose and every message a direction.
 

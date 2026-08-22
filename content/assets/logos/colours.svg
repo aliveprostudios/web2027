@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Swatch_Info_Layer" data-name="Swatch Info Layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 832.45 261.68">
+  <g>
+    <text transform="translate(672.69 163.28)" font-size="12"><tspan x="0" y="0" xml:space="preserve" font-family="MyriadPro-Regular, &apos;Myriad Pro&apos;">HEX            </tspan><tspan x="51.11" y="0" font-family="MyriadPro-Bold, &apos;Myriad Pro&apos;" font-weight="700">#E6E7E8</tspan></text>
+    <rect x="672.69" y="27.28" width="100" height="100" fill="#e6e7e8"/>
+  </g>
+  <g>
+    <text transform="translate(512.56 163.28)" font-size="12"><tspan x="0" y="0" xml:space="preserve" font-family="MyriadPro-Regular, &apos;Myriad Pro&apos;">HEX            </tspan><tspan x="51.11" y="0" font-family="MyriadPro-Bold, &apos;Myriad Pro&apos;" font-weight="700">#F76E1E</tspan></text>
+    <rect x="512.56" y="27.28" width="100" height="100" fill="#f76e1e"/>
+  </g>
+  <g>
+    <text transform="translate(352.43 163.28)" font-size="12"><tspan x="0" y="0" xml:space="preserve" font-family="MyriadPro-Regular, &apos;Myriad Pro&apos;">HEX            </tspan><tspan x="51.11" y="0" font-family="MyriadPro-Bold, &apos;Myriad Pro&apos;" font-weight="700">#95C83F</tspan></text>
+    <rect x="352.43" y="27.28" width="100" height="100" fill="#95c83f"/>
+  </g>
+  <g>
+    <text transform="translate(192.3 163.28)" font-size="12"><tspan x="0" y="0" xml:space="preserve" font-family="MyriadPro-Regular, &apos;Myriad Pro&apos;">HEX            </tspan><tspan x="51.11" y="0" font-family="MyriadPro-Bold, &apos;Myriad Pro&apos;" font-weight="700">#346632</tspan></text>
+    <rect x="192.3" y="27.28" width="100" height="100" fill="#346632"/>
+  </g>
+  <g>
+    <text transform="translate(32.18 163.28)" font-size="12"><tspan x="0" y="0" xml:space="preserve" font-family="MyriadPro-Regular, &apos;Myriad Pro&apos;">HEX            </tspan><tspan x="51.11" y="0" font-family="MyriadPro-Bold, &apos;Myriad Pro&apos;" font-weight="700">#000000</tspan></text>
+    <rect x="32.18" y="27.28" width="100" height="100"/>
+  </g>
+</svg>

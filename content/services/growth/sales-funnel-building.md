@@ -1,5 +1,6 @@
 ---
 title: "Sales Funnel Building"
+caption: ""
 slug: "sales-funnel-building"
 category: "growth"
 url: "/growth/sales-funnel-building"
@@ -8,7 +9,9 @@ seoDescription: "Structured funnels that convert prospects into clients."
 ---
 ## From Stranger to Customer
 
-Where do your leads go after they click? After they visit your website, download your guide, or engage with your ad? If the answer is “we’re not sure,” you don’t have a sales funnel. You have a leak.
+Where do your leads go after they click? After they visit your website, download your guide, or engage with your ad?
+
+If the answer is “we’re not sure,” you don’t have a sales funnel. You have a leak.
 
 Most businesses spend real money driving traffic but have no structured system for what happens next. Visitors arrive, look around, and leave. Leads come in and go cold. The marketing generates activity, but the activity doesn’t convert because there’s no designed path from first impression to closed deal.
 

@@ -1,5 +1,6 @@
 ---
 title: "Motion Graphics & Animation"
+caption: ""
 slug: "motion-graphics-animation"
 category: "execution"
 url: "/execution/motion-graphics-animation"

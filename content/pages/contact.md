@@ -1,5 +1,6 @@
 ---
 title: "Contact"
+caption: ""
 url: "/contact"
 source: "rendered from live site 2026-08-22"
 ---

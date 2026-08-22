@@ -1,5 +1,6 @@
 ---
 title: "Growth — category landing"
+caption: ""
 url: "/growth"
 source: "rendered from live site 2026-08-22"
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Brand Pulse diagnostic"
+caption: ""
 url: "/brand-pulse"
 ---
 

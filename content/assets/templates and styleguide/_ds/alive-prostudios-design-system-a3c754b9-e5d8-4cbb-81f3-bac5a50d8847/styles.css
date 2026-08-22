@@ -1,0 +1,12 @@
+/* =========================================================================
+   Alive ProStudios — root stylesheet
+   -------------------------------------------------------------------------
+   The single entry point for consumers. Link THIS file:
+       <link rel="stylesheet" href="styles.css">
+   It pulls in the token layer (color, type, spacing, shadow, motion).
+
+   Context-specific sheets stay opt-in — link them only when you need them:
+       ui_kits/website/kit.css + sections.css   marketing-site components
+       slides/slides.css                        1920x1080 deck layouts
+   ========================================================================= */
+@import url('colors_and_type.css');

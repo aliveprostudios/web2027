@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <script src="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/_ds_bundle.js"></script>
+  <style>
+    body{margin:0;background:#F76E1E}
+    a{color:#fff;text-decoration:none} a:hover{color:#000}
+    @keyframes heroMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  </style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:var(--font-sans);background:var(--brand-orange);color:#fff;overflow:hidden">
+  <header style="display:flex;align-items:center;justify-content:space-between;padding:28px clamp(24px,4vw,56px)">
+    <img src="assets/logo-full-white.svg" alt="Alive ProStudios" style="height:40px;display:block">
+    <div style="display:flex;align-items:center;gap:28px">
+      <span style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.8)">Est. 1997</span>
+      <button aria-label="Menu" style="display:flex;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;padding:8px">
+        <span style="display:block;width:30px;height:3px;background:#fff"></span>
+        <span style="display:block;width:30px;height:3px;background:#fff"></span>
+      </button>
+    </div>
+  </header>
+  <main style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(0,0,0,0.55);margin:0 0 24px">(01)&nbsp;&nbsp;The All-In-One Brand Transformation System</p>
+    <h1 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(80px,10.5vw,180px);line-height:0.9;color:#fff;margin:0;text-transform:uppercase;max-width:12em;text-wrap:balance">How many people own <span style="color:#000">your brand</span> right now.</h1>
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:32px;margin-top:44px">
+      <p style="max-width:540px;margin:0;font-weight:600;font-size:18px;line-height:1.5;text-transform:uppercase;color:rgba(0,0,0,0.65)">Budget leaks. Messaging conflicts. <span style="color:#fff">Nobody owns the outcome.</span> We replace the patchwork with one team and one system.</p>
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="dark" hint-size="auto,48px">Fix It With One Team</x-import>
+    </div>
+  </main>
+  <div style="border-top:1px solid rgba(255,255,255,0.35);padding:20px 0;overflow:hidden;white-space:nowrap">
+    <div style="display:inline-flex;gap:56px;animation:heroMarquee 22s linear infinite;font-family:var(--font-condensed);font-weight:700;font-size:22px;letter-spacing:0.04em;text-transform:uppercase">
+      <span>Strategy</span><span>·</span><span>Identity</span><span>·</span><span>Content</span><span>·</span><span>Campaigns</span><span>·</span><span>Production</span><span>·</span><span>Technology</span><span>·</span>
+      <span>Strategy</span><span>·</span><span>Identity</span><span>·</span><span>Content</span><span>·</span><span>Campaigns</span><span>·</span><span>Production</span><span>·</span><span>Technology</span><span>·</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}"></script>
+</body>
+</html>

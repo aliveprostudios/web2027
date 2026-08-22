@@ -1,5 +1,6 @@
 ---
 title: "Video Production"
+caption: ""
 slug: "video-production"
 category: "execution"
 url: "/execution/video-production"

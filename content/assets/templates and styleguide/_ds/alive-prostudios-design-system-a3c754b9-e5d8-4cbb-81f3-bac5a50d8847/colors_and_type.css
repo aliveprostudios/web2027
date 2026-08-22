@@ -1,0 +1,315 @@
+/* =========================================================================
+   Alive ProStudios — Colors & Type
+   -----------------------------------------------------------------------
+   Core design tokens: brand palette, neutrals, semantic colors, type scale.
+   Load alongside the Host Grotesk + Fraunces fonts from /fonts.
+   ========================================================================= */
+
+/* ---- Web fonts ---------------------------------------------------------- */
+/* Primary: Barlow — the brand's chosen sans. Local TTF for Regular;
+   condensed + heavier weights still pulled from Google Fonts CDN
+   until the user supplies the rest. */
+@font-face {
+  font-family: 'Barlow';
+  src: url('fonts/Barlow-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,500;0,600;0,700;0,800;1,400;1,600&family=Barlow+Condensed:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  /* =====================================================================
+     CORE BRAND COLORS  (from ailve-hex-colours.jpg)
+     ===================================================================== */
+  --brand-black:        #000000;   /* Primary wordmark, display text */
+  --brand-forest:       #346632;   /* Deep brand green — "studios" mark, headings, anchors */
+  --brand-lime:         #95C83F;   /* Energy / growth accent — dominant icon color */
+  --brand-orange:       #F76E1E;   /* Signature CTA / highlight dot */
+  --brand-mist:         #E6E7E8;   /* Warm-neutral gray — dividers, soft chips */
+
+  /* ---------------------------------------------------------------------
+     EXTENDED PALETTE (tonal ramps, derived from brand hues)
+     --------------------------------------------------------------------- */
+  --forest-50:   #EDF4ED;
+  --forest-100:  #D4E4D3;
+  --forest-200:  #A9C8A7;
+  --forest-300:  #7FAD7C;
+  --forest-400:  #569153;
+  --forest-500:  #346632;   /* = brand-forest */
+  --forest-600:  #2A5228;
+  --forest-700:  #1F3D1E;
+  --forest-800:  #152914;
+  --forest-900:  #0A140A;
+
+  --lime-50:    #F4FAE8;
+  --lime-100:   #E5F4C9;
+  --lime-200:   #CFEB99;
+  --lime-300:   #B6DC69;
+  --lime-400:   #A3D24E;
+  --lime-500:   #95C83F;   /* = brand-lime */
+  --lime-600:   #78A32E;
+  --lime-700:   #5B7E22;
+  --lime-800:   #3F5817;
+  --lime-900:   #23320C;
+
+  --orange-50:  #FEF2E8;
+  --orange-100: #FDDCC0;
+  --orange-200: #FBB781;
+  --orange-300: #F99247;
+  --orange-400: #F76E1E;   /* = brand-orange (swap for 500 below) */
+  --orange-500: #F76E1E;
+  --orange-600: #D0570E;
+  --orange-700: #9C410A;
+  --orange-800: #6B2C07;
+  --orange-900: #3A1703;
+
+  --ink-50:     #FAFAFA;
+  --ink-100:    #F3F3F4;
+  --ink-200:    #E6E7E8;   /* = brand-mist */
+  --ink-300:    #CED0D2;
+  --ink-400:    #9FA2A6;
+  --ink-500:    #71757A;
+  --ink-600:    #4E5256;
+  --ink-700:    #2F3235;
+  --ink-800:    #17191B;
+  --ink-900:    #000000;
+
+  /* =====================================================================
+     SEMANTIC — surface & text
+     ===================================================================== */
+  --bg:          #FFFFFF;
+  --bg-soft:     var(--ink-50);
+  --bg-muted:    var(--ink-100);
+  --bg-inverse:  var(--brand-black);
+  --bg-accent:   var(--forest-900);   /* deep-green hero / section shift */
+
+  --fg1:         var(--brand-black);   /* primary copy */
+  --fg2:         var(--ink-700);       /* secondary copy */
+  --fg3:         var(--ink-500);       /* tertiary / captions */
+  --fg-muted:    var(--ink-400);       /* disabled, placeholder */
+  --fg-inverse:  #FFFFFF;
+  --fg-brand:    var(--brand-forest);  /* links, active */
+
+  --border:      var(--ink-200);
+  --border-strong: var(--ink-300);
+  --border-inverse: rgba(255,255,255,0.14);
+
+  /* =====================================================================
+     SEMANTIC — intent
+     ===================================================================== */
+  --accent:          var(--brand-orange);   /* CTA, focus highlight */
+  --accent-hover:    var(--orange-600);
+  --accent-contrast: #FFFFFF;
+
+  --success:         var(--lime-600);
+  --success-bg:      var(--lime-50);
+  --warning:         #C79A1B;
+  --warning-bg:      #FBF2D8;
+  --danger:          #C2321F;
+  --danger-bg:       #FBE6E2;
+  --info:            var(--forest-500);
+  --info-bg:         var(--forest-50);
+
+  /* =====================================================================
+     TYPE FAMILIES
+     ===================================================================== */
+  --font-sans:     'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display:  'Barlow', system-ui, sans-serif;
+  --font-condensed:'Barlow Condensed', 'Barlow', system-ui, sans-serif;
+  --font-mono:     'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  /* =====================================================================
+     TYPE SCALE  (based on 16px root; minor-third on display, perfect-fourth
+     on UI copy. Line-heights tight for display, comfortable for body.)
+     ===================================================================== */
+  --text-display:  clamp(56px, 7.5vw, 112px);   /* hero headline */
+  --text-h1:       clamp(40px, 4.5vw, 64px);
+  --text-h2:       clamp(32px, 3.2vw, 44px);
+  --text-h3:       28px;
+  --text-h4:       22px;
+  --text-h5:       18px;
+  --text-lead:     20px;                         /* lead paragraph */
+  --text-body:     16px;
+  --text-small:    14px;
+  --text-caption:  13px;
+  --text-overline: 12px;   /* all-caps eyebrow */
+
+  --lh-tight:     1.02;   /* @kind font */
+  /* line-height ratios */
+  --lh-snug:      1.12;   /* @kind font */
+  --lh-normal:    1.35;   /* @kind font */
+  --lh-relaxed:   1.55;   /* @kind font */
+
+  --tracking-tight:   -0.02em;   /* @kind font */
+  --tracking-normal:   0;        /* @kind font */
+  --tracking-wide:     0.04em;   /* @kind font */
+  --tracking-overline: 0.14em;   /* @kind font */
+
+  --weight-light:    300;   /* @kind font */
+  --weight-regular:  400;   /* @kind font */
+  --weight-medium:   500;   /* @kind font */
+  --weight-semibold: 600;   /* @kind font */
+  --weight-bold:     700;   /* @kind font */
+  --weight-black:    800;   /* @kind font */
+
+  /* =====================================================================
+     SPACING  (4px base)
+     ===================================================================== */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+  --space-11: 80px;
+  --space-12: 96px;
+  --space-13: 128px;
+
+  /* =====================================================================
+     RADII — restrained. Capsule pills for CTAs, small radius for cards.
+     ===================================================================== */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   20px;
+  --radius-2xl:  28px;
+  --radius-pill: 999px;
+
+  /* =====================================================================
+     SHADOWS — soft, confident. No heavy drop shadows.
+     ===================================================================== */
+  --shadow-xs: 0 1px 2px rgba(15, 25, 15, 0.04);
+  --shadow-sm: 0 1px 2px rgba(15, 25, 15, 0.05), 0 2px 6px rgba(15, 25, 15, 0.04);
+  --shadow-md: 0 4px 10px rgba(15, 25, 15, 0.06), 0 12px 24px rgba(15, 25, 15, 0.05);
+  --shadow-lg: 0 12px 24px rgba(15, 25, 15, 0.08), 0 28px 56px rgba(15, 25, 15, 0.08);
+  --shadow-xl: 0 24px 56px rgba(15, 25, 15, 0.12), 0 48px 96px rgba(15, 25, 15, 0.12);
+  --shadow-focus: 0 0 0 4px rgba(247, 110, 30, 0.24);   /* orange focus ring */
+  --shadow-focus-green: 0 0 0 4px rgba(52, 102, 50, 0.2);
+
+  /* =====================================================================
+     MOTION
+     ===================================================================== */
+  --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);   /* @kind other */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);  /* @kind other */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);  /* @kind other */
+  --dur-fast:   120ms;   /* @kind other */
+  --dur-base:   220ms;   /* @kind other */
+  --dur-slow:   420ms;   /* @kind other */
+  --dur-hero:   800ms;   /* @kind other */
+
+  /* =====================================================================
+     LAYOUT
+     ===================================================================== */
+  /* Alive Pro System — one accent per lifecycle stage */
+  --stage-1-accent: #7FAD7C;   /* @kind color */
+  --stage-2-accent: #95C83F;   /* @kind color */
+  --stage-3-accent: #F76E1E;   /* @kind color */
+  --stage-4-accent: #FFFFFF;   /* @kind color */
+
+  --container-max: 1280px;
+  --container-wide: 1440px;
+  --container-gutter: clamp(16px, 4vw, 48px);   /* @kind spacing */
+}
+
+/* =========================================================================
+   SEMANTIC TYPE CLASSES
+   Apply to actual elements. Display classes opt into tight tracking.
+   ========================================================================= */
+
+.as-display,
+.as-h1,
+.as-h2 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--lh-tight);
+  color: var(--fg1);
+  text-wrap: balance;
+}
+
+.as-display { font-size: var(--text-display); font-weight: var(--weight-bold); }
+.as-h1      { font-size: var(--text-h1); }
+.as-h2      { font-size: var(--text-h2); line-height: var(--lh-snug); }
+
+.as-h3, .as-h4, .as-h5 {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  line-height: var(--lh-snug);
+  letter-spacing: -0.005em;
+  color: var(--fg1);
+}
+.as-h3 { font-size: var(--text-h3); }
+.as-h4 { font-size: var(--text-h4); }
+.as-h5 { font-size: var(--text-h5); }
+
+.as-lead {
+  font-family: var(--font-sans);
+  font-size: var(--text-lead);
+  line-height: var(--lh-relaxed);
+  color: var(--fg2);
+  font-weight: var(--weight-regular);
+  text-wrap: pretty;
+}
+
+.as-body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--lh-relaxed);
+  color: var(--fg1);
+  font-weight: var(--weight-regular);
+  text-wrap: pretty;
+}
+
+.as-small   { font-size: var(--text-small);   line-height: var(--lh-normal); color: var(--fg2); }
+.as-caption { font-size: var(--text-caption); line-height: var(--lh-normal); color: var(--fg3); }
+
+.as-overline {
+  font-family: var(--font-sans);
+  font-size: var(--text-overline);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-overline);
+  color: var(--fg-brand);
+}
+
+.as-mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  letter-spacing: 0;
+}
+
+.as-condensed {
+  font-family: var(--font-condensed);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* Signature "dot" accent — the orange dot from the logo, reusable */
+.brand-dot::after {
+  content: '';
+  display: inline-block;
+  width: 0.32em;
+  height: 0.32em;
+  margin-left: 0.08em;
+  margin-bottom: 0.08em;
+  vertical-align: baseline;
+  background: var(--brand-orange);
+  border-radius: 999px;
+}
+
+/* Utility: brand link */
+a.brand-link {
+  color: var(--fg-brand);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+a.brand-link:hover { color: var(--brand-orange); }

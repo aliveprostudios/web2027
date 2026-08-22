@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <script src="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/_ds_bundle.js"></script>
+  <script src="image-slot.js"></script>
+  <style>
+    body{margin:0;background:#0A140A}
+    a{color:#fff;text-decoration:none} a:hover{color:#F76E1E}
+  </style>
+</helmet>
+<div style="position:relative;min-height:100vh;font-family:var(--font-sans);background:#0A140A;overflow:hidden">
+  <div style="position:absolute;inset:0">
+    <image-slot id="hero-b-bg" shape="rect" placeholder="Full-bleed brand photo — team or campaign shot"></image-slot>
+  </div>
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,20,10,0.55) 0%,rgba(10,20,10,0.25) 40%,rgba(10,20,10,0.72) 100%);pointer-events:none"></div>
+  <header style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:28px clamp(24px,4vw,56px)">
+    <img src="assets/logo-full-white.svg" alt="Alive ProStudios" style="height:40px;display:block">
+    <button aria-label="Menu" style="display:flex;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;padding:8px">
+      <span style="display:block;width:30px;height:3px;background:#fff"></span>
+      <span style="display:block;width:30px;height:3px;background:#fff"></span>
+    </button>
+  </header>
+  <main style="position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:calc(100vh - 96px);padding:0 clamp(24px,4vw,56px) 72px;pointer-events:none">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--brand-lime);margin:0 0 20px">Brand Transformation · Est. 1997</p>
+    <h1 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(64px,8.5vw,150px);line-height:0.92;letter-spacing:0;color:#fff;margin:0;text-transform:uppercase;max-width:14em">Let's bring your brand <span style="color:#F76E1E">alive.</span></h1>
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:32px;margin-top:40px">
+      <p style="max-width:520px;margin:0;font-weight:600;font-size:18px;line-height:1.5;text-transform:uppercase;color:rgba(255,255,255,0.75)">One team, one strategic foundation, <span style="color:#fff">one integrated system</span> — strategy, identity, content, campaigns, and technology.</p>
+      <div style="pointer-events:auto">
+        <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="primary" hint-size="auto,48px">Start the Conversation</x-import>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}"></script>
+</body>
+</html>

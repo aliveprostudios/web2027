@@ -1,5 +1,6 @@
 ---
 title: "LifeCycle Support"
+caption: ""
 slug: "lifecycle-support"
 category: "infrastructure"
 url: "/infrastructure/lifecycle-support"

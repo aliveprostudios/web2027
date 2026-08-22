@@ -1,0 +1,373 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BgRails from '../components/BgRails.astro';
+import SiteNav from '../components/SiteNav.astro';
+import VideoHero from '../components/VideoHero.astro';
+import NextStep from '../components/NextStep.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { pillars } from '../lib/pillars';
+import { parseAnatomy, splitSentences } from '../lib/anatomy';
+import homepageMarkdown from '../../content/homepage.md?raw';
+
+/**
+ * Home Page Template (STYLEGUIDE.md §9).
+ *
+ * Differs from Master in three ways: a full-bleed PHOTO hero instead of the
+ * grey gradient, pillar rows instead of content rows, and NO BookConsult and
+ * NO Related Services.
+ *
+ * Order: 1 Hero · 2 Why It Matters · 3 VideoHero · 4 Pillars · 5 Founder quote
+ *        6 Feature image · 7 Closing · 8 NextStep · 9 Footer
+ *
+ * Note slot 3: the video sits AFTER Why It Matters here, unlike Master.
+ *
+ * Slots 2, 5 and 7 read from `content/homepage.md`, which currently holds Sanity
+ * block descriptors rather than prose. They render nothing until that file
+ * carries copy. Omitted, never invented (§9 Clarifications).
+ */
+const rows = await pillars();
+
+// homepage.md sits outside the collections because its current format is Sanity
+// block descriptors rather than prose, so it is read raw and run through the
+// same anatomy parser as every other page. Slots 2, 5 and 7 stay empty until it
+// holds real copy; the moment it does, they populate with no code change.
+const homeBody = homepageMarkdown.replace(/^---\n[\s\S]*?\n---\n/, '');
+
+// homepage.md is still in Sanity block-descriptor format: `## [blockKineticHero]`,
+// `## [blockStats]`, and so on. Those headings are structural markers, not copy,
+// so the file carries no prose at all and must not be parsed as if it did.
+const isBlockDescriptorFormat = /^##\s*\[block\w+\]/m.test(homeBody);
+const anatomy = parseAnatomy(isBlockDescriptorFormat ? '' : homeBody);
+
+const title = 'Supercharge Your Brand';
+const description =
+  'Alive ProStudios is a Toronto brand transformation studio. Strategy, identity, ' +
+  'creative production, growth marketing, and the systems behind them. Est. 1997.';
+
+const caption = '';
+const captionParts = caption ? splitSentences(caption) : [];
+---
+
+<BaseLayout {title} {description} path="/" breadcrumbs={[{ name: 'Home', url: '/' }]}>
+  <div class="page-root">
+    <BgRails />
+
+    <!-- 1. Hero: full-bleed photo, no overlay -->
+    <section class="hero" data-hero>
+      <img class="hero__bg" src="/assets/hero-bg.jpg" alt="" width="2400" height="1350" fetchpriority="high" />
+
+      <div class="hero__inner">
+        <SiteNav active="/" />
+
+        <div class="hero__copy">
+          <h1 class="hero__title t-h1" data-hero-title>
+            <span class="hero__line-mask">
+              <span class="hero__line dot">{title}</span>
+            </span>
+          </h1>
+
+          {
+            captionParts.length > 0 && (
+              <p class="hero__caption" data-hero-caption>
+                <span class="hero__caption-lead">{captionParts[0]}</span>
+                {captionParts.length > 1 && ` ${captionParts.slice(1).join(' ')}`}
+              </p>
+            )
+          }
+        </div>
+      </div>
+    </section>
+
+    <main id="main">
+      <!-- 2. Why It Matters -->
+      {
+        anatomy.h2 && (
+          <section class="why section" data-stack>
+            <p class="why__label t-eyebrow z-content">
+              <span class="why__num">(01)</span>&nbsp;&nbsp;Why It Matters
+            </p>
+            <div class="z-content">
+              <h2 class="t-h2">{anatomy.h2}</h2>
+              {anatomy.statement && (
+                <p class="why__statement t-h4">
+                  <Fragment set:html={anatomy.statement.lead} />{' '}
+                  <span class="muted" set:html={anatomy.statement.muted} />
+                </p>
+              )}
+              {anatomy.stat && (
+                <div class="stat">
+                  <div class="stat__figure">{anatomy.stat.figure}</div>
+                  <p class="stat__caption">
+                    <Fragment set:html={anatomy.stat.caption.lead} />{' '}
+                    <span class="stat__strong" set:html={anatomy.stat.caption.muted} />
+                  </p>
+                </div>
+              )}
+            </div>
+          </section>
+        )
+      }
+
+      <!-- 3. VideoHero -->
+      <VideoHero route="/" title="Alive ProStudios brand reel" />
+
+      <!-- 4. Four pillar rows -->
+      <section class="pillars">
+        {
+          rows.map((pillar) => (
+            <a class="pillar z-content" href={pillar.url} data-stack>
+              <span class="pillar__num">{pillar.num}</span>
+              <div>
+                {/* H2, not H3: the pillars are this page's top-level sections.
+                    Slot 2's H2 is omitted while homepage.md has no copy, so an
+                    H3 here would skip a level. Visual spec is unchanged. */}
+                <h2 class="pillar__name">
+                  {pillar.name}
+                  <span class="pillar__dot" />
+                </h2>
+                <p class="pillar__kicker t-h5">{pillar.kicker}</p>
+                <p class="pillar__body">{pillar.body}</p>
+              </div>
+            </a>
+          ))
+        }
+      </section>
+
+      <!-- 5. Founder quote band -->
+      {
+        anatomy.quote && (
+          <section class="quote">
+            <div class="quote__inner z-content" data-stack>
+              <img
+                class="quote__portrait"
+                src="/assets/javad-ahmadi-portrait.jpg"
+                alt="Javad Ahmadi, Founder and Brand Transformation Architect"
+                width="640"
+                height="800"
+                loading="lazy"
+              />
+              <div>
+                <blockquote class="t-h4 quote__text" set:html={anatomy.quote.html} />
+                {anatomy.quote.name && (
+                  <p class="quote__by">
+                    {anatomy.quote.name}
+                    {anatomy.quote.role && <span class="quote__role">{anatomy.quote.role}</span>}
+                  </p>
+                )}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      <!-- 6. Full-screen feature image -->
+      <section class="feature" data-feature>
+        <img src="/assets/home-feature.jpg" alt="Alive ProStudios brand work" loading="lazy" />
+      </section>
+
+      <!-- 7. Closing statement -->
+      {
+        anatomy.closing && (
+          <section class="section">
+            <p class="closing t-h4 z-content">
+              <Fragment set:html={anatomy.closing.lead} />{' '}
+              <span class="muted" set:html={anatomy.closing.muted} />
+            </p>
+          </section>
+        )
+      }
+    </main>
+
+    <!-- 8. Next Step -->
+    <NextStep sectionNum="03" />
+
+    <!-- 9. Footer -->
+    <SiteFooter backLabel="Alive ProStudios" backHref="/" nextLabel="All Services" nextHref="/foundation" />
+  </div>
+</BaseLayout>
+
+<style>
+  /* ---- 1. Hero: full-bleed PHOTO, no overlay -------------------------- */
+  .hero {
+    position: relative;
+    background: var(--surface-hero-bottom);
+    color: #fff;
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: var(--z-nav);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero__copy {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 56px var(--gutter) 0;
+  }
+
+  .hero__title { margin: 0; line-height: 0.92; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+
+  .hero__caption {
+    max-width: 680px;
+    margin: 40px 0 0;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--brand-orange);
+    animation: heroFade 800ms var(--ease-settle) both 600ms;
+  }
+  .hero__caption-lead { color: #fff; }
+
+  /* ---- 2. Why It Matters ---------------------------------------------- */
+  .why {
+    display: grid;
+    grid-template-columns: var(--col-label) 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .why__label { color: var(--pg-fg); margin: 0; }
+  .why__num { color: var(--orange-ink); }
+  .why__statement { max-width: 680px; margin: 56px 0 0; }
+
+  .stat {
+    border-top: 2px solid var(--brand-orange);
+    padding-top: 24px;
+    margin-top: 64px;
+    max-width: 680px;
+  }
+  .stat__figure {
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: clamp(64px, 6vw, 112px);
+    line-height: 1;
+    color: var(--orange-ink);
+  }
+  .stat__caption {
+    margin: 16px 0 0;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--pg-fg3);
+  }
+  .stat__strong { color: var(--pg-fg); }
+
+  /* ---- 4. Pillar rows -------------------------------------------------- */
+  .pillars { padding: 0 var(--gutter) 64px; }
+
+  .pillar {
+    display: grid;
+    grid-template-columns: var(--col-num) 1fr;
+    gap: clamp(24px, 3vw, 56px);
+    border-top: 1px solid var(--pg-line);
+    padding: 56px 0;
+    align-items: start;
+    text-decoration: none;
+    color: var(--pg-fg);
+    transform: translateX(0);
+    transition: transform var(--dur-move) var(--ease-settle);
+  }
+  .pillar:hover { transform: translateX(12px); color: var(--pg-fg); }
+
+  .pillar__num {
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--orange-ink);
+  }
+
+  .pillar__name {
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: clamp(40px, 4.4vw, 72px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    color: var(--pg-fg);
+    margin: 0 0 14px;
+    transition: color var(--dur-micro) ease;
+  }
+  .pillar:hover .pillar__name { color: var(--orange-ink); }
+
+  .pillar__dot {
+    display: inline-block;
+    width: 0.14em;
+    height: 0.14em;
+    margin-left: 0.06em;
+    background: var(--brand-orange);
+    border-radius: 999px;
+  }
+
+  .pillar__kicker { margin: 0 0 20px; color: var(--orange-ink); }
+
+  .pillar__body {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--pg-fg2);
+    max-width: 720px;
+  }
+
+  /* ---- 5. Founder quote band ------------------------------------------ */
+  .quote { background: var(--pg-band); padding: 96px var(--gutter); }
+  .quote__inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: clamp(32px, 4vw, 64px);
+    align-items: start;
+  }
+  .quote__portrait {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    border-radius: 12px;
+  }
+  .quote__text { margin: 0; }
+  .quote__by { margin: 32px 0 0; font-weight: 700; font-size: 15px; color: var(--pg-fg); }
+  .quote__role {
+    margin-left: 12px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pg-fg3);
+  }
+
+  /* ---- 6. Full-screen feature image ------------------------------------ */
+  .feature { position: relative; height: 100vh; overflow: hidden; }
+  .feature img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ---- 7. Closing ------------------------------------------------------ */
+  .closing { max-width: 760px; margin: 0; }
+
+  /* ---- Mobile (§9): hero 62vh, caption hidden, feature 52vh ------------ */
+  @media (max-width: 760px) {
+    [data-hero] { min-height: 62vh; }
+    [data-hero-caption] { display: none; }
+    [data-feature] { height: 52vh; }
+    .quote__portrait { max-width: 240px; }
+  }
+</style>

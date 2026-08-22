@@ -1,5 +1,6 @@
 ---
 title: "Alive Pro — category landing"
+caption: ""
 url: "/alive-pro"
 source: "rendered from live site 2026-08-22"
 ---

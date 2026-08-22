@@ -1,0 +1,101 @@
+/* =========================================================================
+   Alive ProStudios — design tokens
+   Single source of truth. STYLEGUIDE.md §1.
+   Nothing downstream may hard-code a colour, easing, or z-index defined here.
+   ========================================================================= */
+
+:root {
+  /* ---- 1.1 Brand palette (fixed, never theme-switched) ---------------- */
+  --brand-black:  #000000;
+  --brand-forest: #346632;
+  --brand-lime:   #95C83F;
+  --brand-orange: #F76E1E;  /* THE accent. CTAs, dots, highlights, hover */
+  --brand-mist:   #E6E7E8;
+
+  /* Dark surfaces (grey family, NOT forest green) */
+  --surface-hero-top:    #333333;
+  --surface-hero-bottom: #1A1A1A;
+  --surface-dark:        #161616;
+  --surface-video:       #1A1A1A;
+
+  /* ---- 1.3 Typography ------------------------------------------------- */
+  --font-sans:      'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-condensed: 'Barlow Condensed', 'Barlow', system-ui, sans-serif;
+  --font-mono:      'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  /* ---- 1.4 Layout & grid ---------------------------------------------- */
+  --gutter:    clamp(24px, 4vw, 56px);  /* EVERYTHING aligns to it */
+  --col-label: 220px;                   /* eyebrow column, 2-col sections */
+  --col-num:   120px;                   /* number column, numbered rows */
+  --bp-mobile: 760px;
+
+  /* ---- 1.5 Z-index scale (strict) ------------------------------------- */
+  --z-video:   1;
+  --z-rails:   5;
+  --z-content: 6;
+  --z-nav:     30;
+  --z-menu:    100;
+
+  /* ---- 1.6 Motion ------------------------------------------------------ */
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);  /* the only easing */
+  --dur-micro: 220ms;   /* colour / hover */
+  --dur-move:  350ms;   /* transform settling */
+  --dur-roll:  400ms;   /* button label roll */
+  --dur-hero:  900ms;   /* hero line reveals */
+
+  /* ---- Background rails (§2 knobs) ------------------------------------ */
+  --rail-color:        rgba(128, 128, 128, 0.12);
+  --rail-pulse-orange: rgba(247, 110, 30, 0.5);
+  --rail-pulse-grey:   rgba(128, 128, 128, 0.5);
+
+  /* ---- Focus ---------------------------------------------------------- */
+  --focus-ring: 0 0 0 4px rgba(247, 110, 30, 0.4);
+}
+
+/* =========================================================================
+   1.2 Theme tokens. Content sections style ONLY against these.
+   Hero, orange CTA block, NextStep, and the black footer are theme-INVARIANT.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------------------
+   --orange-ink — the TEXT counterpart of --brand-orange.
+   ---------------------------------------------------------------------------
+   One accent colour, two ink values.
+
+   --brand-orange (#F76E1E) is the brand and never changes. It stays exactly as
+   specified wherever it is a SURFACE, FILL, DOT, RULE, BORDER, or large display
+   type. Against white it measures 2.92:1, which is below the 4.5:1 WCAG AA
+   floor for text under 24px, so small orange text (eyebrow labels, EXPLORE NOW,
+   mono index numbers) uses this darkened ink instead.
+
+   #B84A0E preserves the brand hue (22.1 deg) and saturation exactly and only
+   drops lightness. It measures 5.22:1 on #FFFFFF and 4.74:1 on the #F4F4F4
+   quote band, so it clears AA on every light surface in the system.
+
+   In DARK mode the relationship inverts: #F76E1E already measures 6.48:1 on
+   #111111 while #B84A0E would fail at 3.62:1. So dark mode maps --orange-ink
+   straight back to the brand orange. Components just use var(--orange-ink) for
+   text and var(--brand-orange) for everything else; the theme resolves it.
+   --------------------------------------------------------------------------- */
+
+body {
+  --pg-bg:   #FFFFFF;
+  --pg-fg:   #000000;
+  --pg-fg2:  rgba(0, 0, 0, 0.72);
+  --pg-fg3:  rgba(0, 0, 0, 0.55);
+  --pg-line: #E6E7E8;
+  --pg-band: #F4F4F4;
+
+  --orange-ink: #B84A0E;   /* small orange TEXT on light surfaces only */
+}
+
+body[data-theme='dark'] {
+  --pg-bg:   #111111;
+  --pg-fg:   #FFFFFF;
+  --pg-fg2:  rgba(255, 255, 255, 0.78);
+  --pg-fg3:  rgba(255, 255, 255, 0.55);
+  --pg-line: rgba(255, 255, 255, 0.16);
+  --pg-band: #1A1A1A;
+
+  --orange-ink: var(--brand-orange);   /* already 6.48:1 on #111111 */
+}

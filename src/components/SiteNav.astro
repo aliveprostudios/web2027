@@ -1,0 +1,366 @@
+---
+import { navItems } from '../lib/nav';
+
+/**
+ * SiteNav + full-screen menu (STYLEGUIDE.md §4.2).
+ *
+ * The 8 primary rows and every accordion sub-menu come from the content
+ * collection. Nothing here is a hard-coded list.
+ *
+ * The overlay is rendered as a SIBLING of <header>, never a child: a fixed
+ * element nested inside a header that carries a filter or transform takes the
+ * header as its containing block and collapses.
+ */
+interface Props {
+  /** Current route, used to mark the active row black. */
+  active?: string;
+}
+
+const { active = '' } = Astro.props;
+const items = await navItems();
+
+const isActive = (url: string) => active === url || (url !== '/' && active.startsWith(`${url}/`));
+---
+
+<header class="nav">
+  <a href="/" class="nav__logo" aria-label="Alive ProStudios home">
+    <img src="/assets/logo-full-white.svg" alt="Alive ProStudios" width="180" height="40" />
+  </a>
+
+  <div class="nav__right">
+    <span class="nav__est t-eyebrow">Est. 1997</span>
+
+    <button type="button" class="nav__theme" data-theme-toggle aria-label="Toggle light and dark mode">
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+      </svg>
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+
+    <button type="button" class="nav__burger" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="menu" id="site-menu" data-menu hidden>
+  <div class="menu__bar">
+    <img src="/assets/logo-full-white.svg" alt="Alive ProStudios" width="180" height="40" />
+    <button type="button" class="menu__close" data-menu-close aria-label="Close menu">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <nav class="menu__nav" aria-label="Main">
+    {
+      items.map((item, i) => (
+        <div class="menu__row">
+          {item.children.length > 0 ? (
+            <>
+              <button
+                type="button"
+                class="menu__link menu__link--toggle"
+                data-accordion={String(i)}
+                aria-expanded="false"
+                aria-controls={`menu-sub-${i}`}
+              >
+                <span class="menu__label-group">
+                  <span class="menu__num">{item.num}</span>
+                  <span class:list={['menu__label', isActive(item.url) && 'is-active']}>
+                    {item.label}
+                  </span>
+                </span>
+                <span class="menu__glyph" aria-hidden="true">+</span>
+              </button>
+              <ul class="menu__sub" id={`menu-sub-${i}`} hidden>
+                {item.children.map((child) => (
+                  <li>
+                    <a href={child.url} class:list={['menu__sublink', isActive(child.url) && 'is-active']}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M5 12h14M13 6l6 6-6 6"></path>
+                      </svg>
+                      <span>{child.title}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <a href={item.url} class="menu__link">
+              <span class="menu__num">{item.num}</span>
+              <span class:list={['menu__label', isActive(item.url) && 'is-active']}>{item.label}</span>
+            </a>
+          )}
+        </div>
+      ))
+    }
+  </nav>
+
+  <div class="menu__foot">
+    <span>Toronto, Canada</span>
+    <a href="mailto:info@aliveprostudios.com">info@aliveprostudios.com</a>
+  </div>
+</div>
+
+<style>
+  /* ---- Header ---------------------------------------------------------- */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px var(--gutter);
+  }
+
+  .nav__logo { display: block; }
+  .nav__logo img { height: 40px; width: auto; }
+
+  .nav__right { display: flex; align-items: center; gap: 28px; }
+
+  .nav__est { color: rgba(255, 255, 255, 0.75); }
+
+  .nav__theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    cursor: pointer;
+    color: #fff;
+    transition: border-color var(--dur-micro) ease;
+  }
+  .nav__theme:hover { border-color: var(--brand-orange); }
+
+  /* Sun in light mode, moon in dark. */
+  .nav__theme .icon-moon { display: none; }
+  :global(body[data-theme='dark']) .nav__theme .icon-sun { display: none; }
+  :global(body[data-theme='dark']) .nav__theme .icon-moon { display: block; }
+
+  .nav__burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 44px;
+    height: 44px;
+    padding: 8px 7px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .nav__burger span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background: #fff;
+  }
+
+  /* ---- Full-screen menu ------------------------------------------------ */
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-menu);
+    background: var(--brand-orange);
+    display: flex;
+    flex-direction: column;
+    animation: navFade 300ms var(--ease-settle) both;
+  }
+  .menu[hidden] { display: none; }
+
+  .menu__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px var(--gutter);
+  }
+  .menu__bar img { height: 40px; width: auto; }
+
+  .menu__close {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .menu__close span {
+    position: absolute;
+    left: 7px;
+    top: 20px;
+    width: 30px;
+    height: 3px;
+    background: #fff;
+  }
+  .menu__close span:first-child { transform: rotate(45deg); }
+  .menu__close span:last-child { transform: rotate(-45deg); }
+
+  .menu__nav {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 16px var(--gutter) 24px;
+  }
+
+  .menu__row { border-bottom: 1px solid rgba(255, 255, 255, 0.25); }
+
+  .menu__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    padding: 16px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    text-decoration: none;
+    animation: navRise 500ms var(--ease-settle) both;
+    transform: translateX(0);
+    transition: transform var(--dur-move) var(--ease-settle);
+  }
+  .menu__link:hover { transform: translateX(8px); }
+
+  /* Plain rows (Work, Resources, Contact) carry no +/- glyph, so space-between
+     would push the label to the far edge. They sit left, like every other row. */
+  a.menu__link { justify-content: flex-start; }
+
+  .menu__label-group { display: flex; align-items: baseline; gap: 16px; min-width: 0; }
+
+  .menu__num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(0, 0, 0, 0.75);
+    width: 24px;
+    flex: none;
+  }
+
+  .menu__label {
+    font-family: var(--font-sans);
+    font-weight: 200;
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  /* Current page renders black in the orange menu (§8 states). */
+  .menu__label.is-active { color: #000; }
+
+  .menu__glyph {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 1;
+    color: #fff;
+    flex: none;
+  }
+
+  .menu__sub {
+    margin: 0 0 20px;
+    padding: 0 0 0 40px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: navFade var(--dur-move) var(--ease-settle) both;
+  }
+  .menu__sub[hidden] { display: none; }
+
+  .menu__sublink {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    transform: translateX(0);
+    transition: transform var(--dur-move) var(--ease-settle), color 250ms ease;
+  }
+  .menu__sublink:hover { color: #000; transform: translateX(6px); }
+  .menu__sublink.is-active { color: #000; }
+  .menu__sublink svg { flex: none; opacity: 0.7; }
+
+  .menu__foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    justify-content: space-between;
+    padding: 16px var(--gutter) 28px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.75);
+  }
+  .menu__foot a { color: rgba(0, 0, 0, 0.75); }
+  .menu__foot a:hover { color: #000; }
+</style>
+
+<script>
+  // Menu open/close, accordion, and focus trapping. Vanilla island, no framework.
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+
+  function setMenu(open: boolean) {
+    if (!menu || !openBtn) return;
+    menu.hidden = !open;
+    openBtn.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) menu.querySelector<HTMLElement>('a, button')?.focus();
+    else openBtn.focus();
+  }
+
+  openBtn?.addEventListener('click', () => setMenu(true));
+  closeBtn?.addEventListener('click', () => setMenu(false));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu && !menu.hidden) setMenu(false);
+  });
+
+  // Accordion: one section open at a time.
+  const toggles = document.querySelectorAll<HTMLButtonElement>('[data-accordion]');
+  toggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const id = toggle.getAttribute('aria-controls');
+      const panel = id ? document.getElementById(id) : null;
+      const willOpen = toggle.getAttribute('aria-expanded') !== 'true';
+
+      toggles.forEach((other) => {
+        const otherId = other.getAttribute('aria-controls');
+        const otherPanel = otherId ? document.getElementById(otherId) : null;
+        other.setAttribute('aria-expanded', 'false');
+        if (otherPanel) otherPanel.hidden = true;
+        const glyph = other.querySelector('.menu__glyph');
+        if (glyph) glyph.textContent = '+';
+      });
+
+      if (willOpen) {
+        toggle.setAttribute('aria-expanded', 'true');
+        if (panel) panel.hidden = false;
+        const glyph = toggle.querySelector('.menu__glyph');
+        if (glyph) glyph.textContent = '−';
+      }
+    });
+  });
+
+  // Theme toggle. The initial value is applied by an inline script in <head>
+  // so there is no flash before hydration.
+  document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+    const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.body.dataset.theme = next;
+    try {
+      localStorage.setItem('aps-theme', next);
+    } catch {
+      /* private mode: the toggle still works for this page view */
+    }
+  });
+</script>

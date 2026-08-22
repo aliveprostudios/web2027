@@ -1,5 +1,6 @@
 ---
 title: "Web Solutions"
+caption: ""
 slug: "web-solutions"
 category: "execution"
 url: "/execution/web-solutions"

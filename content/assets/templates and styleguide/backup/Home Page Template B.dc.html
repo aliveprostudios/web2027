@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <script src="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/_ds_bundle.js"></script>
+  <script src="image-slot.js"></script>
+  <style>
+    body{margin:0;background:var(--pg-bg);--pg-bg:#FFFFFF;--pg-fg:#000000;--pg-fg2:rgba(0,0,0,0.72);--pg-fg3:rgba(0,0,0,0.55);--pg-line:#E6E7E8;--pg-band:#F4F4F4}
+    body[data-theme="dark"]{--pg-bg:#111111;--pg-fg:#FFFFFF;--pg-fg2:rgba(255,255,255,0.78);--pg-fg3:rgba(255,255,255,0.55);--pg-line:rgba(255,255,255,0.16);--pg-band:#1A1A1A}
+    body *{transition:background-color 300ms ease,color 300ms ease,border-color 300ms ease}
+    a{color:#346632;text-decoration:none} a:hover{color:#F76E1E}
+    body[data-theme="dark"] a{color:#95C83F}
+    @keyframes heroRise{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes heroFade{from{opacity:0}to{opacity:1}}
+    @keyframes lineSweep{0%{transform:translateY(-100%)}100%{transform:translateY(2100%)}}
+    @keyframes ctaMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    @keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    @keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.55;transform:scale(0.82)}}
+    @media (max-width:760px){
+      [data-stack]{display:flex !important;flex-direction:column !important;align-items:flex-start !important;gap:24px !important}
+    }
+    @media (prefers-reduced-motion: reduce){ *{animation:none !important} }
+  </style>
+</helmet>
+<div style="font-family:var(--font-sans);background:var(--pg-bg);position:relative" data-screen-label="Brand Name & Identity">
+  <div style="position:absolute;inset:0;z-index:5;pointer-events:none">
+    <div style="position:absolute;top:0;bottom:0;left:clamp(24px,4vw,56px);width:1px;background:rgba(128,128,128,0.12)"><div style="position:absolute;left:0;width:1px;height:5%;background:linear-gradient(180deg,rgba(247,110,30,0) 0%,rgba(247,110,30,0.5) 50%,rgba(247,110,30,0) 100%);animation:lineSweep 26s linear infinite"></div></div>
+    <div style="position:absolute;top:0;bottom:0;left:calc(clamp(24px,4vw,56px) + (100% - clamp(24px,4vw,56px)*2)*0.25);width:1px;background:rgba(128,128,128,0.12)"><div style="position:absolute;left:0;width:1px;height:6%;background:linear-gradient(180deg,rgba(128,128,128,0) 0%,rgba(128,128,128,0.5) 50%,rgba(128,128,128,0) 100%);animation:lineSweep 34s linear infinite 7s"></div></div>
+    <div style="position:absolute;top:0;bottom:0;left:calc(clamp(24px,4vw,56px) + (100% - clamp(24px,4vw,56px)*2)*0.5);width:1px;background:rgba(128,128,128,0.12)"><div style="position:absolute;left:0;width:1px;height:5%;background:linear-gradient(180deg,rgba(247,110,30,0) 0%,rgba(247,110,30,0.4) 50%,rgba(247,110,30,0) 100%);animation:lineSweep 30s linear infinite 14s"></div></div>
+    <div style="position:absolute;top:0;bottom:0;left:calc(clamp(24px,4vw,56px) + (100% - clamp(24px,4vw,56px)*2)*0.75);width:1px;background:rgba(128,128,128,0.12)"><div style="position:absolute;left:0;width:1px;height:5%;background:linear-gradient(180deg,rgba(128,128,128,0) 0%,rgba(128,128,128,0.4) 50%,rgba(128,128,128,0) 100%);animation:lineSweep 38s linear infinite 3s"></div></div>
+    <div style="position:absolute;top:0;bottom:0;left:calc(100% - clamp(24px,4vw,56px));width:1px;background:rgba(128,128,128,0.12)"><div style="position:absolute;left:0;width:1px;height:5%;background:linear-gradient(180deg,rgba(247,110,30,0) 0%,rgba(247,110,30,0.35) 50%,rgba(247,110,30,0) 100%);animation:lineSweep 32s linear infinite 10s"></div></div>
+  </div>
+  <section data-screen-label="Hero" style="position:relative;background:linear-gradient(180deg,#333333 0%,#1A1A1A 100%);color:#fff;padding-bottom:88px;overflow:hidden">
+    <div style="position:relative;z-index:30">
+    <dc-import name="SiteNav" active="services" hint-size="100%,96px"></dc-import>
+    <div style="padding:56px clamp(24px,4vw,56px) 0">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--brand-lime);margin:0 0 24px;padding-bottom:16px;border-bottom:1px solid #F76E1E;width:fit-content;animation:heroFade 800ms var(--ease-out) both 100ms">Foundation&nbsp;&nbsp;·&nbsp;&nbsp;Stage 01</p>
+      <h1 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(30px,7.6vw,144px);line-height:0.88;margin:0;text-transform:uppercase;white-space:nowrap">
+        <span style="display:block;overflow:hidden"><span style="display:block;animation:heroRise 900ms var(--ease-out) both 150ms">Brand name &amp; identity<span style="display:inline-block;width:0.14em;height:0.14em;background:#F76E1E;border-radius:999px;margin-left:0.05em"></span></span></span>
+      </h1>
+      <p style="max-width:680px;margin:40px 0 0;font-weight:600;font-size:22px;line-height:1.5;text-transform:uppercase;color:#F76E1E;animation:heroFade 800ms var(--ease-out) both 600ms"><span style="color:#fff">Your identity is the first thing people see and the last thing they forget.</span> We create naming, visual systems, and brand assets that are distinctive and ownable.</p>
+    </div>
+    </div>
+  </section>
+
+  <dc-import name="VideoHero" hint-size="100%,600px"></dc-import>
+
+  <section data-screen-label="First impressions" data-stack="" style="display:grid;grid-template-columns:220px 1fr;gap:40px;padding:112px clamp(24px,4vw,56px);align-items:start">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--pg-fg);margin:0;position:relative;z-index:6"><span style="color:#F76E1E">(01)</span>&nbsp;&nbsp;Why It Matters</p>
+    <div style="position:relative;z-index:6">
+      <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,6vw,104px);line-height:0.92;color:var(--pg-fg);margin:0;text-transform:uppercase">First impressions, engineered.</h2>
+      <p style="max-width:680px;margin:56px 0 0;font-family:var(--font-condensed);font-weight:700;font-size:clamp(24px,2.4vw,38px);line-height:1.12;color:var(--pg-fg);text-transform:uppercase">Your brand name is the first word your market hears. Your identity is the first thing they see. <span style="color:var(--pg-fg3)">Together, they form the single most important signal your business sends before a conversation even begins.</span></p>
+
+      <div style="border-top:2px solid #F76E1E;padding-top:24px;margin-top:64px;max-width:680px">
+        <div style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(64px,6vw,112px);line-height:1;color:#F76E1E">72%</div>
+        <p style="margin:16px 0 0;font-weight:600;font-size:15px;line-height:1.5;text-transform:uppercase;color:var(--pg-fg3)">of the best brand names are made up words or acronyms. <span style="color:var(--pg-fg)">The right name isn't found. It's engineered.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Pillars" style="padding:0 clamp(24px,4vw,56px) 64px">
+    <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="4">
+      <div data-stack="" style="position:relative;z-index:6;display:grid;grid-template-columns:120px 1fr;gap:clamp(24px,3vw,56px);border-top:1px solid var(--pg-line);padding:56px 0;align-items:start">
+        <span style="font-family:var(--font-condensed);font-weight:800;font-size:56px;line-height:1;color:#F76E1E">{{ p.num }}</span>
+        <div>
+          <h3 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(40px,4.4vw,72px);line-height:0.96;color:var(--pg-fg);margin:0 0 14px;text-transform:uppercase">{{ p.pillar }}<span style="display:inline-block;width:0.14em;height:0.14em;background:#F76E1E;border-radius:999px;margin-left:0.06em"></span></h3>
+          <p style="margin:0 0 20px;font-size:17px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F76E1E">{{ p.title }}</p>
+          <p style="margin:0;font-size:17px;line-height:1.6;color:var(--pg-fg2);max-width:720px">{{ p.body }}</p>
+        </div>
+      </div>
+    </sc-for>
+  </section>
+
+  <section data-screen-label="Founder quote" style="background:var(--pg-band);padding:96px clamp(24px,4vw,56px)">
+    <div data-stack="" style="position:relative;z-index:6;max-width:1160px;margin:0 auto;display:grid;grid-template-columns:320px 1fr;gap:clamp(32px,4vw,64px);align-items:start">
+    <img src="assets/javad-ahmadi-portrait.jpg" alt="Javad Ahmadi portrait" style="display:block;width:100%;max-width:320px;height:auto;border-radius:12px">
+    <div>
+      <blockquote style="margin:0;font-family:var(--font-condensed);font-weight:700;font-size:clamp(26px,3vw,44px);line-height:1.12;color:var(--pg-fg);text-transform:uppercase">"A name isn't decoration. It's the first strategic decision your brand makes. <span style="color:var(--pg-fg3)">I've watched companies struggle for years with names that were chosen in a hurry, and I've seen businesses transform overnight when the right name clicked into place.</span> This step deserves the same rigor as any other business decision."</blockquote>
+      <p style="margin:32px 0 0;font-weight:700;font-size:15px;color:var(--pg-fg)">Javad Ahmadi&nbsp;&nbsp;<span style="font-weight:600;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--pg-fg3)">Brand Transformation Architect</span></p>
+    </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Closing statement" style="padding:112px clamp(24px,4vw,56px)">
+    <p style="position:relative;z-index:6;max-width:760px;margin:0;font-family:var(--font-condensed);font-weight:700;font-size:clamp(24px,2.6vw,40px);line-height:1.12;color:var(--pg-fg);text-transform:uppercase">Your name and identity are not cosmetic decisions. <span style="color:var(--pg-fg3)">They're commercial ones.</span> Let's make them count.</p>
+  </section>
+
+  <dc-import name="BookConsult" hint-size="100%,640px"></dc-import>
+
+  <section data-screen-label="Related services" style="padding:112px clamp(24px,4vw,56px)">
+    <dc-import name="RelatedServices" section="foundation" exclude="Brand Name & Identity" hint-size="100%,560px"></dc-import>
+  </section>
+
+  <dc-import name="NextStep" section-num="03" hint-size="100%,760px"></dc-import>
+
+  <footer style="position:relative;z-index:6;background:#000;color:#fff;display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;align-items:center;padding:32px clamp(24px,4vw,56px);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase">
+    <a href="Home.dc.html" style="color:#fff">← Alive ProStudios</a>
+    <span style="color:rgba(255,255,255,0.45)">Alive ProStudios Inc. Toronto, Canada</span>
+    <a href="Services.dc.html" style="color:#fff">All Services →</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const related = [
+      'Brand Strategy & Positioning',
+      'Brand Voice',
+      'Rebranding',
+      'Brand Guidelines',
+      'Communication Design',
+      'Web Solutions',
+      'Sales & Marketing Collateral',
+    ].map((name, i) => ({ name, num: String(i + 1).padStart(2, '0') }));
+    return {
+      related,
+      relatedCount: related.length,
+      pillars: [
+        { num: '01', pillar: 'Foundation', title: 'Where every great brand begins', body: 'Strategy and identity are the bedrock. Without a strong foundation, execution is just noise. We build the strategic framework that makes everything else work.' },
+        { num: '02', pillar: 'Execution', title: 'Strategy without execution in theory', body: 'From design to production, we deliver the creative assets that carry your brand into the world. Every piece is crafted to align with your strategy and resonate with your audience.' },
+        { num: '03', pillar: 'Growth', title: 'Visibility that compounds', body: 'Marketing without strategy burns budget. We build growth engines that attract, convert, and retain your ideal clients through every channel that matters.' },
+        { num: '04', pillar: 'Infrastructure', title: 'The systems behind the brand', body: 'Technology should serve your brand, not complicate it. We architect, build, and support the digital infrastructure that powers your operations.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

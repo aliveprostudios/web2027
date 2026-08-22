@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <script src="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/_ds_bundle.js"></script>
+  <script src="image-slot.js"></script>
+  <style>
+    body{margin:0;background:#fff}
+    a{color:#346632;text-decoration:none} a:hover{color:#F76E1E}
+    @keyframes heroRise{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes heroFade{from{opacity:0}to{opacity:1}}
+    @keyframes heroMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  </style>
+</helmet>
+<div style="font-family:var(--font-sans);background:#fff" data-screen-label="Home">
+  <section data-screen-label="Hero" style="min-height:100vh;display:flex;flex-direction:column;background:var(--brand-orange);color:#fff;overflow:hidden">
+    <dc-import name="SiteNav" active="home" hint-size="100%,96px"></dc-import>
+    <main style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(24px,4vw,56px)">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(0,0,0,0.55);margin:0 0 24px;animation:heroFade 800ms var(--ease-out) both 100ms">(01)&nbsp;&nbsp;The All-In-One Brand Transformation System</p>
+      <h1 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(72px,10vw,176px);line-height:0.9;color:#fff;margin:0;text-transform:uppercase">
+        <span style="display:block;overflow:hidden"><span style="display:block;animation:heroRise 900ms var(--ease-out) both 150ms">How many people</span></span>
+        <span style="display:block;overflow:hidden"><span style="display:block;animation:heroRise 900ms var(--ease-out) both 300ms">own <span style="color:#000">your brand</span></span></span>
+        <span style="display:block;overflow:hidden"><span style="display:block;animation:heroRise 900ms var(--ease-out) both 450ms">right now.</span></span>
+      </h1>
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:32px;margin-top:44px;animation:heroFade 800ms var(--ease-out) both 750ms">
+        <p style="max-width:540px;margin:0;font-weight:600;font-size:18px;line-height:1.5;text-transform:uppercase;color:rgba(0,0,0,0.65)">Budget leaks. Messaging conflicts. <span style="color:#fff">Nobody owns the outcome.</span> We replace the patchwork with one team and one system.</p>
+        <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="dark" hint-size="auto,48px">Fix It With One Team</x-import>
+      </div>
+    </main>
+    <div style="border-top:1px solid rgba(255,255,255,0.35);padding:20px 0;overflow:hidden;white-space:nowrap">
+      <div style="display:inline-flex;gap:56px;animation:heroMarquee 22s linear infinite;font-family:var(--font-condensed);font-weight:700;font-size:22px;letter-spacing:0.04em;text-transform:uppercase">
+        <span>Strategy</span><span>·</span><span>Identity</span><span>·</span><span>Content</span><span>·</span><span>Campaigns</span><span>·</span><span>Production</span><span>·</span><span>Technology</span><span>·</span>
+        <span>Strategy</span><span>·</span><span>Identity</span><span>·</span><span>Content</span><span>·</span><span>Campaigns</span><span>·</span><span>Production</span><span>·</span><span>Technology</span><span>·</span>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Clients" style="display:grid;grid-template-columns:220px 1fr;gap:40px;padding:96px clamp(24px,4vw,56px);align-items:start">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000;margin:0"><span style="color:#F76E1E">(02)</span>&nbsp;&nbsp;Our Clients</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <sc-for list="{{ clients }}" as="client" hint-placeholder-count="6">
+        <div style="display:flex;align-items:center;justify-content:center;height:140px;background:var(--ink-50);border-radius:12px">
+          <span style="font-family:var(--font-condensed);font-weight:700;font-size:24px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-500)">{{ client }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section data-screen-label="Statement photo" style="position:relative;min-height:92vh;display:flex;align-items:flex-end;background:var(--forest-900);overflow:hidden">
+    <div style="position:absolute;inset:0"><image-slot id="home-statement" shape="rect" placeholder="Full-bleed photo — team at work, warm commercial"></image-slot></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,20,10,0.15) 30%,rgba(10,20,10,0.7) 100%);pointer-events:none"></div>
+    <div style="position:relative;padding:0 clamp(24px,4vw,56px) 80px;pointer-events:none">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--brand-lime);margin:0 0 20px">(03)&nbsp;&nbsp;Meet Alive Pro</p>
+      <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,6.5vw,110px);line-height:0.94;color:#fff;margin:0;text-transform:uppercase;max-width:15em">One team. One strategic foundation. One outcome<span style="display:inline-block;width:0.16em;height:0.16em;background:#F76E1E;border-radius:999px;margin-left:0.06em"></span></h2>
+    </div>
+  </section>
+
+  <section data-screen-label="The Alive Pro System" style="padding:112px clamp(24px,4vw,56px)">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:56px">
+      <div>
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000;margin:0 0 16px"><span style="color:#F76E1E">(04)</span>&nbsp;&nbsp;The Alive Pro System</p>
+        <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,5.5vw,92px);line-height:0.94;color:#000;margin:0;text-transform:uppercase">Four stages.<br>One system.</h2>
+      </div>
+      <p style="max-width:420px;margin:0;font-weight:600;font-size:16px;line-height:1.5;text-transform:uppercase;color:var(--fg3)">From foundation to market leadership — <span style="color:#000">every stage compounds the last.</span></p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.StageCard" stage="{{ 1 }}" title="Foundation" hint-size="100%,320px">Brand clarity, foundation and blueprint. Strategy, positioning, naming, voice.</x-import>
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.StageCard" stage="{{ 2 }}" title="Execution" hint-size="100%,320px">Brand execution, systems and market presence. Design, web, video, motion.</x-import>
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.StageCard" stage="{{ 3 }}" title="Growth" hint-size="100%,320px">Revenue-driven marketing and demand generation. Funnels, content, SEO.</x-import>
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.StageCard" stage="{{ 4 }}" title="Infrastructure" hint-size="100%,320px">Ongoing growth and market leadership. Apps, integrations, dashboards.</x-import>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:32px">
+      <a href="Services.dc.html" style="font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000">Explore all services&nbsp;&nbsp;→</a>
+    </div>
+  </section>
+
+  <section data-screen-label="Stats" style="background:var(--forest-900);color:#fff;padding:112px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--brand-lime);margin:0 0 56px">(05)&nbsp;&nbsp;The Numbers</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:40px">
+      <sc-for list="{{ stats }}" as="stat" hint-placeholder-count="4">
+        <div style="border-top:1px solid rgba(255,255,255,0.14);padding-top:24px">
+          <div style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(56px,5.5vw,96px);line-height:1;color:#fff">{{ stat.value }}</div>
+          <div style="margin-top:12px;font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.55)">{{ stat.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <p style="margin:48px 0 0;font-size:13px;color:rgba(255,255,255,0.4)">*Placeholder figures — replace with your real numbers.</p>
+  </section>
+
+  <section data-screen-label="Principles" style="display:grid;grid-template-columns:1fr 1.2fr;gap:64px;padding:128px clamp(24px,4vw,56px)">
+    <div>
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000;margin:0 0 16px"><span style="color:#F76E1E">(06)</span>&nbsp;&nbsp;What Guides Us</p>
+      <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,5.5vw,92px);line-height:0.94;color:#000;margin:0;text-transform:uppercase">No patchwork. Ever.</h2>
+    </div>
+    <div style="display:flex;flex-direction:column">
+      <sc-for list="{{ principles }}" as="p" hint-placeholder-count="3">
+        <div style="display:grid;grid-template-columns:120px 1fr;gap:32px;border-top:1px solid var(--ink-200);padding:40px 0">
+          <span style="font-family:var(--font-condensed);font-weight:800;font-size:56px;line-height:1;color:#F76E1E">{{ p.num }}</span>
+          <div>
+            <h3 style="font-family:var(--font-condensed);font-weight:800;font-size:32px;line-height:1;color:#000;margin:0 0 12px;text-transform:uppercase">{{ p.title }}</h3>
+            <p style="margin:0;font-weight:600;font-size:15px;line-height:1.5;text-transform:uppercase;color:var(--fg3);max-width:440px">{{ p.body }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section data-screen-label="Client story" style="background:var(--ink-50);padding:112px clamp(24px,4vw,56px)">
+    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:64px;align-items:start">
+      <div>
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000;margin:0 0 24px"><span style="color:#F76E1E">(07)</span>&nbsp;&nbsp;What They Say</p>
+        <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,5vw,84px);line-height:0.94;color:#000;margin:0 0 40px;text-transform:uppercase">Client stories.</h2>
+        <div style="width:100%;max-width:380px;aspect-ratio:4/5"><image-slot id="home-testimonial" shape="rounded" radius="12" placeholder="Client portrait"></image-slot></div>
+        <p style="margin:16px 0 0;font-weight:700;font-size:15px;color:#000">Client Name<br><span style="font-weight:600;color:var(--fg3);text-transform:uppercase;font-size:12px;letter-spacing:0.1em">Founder, Placeholder Co.</span></p>
+      </div>
+      <div style="padding-top:96px">
+        <blockquote style="margin:0;font-family:var(--font-condensed);font-weight:800;font-size:clamp(32px,3.4vw,56px);line-height:1.04;color:#000;text-transform:uppercase">"They didn't hand us a logo and leave. They built the system behind the brand — and the pipeline followed."</blockquote>
+        <p style="margin:32px 0 0;max-width:480px;font-weight:600;font-size:15px;line-height:1.5;text-transform:uppercase;color:var(--fg3)">Placeholder quote — swap in a real client story. <span style="color:#000">One per launch is enough.</span></p>
+        <div style="display:flex;gap:64px;margin-top:56px;border-top:1px solid var(--ink-200);padding-top:32px">
+          <div><div style="font-family:var(--font-condensed);font-weight:800;font-size:48px;color:#000">+47%*</div><div style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg3);margin-top:8px">Qualified inbound</div></div>
+          <div><div style="font-family:var(--font-condensed);font-weight:800;font-size:48px;color:#000">6 mo</div><div style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg3);margin-top:8px">To measurable lift</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Founder" style="display:flex;align-items:center;justify-content:space-between;gap:40px;padding:64px clamp(24px,4vw,56px);border-top:1px solid var(--ink-200)">
+    <div style="display:flex;align-items:center;gap:20px">
+      <div style="width:72px;height:72px"><image-slot id="home-founder" shape="circle" placeholder="JA"></image-slot></div>
+      <p style="margin:0;font-weight:700;font-size:16px;color:#000">Javad Ahmadi<br><span style="font-weight:600;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg3)">Founder, Alive ProStudios</span></p>
+    </div>
+    <p style="margin:0;max-width:560px;font-weight:600;font-size:16px;line-height:1.5;text-transform:uppercase;color:var(--fg3)">"Fragmentation is the most expensive thing in marketing. <span style="color:#000">We built Alive Pro to end it.</span>"</p>
+    <a href="About.dc.html" style="flex:none;font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000">About us&nbsp;&nbsp;→</a>
+  </section>
+
+  <section data-screen-label="CTA" style="position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--forest-900);overflow:hidden">
+    <div style="position:absolute;inset:0"><image-slot id="home-cta" shape="rect" placeholder="Full-bleed photo — dramatic, blurred motion"></image-slot></div>
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,0.55);pointer-events:none"></div>
+    <div style="position:relative;text-align:center;padding:0 clamp(24px,4vw,56px);pointer-events:none">
+      <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(56px,8vw,140px);line-height:0.92;color:#fff;margin:0;text-transform:uppercase">Let's make you<br><span style="color:#F76E1E">impossible</span> to ignore.</h2>
+      <p style="margin:36px auto 0;max-width:520px;font-weight:600;font-size:16px;line-height:1.5;text-transform:uppercase;color:rgba(255,255,255,0.75)">Tell us what you're building. We'll tell you how we'd make it land.</p>
+      <div style="display:inline-flex;margin-top:44px;pointer-events:auto">
+        <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="primary" hint-size="auto,48px">Start the Conversation</x-import>
+      </div>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="background:#000;color:#fff;padding:80px clamp(24px,4vw,56px) 40px">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:64px;border-bottom:1px solid rgba(255,255,255,0.14)">
+      <div>
+        <img src="assets/logo-full-white.svg" alt="Alive ProStudios" style="height:44px;display:block;margin-bottom:24px">
+        <p style="margin:0;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.6)">The all-in-one brand transformation system that replaces fragmented marketing.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45)">Pages</span>
+        <a href="Services.dc.html" style="color:#fff;font-size:15px">Services</a>
+        <a href="Work.dc.html" style="color:#fff;font-size:15px">Work</a>
+        <a href="About.dc.html" style="color:#fff;font-size:15px">About</a>
+        <a href="Contact.dc.html" style="color:#fff;font-size:15px">Contact</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45)">Social</span>
+        <a href="#" style="color:#fff;font-size:15px">Instagram</a>
+        <a href="#" style="color:#fff;font-size:15px">LinkedIn</a>
+        <a href="#" style="color:#fff;font-size:15px">YouTube</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45)">Toronto</span>
+        <span style="font-size:15px;color:#fff">123 Placeholder Ave,<br>Toronto, ON</span>
+        <span style="font-family:var(--font-mono);font-size:14px;color:#fff">+1 (416) 000-0000</span>
+        <span style="font-size:15px;color:#fff">hello@aliveprostudios.com</span>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-top:32px;font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45)">
+      <span>© 2026 Alive ProStudios. All rights reserved.</span>
+      <span style="border:1px solid rgba(255,255,255,0.3);border-radius:999px;padding:8px 16px">Est. 1997</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      clients: ['Northline', 'Vantaro', 'Kestrel Co.', 'Meridian Health', 'Oro Foods', 'Atlas Freight'],
+      stats: [
+        { value: '29', label: 'Years in brand marketing' },
+        { value: '6', label: 'Countries served' },
+        { value: '500+*', label: 'Brands transformed' },
+        { value: '4', label: 'Stages, one system' },
+      ],
+      principles: [
+        { num: '01', title: 'One team owns the outcome.', body: 'No handoffs between vendors. The people who set the strategy build the work.' },
+        { num: '02', title: 'Foundation before execution.', body: 'Nothing ships until the blueprint is set. Every asset pulls in the same direction.' },
+        { num: '03', title: 'Measured, or it did not happen.', body: 'Pipeline, ROI, and retention — tracked from day one, reported without spin.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

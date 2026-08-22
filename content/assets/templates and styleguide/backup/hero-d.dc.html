@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <script src="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/_ds_bundle.js"></script>
+  <script src="image-slot.js"></script>
+  <style>
+    body{margin:0;background:#0A140A}
+    a{color:#95C83F;text-decoration:none} a:hover{color:#F76E1E}
+  </style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:var(--font-sans);background:var(--forest-900);color:#fff;overflow:hidden">
+  <header style="display:flex;align-items:center;justify-content:space-between;padding:28px clamp(24px,4vw,56px)">
+    <img src="assets/logo-full-white.svg" alt="Alive ProStudios" style="height:40px;display:block">
+    <button aria-label="Menu" style="display:flex;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;padding:8px">
+      <span style="display:block;width:30px;height:3px;background:#fff"></span>
+      <span style="display:block;width:30px;height:3px;background:#fff"></span>
+    </button>
+  </header>
+  <main style="flex:1;display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(32px,4vw,64px);align-items:stretch;padding:24px clamp(24px,4vw,56px) 56px">
+    <div style="display:flex;flex-direction:column;justify-content:center">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--brand-lime);margin:0 0 24px">Dedicated · All-Inclusive · Lifecycle Support</p>
+      <h1 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(72px,8.5vw,150px);line-height:0.92;color:#fff;margin:0;text-transform:uppercase">Unleash your brand's true potential<span style="display:inline-block;width:0.16em;height:0.16em;background:#F76E1E;border-radius:999px;margin-left:0.06em"></span></h1>
+      <p style="max-width:520px;margin:36px 0 0;font-weight:600;font-size:18px;line-height:1.5;text-transform:uppercase;color:rgba(255,255,255,0.6)"><span style="color:#fff">29 years. One team.</span> Strategy, identity, content, campaigns, and technology in one synchronized system.</p>
+      <div style="display:flex;gap:16px;margin-top:44px">
+        <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="primary" hint-size="auto,48px">Book a Consultation</x-import>
+        <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="light" hint-size="auto,48px">The Alive Pro System</x-import>
+      </div>
+    </div>
+    <div style="position:relative;border-radius:20px;overflow:hidden;min-height:480px">
+      <image-slot id="hero-d-photo" shape="rect" placeholder="Tall studio / team photo"></image-slot>
+      <div style="position:absolute;left:20px;bottom:20px;display:flex;align-items:center;gap:10px;background:rgba(10,20,10,0.72);backdrop-filter:blur(6px);border-radius:999px;padding:10px 18px;pointer-events:none">
+        <span style="width:8px;height:8px;border-radius:999px;background:#F76E1E"></span>
+        <span style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#fff">Now booking Q4 transformations</span>
+      </div>
+    </div>
+  </main>
+  <footer style="display:flex;justify-content:space-between;padding:0 clamp(24px,4vw,56px) 28px;font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45)">
+    <span>Toronto · Est. 1997</span>
+    <span>Canada · USA · Germany · Dubai · China · Mexico</span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}"></script>
+</body>
+</html>

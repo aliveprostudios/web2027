@@ -1,5 +1,6 @@
 ---
 title: "Foundation — category landing"
+caption: ""
 url: "/foundation"
 source: "rendered from live site 2026-08-22"
 ---

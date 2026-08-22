@@ -1,12 +1,15 @@
 ---
 title: "What to Expect"
+caption: ""
 slug: "what-to-expect"
 seoTitle: "What to Expect"
 seoDescription: "Transparency from day one. Here is a clear picture of how we work, what you will receive, and how we measure success together."
 ---
 ## Before You Call, Here’s How It Works
 
-Choosing a branding and marketing partner is a significant decision. You’re not just buying a service. You’re trusting someone with the way your business shows up in the market. We understand that, and we want you to know exactly what the experience looks like before you take the first step.
+Choosing a branding and marketing partner is a significant decision. You’re not just buying a service. You’re trusting someone with the way your business shows up in the market.
+
+We understand that, and we want you to know exactly what the experience looks like before you take the first step.
 
 ### The Initial Conversation
 

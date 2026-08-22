@@ -1,5 +1,6 @@
 ---
 title: "Digital Brochure"
+caption: ""
 url: "/resources/brochure"
 source: "rendered from live site 2026-08-22"
 ---

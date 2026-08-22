@@ -1,5 +1,6 @@
 ---
 title: "Testimonials"
+caption: ""
 slug: "testimonials"
 seoTitle: "Testimonials"
 seoDescription: "Do not take our word for it. Hear from the businesses we have transformed."

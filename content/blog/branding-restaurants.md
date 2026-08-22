@@ -1,5 +1,6 @@
 ---
 title: "Branding Restaurants"
+caption: ""
 slug: "branding-restaurants"
 date: "2026-04-04"
 author: "Javad Ahmadi"

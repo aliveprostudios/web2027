@@ -1,5 +1,6 @@
 ---
 title: "AEO (Answer Engine Optimization)"
+caption: ""
 slug: "aeo-answer-engine-optimization"
 category: "growth"
 url: "/growth/aeo-answer-engine-optimization"
@@ -8,7 +9,9 @@ seoDescription: "Optimize for AI-powered search and answer engines."
 ---
 ## Be the Answer, Not Just a Result
 
-The way people find information is changing. Fast. Millions of users are now asking AI platforms like ChatGPT, Google Gemini, Perplexity, and Copilot their questions instead of typing keywords into a search engine. And these platforms don’t return a list of links. They return one answer.
+The way people find information is changing. Fast.
+
+Millions of users are now asking AI platforms like ChatGPT, Google Gemini, Perplexity, and Copilot their questions instead of typing keywords into a search engine. And these platforms don’t return a list of links. They return one answer.
 
 Is that answer coming from your brand? Or your competitor’s?
 

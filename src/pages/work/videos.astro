@@ -1,0 +1,448 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BgRails from '../../components/BgRails.astro';
+import { relatedServices } from '../../lib/nav';
+import SiteNav from '../../components/SiteNav.astro';
+import VideoHero from '../../components/VideoHero.astro';
+import BookConsult from '../../components/BookConsult.astro';
+import RelatedServices from '../../components/RelatedServices.astro';
+import NextStep from '../../components/NextStep.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { VIDEO_LIBRARY, videoTags, watchUrl } from '../../lib/videos';
+
+/**
+ * Video wall, built on the Gallery Page Template (STYLEGUIDE.md §9) with video
+ * tiles instead of photo tiles.
+ *
+ * Titles, tags, and the filter-tab counts all come from the `## All videos`
+ * table in `content/work/videos.md`. Adding a row adds a tile.
+ *
+ * Tiles are POSTER FRAMES, not embeds (§8 performance): 26 autoplaying iframes
+ * would be unusable. The embed is only created on click.
+ */
+const path = '/work/videos';
+const title = 'Videos';
+const description =
+  'Corporate videos, commercials, brand films, and creative showcases produced ' +
+  'by Alive ProStudios in Toronto.';
+
+const tags = videoTags();
+
+const posters = import.meta.glob<{ default: ImageMetadata }>(
+  '../../../content/assets/video-posters/*.jpg',
+  { eager: true },
+);
+
+const tiles = VIDEO_LIBRARY.map((video) => ({
+  ...video,
+  embed: watchUrl(video),
+  posterImage: video.poster
+    ? (posters[`../../../content/assets/video-posters/${video.poster}`]?.default ?? null)
+    : null,
+}));
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `https://aliveprostudios.com${path}#collection`,
+    name: 'Video Library',
+    description,
+    publisher: { '@id': 'https://aliveprostudios.com/#organization' },
+  },
+  ...tiles.map((video) => ({
+    '@type': 'VideoObject',
+    name: video.title,
+    embedUrl: video.embed,
+    ...(video.posterImage ? { thumbnailUrl: `https://aliveprostudios.com${video.posterImage.src}` } : {}),
+    uploadDate: '2026-01-01',
+    publisher: { '@id': 'https://aliveprostudios.com/#organization' },
+  })),
+];
+
+// Work routes sit outside the four pillars; Execution holds the disciplines
+// that produce this work.
+const related = await relatedServices('execution', path);
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Work', url: '/work' },
+  { name: title, url: path },
+];
+---
+
+<BaseLayout {title} {description} {path} {schema} {breadcrumbs}>
+  <div class="page-root">
+    <BgRails />
+
+    <!-- 1. Hero -->
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav active={path} />
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Work&nbsp;&nbsp;·&nbsp;&nbsp;Videos</p>
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask"><span class="hero__line dot">{title}</span></span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. VideoHero -->
+    <VideoHero route={path} title="Alive ProStudios showreel" />
+
+    <main id="main">
+      <!-- 3. Filter tabs + video wall -->
+      <section class="wall section" aria-label={`Video library, ${tiles.length} videos`}>
+        <div class="wall__head z-content">
+          <p class="wall__eyebrow t-eyebrow">
+            <span class="wall__num">(01)</span>&nbsp;&nbsp;Video Library&nbsp;&nbsp;
+            <span class="wall__count">({tiles.length})</span>
+          </p>
+
+          <div class="tabs" role="group" aria-label="Filter videos by category">
+            <button type="button" class="tab is-active" data-filter="all" aria-pressed="true">
+              All <span class="tab__n">{tiles.length}</span>
+            </button>
+            {
+              tags.map((tag) => (
+                <button type="button" class="tab" data-filter={tag.label} aria-pressed="false">
+                  {tag.label} <span class="tab__n">{tag.count}</span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="wall__grid z-content">
+          {
+            tiles.map((video, i) => (
+              <article class="vtile" data-tags={video.tags.join('|')}>
+                <button
+                  type="button"
+                  class="vtile__btn"
+                  data-video-embed={video.embed}
+                  data-video-title={video.title}
+                  aria-label={`Play: ${video.title}`}
+                >
+                  {video.posterImage ? (
+                    <Image
+                      src={video.posterImage}
+                      alt=""
+                      widths={[400, 800]}
+                      sizes="(max-width: 760px) 100vw, 33vw"
+                      loading={i < 6 ? 'eager' : 'lazy'}
+                    />
+                  ) : (
+                    <span class="vtile__blank" />
+                  )}
+                  <span class="vtile__play" aria-hidden="true">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </span>
+                </button>
+                <h2 class="vtile__title">{video.title}</h2>
+                <p class="vtile__tags">{video.tags.join(' · ')}</p>
+              </article>
+            ))
+          }
+        </div>
+
+        <p class="wall__empty z-content" data-empty hidden>No videos in this category.</p>
+      </section>
+
+      <!-- 4. Player -->
+      <div class="player" data-player hidden role="dialog" aria-modal="true" aria-label="Video player">
+        <div class="player__scrim" data-player-close></div>
+        <div class="player__frame">
+          <div class="player__ratio"><div data-player-slot></div></div>
+          <p class="player__caption" data-player-caption></p>
+        </div>
+        <button type="button" class="player__close" data-player-close aria-label="Close video">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M5 5l14 14M19 5L5 19"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- 5. Book a Consult -->
+      <BookConsult />
+
+      <!-- 6. Related Services -->
+      <section class="section">
+        <RelatedServices items={related} num="02" />
+      </section>
+    </main>
+
+    <!-- 7. Next Step -->
+    <NextStep sectionNum="03" />
+
+    <!-- 8. Footer -->
+    <SiteFooter backLabel="Portfolio" backHref="/work/portfolio" nextLabel="All Work" nextHref="/work" />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+
+  /* ---- Filter tabs ------------------------------------------------------ */
+  .wall { padding: 96px var(--gutter); }
+  .wall__head { margin-bottom: 48px; }
+  .wall__eyebrow { color: var(--pg-fg); margin: 0 0 28px; }
+  .wall__num { color: var(--orange-ink); }
+  .wall__count { color: var(--pg-fg3); }
+
+  .tabs { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 12px 24px;
+    border-radius: 999px;
+    border: 1px solid var(--pg-line);
+    background: none;
+    color: var(--pg-fg2);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color var(--dur-micro) ease, color var(--dur-micro) ease,
+                border-color var(--dur-micro) ease;
+  }
+  .tab:hover { border-color: var(--brand-orange); color: var(--pg-fg); }
+  .tab.is-active {
+    background: var(--brand-orange);
+    border-color: var(--brand-orange);
+    color: #000;
+  }
+  .tab__n { font-family: var(--font-mono); font-size: 11px; opacity: 0.75; }
+
+  /* ---- Wall grid: same geometry as the photo gallery -------------------- */
+  .wall__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+
+  .vtile[hidden] { display: none; }
+
+  .vtile__btn {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: var(--surface-video);
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+    transform: translateY(0);
+    transition: transform 500ms var(--ease-settle);
+  }
+  .vtile__btn:hover { transform: translateY(-6px); }
+
+  .vtile__btn :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 19 / 9;
+    object-fit: cover;
+    border-radius: 8px;
+    transform: scale(1);
+    transition: opacity 300ms ease, transform 700ms var(--ease-settle);
+  }
+  .vtile__btn:hover :global(img) { opacity: 0.85; transform: scale(1.07); }
+
+  .vtile__blank { display: block; width: 100%; aspect-ratio: 19 / 9; background: var(--surface-video); }
+
+  .vtile__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    transition: background-color var(--dur-micro) ease, color var(--dur-micro) ease;
+  }
+  .vtile__btn:hover .vtile__play { background: var(--brand-orange); color: #000; }
+
+  .vtile__title {
+    margin: 18px 0 6px;
+    font-family: var(--font-sans);
+    font-weight: 200;
+    font-size: clamp(19px, 1.5vw, 23px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--pg-fg);
+  }
+
+  .vtile__tags {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pg-fg3);
+  }
+
+  .wall__empty {
+    margin: 48px 0 0;
+    font-size: 17px;
+    color: var(--pg-fg3);
+  }
+  .wall__empty[hidden] { display: none; }
+
+  /* ---- Player ----------------------------------------------------------- */
+  .player {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .player[hidden] { display: none; }
+
+  .player__scrim { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.9); cursor: pointer; }
+
+  .player__frame { position: relative; width: min(1100px, 92vw); }
+
+  .player__ratio {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    overflow: hidden;
+  }
+  .player__ratio :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .player__caption {
+    margin: 18px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .player__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: color var(--dur-micro) ease;
+  }
+  .player__close:hover { color: var(--brand-orange); }
+
+  @media (max-width: 760px) {
+    .wall__grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  // ---- Filter tabs -------------------------------------------------------
+  const tabs = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const tiles = document.querySelectorAll<HTMLElement>('.vtile');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const filter = tab.dataset.filter!;
+      tabs.forEach((other) => {
+        const active = other === tab;
+        other.classList.toggle('is-active', active);
+        other.setAttribute('aria-pressed', String(active));
+      });
+
+      let shown = 0;
+      tiles.forEach((tile) => {
+        const match = filter === 'all' || (tile.dataset.tags ?? '').split('|').includes(filter);
+        tile.hidden = !match;
+        if (match) shown++;
+      });
+      if (empty) empty.hidden = shown > 0;
+    });
+  });
+
+  // ---- Player ------------------------------------------------------------
+  // The iframe is created on open and destroyed on close, so no video keeps
+  // running (or loading) behind the scrim.
+  const player = document.querySelector<HTMLElement>('[data-player]');
+  const slot = document.querySelector<HTMLElement>('[data-player-slot]');
+  const caption = document.querySelector<HTMLElement>('[data-player-caption]');
+  const closeBtn = player?.querySelector<HTMLButtonElement>('.player__close');
+  let opener: HTMLElement | null = null;
+
+  function closePlayer() {
+    if (!player || !slot) return;
+    slot.replaceChildren();
+    player.hidden = true;
+    document.body.style.overflow = '';
+    opener?.focus();
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-video-embed]').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (!player || !slot) return;
+      opener = button;
+
+      const iframe = document.createElement('iframe');
+      iframe.src = button.dataset.videoEmbed!;
+      iframe.title = button.dataset.videoTitle ?? 'Video';
+      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+      iframe.setAttribute('allowfullscreen', '');
+      slot.replaceChildren(iframe);
+
+      if (caption) caption.textContent = button.dataset.videoTitle ?? '';
+      player.hidden = false;
+      document.body.style.overflow = 'hidden';
+      closeBtn?.focus();
+    });
+  });
+
+  player?.querySelectorAll('[data-player-close]').forEach((el) =>
+    el.addEventListener('click', closePlayer),
+  );
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && player && !player.hidden) closePlayer();
+  });
+</script>

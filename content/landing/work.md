@@ -1,5 +1,6 @@
 ---
 title: "Work — category landing"
+caption: ""
 url: "/work"
 source: "rendered from live site 2026-08-22"
 ---

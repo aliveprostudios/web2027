@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <script src="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/_ds_bundle.js"></script>
+  <style>
+    body{margin:0;background:#fff}
+    a{color:#346632;text-decoration:none} a:hover{color:#F76E1E}
+  </style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:var(--font-sans);background:#fff;overflow:hidden">
+  <header style="display:flex;align-items:center;justify-content:space-between;padding:28px clamp(24px,4vw,56px)">
+    <img src="assets/logo-full.svg" alt="Alive ProStudios" style="height:40px;display:block">
+    <div style="display:flex;align-items:center;gap:28px">
+      <span style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000">Est. 1997 · Toronto</span>
+      <button aria-label="Menu" style="display:flex;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;padding:8px">
+        <span style="display:block;width:30px;height:3px;background:#000"></span>
+        <span style="display:block;width:30px;height:3px;background:#000"></span>
+      </button>
+    </div>
+  </header>
+  <main style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 24px 64px">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg3);margin:0 0 8px">Dedicated · All-Inclusive · Lifecycle Support</p>
+    <h1 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(120px,17vw,300px);line-height:0.88;letter-spacing:-0.01em;color:#000;margin:0;text-transform:uppercase">Alive<span style="display:inline-block;width:0.14em;height:0.14em;background:#F76E1E;border-radius:999px;margin-left:0.05em"></span></h1>
+    <h1 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(60px,8.5vw,150px);line-height:0.95;letter-spacing:0.02em;color:var(--brand-forest);margin:0;text-transform:uppercase">ProStudios</h1>
+    <p style="max-width:640px;margin:40px 0 0;font-weight:600;font-size:clamp(16px,1.4vw,20px);line-height:1.5;text-transform:uppercase;letter-spacing:0.01em;color:#000;text-wrap:balance">The all-in-one brand transformation system <span style="color:var(--fg3)">that replaces fragmented marketing. Strategy. Identity. Growth.</span> One team, one outcome.</p>
+    <div style="display:flex;gap:16px;margin-top:44px">
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="primary" hint-size="auto,48px">Book a Consultation</x-import>
+      <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="ghost" hint-size="auto,48px">See the Work</x-import>
+    </div>
+  </main>
+  <footer style="display:flex;justify-content:space-between;padding:0 clamp(24px,4vw,56px) 32px;font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg3)">
+    <span>29 Years in Brand Marketing</span>
+    <span>Canada · USA · Germany · Dubai · China · Mexico</span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}"></script>
+</body>
+</html>

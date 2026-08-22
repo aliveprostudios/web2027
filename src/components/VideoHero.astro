@@ -1,0 +1,65 @@
+---
+import { videoForRoute, embedUrl, aspectOf, FRAME_ASPECT, HERO_VIDEOS } from '../lib/videos';
+
+/**
+ * Edge-to-edge looping background video (STYLEGUIDE.md §4.1).
+ *
+ * The frame is aspect-ratio 1280/600 to match the masters. The sources are not
+ * that shape, so the iframe is scaled to COVER the frame using the source's
+ * real aspect (derived per asset, never assumed) and the overflow is clipped.
+ * Sizing it to 100%/100% instead is what makes a video letterbox inside its own
+ * iframe, which no box-model measurement can see.
+ */
+interface Props {
+  route: string;
+  /** Frontmatter override for the route-hash pick. */
+  videoId?: string | undefined;
+  title?: string;
+}
+
+const { route, videoId, title = 'Alive ProStudios brand reel' } = Astro.props;
+
+const video = videoId ? { provider: 'vimeo' as const, id: videoId } : videoForRoute(route);
+const style = video
+  ? `--video-aspect:${aspectOf(video)};--frame-aspect:${FRAME_ASPECT}`
+  : undefined;
+---
+
+{
+  video ? (
+    <section class="video-hero" style={style} aria-label="Brand reel">
+      <iframe
+        src={embedUrl(video)}
+        title={title}
+        loading="lazy"
+        allow="autoplay; fullscreen; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin"
+        tabindex="-1"
+      />
+    </section>
+  ) : (
+    HERO_VIDEOS.length === 0 && <section class="video-hero" aria-hidden="true" />
+  )
+}
+
+<style>
+  .video-hero {
+    position: relative;
+    background: var(--surface-video);
+    aspect-ratio: 1280 / 600;
+    overflow: hidden;
+  }
+
+  .video-hero iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Cover: grow along whichever axis would otherwise leave bars. */
+    width: max(100%, calc(100% * var(--video-aspect, 1.7778) / var(--frame-aspect, 2.1333)));
+    height: max(100%, calc(100% * var(--frame-aspect, 2.1333) / var(--video-aspect, 1.7778)));
+    border: none;
+    z-index: var(--z-video);
+    pointer-events: none;
+  }
+</style>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <script src="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/_ds_bundle.js"></script>
+  <script src="image-slot.js"></script>
+  <style>
+    body{margin:0;background:#fff}
+    a{color:#346632;text-decoration:none} a:hover{color:#F76E1E}
+    @keyframes heroRise{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+  </style>
+</helmet>
+<div style="font-family:var(--font-sans);background:#fff" data-screen-label="About">
+  <section data-screen-label="About hero" style="background:var(--forest-900);color:#fff;padding-bottom:96px">
+    <dc-import name="SiteNav" active="about" hint-size="100%,96px"></dc-import>
+    <div style="padding:64px clamp(24px,4vw,56px) 0">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--brand-lime);margin:0 0 24px">(04)&nbsp;&nbsp;About</p>
+      <h1 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(64px,8.5vw,150px);line-height:0.9;margin:0;text-transform:uppercase;max-width:11em">
+        <span style="display:block;overflow:hidden"><span style="display:block;animation:heroRise 900ms var(--ease-out) both 150ms">29 years against</span></span>
+        <span style="display:block;overflow:hidden"><span style="display:block;animation:heroRise 900ms var(--ease-out) both 300ms"><span style="color:#F76E1E">fragmented</span> marketing.</span></span>
+      </h1>
+    </div>
+  </section>
+
+  <section data-screen-label="Story" style="display:grid;grid-template-columns:220px 1fr;gap:40px;padding:112px clamp(24px,4vw,56px)">
+    <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000;margin:0"><span style="color:#F76E1E">(01)</span>&nbsp;&nbsp;The Story</p>
+    <div>
+      <p style="margin:0;font-family:var(--font-condensed);font-weight:700;font-size:clamp(28px,3vw,48px);line-height:1.1;color:#000;text-transform:uppercase;max-width:20em">Founded in Toronto in 1997, Alive ProStudios exists because most brands are built by committees of vendors — <span style="color:var(--fg3)">and it shows. One team, one strategic foundation, one integrated system</span> spanning strategy, identity, content, design, campaigns, production, and technology.</p>
+      <div style="display:flex;gap:64px;margin-top:64px;flex-wrap:wrap">
+        <sc-for list="{{ facts }}" as="fact" hint-placeholder-count="3">
+          <div>
+            <div style="font-family:var(--font-condensed);font-weight:800;font-size:64px;line-height:1;color:#000">{{ fact.value }}</div>
+            <div style="margin-top:8px;font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg3)">{{ fact.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Studio photo" style="position:relative;min-height:80vh;background:var(--forest-900)">
+    <div style="position:absolute;inset:0"><image-slot id="about-studio" shape="rect" placeholder="Studio photo — the team, wide environmental shot"></image-slot></div>
+  </section>
+
+  <section data-screen-label="How we work" style="display:grid;grid-template-columns:1fr 1.2fr;gap:64px;padding:128px clamp(24px,4vw,56px)">
+    <div>
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000;margin:0 0 16px"><span style="color:#F76E1E">(02)</span>&nbsp;&nbsp;How We Work</p>
+      <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,5.5vw,92px);line-height:0.94;color:#000;margin:0;text-transform:uppercase">Built to compound.</h2>
+    </div>
+    <div style="display:flex;flex-direction:column">
+      <sc-for list="{{ values }}" as="v" hint-placeholder-count="3">
+        <div style="display:grid;grid-template-columns:120px 1fr;gap:32px;border-top:1px solid var(--ink-200);padding:40px 0">
+          <span style="font-family:var(--font-condensed);font-weight:800;font-size:56px;line-height:1;color:#F76E1E">{{ v.num }}</span>
+          <div>
+            <h3 style="font-family:var(--font-condensed);font-weight:800;font-size:32px;line-height:1;color:#000;margin:0 0 12px;text-transform:uppercase">{{ v.title }}</h3>
+            <p style="margin:0;font-weight:600;font-size:15px;line-height:1.5;text-transform:uppercase;color:var(--fg3);max-width:440px">{{ v.body }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section data-screen-label="Founder note" style="background:var(--ink-50);display:flex;align-items:center;gap:40px;padding:80px clamp(24px,4vw,56px);flex-wrap:wrap">
+    <div style="width:96px;height:96px;flex:none"><image-slot id="about-founder" shape="circle" placeholder="JA"></image-slot></div>
+    <div style="flex:1;min-width:320px">
+      <p style="margin:0;font-family:var(--font-condensed);font-weight:700;font-size:clamp(24px,2.4vw,36px);line-height:1.15;color:#000;text-transform:uppercase;max-width:24em">"A brand that looks different on every platform and sounds different in every channel is leaking budget. <span style="color:#F76E1E">We built the system that stops the leak.</span>"</p>
+      <p style="margin:20px 0 0;font-weight:700;font-size:15px;color:#000">Javad Ahmadi&nbsp;&nbsp;<span style="font-weight:600;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg3)">Founder</span></p>
+    </div>
+  </section>
+
+  <section data-screen-label="About CTA" style="background:var(--brand-orange);color:#fff;padding:112px clamp(24px,4vw,56px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:40px">
+    <h2 style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,5.5vw,96px);line-height:0.94;margin:0;text-transform:uppercase;max-width:12em">One conversation replaces six vendors<span style="color:#000">.</span></h2>
+    <x-import component-from-global-scope="AliveProStudiosDesignSystem_a3c754.Button" variant="dark" hint-size="auto,48px">Let's Talk</x-import>
+  </section>
+
+  <footer style="background:#000;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:32px clamp(24px,4vw,56px);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase">
+    <a href="Home.dc.html" style="color:#fff">← Alive ProStudios</a>
+    <span style="color:rgba(255,255,255,0.45)">© 2026 · Est. 1997 · Toronto</span>
+    <a href="Contact.dc.html" style="color:#fff">Next: Contact →</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      facts: [
+        { value: '1997', label: 'Founded, Toronto' },
+        { value: '6', label: 'Countries served' },
+        { value: '4', label: 'Stages, one lifecycle' },
+      ],
+      values: [
+        { num: '01', title: 'Dedicated.', body: 'One team on your brand, start to finish. No account layer between you and the makers.' },
+        { num: '02', title: 'All-inclusive.', body: 'Strategy through technology under one roof. Nothing outsourced, nothing lost in handoff.' },
+        { num: '03', title: 'Lifecycle support.', body: 'We stay past launch. The system keeps compounding — and someone owns it.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

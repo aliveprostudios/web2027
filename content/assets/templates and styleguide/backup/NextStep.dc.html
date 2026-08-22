@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/alive-prostudios-design-system-a3c754b9-e5d8-4cbb-81f3-bac5a50d8847/styles.css">
+  <style>
+    @keyframes ctaMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    @keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.55;transform:scale(0.82)}}
+  </style>
+</helmet>
+<section data-screen-label="Next step" style="position:relative;background:#161616;color:#fff;padding:128px clamp(24px,4vw,56px) 0;overflow:hidden;font-family:var(--font-sans)">
+  <p style="position:relative;z-index:6;font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#F76E1E;margin:0 0 40px">({{ sectionNum }})&nbsp;&nbsp;Next Step</p>
+  <h2 style="position:relative;z-index:6;margin:0;text-transform:uppercase">
+    <span style="display:block;font-size:clamp(36px,4vw,68px);font-weight:200;letter-spacing:-0.01em;line-height:1.05;color:rgba(255,255,255,0.75)">Ready to transform</span>
+    <span style="display:block;font-family:var(--font-condensed);font-weight:800;font-size:clamp(44px,11vw,200px);line-height:0.88">your brand<span style="display:inline-block;width:0.13em;height:0.13em;background:#F76E1E;border-radius:999px;margin-left:0.05em;animation:dotPulse 2.4s var(--ease-in-out) infinite"></span></span>
+  </h2>
+  <a href="Contact.dc.html" style="position:relative;z-index:6;display:flex;align-items:center;justify-content:space-between;gap:32px;border-top:1px solid rgba(255,255,255,0.18);border-bottom:1px solid rgba(255,255,255,0.18);margin-top:72px;padding:36px 0;color:#fff;transform:translateX(0);transition:transform 220ms var(--ease-out),color 220ms ease" style-hover="color:#F76E1E;transform:translateX(12px)">
+    <span style="font-size:clamp(24px,2.6vw,44px);font-weight:200;letter-spacing:0.02em;text-transform:uppercase">Start the conversation</span>
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+  </a>
+  <div style="position:relative;z-index:6;display:flex;flex-wrap:wrap;gap:16px 64px;padding:32px 0 96px">
+    <a href="mailto:info@aliveprostudios.com" style="font-family:var(--font-sans);font-weight:600;font-size:15px;color:rgba(255,255,255,0.65);text-decoration:none;transition:color 220ms ease" style-hover="color:#F76E1E">info@aliveprostudios.com</a>
+    <a href="tel:+19055533044" style="font-family:var(--font-sans);font-weight:600;font-size:15px;color:rgba(255,255,255,0.65);text-decoration:none;transition:color 220ms ease" style-hover="color:#F76E1E">905-553-3044</a>
+    <span style="font-family:var(--font-sans);font-weight:600;font-size:15px;color:rgba(255,255,255,0.35)">Toronto, Canada</span>
+  </div>
+  <div style="position:relative;z-index:6;border-top:1px solid rgba(255,255,255,0.12);padding:16px 0;overflow:hidden;white-space:nowrap;margin:0 calc(clamp(24px,4vw,56px)*-1)">
+    <div style="display:flex;width:max-content;animation:ctaMarquee 30s linear infinite;font-size:12px;font-weight:300;letter-spacing:0.24em;text-transform:uppercase;color:rgba(255,255,255,0.4)">
+      <div style="display:flex;gap:48px;padding-right:48px;flex:none"><span>Impossible to ignore</span><span>·</span><span>One team</span><span>·</span><span>One system</span><span>·</span></div>
+      <div style="display:flex;gap:48px;padding-right:48px;flex:none"><span>Impossible to ignore</span><span>·</span><span>One team</span><span>·</span><span>One system</span><span>·</span></div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:&quot;760px&quot;},&quot;sectionNum&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;03&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return { sectionNum: this.props.sectionNum ?? '03' };
+  }
+}
+</script>
+</body>
+</html>

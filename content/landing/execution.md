@@ -1,5 +1,6 @@
 ---
 title: "Execution — category landing"
+caption: ""
 url: "/execution"
 source: "rendered from live site 2026-08-22"
 ---

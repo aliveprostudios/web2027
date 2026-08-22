@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import MasterPage from '../../layouts/MasterPage.astro';
+import { parseAnatomy } from '../../lib/anatomy';
+import { relatedAlivePro } from '../../lib/nav';
+
+/**
+ * The 8 Alive Pro pages, built from the Master Page Template.
+ *
+ * These are the entries in `content/pages/` that carry no `url:` frontmatter;
+ * the four that do (contact, brand-pulse, brochure, privacy-policy) are
+ * standalone routes and are excluded here.
+ *
+ * Alive Pro is not one of the four pillars, so the breadcrumb is the group name
+ * rather than "{section} · Stage {n}", and Related Services lists the other
+ * Alive Pro pages instead of a pillar's services.
+ */
+export async function getStaticPaths() {
+  const pages = await getCollection('pages', (entry) => !entry.data.url);
+  return pages.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+
+const path = `/alive-pro/${entry.id}`;
+const caption = entry.data.caption?.trim() || undefined;
+const anatomy = parseAnatomy(entry.body ?? '', caption);
+const related = await relatedAlivePro(path);
+---
+
+<MasterPage
+  title={entry.data.title}
+  description={entry.data.seoDescription}
+  {path}
+  {anatomy}
+  {caption}
+  {related}
+  videoId={entry.data.videoId}
+  crumb="Alive Pro"
+  relatedLabel="More on Alive Pro"
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Alive Pro', url: '/alive-pro' },
+    { name: entry.data.title, url: path },
+  ]}
+  footerLabel="All Alive Pro"
+  footerHref="/alive-pro"
+  schemaType="AboutPage"
+/>

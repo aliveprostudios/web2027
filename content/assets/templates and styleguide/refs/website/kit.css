@@ -1,0 +1,38 @@
+/* ===== Alive ProStudios UI Kit — shared styles ===== */
+@import url('../../colors_and_type.css');
+
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:var(--fg1);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
+body{font-size:16px;line-height:1.55}
+
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+.container{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--brand-forest)}
+.dot::after{content:'';display:inline-block;width:.32em;height:.32em;margin-left:.06em;vertical-align:baseline;background:var(--brand-orange);border-radius:999px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;border:0;border-radius:999px;padding:13px 24px;transition:all .2s cubic-bezier(.22,1,.36,1);white-space:nowrap}
+.btn-primary{background:var(--brand-orange);color:#fff}
+.btn-primary:hover{background:var(--orange-600);transform:translateY(-1px)}
+.btn-dark{background:#000;color:#fff}
+.btn-dark:hover{background:var(--forest-700)}
+.btn-ghost{background:transparent;color:#000;border:1.5px solid #000}
+.btn-ghost:hover{background:#000;color:#fff}
+.btn-ghost-light{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5)}
+.btn-ghost-light:hover{background:#fff;color:#000}
+.btn-sm{padding:9px 18px;font-size:13px}
+.btn-lg{padding:16px 30px;font-size:16px}
+
+/* Sections */
+section{padding:clamp(64px,10vw,128px) 0}
+.section-head{display:flex;flex-direction:column;gap:14px;max-width:780px;margin-bottom:56px}
+.section-head h2{margin:0;font-size:clamp(32px,4.5vw,56px);font-weight:700;letter-spacing:-.02em;line-height:1.05;text-wrap:balance}
+.section-head p{margin:0;font-size:18px;line-height:1.55;color:var(--fg2);text-wrap:pretty}
+
+/* Dark section variant */
+.section-dark{background:var(--forest-900);color:#fff}
+.section-dark .section-head h2{color:#fff}
+.section-dark .section-head p{color:rgba(255,255,255,.75)}
+.section-dark .eyebrow{color:var(--brand-lime)}
