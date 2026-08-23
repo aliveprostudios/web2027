@@ -32,6 +32,14 @@ Settled. Do not reopen without asking Javad.
 5. **Design is locked.** Typography, spacing, colour, and motion values come from
    `STYLEGUIDE.md` and the three `.dc.html` templates. If something looks wrong,
    ask before changing it.
+6. **The hero H1 wraps.** `STYLEGUIDE.md` §1.3 and the `.dc.html` templates say
+   the page title is a single line (`white-space:nowrap`). That line is
+   superseded. It clipped 11 of the 55 titles at every viewport >= 761px, invisibly, because
+   `.hero__line-mask` is `overflow:hidden`. Titles that fit still sit on one
+   line; the rest wrap and balance. Do not restore `nowrap`.
+7. **Legal pages are documents, not service pages.** `/privacy-policy` has its
+   own route and renders its Markdown through Astro, NOT through
+   `MasterPage` + `parseAnatomy`. See `TEMPLATE-ANATOMY.md` §4 for why.
 
 ---
 
@@ -159,12 +167,14 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 
 | Item | Impact |
 |---|---|
-| 5 redirects point at blog posts never migrated | They 301 correctly, then 404 |
-| All 3 blog posts are Lorem ipsum | Only pages without a meta description |
-| `homepage.md` is Sanity block descriptors | Home slots 2, 5, 7 render nothing |
-| Contact form composes mail, does not POST | No endpoint on a static site |
+| **Resources unpublished 2026-08-23** | 7 routes pulled at Javad's request, content not ready. Files intact under `src/pages/_resources/`. Revert steps in `LAUNCH.md` §1 |
+| 5 redirects point at blog posts never migrated | Now moot while Resources is down: all 8 Resources redirects temporarily point at `/` |
+| All 3 blog posts are Lorem ipsum | Unpublished with the rest of Resources |
+| `homepage.md` is Sanity block descriptors | Home slots 2 (Why It Matters), 5 (founder quote) and 7 (closing) still render nothing. Slot 1b, the four intro blocks added 2026-08-23, reads from `content/home-intro.md` instead and is unaffected |
+| Contact form needs its Formspree endpoint | Fully wired: POST, `/thank-you` redirect, error fallback, honeypot, CSP auto-derived. Paste the URL into `FORM_ENDPOINT` in `src/pages/contact.astro` and it is done. Form Flow's iframe embed was evaluated and rejected, see `LAUNCH.md` §1 |
+| Privacy policy describes a cookie banner | Javad's rewrite landed 2026-08-23 and fixed the false processors. §2 and §3 still promise a consent banner and a "Cookie settings" footer link that do not exist |
 | Cloudflare Access not yet on staging | Staging is noindexed but publicly reachable |
-| `/thank-you`, `/brand-pulse` | No route yet |
+| `/brand-pulse` | No route yet. `/thank-you` was built 2026-08-23, noindex and out of the sitemap |
 
 ---
 

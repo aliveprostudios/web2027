@@ -28,17 +28,22 @@ moment of no return is step 5.
 
 These need Javad, not code.
 
-- [ ] **5 redirects land on the 404.** Old blog URLs that were never migrated:
-      `/branding/online-digital-advertising`,
-      `/branding/a-guide-to-developing-a-successful-brand-architecture`,
-      `/branding/top-5-misconceptions-about-branding`,
-      `/branding/lights-camera-action-...-smbs-in-2024`,
-      `/marketing/7-ways-influencer-marketing-levels-up-your-branding`.
-      Either write the posts, or repoint those five rows in `SITEMAP.md` at
-      `/resources/blog`. A 301 to the index preserves far more link value than a
-      301 to a dead end.
-- [ ] **All 3 blog posts are Lorem ipsum.** They are the only pages on the site
-      with no meta description. Either write them or drop them from the build.
+- [ ] **RESOURCES IS UNPUBLISHED (2026-08-23), waiting on content.** Pulled at
+      Javad's request. Seven routes are gone: `/resources`, `/resources/blog`,
+      the three blog posts, `/resources/brochure` and `/resources/faqs`. Nothing
+      was deleted. The route files moved to `src/pages/_resources/`, which
+      Astro's router ignores because of the leading underscore, and the content
+      files are all untouched in `content/`.
+      **To republish:** rename `src/pages/_resources/` back to
+      `src/pages/resources/`, empty the `UNPUBLISHED` set in `src/lib/nav.ts`,
+      and restore the eight redirect targets in `SITEMAP.md` per the note above
+      its redirect table. Then rebuild; the menu row and the sitemap entries come
+      back on their own.
+      Still outstanding before it can go back up: the three blog posts are
+      Lorem ipsum and are the only pages with no meta description, and five old
+      `/branding/*` and `/marketing/*` URLs point at posts that were never
+      migrated. Either write those posts or point those five rows at
+      `/resources/blog`.
 - [ ] **`homepage.md` is Sanity block descriptors, not prose.** Home slots 2
       (Why It Matters), 5 (founder quote) and 7 (closing statement) render
       nothing. Write those three as ordinary Markdown and they populate with no
@@ -46,11 +51,82 @@ These need Javad, not code.
 - [ ] **51 pages still have `caption: ""`.** The hero falls back to the intro
       sentence, which reads fine, but the designed two-tone caption only appears
       where one is authored. Brand Name & Identity has the real thing as a model.
-- [ ] **Contact form has no endpoint.** It validates, then composes a pre-filled
-      mail message. Decide whether that ships or whether submissions need to land
-      somewhere. Options: a Cloudflare Worker route (keeps it in-house, needs an
-      email sender), or a form service (fastest, needs an account and a
-      `form-action` entry in the CSP).
+- [ ] **Decide the mobile treatment for the four-pillar diagram.**
+      `/alive-pro/why-alive-pro` renders
+      `content/assets/diagrams/brand-to-revenue-system.svg` edge to edge. The
+      artwork is 855x409, so at a 390px viewport it scales to 390x187 and the
+      inner labels ("Brand-Led Growth Strategy", "Application Architecture") land
+      around 4px. It is vector, so it is crisp, just too small to read. Options:
+      a portrait variant for small screens, letting it scroll sideways inside its
+      own container, or making it tappable into the lightbox that already exists
+      for the portfolio. Desktop and tablet are fine as they are.
+      Note the SVG is transparent and drawn for a white ground, which is why
+      `.rows__figure` paints white in both themes. In dark mode that reads as a
+      full-bleed white band. Deliberate, but worth a look before launch.
+- [ ] **The privacy policy describes a cookie banner that does not exist.**
+      Javad's rewritten policy landed 2026-08-23 and fixed the big problem: it no
+      longer names Vercel, Supabase, Resend or Sanity as processors, describing
+      them generically instead. What remains is §2 and §3, which promise a cookie
+      consent banner, analytics only "with your consent", and a "Cookie settings"
+      link in the footer. The site has no banner, no analytics and no such
+      footer link. Either build the banner or soften those two sections.
+- [ ] **Contact form needs a Formspree endpoint. ONE LINE FROM DONE.**
+      Everything else is built: the form POSTs, redirects to `/thank-you` on
+      success, shows a mailto fallback on failure instead of failing silently,
+      and carries a honeypot. `scripts/postbuild.mjs` reads the endpoint back out
+      of the built HTML and adds its origin to the CSP `connect-src` itself, so
+      there is no second edit to forget.
+      **What is needed:** a form at formspree.io with the destination set to
+      `javad@aliveprostudios.com`, then paste the endpoint URL into
+      `FORM_ENDPOINT` in `src/pages/contact.astro`. That is the whole change.
+      Until then the form falls back to composing a mail message, which reaches
+      nobody unless the visitor has a mail client and presses send.
+      No redirect needs configuring in Formspree: the form POSTs with
+      `Accept: application/json` and does the `/thank-you` redirect itself.
+
+      **Form Flow was evaluated on 2026-08-23 and set aside.** Javad had a form
+      at `myformflow.io/alivepro/form`, but its embed is an iframe
+      (`myformflow.io/_embed/{id}`), not a submit endpoint, so it replaces the
+      designed form rather than feeding it. Three reasons it was not used, all
+      verified by rendering it: it cannot inherit the site's type, colour or
+      dark mode; it collects Name, Last Name, REQUIRED phone, Email and message,
+      which contradicts privacy policy §2 and drops the CASL consent checkbox;
+      and it loads roughly twelve third-party bundles including Datadog RUM and
+      a Cloudflare RUM beacon on page load, which contradicts privacy policy §3
+      ("Until you click Accept, no analytics scripts are loaded"). Revisit only
+      if Form Flow exposes a plain POST endpoint or webhook.
+- [ ] **Decide the mobile treatment for the four-pillar diagram.**
+      `/alive-pro/why-alive-pro` renders
+      `content/assets/diagrams/brand-to-revenue-system.svg` edge to edge. The
+      artwork is 855x409, so at a 390px viewport it scales to 390x187 and the
+      inner labels ("Brand-Led Growth Strategy", "Application Architecture") land
+      around 4px. It is vector, so it is crisp, just too small to read. Options:
+      a portrait variant for small screens, letting it scroll sideways inside its
+      own container, or making it tappable into the lightbox that already exists
+      for the portfolio. Desktop and tablet are fine as they are.
+      Note the SVG is transparent and drawn for a white ground, which is why
+      `.rows__figure` paints white in both themes. In dark mode that reads as a
+      full-bleed white band. Deliberate, but worth a look before launch.
+- [ ] **The privacy policy describes a cookie banner that does not exist.**
+      Javad's rewritten policy landed 2026-08-23 and fixed the big problem: it no
+      longer names Vercel, Supabase, Resend or Sanity as processors, describing
+      them generically instead. What remains is §2 and §3, which promise a cookie
+      consent banner, analytics only "with your consent", and a "Cookie settings"
+      link in the footer. The site has no banner, no analytics and no such
+      footer link. Either build the banner or soften those two sections.
+- [ ] **Contact form has no endpoint. DECISION PENDING.** It validates, then
+      composes a pre-filled mail message and hands it to the visitor's mail
+      client. That is not a submission: nothing reaches an inbox unless the
+      visitor has a mail client configured and presses send themselves, which is
+      why the form cannot yet redirect to `/thank-you`. The mail is now addressed
+      to `javad@aliveprostudios.com` (`FORM_INBOX` in `src/pages/contact.astro`),
+      separate from the public `info@` address shown on the page.
+      Two ways to make it real, both needing an account from Javad:
+      a hosted form endpoint (stays fully static, honours decision 1 in
+      `CLAUDE.md`, needs the endpoint URL and a CSP `connect-src` entry), or a
+      Cloudflare Worker plus an email API (keeps it in-house but REOPENS the
+      "no server function" decision, and needs a verified sending domain).
+      `/thank-you` is built and ready as the destination either way.
 
 ---
 

@@ -80,12 +80,59 @@ Worked against `brand-name-identity.md`:
 | Intro paragraph, remainder | 3, H4 statement | Two-tone: last sentence drops to `--pg-fg3` |
 | Further paragraphs before next heading | 3, body copy | 17px / 1.6 / `--pg-fg2` |
 | `**bold**` standalone paragraph | 3, stat block | Leading figure ("72%") extracted as the number, remainder becomes the caption, two-tone |
-| Each subsequent `##` / `###` | 4, numbered row | `01`, `02`, … in document order. Condensed 800 H3 |
+| `---` on its own line | 4, section break | Opens a section whose items ARE numbered. Renders nothing itself |
+| `***` on its own line | 4, section break | Opens a section whose items are NOT numbered |
+| A heading straight after either | 4, section head | **Always unnumbered**, full width, no hairline, H2 at `t-h2` scale |
+| Each other subsequent `##` / `###` | 4, item | `01`, `02`, … **within the current section**, or no number in a `***` section. Condensed 800 H3 either way, on the same left edge |
 | Paragraphs under those headings | 4, row body | |
+| `![alt](/assets/diagrams/x.png)` alone on a line | 4, figure | **Edge to edge**, pulled out of the row grid and placed after that row's text |
 | `**Label:**` followed by a `-` list | 4, row body | 12px uppercase label + disc `ul`, 22px indent |
 | `>` blockquote | 5, quote band | **Hoisted** out of document order into its own band |
 | Bold line following the blockquote | 5, attribution | "Name, Role" splits at the comma |
 | Final paragraph | 6, closing H4 | Two-tone |
+
+**Figures.** A line that is nothing but a Markdown image becomes a full-bleed figure.
+The file lives in `content/assets/diagrams/`, NOT `public/`, and the Markdown points at
+the virtual path `/assets/diagrams/<filename>`; `src/lib/figures.ts` resolves the two by
+filename. A raster goes through `<Image>` for the AVIF/WebP srcset; an SVG is emitted
+as-is, because a vector gains nothing from that pipeline, and its size is read from its
+own `viewBox`. Either way what matters is the intrinsic `width`/`height`. Those dimensions are load-bearing: a
+bare `<img src>` has no height until it loads, so the figure never intersects the
+viewport, so `loading="lazy"` never fires and the image silently never appears. A
+missing file throws at build time rather than shipping a broken image, and so does an SVG
+with no `viewBox` and no width/height, since its aspect ratio could not be reserved. Only
+site-absolute paths parse, so a content file cannot pull in an off-origin image.
+
+`.rows__figure` paints a white ground in BOTH themes. The diagrams are transparent SVGs
+drawn for white, so a themed ground would break them; in dark mode the figure therefore
+reads as a full-bleed white band.
+
+Images are extracted by type and placed by slot like everything else, which means an
+image is rendered AFTER its row's text, not at the point it sits in the source. Author it
+last in the row and the source reads the way the page renders.
+
+**Section breaks.** By default every heading after the first is a numbered row and the
+count runs straight down the page, which is what made `/alive-pro/why-alive-pro` number
+its closing section "13". A thematic break on its own line ends that run: the heading
+after it becomes a section head, rendered without a number and without the hairline that
+chains the rows, and the count starts over beneath it.
+
+CommonMark treats `---`, `___` and `***` as the same thematic break, so the character is
+free to carry which KIND of section is being opened:
+
+| Marker | The section head | Its items |
+|---|---|---|
+| `---` | unnumbered, `t-h2`, full width | numbered `01`, `02`, … restarting at 01 |
+| `***` | unnumbered, `t-h2`, full width | no number at all |
+
+An item in a `***` section is still an item: it keeps the hairline and the H3 scale and
+stays on the same left edge as a numbered one, it simply has no number in the column.
+That is the difference between a section head and a plain item, and it is why `Row`
+carries both `num` and `section` rather than inferring one from the other.
+
+Both markers are ordinary Markdown and no file used either before this was introduced, so
+adding one is the only thing that changes a page. `parseAnatomy` decides `Row.num`; the
+template never counts. `/growth/sales-funnel-building` uses both and is the worked example.
 
 **Heading levels.** The Markdown's own `##`/`###` mix is not authoritative for output
 level. Slot 3 renders `h2`, slot 4 rows render `h3`. This keeps one H1 and no skipped
@@ -93,6 +140,23 @@ levels regardless of how the source file was authored. (`brand-name-identity.md`
 `## Brand Naming.` with `### Brand Identity Design.` for two peer rows.)
 
 **Never invent copy.** Where a slot has no source, the slot is omitted, not filled.
+
+**A single `#` in the body is NOT a heading here.** `tokenize()` matches `^#{2,6}`,
+so a `# Title` line falls through to the paragraph branch and renders the hash
+literally. Four scraped files still carry one at line 10 (`brochure.md` and the three
+blog posts), which is why `/resources/brochure` prints "# digitalBROCHURE" and
+`/resources/blog/brand-marketing-toronto` prints "# GTA Market Growth" as its H4
+statement. The H1 comes from frontmatter `title`, so the fix is to delete the line
+from the source, not to widen the regex.
+
+**This mapping is for marketing pages only.** Run over a legal document it produces
+nonsense: `privacy-policy.md` yielded "1. Who we are" as the page's opening H2 under
+"(01) Why It Matters", every numbered clause as a display row, one single-item `<ul>`
+per blank-line-separated bullet, and "Back to home" promoted to the closing statement.
+`/privacy-policy` therefore has its own route (`src/pages/privacy-policy.astro`) that
+renders the Markdown through Astro's own pipeline: numbered `##` sections styled as
+the §1.3 H5 kicker, body copy, and real grouped lists, inside the usual hero, video,
+and global closing sections. Any future legal page should follow it, not this table.
 
 **Authoring rule for the lede.** The first paragraph of a page's Markdown IS the
 H4 lede, so keep it to **2 to 3 sentences**. Everything after the first paragraph
@@ -104,6 +168,24 @@ where it is visible and reviewable.
 ---
 
 ## 5. Home Page Template
+
+**Slot order.** 1 Hero · **1b Intro blocks** · 2 Why It Matters · 3 VideoHero · 4 Pillars ·
+5 Founder quote · 6 Feature image · 7 Closing · 8 NextStep · 9 Footer.
+
+**Slot 1b, the four intro blocks**, is read raw from `content/home-intro.md`, the same
+`?raw` route `homepage.md` already uses, and split on `##` into heading + paragraph pairs.
+It deliberately does NOT go through `parseAnatomy`: that parser maps a document onto the
+Master template's slots, so it would hoist the first heading into an H2, number the rest
+as rows, and promote the last paragraph to a closing statement. Four peers want a flat
+split. Adding or removing a `##` block in that file changes the grid with no code change.
+
+**Slot 6, the feature image**, is 60vh (reduced 40% from 100vh on 2026-08-23) and
+parallaxes on scroll. The image is 125% of the frame, so 25% of the frame is spare travel,
+and shifting it by 20% of its OWN height moves it exactly that far; both figures are
+relative to the frame, so the maths holds at any height. It uses a CSS scroll-driven
+animation (`animation-timeline: view()`), so there is no scroll listener and no JS.
+Browsers without support keep the centred crop, which is also what `prefers-reduced-motion`
+leaves behind since base.css kills every animation globally.
 
 Differs from Master: photo hero instead of gradient, pillar rows instead of content
 rows, and **no BookConsult and no Related Services**.
