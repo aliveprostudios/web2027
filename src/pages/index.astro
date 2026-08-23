@@ -8,6 +8,7 @@ import SiteFooter from '../components/SiteFooter.astro';
 import { pillars } from '../lib/pillars';
 import { parseAnatomy, splitSentences } from '../lib/anatomy';
 import homepageMarkdown from '../../content/homepage.md?raw';
+import homeIntroMarkdown from '../../content/home-intro.md?raw';
 
 /**
  * Home Page Template (STYLEGUIDE.md §9).
@@ -39,12 +40,42 @@ const homeBody = homepageMarkdown.replace(/^---\n[\s\S]*?\n---\n/, '');
 const isBlockDescriptorFormat = /^##\s*\[block\w+\]/m.test(homeBody);
 const anatomy = parseAnatomy(isBlockDescriptorFormat ? '' : homeBody);
 
-const title = 'Supercharge Your Brand';
+/**
+ * Slot 1b: the four intro blocks, from `content/home-intro.md`.
+ *
+ * Read raw and split here rather than run through `parseAnatomy`, because that
+ * parser maps a document onto the Master template's slots: it would hoist the
+ * first heading into an H2, number the rest as rows, and promote the final
+ * paragraph to a closing statement. This module is four peers, so it wants a
+ * flat `## heading` + paragraph split and nothing else.
+ *
+ * Same `?raw` route as homepage.md above: the copy stays in Markdown, editable
+ * without touching this file, but the module is not a routed page so it does not
+ * belong in a content collection either.
+ */
+const introSource = homeIntroMarkdown.replace(/^---\n[\s\S]*?\n---\n/, '');
+
+/** The module's own section title: the file's single `#` heading. */
+const introTitle = introSource.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? '';
+
+const introBlocks = introSource
+  .replace(/^#\s+.+$/m, '')
+  .split(/^##\s+/m)
+  .slice(1)
+  .map((chunk) => {
+    const [heading, ...rest] = chunk.trim().split(/\n{2,}/);
+    return { title: heading!.trim(), body: rest.join(' ').replace(/\n/g, ' ').trim() };
+  })
+  .filter((block) => block.title && block.body);
+
+const title = 'Clarity. Consistency. Growth';
 const description =
   'Alive ProStudios is a Toronto brand transformation studio. Strategy, identity, ' +
   'creative production, growth marketing, and the systems behind them. Est. 1997.';
 
-const caption = '';
+// The hero caption. `.hero__caption` already uppercases it, so it is authored
+// in sentence case and rendered in caps.
+const caption = 'Brand transformation that works.';
 const captionParts = caption ? splitSentences(caption) : [];
 ---
 
@@ -79,6 +110,27 @@ const captionParts = caption ? splitSentences(caption) : [];
     </section>
 
     <main id="main">
+      <!-- 1b. Intro: section title + four cards -->
+      {
+        introBlocks.length > 0 && (
+          <section class="intro section">
+            {introTitle && <h2 class="intro__heading t-h2 dot z-content">{introTitle}</h2>}
+            <div class="intro__grid z-content">
+              {introBlocks.map((block, i) => (
+                <article class="intro__card">
+                  <span class="intro__ghost" aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span class="intro__num t-index">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="intro__title">{block.title}</h3>
+                  <p class="intro__body">{block.body}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
       <!-- 2. Why It Matters -->
       {
         anatomy.h2 && (
@@ -113,18 +165,18 @@ const captionParts = caption ? splitSentences(caption) : [];
 
       <!-- 4. Four pillar rows -->
       <section class="pillars">
+        <h2 class="pillars__heading t-h2 dot z-content">The Brand-to-Revenue Performance System</h2>
         {
           rows.map((pillar) => (
             <a class="pillar z-content" href={pillar.url} data-stack>
               <span class="pillar__num">{pillar.num}</span>
               <div>
-                {/* H2, not H3: the pillars are this page's top-level sections.
-                    Slot 2's H2 is omitted while homepage.md has no copy, so an
-                    H3 here would skip a level. Visual spec is unchanged. */}
-                <h2 class="pillar__name">
+                {/* H3 under the section's H2 heading. Visual spec unchanged:
+                    the size comes from .pillar__name, not the tag. */}
+                <h3 class="pillar__name">
                   {pillar.name}
                   <span class="pillar__dot" />
-                </h2>
+                </h3>
                 <p class="pillar__kicker t-h5">{pillar.kicker}</p>
                 <p class="pillar__body">{pillar.body}</p>
               </div>
@@ -160,9 +212,17 @@ const captionParts = caption ? splitSentences(caption) : [];
         )
       }
 
-      <!-- 6. Full-screen feature image -->
+      <!-- 6. Feature image, parallax -->
       <section class="feature" data-feature>
-        <img src="/assets/home-feature.jpg" alt="Alive ProStudios brand work" loading="lazy" />
+        <img
+          class="feature__img"
+          src="/assets/home-feature.jpg"
+          alt="Alive ProStudios brand work"
+          width="1400"
+          height="933"
+          loading="lazy"
+          decoding="async"
+        />
       </section>
 
       <!-- 7. Closing statement -->
@@ -223,21 +283,121 @@ const captionParts = caption ? splitSentences(caption) : [];
     padding: 56px var(--gutter) 0;
   }
 
-  .hero__title { margin: 0; line-height: 0.92; }
+  .hero__title {
+    margin: 0;
+    line-height: 0.92;
+    /* Lifts the white type off the photo: a tight contact shadow for edge
+       definition plus a wide soft one for separation. text-shadow inherits, so
+       both hero lines pick it up. */
+    text-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.35),
+      0 16px 48px rgba(0, 0, 0, 0.45);
+  }
   .hero__line-mask { display: block; overflow: hidden; }
   .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
 
   .hero__caption {
-    max-width: 680px;
-    margin: 40px 0 0;
+    max-width: 900px;
+    margin: 32px 0 0;
     font-weight: 600;
-    font-size: 22px;
-    line-height: 1.5;
+    /* 45px at desktop, scaling down through the fluid band. */
+    font-size: clamp(24px, 3.5vw, 45px);
+    line-height: 1.3;
     text-transform: uppercase;
     color: var(--brand-orange);
+    text-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.4),
+      0 10px 32px rgba(0, 0, 0, 0.4);
     animation: heroFade 800ms var(--ease-settle) both 600ms;
   }
   .hero__caption-lead { color: #fff; }
+
+  /* ---- 1b. Intro: "29 Years in the Making" -----------------------------
+     Four cards on the band surface, each carrying three devices the system
+     already owns: the mono index, a 2px orange rule that draws itself across
+     the top on hover, and an outlined ghost numeral in the corner set in the
+     display face. Titles are Condensed 800 at the H3 scale. The cards fade in
+     on scroll via view() timelines, opacity only, so the hover lift's
+     transform never fights the reveal. */
+  .intro__heading { margin: 0 0 64px; }
+
+  .intro__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .intro__card {
+    position: relative;
+    background: var(--pg-band);
+    padding: 44px 40px 48px;
+    overflow: hidden;
+    transform: translateY(0);
+    transition: transform var(--dur-move) var(--ease-settle);
+  }
+  .intro__card:hover { transform: translateY(-6px); }
+
+  /* The rule starts as a short tab and draws across the card on hover. */
+  .intro__card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 64px;
+    background: var(--brand-orange);
+    transition: width 480ms var(--ease-settle);
+  }
+  .intro__card:hover::before { width: 100%; }
+
+  .intro__ghost {
+    position: absolute;
+    top: -28px;
+    right: 12px;
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: 176px;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--pg-line);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .intro__num { display: block; margin-bottom: 18px; color: var(--orange-ink); }
+
+  .intro__title {
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: clamp(26px, 2.6vw, 40px);
+    line-height: 1.04;
+    text-transform: uppercase;
+    color: var(--pg-fg);
+    margin: 0 0 18px;
+  }
+
+  .intro__body {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--pg-fg2);
+    max-width: 46ch;
+  }
+
+  /* Scroll reveal: each card fades in as it enters the viewport. Opacity only,
+     see the note above. Browsers without view() just show the cards; reduced
+     motion is killed globally in base.css. */
+  @supports (animation-timeline: view()) {
+    .intro__card {
+      animation: introReveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+  @keyframes introReveal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
   /* ---- 2. Why It Matters ---------------------------------------------- */
   .why {
@@ -275,6 +435,7 @@ const captionParts = caption ? splitSentences(caption) : [];
 
   /* ---- 4. Pillar rows -------------------------------------------------- */
   .pillars { padding: 0 var(--gutter) 64px; }
+  .pillars__heading { margin: 112px 0 64px; }
 
   .pillar {
     display: grid;
@@ -356,9 +517,46 @@ const captionParts = caption ? splitSentences(caption) : [];
     color: var(--pg-fg3);
   }
 
-  /* ---- 6. Full-screen feature image ------------------------------------ */
-  .feature { position: relative; height: 100vh; overflow: hidden; }
-  .feature img { width: 100%; height: 100%; object-fit: cover; }
+  /* ---- 6. Feature image, parallax --------------------------------------
+     Height reduced 40% from the original 100vh. The image is 125% of the frame,
+     so 25% of the frame's height is spare travel: shifting it by 20% of its OWN
+     height moves it by exactly that 25%, and because both figures are relative
+     to the frame the maths holds at any height, desktop or mobile.
+
+     Un-animated it sits centred, which is also what `prefers-reduced-motion`
+     leaves behind, since base.css kills every animation globally. */
+  .feature { position: relative; height: 60vh; overflow: hidden; }
+
+  .feature__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 125%;
+    object-fit: cover;
+    transform: translateY(-10%);
+  }
+
+  /* Scroll-driven, so no scroll listener and no JS. Browsers without
+     `animation-timeline` simply keep the centred crop above. */
+  @supports (animation-timeline: view()) {
+    .feature__img {
+      animation-name: featureParallax;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+      will-change: transform;
+    }
+  }
+
+  /* The image lags the page: as the frame travels up the viewport the crop
+     slides down inside it, which is what reads as depth. Reverse these and the
+     image races the scroll instead. */
+  @keyframes featureParallax {
+    from { transform: translateY(-20%); }
+    to   { transform: translateY(0); }
+  }
 
   /* ---- 7. Closing ------------------------------------------------------ */
   .closing { max-width: 760px; margin: 0; }
@@ -366,8 +564,18 @@ const captionParts = caption ? splitSentences(caption) : [];
   /* ---- Mobile (§9): hero 62vh, caption hidden, feature 52vh ------------ */
   @media (max-width: 760px) {
     [data-hero] { min-height: 62vh; }
-    [data-hero-caption] { display: none; }
-    [data-feature] { height: 52vh; }
+    /* §9 specifies the hero caption is hidden on mobile. It now carries the
+       positioning line rather than a long sentence, so it stays and shrinks
+       instead: hiding it would drop the page's whole promise on phones. */
+    [data-hero-caption] { font-size: 22px; margin-top: 24px; }
+    /* 52vh less the same 40%. */
+    [data-feature] { height: 32vh; }
     .quote__portrait { max-width: 240px; }
+    .intro__heading { margin-bottom: 48px; }
+    .intro__grid { grid-template-columns: 1fr; gap: 16px; }
+    .intro__card { padding: 36px 28px 40px; }
+    .intro__ghost { font-size: 132px; top: -20px; right: 6px; }
+    .intro__body { max-width: none; }
+    .pillars__heading { margin: 72px 0 48px; }
   }
 </style>
