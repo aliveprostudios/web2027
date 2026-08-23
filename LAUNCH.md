@@ -207,35 +207,44 @@ Microsoft mail keeps flowing throughout. HSTS is deliberately set WITHOUT
 
 ### Steps
 
-1. **Promote to production first.** `git checkout main && git merge staging &&
-   git push origin main`. Confirm `aliveprostudios.javad-ade.workers.dev` serves
-   the new build, has NO `x-robots-tag`, and that `/robots.txt` is the
-   production one (`Allow: /`). Do not touch DNS until this is true.
-2. **Attach the custom domain.** Cloudflare dashboard, Workers & Pages,
-   `aliveprostudios`, Settings, Domains & Routes, Add, Custom Domain,
-   `aliveprostudios.com`. Cloudflare warns that it is replacing the existing A
-   record; that warning IS the cutover. It provisions the certificate itself.
-3. **Make www redirect, not duplicate.** Every canonical on the site points at
-   the bare apex, so www must 301 rather than serve a second copy. Rules,
-   Redirect Rules, new rule: hostname equals `www.aliveprostudios.com`, dynamic
-   redirect 301 to `concat("https://aliveprostudios.com", http.request.uri.path)`,
-   preserve query string. Leave the existing www CNAME in place.
-4. **Verify.** `https://aliveprostudios.com` serves the new site; www 301s to
-   apex; `/robots.txt` allows crawling and names the sitemap; spot-check three
-   redirects, e.g. `/portfolio`, `/faqs`, `/contact-us`. Send and receive one
-   email to confirm Microsoft is unaffected.
-5. **Check Cloudflare is not overriding robots.txt.** The zone currently serves
-   a Cloudflare-managed robots.txt with a content-signals preamble, plus a stale
-   Yoast block pointing at the old WordPress `sitemap_index.xml`. After cutover,
-   confirm `https://aliveprostudios.com/robots.txt` is OURS. If Cloudflare's
-   managed block is still prepended that is fine and even desirable, but the
-   Yoast `Sitemap:` line must not survive: it points at a sitemap that will no
-   longer exist.
-6. **Close the workers.dev door.** `aliveprostudios.javad-ade.workers.dev` will
-   keep serving the identical site with no noindex once main is promoted.
-   Canonicals point at the real domain so the duplicate-content risk is small,
-   but disabling the workers.dev route in the same Domains & Routes panel closes
-   it properly.
+Do them in this order. The www rule goes FIRST so www never has a broken window.
+
+1. **Promote to production.** Done 2026-08-23: `main` is at the same commit as
+   `staging` and `aliveprostudios.javad-ade.workers.dev` serves the current
+   build with no `x-robots-tag` and the production `robots.txt`.
+2. **Create the www redirect rule.** Rules, Redirect Rules, Create. Hostname
+   equals `www.aliveprostudios.com`, then Dynamic redirect 301 to
+   `concat("https://aliveprostudios.com", http.request.uri.path)`, preserve
+   query string. Safe to create before the cutover: it just sends www to the
+   apex, which is the same site either way.
+3. **Delete the apex A record.** DNS, Records, delete ONLY
+   `aliveprostudios.com` A `208.109.16.226`.
+
+   Cloudflare does NOT replace this automatically. Adding the Custom Domain
+   while it exists fails with "Hostname 'aliveprostudios.com' already has
+   externally managed DNS records (A, CNAME, etc). Delete them first."
+   Ignore the "A, CNAME, etc" phrasing, it is generic: the MX, both TXT records
+   and the `autodiscover` and `www` CNAMEs must all survive. There is no AAAA
+   row to delete; the IPv6 address in public DNS is Cloudflare's proxy.
+
+   **The apex has no address record between this step and the next**, so the
+   site is down for that gap. Do steps 3 and 4 back to back.
+4. **Add the Custom Domain.** Workers & Pages, `aliveprostudios`, Settings,
+   Domains & Routes, Add, Custom Domain. Leave the subdomain field EMPTY for the
+   root domain. Certificate provisions in about a minute.
+5. **Purge the cache.** Caching, Configuration, Purge Everything. Skipping this
+   leaves visitors on cached WordPress pages.
+6. **Check for leftovers.** Rules, Page Rules: delete anything from the
+   WordPress setup (`/index.php`, `wp-admin`, caching rules). SSL/TLS Overview:
+   if it reads Flexible, set Full (strict).
+7. **Verify.** All 49 routes, the 83 redirects, `www` 301ing to apex, and that
+   `/robots.txt` is OURS. The zone currently serves a Cloudflare-managed
+   robots.txt with a stale Yoast block advertising the old WordPress
+   `sitemap_index.xml`; that block must not survive. Send and receive one email
+   to confirm Microsoft is unaffected.
+
+**Rollback:** re-create one record, `aliveprostudios.com` A `208.109.16.226`,
+Proxied. Keep the GoDaddy hosting alive for a few days so that remains possible.
 
 ## 6. After launch
 
