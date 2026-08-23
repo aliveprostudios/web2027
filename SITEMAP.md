@@ -150,6 +150,11 @@ Tag and category archives have no equivalent here, so each points at the pillar
 or service page closest to its subject rather than at the homepage, which
 preserves more of the signal. Adjust any row whose mapping reads wrong.
 
+`/sitemap_index.xml` is the old Yoast sitemap. Google Search Console has it
+registered and keeps polling it, so it redirects to the real one rather than
+starting to 404 on cutover. Its child sitemaps (`post-sitemap.xml` and the rest)
+are only ever discovered through that index, so redirecting the index is enough.
+
 | From | To | Code |
 |---|---|---|
 | `/home` | `/` | 301 |
@@ -233,6 +238,7 @@ preserves more of the signal. Adjust any row whose mapping reads wrong.
 | `/tag/marketing` | `/growth` | 301 |
 | `/author/admin` | `/alive-pro/about-us` | 301 |
 | `/locations.kml` | `/contact` | 301 |
+| `/sitemap_index.xml` | `/sitemap-index.xml` | 301 |
 | `/alive-template` | `/` | 301 |
 
 ---
