@@ -10,9 +10,9 @@ interface Props {
 }
 
 const {
-  lineLight = 'The first word',
-  lineBold = 'your market hears',
-  lineClose = 'Make it count.',
+  lineLight = 'Fragmented Marketing',
+  lineBold = 'Costs More Than',
+  lineClose = 'You Think',
 } = Astro.props;
 
 const MARQUEE = ["Let's talk", '·', 'Book a consult', '·', 'Request a quote', '·'];
@@ -113,7 +113,10 @@ const MARQUEE = ["Let's talk", '·', 'Book a consult', '·', 'Request a quote', 
     font-size: clamp(44px, 7vw, 124px);
     line-height: 0.92;
   }
-  .cta__bold::after {
+  /* The dot ends the SENTENCE, and the sentence now runs through all three
+     lines, so it sits on the close line rather than the bold one. A dot after
+     "COSTS MORE THAN" would read as a false full stop. */
+  .cta__close::after {
     content: '';
     display: inline-block;
     width: 0.14em;
