@@ -48,6 +48,12 @@ export async function workPages(): Promise<NavChild[]> {
   return (landing?.children ?? []).map((child) => ({ title: child.name, url: child.url }));
 }
 
+/** Resources children (Brochure, Blog, FAQs) from content/landing/resources.md. */
+export async function resourcesPages(): Promise<NavChild[]> {
+  const landing = await parseLanding('resources', '/resources');
+  return (landing?.children ?? []).map((child) => ({ title: child.name, url: child.url }));
+}
+
 export async function aliveProPages(): Promise<NavChild[]> {
   const all = await getCollection('pages', (e) => !e.data.url);
   return all.map((e) => ({ title: e.data.title, url: pageUrl(e) })).sort(byTitle);
@@ -72,7 +78,7 @@ export async function navItems(): Promise<NavItem[]> {
     ...sectionItems,
     { num: '05', label: 'Work', url: '/work', children: await workPages() },
     { num: '06', label: 'Alive Pro', url: '/alive-pro', children: await aliveProPages() },
-    { num: '07', label: 'Resources', url: '/resources', children: [] },
+    { num: '07', label: 'Resources', url: '/resources', children: await resourcesPages() },
     { num: '08', label: 'Contact', url: '/contact', children: [] },
   ];
 }

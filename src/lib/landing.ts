@@ -26,6 +26,18 @@ function unmash(heading: string): string {
   return heading.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\s+/g, ' ').trim();
 }
 
+/**
+ * The scraped landing headings do not slugify to the canonical routes
+ * ("Digital Brochure" -> /resources/digital-brochure), so these names map to the
+ * URLs SITEMAP.md declares. Shared by the nav and the landing page so the two
+ * can never disagree.
+ */
+export const CHILD_URL_OVERRIDES: Record<string, string> = {
+  'digital brochure': '/resources/brochure',
+  'brand marketing blog': '/resources/blog',
+  faqs: '/resources/faqs',
+};
+
 export function slugify(value: string): string {
   return value
     .toLowerCase()
@@ -88,7 +100,8 @@ export async function parseLanding(id: string, base: string): Promise<Landing | 
         continue;
       }
       const name = h2[1]!.trim();
-      current = { num: pendingNum, name, blurb: '', url: `${base}/${slugify(name)}` };
+      const url = CHILD_URL_OVERRIDES[name.toLowerCase()] ?? `${base}/${slugify(name)}`;
+      current = { num: pendingNum, name, blurb: '', url };
       landing.children.push(current);
       pendingNum = null;
       continue;

@@ -27,7 +27,9 @@ const isActive = (url: string) => active === url || (url !== '/' && active.start
 
 <div class="menu" id="site-menu" data-menu hidden>
   <div class="menu__bar">
-    <img src="/assets/logo-full-white.svg" alt="Alive ProStudios" width="180" height="40" />
+    <a href="/" class="menu__home" aria-label="Alive ProStudios home">
+      <img src="/assets/logo-full-white.svg" alt="Alive ProStudios" width="180" height="40" />
+    </a>
     <button type="button" class="menu__close" data-menu-close aria-label="Close menu">
       <span></span><span></span>
     </button>
@@ -103,6 +105,7 @@ const isActive = (url: string) => active === url || (url !== '/' && active.start
     padding: 28px var(--gutter);
     flex: none;
   }
+  .menu__home { display: block; }
   .menu__bar img { height: 40px; width: auto; }
 
   .menu__close {

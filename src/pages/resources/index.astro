@@ -13,21 +13,14 @@ import { getCollection } from 'astro:content';
 /**
  * /resources landing. Children come from `content/landing/resources.md`.
  *
- * The scrape's headings slugify to URLs that do not match SITEMAP.md
- * ("Digital Brochure" -> /resources/digital-brochure), so the canonical routes
- * are mapped by name here. SITEMAP.md stays the authority on URLs.
+ * Child URLs come from CHILD_URL_OVERRIDES in lib/landing.ts, shared with the
+ * nav so the menu and this page can never point at different routes.
  */
 const path = '/resources';
 const title = 'Resources';
 const description =
   'Practical tools, expert insights, and honest answers. Everything you need to ' +
   'make smarter brand and marketing decisions.';
-
-const URLS: Record<string, string> = {
-  'digital brochure': '/resources/brochure',
-  'brand marketing blog': '/resources/blog',
-  faqs: '/resources/faqs',
-};
 
 const landing = await parseLanding('resources', '/resources');
 const posts = await getCollection('blog');
@@ -40,7 +33,7 @@ const rows = (landing?.children ?? []).map((child, i) => ({
   num: String(i + 1).padStart(2, '0'),
   name: child.name,
   blurb: child.blurb,
-  url: URLS[child.name.toLowerCase()] ?? child.url,
+  url: child.url,
 }));
 
 const breadcrumbs = [
