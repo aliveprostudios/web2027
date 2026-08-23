@@ -78,25 +78,41 @@ function withOverview(item: NavItem): NavItem {
   };
 }
 
+/**
+ * Menu rows that are built but NOT published.
+ *
+ * Resources was pulled on 2026-08-23 because its content is not ready. Its route
+ * files still exist, moved to `src/pages/_resources/`, which Astro's router
+ * ignores because of the underscore, so nothing is deleted and nothing is
+ * rewritten. This set is the second half of that switch: it keeps the row out of
+ * the menu so the site never links to a route that is no longer built.
+ *
+ * To republish: rename the directory back to `src/pages/resources/`, empty this
+ * set, and restore the redirect targets in SITEMAP.md (see the note there).
+ */
+const UNPUBLISHED = new Set<string>(['Resources']);
+
 export async function navItems(): Promise<NavItem[]> {
-  const sectionItems: NavItem[] = await Promise.all(
-    SECTIONS.map(async (section, i) => ({
-      num: String(i + 1).padStart(2, '0'),
+  const sectionItems: Omit<NavItem, 'num'>[] = await Promise.all(
+    SECTIONS.map(async (section) => ({
       label: sectionLabel(section),
       url: `/${section}`,
       children: await servicesInSection(section),
     })),
   );
 
-  const items: NavItem[] = [
+  const rows: Omit<NavItem, 'num'>[] = [
     ...sectionItems,
-    { num: '05', label: 'Work', url: '/work', children: await workPages() },
-    { num: '06', label: 'Alive Pro', url: '/alive-pro', children: await aliveProPages() },
-    { num: '07', label: 'Resources', url: '/resources', children: await resourcesPages() },
-    { num: '08', label: 'Contact', url: '/contact', children: [] },
+    { label: 'Work', url: '/work', children: await workPages() },
+    { label: 'Alive Pro', url: '/alive-pro', children: await aliveProPages() },
+    { label: 'Resources', url: '/resources', children: await resourcesPages() },
+    { label: 'Contact', url: '/contact', children: [] },
   ];
 
-  return items.map(withOverview);
+  // Number AFTER filtering, so pulling a row leaves no gap in the sequence.
+  return rows
+    .filter((row) => !UNPUBLISHED.has(row.label))
+    .map((row, i) => withOverview({ ...row, num: String(i + 1).padStart(2, '0') }));
 }
 
 function numbered(items: NavChild[], excludeUrl: string) {

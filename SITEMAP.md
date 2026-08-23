@@ -23,10 +23,10 @@ Locale: English only at launch. Architecture should stay i18n-ready
 | `/work/portfolio` | Image gallery | not exported (excluded) |
 | `/work/videos` | Video wall | `content/work/videos.md` |
 | `/alive-pro` | Alive Pro landing | `content/landing/alive-pro.md` |
-| `/resources` | Resources landing | `content/landing/resources.md` |
-| `/resources/blog` | Blog index | `content/landing/blog-index.md` |
-| `/resources/faqs` | FAQs | `content/faqs.md` |
-| `/resources/brochure` | Digital brochure | `content/pages/brochure.md` |
+| ~~`/resources`~~ | **UNPUBLISHED 2026-08-23.** Resources landing | `content/landing/resources.md` |
+| ~~`/resources/blog`~~ | **UNPUBLISHED 2026-08-23.** Blog index | `content/landing/blog-index.md` |
+| ~~`/resources/faqs`~~ | **UNPUBLISHED 2026-08-23.** FAQs | `content/faqs.md` |
+| ~~`/resources/brochure`~~ | **UNPUBLISHED 2026-08-23.** Digital brochure | `content/pages/brochure.md` |
 | `/contact` | Contact form | `content/pages/contact.md` |
 | `/thank-you` | Post-submit (noindex) | — |
 | `/brand-pulse` | Interactive diagnostic | `content/pages/brand-pulse.md` |
@@ -106,9 +106,9 @@ Locale: English only at launch. Architecture should stay i18n-ready
 
 | URL | Title | Source file |
 |---|---|---|
-| `/resources/blog/brand-marketing-toronto` | Brand Marketing Toronto | `content/blog/brand-marketing-toronto.md` |
-| `/resources/blog/branding-restaurants` | Branding Restaurants | `content/blog/branding-restaurants.md` |
-| `/resources/blog/digital-marketing-redefined` | Digital Marketing Redefined | `content/blog/digital-marketing-redefined.md` |
+| ~~`/resources/blog/brand-marketing-toronto`~~ | **UNPUBLISHED 2026-08-23.** Brand Marketing Toronto | `content/blog/brand-marketing-toronto.md` |
+| ~~`/resources/blog/branding-restaurants`~~ | **UNPUBLISHED 2026-08-23.** Branding Restaurants | `content/blog/branding-restaurants.md` |
+| ~~`/resources/blog/digital-marketing-redefined`~~ | **UNPUBLISHED 2026-08-23.** Digital Marketing Redefined | `content/blog/digital-marketing-redefined.md` |
 
 ---
 
@@ -127,6 +127,16 @@ Filter tabs come from tags: **Brand Marketing**, **Promotional & Educational**.
 site.** Dropping them discards accumulated SEO equity on the old URLs.
 
 In Astro, set them in `astro.config.mjs` under `redirects`, or at the host.
+
+> **Resources is unpublished (2026-08-23).** Eight rows below originally pointed
+> into `/resources/*` and now point at `/`, because those routes are no longer
+> built and a 301 to a 404 is worse than a 301 to the homepage. Restore them to
+> the targets recorded in the URL map above when the section is republished:
+> `/faqs` to `/resources/faqs`, `/digital-brochure` to `/resources/brochure`,
+> `/brand-marketing-blog` to `/resources/blog`, and the five `/branding/*` and
+> `/marketing/*` rows to their `/resources/blog/*` targets. Note those five point
+> at posts that were never migrated, so they were already landing on a 404 before
+> this change; see `LAUNCH.md` §1.
 
 | From | To | Code |
 |---|---|---|
@@ -180,14 +190,14 @@ In Astro, set them in `astro.config.mjs` under `redirects`, or at the host.
 | `/sprints` | `/alive-pro/precision-impact-sprints` | 301 |
 | `/partnership-niu` | `/alive-pro/partnership` | 301 |
 | `/partnership-new` | `/alive-pro/partnership` | 301 |
-| `/faqs` | `/resources/faqs` | 301 |
-| `/digital-brochure` | `/resources/brochure` | 301 |
-| `/brand-marketing-blog` | `/resources/blog` | 301 |
-| `/branding/online-digital-advertising` | `/resources/blog/online-digital-advertising` | 301 |
-| `/branding/a-guide-to-developing-a-successful-brand-architecture` | `/resources/blog/a-guide-to-developing-a-successful-brand-architecture` | 301 |
-| `/marketing/7-ways-influencer-marketing-levels-up-your-branding` | `/resources/blog/7-ways-influencer-marketing-levels-up-your-branding` | 301 |
-| `/branding/top-5-misconceptions-about-branding` | `/resources/blog/top-5-misconceptions-about-branding` | 301 |
-| `/branding/lights-camera-action-unleashing-the-power-of-video-marketing-for-smbs-in-2024` | `/resources/blog/lights-camera-action-unleashing-the-power-of-video-marketing-for-smbs-in-2024` | 301 |
+| `/faqs` | `/` | 301 |
+| `/digital-brochure` | `/` | 301 |
+| `/brand-marketing-blog` | `/` | 301 |
+| `/branding/online-digital-advertising` | `/` | 301 |
+| `/branding/a-guide-to-developing-a-successful-brand-architecture` | `/` | 301 |
+| `/marketing/7-ways-influencer-marketing-levels-up-your-branding` | `/` | 301 |
+| `/branding/top-5-misconceptions-about-branding` | `/` | 301 |
+| `/branding/lights-camera-action-unleashing-the-power-of-video-marketing-for-smbs-in-2024` | `/` | 301 |
 | `/contact-us` | `/contact` | 301 |
 | `/request-a-quote` | `/contact` | 301 |
 | `/thank-you-sprints` | `/` | 301 |
