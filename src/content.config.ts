@@ -20,6 +20,8 @@ const pageFields = {
   seoDescription: z.string().optional(),
   /** Manual override for the route-hash video pick. */
   videoId: z.string().optional(),
+  /** ISO date a legal document last changed, rendered as its "last updated" line. */
+  updated: z.string().optional(),
   source: z.string().optional(),
 };
 

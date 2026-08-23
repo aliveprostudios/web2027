@@ -1,23 +1,217 @@
 ---
-import { getEntry } from 'astro:content';
-import MasterPage from '../layouts/MasterPage.astro';
-import { parseAnatomy } from '../lib/anatomy';
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BgRails from '../components/BgRails.astro';
+import SiteNav from '../components/SiteNav.astro';
+import VideoHero from '../components/VideoHero.astro';
+import BookConsult from '../components/BookConsult.astro';
+import NextStep from '../components/NextStep.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
+/**
+ * The privacy policy is a legal document, so it does NOT go through
+ * MasterPage + parseAnatomy. That pipeline exists to turn marketing copy into
+ * the Master template's slots: it hoists the first `##` into the
+ * "(01) Why It Matters" H2, numbers every later heading into a display row, and
+ * promotes the final paragraph to the closing statement. Run over a policy it
+ * produced "1. Who we are" as the page's opening headline and
+ * "&larr; Back to home" as its closing statement, and it split every
+ * blank-line-separated bullet into its own single-item `<ul>`.
+ *
+ * Here the Markdown goes through Astro's own Markdown pipeline instead, so the
+ * document keeps the shape it was written in: numbered `##` sections, body
+ * copy, and real grouped lists. The page still wears the site: hero, rails,
+ * video, and the global closing sections are unchanged, and the section
+ * headings take the H5 kicker role from STYLEGUIDE.md §1.3.
+ */
 const entry = await getEntry('pages', 'privacy-policy');
+if (!entry) throw new Error('content/pages/privacy-policy.md is missing');
+
+const { Content } = await render(entry);
+
 const path = '/privacy-policy';
-const caption = entry?.data.caption?.trim() || undefined;
-const anatomy = parseAnatomy(entry?.body ?? '', caption);
+const title = entry.data.title;
+const description =
+  entry.data.seoDescription ??
+  'How Alive ProStudios collects, uses, and protects your information.';
+
+/** Frontmatter carries an ISO date; the page shows it long-form. Parse as UTC
+ *  so the rendered date cannot drift a day against the build machine's zone. */
+const updatedISO = entry.data.updated;
+const updatedLabel = updatedISO
+  ? new Date(`${updatedISO}T00:00:00Z`).toLocaleDateString('en-CA', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC',
+    })
+  : null;
+
+const schema = [
+  {
+    '@type': 'WebPage',
+    '@id': `https://aliveprostudios.com${path}#page`,
+    name: title,
+    description,
+    ...(updatedISO ? { dateModified: updatedISO } : {}),
+    isPartOf: { '@id': 'https://aliveprostudios.com/#organization' },
+  },
+];
 ---
 
-<MasterPage
-  title={entry?.data.title ?? 'Privacy Policy'}
-  description={entry?.data.seoDescription ?? 'How Alive ProStudios collects, uses, and protects your information.'}
+<BaseLayout
+  {title}
+  {description}
   {path}
-  {anatomy}
-  {caption}
-  crumb="Legal  ·  Privacy"
+  {schema}
   breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Privacy Policy', url: path }]}
-  footerLabel="Contact"
-  footerHref="/contact"
-  schemaType="WebPage"
-/>
+>
+  <div class="page-root">
+    <BgRails />
+
+    <!-- 1. Hero -->
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav active={path} />
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Legal&nbsp;&nbsp;·&nbsp;&nbsp;Privacy</p>
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask">
+              <span class="hero__line dot">{title}</span>
+            </span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. VideoHero -->
+    <VideoHero route={path} title={`${title} reel`} />
+
+    <main id="main">
+      <!-- 3. The policy, as a plain document -->
+      <section class="legal">
+        <div class="legal__doc z-content">
+          {
+            updatedLabel && (
+              <p class="legal__meta">
+                Last updated <time datetime={updatedISO}>{updatedLabel}</time>
+              </p>
+            )
+          }
+          <Content />
+        </div>
+      </section>
+
+      <!-- 4. Book a Consult [GLOBAL] -->
+      <BookConsult />
+    </main>
+
+    <!-- 5. Next Step -->
+    <NextStep sectionNum="03" />
+
+    <!-- 6. Footer -->
+    <SiteFooter nextLabel="Contact" nextHref="/contact" />
+  </div>
+</BaseLayout>
+
+<style>
+  /* ---- 1. Hero (§3) — theme-invariant, identical to MasterPage ---------- */
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+
+  /* ---- 3. Legal document ----------------------------------------------
+     One measure, no number columns, no display type. The Markdown is rendered
+     by Astro, so it carries no scope attribute: every descendant rule has to be
+     :global(). Values come from the §1.3 type roles rather than new ones. */
+  .legal { padding: 112px var(--gutter); }
+  .legal__doc { max-width: 760px; }
+
+  .legal__meta {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--pg-fg3);
+    margin: 0 0 48px;
+  }
+
+  /* Section headings take the H5 kicker role (§1.3), with a hairline above so
+     thirteen numbered sections stay scannable. */
+  .legal__doc :global(h2) {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--orange-ink);
+    margin: 64px 0 20px;
+    padding-top: 32px;
+    border-top: 1px solid var(--pg-line);
+  }
+
+  .legal__doc :global(p) {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--pg-fg2);
+    margin: 0;
+  }
+  .legal__doc :global(p + p) { margin-top: 20px; }
+
+  /* The opening paragraph is the document's lede. */
+  .legal__doc > :global(p:first-of-type) {
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--pg-fg);
+  }
+
+  .legal__doc :global(ul) {
+    margin: 20px 0 0;
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--pg-fg2);
+    list-style: disc;
+  }
+  .legal__doc :global(li)::marker { color: var(--brand-orange); }
+  .legal__doc :global(ul + p) { margin-top: 24px; }
+
+  .legal__doc :global(strong) { font-weight: 700; color: var(--pg-fg); }
+
+  .legal__doc :global(a) {
+    color: var(--orange-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .legal__doc :global(a:hover) { text-decoration-thickness: 2px; }
+
+  .legal__doc :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    color: var(--pg-fg);
+  }
+
+  @media (max-width: 760px) {
+    .legal { padding: 72px var(--gutter); }
+    .legal__doc :global(h2) { margin-top: 48px; padding-top: 28px; }
+  }
+</style>
