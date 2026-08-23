@@ -64,6 +64,20 @@ export async function aliveProPages(): Promise<NavChild[]> {
  * and Alive Pro expand into accordions; Work, Resources and Contact are direct
  * links.
  */
+/**
+ * An accordion row is a toggle, not a link (STYLEGUIDE.md §4.2), which left
+ * every section's own landing page unreachable from the menu. Prepending an
+ * overview entry makes the landing reachable while leaving the specced row
+ * behaviour untouched.
+ */
+function withOverview(item: NavItem): NavItem {
+  if (item.children.length === 0) return item;
+  return {
+    ...item,
+    children: [{ title: `${item.label} Overview`, url: item.url }, ...item.children],
+  };
+}
+
 export async function navItems(): Promise<NavItem[]> {
   const sectionItems: NavItem[] = await Promise.all(
     SECTIONS.map(async (section, i) => ({
@@ -74,13 +88,15 @@ export async function navItems(): Promise<NavItem[]> {
     })),
   );
 
-  return [
+  const items: NavItem[] = [
     ...sectionItems,
     { num: '05', label: 'Work', url: '/work', children: await workPages() },
     { num: '06', label: 'Alive Pro', url: '/alive-pro', children: await aliveProPages() },
     { num: '07', label: 'Resources', url: '/resources', children: await resourcesPages() },
     { num: '08', label: 'Contact', url: '/contact', children: [] },
   ];
+
+  return items.map(withOverview);
 }
 
 function numbered(items: NavChild[], excludeUrl: string) {

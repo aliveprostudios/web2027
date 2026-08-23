@@ -200,6 +200,22 @@ on click and destroyed on close, so nothing keeps playing behind the scrim.
 
 ## 7. Global components
 
+### Menu reachability
+
+Every route must be reachable from chrome that appears on all 54 pages. Audit it
+by crawling the built HTML, not by reading the component:
+
+- An accordion row is a TOGGLE, not a link (§4.2), so each section's own landing
+  page would be unreachable. `withOverview()` in `lib/nav.ts` prepends a
+  "{Section} Overview" entry to every accordion, which keeps the specced row
+  behaviour and makes the landing reachable.
+- `/privacy-policy` sits in the black footer bar, so it is reachable everywhere.
+- Blog posts are reachable one level down from `/resources/blog`, which is
+  normal for an index.
+
+Current state: 51 of 54 routes reachable directly from the menu or footer; the
+3 remaining are the blog posts behind their index.
+
 ### SiteNav
 Header: white wordmark left; right cluster at `gap:28px` = "EST. 1997" → theme toggle →
 hamburger (two 30×3px bars, 6px gap).
