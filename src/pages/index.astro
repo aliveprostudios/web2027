@@ -1,5 +1,13 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+/* Moved out of public/ so the build can process them: raw files there are
+   shipped byte-for-byte with no WebP/AVIF and no srcset, which STYLEGUIDE §8
+   requires. hero-bg is the home page's LCP element, so it was the single
+   heaviest thing on the site's most important page. */
+import heroBg from '../../content/assets/site/hero-bg.jpg';
+import homeFeature from '../../content/assets/site/home-feature.jpg';
+import founderPortrait from '../../content/assets/site/javad-ahmadi-portrait.jpg';
 import BgRails from '../components/BgRails.astro';
 import SiteNav from '../components/SiteNav.astro';
 import VideoHero from '../components/VideoHero.astro';
@@ -85,7 +93,15 @@ const captionParts = caption ? splitSentences(caption) : [];
 
     <!-- 1. Hero: full-bleed photo, no overlay -->
     <section class="hero" data-hero>
-      <img class="hero__bg" src="/assets/hero-bg.jpg" alt="" width="2400" height="1350" fetchpriority="high" />
+      <Image
+        class="hero__bg"
+        src={heroBg}
+        alt=""
+        widths={[768, 1280, 1920, 2400]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
 
       <div class="hero__inner">
         <SiteNav active="/" />
@@ -190,12 +206,12 @@ const captionParts = caption ? splitSentences(caption) : [];
         anatomy.quote && (
           <section class="quote">
             <div class="quote__inner z-content" data-stack>
-              <img
+              <Image
                 class="quote__portrait"
-                src="/assets/javad-ahmadi-portrait.jpg"
+                src={founderPortrait}
                 alt="Javad Ahmadi, Founder and Brand Transformation Architect"
-                width="640"
-                height="800"
+                widths={[320, 640]}
+                sizes="(max-width: 760px) 240px, 320px"
                 loading="lazy"
               />
               <div>
@@ -214,12 +230,12 @@ const captionParts = caption ? splitSentences(caption) : [];
 
       <!-- 6. Feature image, parallax -->
       <section class="feature" data-feature>
-        <img
+        <Image
           class="feature__img"
-          src="/assets/home-feature.jpg"
+          src={homeFeature}
           alt="Alive ProStudios brand work"
-          width="1400"
-          height="933"
+          widths={[768, 1400]}
+          sizes="100vw"
           loading="lazy"
           decoding="async"
         />

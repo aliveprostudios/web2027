@@ -111,6 +111,7 @@ ${isStaging ? `# Staging build (branch: ${branch || 'unknown'}) — indexing dis
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
+  Strict-Transport-Security: max-age=31536000
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
 ${isStaging ? '  X-Robots-Tag: noindex, nofollow\n' : ''}
 # Astro fingerprints these filenames, so they can be cached forever.
@@ -119,6 +120,26 @@ ${isStaging ? '  X-Robots-Tag: noindex, nofollow\n' : ''}
 `;
 
 writeFileSync(join(dist, '_headers'), headers);
+
+/* ------------------------------------------------------------- robots.txt */
+
+// Generated rather than kept in public/, because the two environments need
+// OPPOSITE files and a static one would ship the wrong answer to one of them.
+// Staging is already noindex via the header above; this closes the crawl path
+// as well, since a header only helps once a crawler has fetched the page.
+const robots = isStaging
+  ? `# Staging build${branch ? ` (branch: ${branch})` : ''}. Not for indexing.
+User-agent: *
+Disallow: /
+`
+  : `# https://aliveprostudios.com
+User-agent: *
+Allow: /
+
+Sitemap: https://aliveprostudios.com/sitemap-index.xml
+`;
+
+writeFileSync(join(dist, 'robots.txt'), robots);
 
 /* ----------------------------------------------------------------- redirects */
 

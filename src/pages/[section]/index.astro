@@ -9,6 +9,7 @@ import SiteFooter from '../../components/SiteFooter.astro';
 import { parseLanding } from '../../lib/landing';
 import { servicesInSection } from '../../lib/nav';
 import { SECTIONS, sectionLabel, stageIndex, breadcrumb, isSection } from '../../lib/sections';
+import { clampDescription } from '../../lib/seo';
 
 /**
  * The four pillar landings: /foundation, /execution, /growth, /infrastructure.
@@ -42,9 +43,12 @@ const rows = services.map((service, i) => ({
   blurb: blurbs.get(service.title.toLowerCase()) ?? '',
 }));
 
-const description =
+// The intro paragraph is written for the page, not for a search result, so it
+// is clamped to whole sentences that fit. See src/lib/seo.ts.
+const description = clampDescription(
   landing?.intro ||
-  `${label} services from Alive ProStudios, a Toronto brand transformation studio.`;
+    `${label} services from Alive ProStudios, a Toronto brand transformation studio.`,
+);
 
 const schema = [
   {
