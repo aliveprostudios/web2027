@@ -27,6 +27,8 @@ The right strategy wins. Without it, you’re guessing with budget. We build dig
 
 A campaign without a funnel is a leaky bucket. We design robust sales funnels built to nurture and convert leads at every stage of the buyer journey. From the first touchpoint to the final conversion, every step is mapped, measured, and optimized to reduce drop-off and maximize results.
 
+---
+
 ## Types of Campaigns
 
 ### Brand Awareness (Top of Funnel).
@@ -40,6 +42,10 @@ The middle of the funnel is where most businesses leave money on the table. Thes
 ### Conversion (Bottom of Funnel).
 
 Bottom-funnel campaigns are designed to close. They’re the most expensive because you’re competing at the moment of decision, but they also deliver the highest conversion rates. When your top and middle funnel are working properly, your bottom-funnel campaigns become significantly more efficient because you’re converting warm leads, not cold traffic.
+
+***
+
+## Holistic Approach Always Wins
 
 ## Search Engine Marketing (Google & Bing)
 

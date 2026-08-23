@@ -1,5 +1,8 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { figure } from '../lib/figures';
 import BgRails from '../components/BgRails.astro';
 import SiteNav from '../components/SiteNav.astro';
 import VideoHero from '../components/VideoHero.astro';
@@ -145,6 +148,28 @@ const schema = [
                   {anatomy.intro.map((block) =>
                     block.kind === 'p' ? (
                       <p set:html={block.html} />
+                    ) : block.kind === 'image' ? (
+                      <figure class="md__figure">
+                        {figure(block.src).kind === 'svg' ? (
+                          <img
+                            src={(figure(block.src) as { src: string }).src}
+                            alt={block.alt}
+                            width={(figure(block.src) as { width: number }).width}
+                            height={(figure(block.src) as { height: number }).height}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        ) : (
+                          <Image
+                            src={(figure(block.src) as { image: ImageMetadata }).image}
+                            alt={block.alt}
+                            widths={[720, 1440]}
+                            sizes="720px"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        )}
+                      </figure>
                     ) : (
                       <ul>
                         {block.items.map((item) => (
@@ -174,29 +199,74 @@ const schema = [
       {
         anatomy.rows.length > 0 && (
           <section class="rows">
-            {anatomy.rows.map((row, i) => (
-              <div class="row z-content" data-stack>
-                <span class="row__num">{String(i + 1).padStart(2, '0')}</span>
-                <div>
-                  <h3 class="t-h3 row__heading">{row.heading}</h3>
-                  <div class="md">
-                    {row.blocks.map((block) =>
-                      block.kind === 'p' ? (
-                        <p set:html={block.html} />
-                      ) : (
-                        <div class="row__list">
-                          {block.label && <p class="row__list-label t-eyebrow">{block.label}</p>}
-                          <ul>
-                            {block.items.map((item) => (
-                              <li set:html={item} />
-                            ))}
-                          </ul>
-                        </div>
-                      ),
+            {anatomy.rows.map((row) => (
+              <Fragment>
+                <div
+                  class:list={[
+                    'row',
+                    'z-content',
+                    row.section && 'row--section',
+                    !row.section && !row.num && 'row--plain',
+                  ]}
+                  data-stack
+                >
+                  {row.num && <span class="row__num">{row.num}</span>}
+                  <div>
+                    {row.section ? (
+                      <h2 class="t-h2 row__heading">{row.heading}</h2>
+                    ) : (
+                      <h3 class="t-h3 row__heading">{row.heading}</h3>
                     )}
+                    <div class="md">
+                      {row.blocks
+                        .filter((block) => block.kind !== 'image')
+                        .map((block) =>
+                          block.kind === 'p' ? (
+                            <p set:html={block.html} />
+                          ) : (
+                            <div class="row__list">
+                              {block.label && <p class="row__list-label t-eyebrow">{block.label}</p>}
+                              <ul>
+                                {block.items.map((item) => (
+                                  <li set:html={item} />
+                                ))}
+                              </ul>
+                            </div>
+                          ),
+                        )}
+                    </div>
                   </div>
                 </div>
-              </div>
+
+                {row.blocks
+                  .filter((block) => block.kind === 'image')
+                  .map((block) => {
+                    const fig = figure(block.src);
+                    return (
+                      <figure class="rows__figure">
+                        {fig.kind === 'svg' ? (
+                          <img
+                            src={fig.src}
+                            alt={block.alt}
+                            width={fig.width}
+                            height={fig.height}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        ) : (
+                          <Image
+                            src={fig.image}
+                            alt={block.alt}
+                            widths={[768, 1280, 1800]}
+                            sizes="100vw"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        )}
+                      </figure>
+                    );
+                  })}
+              </Fragment>
             ))}
           </section>
         )
@@ -307,6 +377,10 @@ const schema = [
   .why__num { color: var(--orange-ink); }
 
   .why__statement { max-width: 680px; margin: 56px 0 0; }
+
+  /* An image in slot 3 stays inside the measure; only slot 4 goes full bleed. */
+  .md__figure { margin: 32px 0 0; max-width: 720px; }
+  .md__figure img { display: block; width: 100%; height: auto; border-radius: 8px; }
   .why__body { margin-top: 32px; }
 
   /* Stat block (§5) */
@@ -344,6 +418,35 @@ const schema = [
     padding: 56px 0;
     align-items: start;
   }
+
+  /* A section head (`---` before the heading in the Markdown). It is NOT part of
+     the numbered run above it, so it drops the number column and the hairline
+     that chains the rows together, and takes the H2 scale like the slot 3
+     heading it is a peer of. The space above is what separates the sections. */
+  .row--section {
+    grid-template-columns: 1fr;
+    border-top: none;
+    padding: 112px 0 56px;
+  }
+  .row--section .row__heading { margin-bottom: 32px; }
+
+  /* An item in a `***` section: still an item, so it keeps the hairline and the
+     H3 scale, it just has no number. The body is pinned to the second column so
+     it stays on the same left edge as the numbered items elsewhere. */
+  .row--plain > div { grid-column: 2; }
+
+  /* Edge to edge. `.rows` is padded by exactly one gutter each side, so pulling
+     the figure back by that much lands it on the viewport edges. Measuring off
+     the container's own padding rather than 100vw keeps it exact when a classic
+     scrollbar is present, which 100vw does not account for. The white ground is
+     for the diagram's own artwork, so a transparent SVG still reads in dark mode. */
+  .rows__figure {
+    position: relative;
+    z-index: var(--z-content);
+    margin: 0 calc(var(--gutter) * -1) 56px;
+    background: #fff;
+  }
+  .rows__figure img { display: block; width: 100%; height: auto; }
 
   .row__num {
     font-family: var(--font-condensed);

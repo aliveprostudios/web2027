@@ -17,6 +17,8 @@ Most businesses spend real money driving traffic but have no structured system f
 
 **How many leads entered your pipeline last month? How many converted? If you can’t answer both questions instantly, your funnel needs work.**
 
+---
+
 ## How We Build Your Funnel
 
 ### Top of Funnel: Awareness.
@@ -30,6 +32,8 @@ This is where most businesses lose their leads. We build the nurture layer with 
 ### Bottom of Funnel: Conversion.
 
 This is where qualified leads convert. We design conversion-stage assets like case studies, demos, consultations, and high-converting landing pages. By this point, leads have been prequalified and qualified through the funnel, so your sales team is spending time on real opportunities, not cold contacts.
+
+***
 
 ## The Infrastructure Behind the Funnel
 

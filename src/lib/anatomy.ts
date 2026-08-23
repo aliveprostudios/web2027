@@ -75,9 +75,24 @@ export function splitSentences(text: string): string[] {
 
 export type Block =
   | { kind: 'p'; html: string }
-  | { kind: 'list'; label: string | null; items: string[] };
+  | { kind: 'list'; label: string | null; items: string[] }
+  /** A standalone Markdown image. Rendered edge to edge, outside the row grid. */
+  | { kind: 'image'; src: string; alt: string };
 
-export type Row = { heading: string; blocks: Block[] };
+/**
+ * A slot-4 entry, either a section head or an item inside one.
+ *
+ * `num` is decided HERE, not by the template's map index, so the numbering rule
+ * lives in one place. It is null for every section head, and also for an item in
+ * a section that was opened with `***` rather than `---`.
+ */
+export type Row = {
+  heading: string;
+  blocks: Block[];
+  num: string | null;
+  /** True for a section head: full width, no hairline, H2 scale. */
+  section: boolean;
+};
 
 export type Anatomy = {
   /** Slot 3 H2: the document's first heading. */
@@ -99,6 +114,9 @@ export type Anatomy = {
 };
 
 type Raw =
+  /** `numbered` distinguishes a `---` break from a `***` one. */
+  | { type: 'break'; numbered: boolean }
+  | { type: 'image'; src: string; alt: string }
   | { type: 'heading'; text: string }
   | { type: 'quote'; text: string }
   | { type: 'list'; items: string[] }
@@ -114,6 +132,20 @@ function tokenize(body: string): Raw[] {
     .filter(Boolean);
 
   return chunks.map((chunk): Raw => {
+    // A Markdown thematic break is the SECTION BREAK marker. The heading that
+    // follows it starts a new standalone section, always unnumbered itself.
+    // CommonMark treats `---`, `___` and `***` as the same thematic break, which
+    // leaves the character free to carry which KIND of section it opens:
+    //   `---` (or `___`)  items beneath it are numbered, restarting at 01
+    //   `***`             items beneath it carry no number at all
+    if (/^(-{3,}|_{3,})$/.test(chunk)) return { type: 'break', numbered: true };
+    if (/^\*{3,}$/.test(chunk)) return { type: 'break', numbered: false };
+
+    // A paragraph that is nothing but an image: `![alt](/assets/thing.svg)`.
+    // Only site-absolute paths, so the src cannot reach off-origin.
+    const image = chunk.match(/^!\[([^\]]*)\]\((\/[^)\s]+)\)$/);
+    if (image) return { type: 'image', src: image[2]!, alt: image[1]!.trim() };
+
     const heading = chunk.match(/^#{2,6}\s+(.*)$/);
     if (heading) return { type: 'heading', text: heading[1]!.trim() };
 
@@ -204,6 +236,13 @@ export function parseAnatomy(body: string, frontmatterCaption?: string): Anatomy
   let seenHeading = false;
   let introParagraphs = 0;
   let currentRow: Row | null = null;
+  /** Set by a thematic break; consumed by the next heading. */
+  let pendingBreak: { numbered: boolean } | null = null;
+  /** Whether the CURRENT section numbers its items. Pages with no break keep
+   *  the original behaviour: one implicit numbered section for the whole page. */
+  let sectionNumbers = true;
+  /** Item counter WITHIN the current section. A section head resets it. */
+  let itemNum = 0;
 
   const push = (block: Block) => {
     if (currentRow) currentRow.blocks.push(block);
@@ -213,13 +252,32 @@ export function parseAnatomy(body: string, frontmatterCaption?: string): Anatomy
   for (let i = 0; i < flow.length; i++) {
     const token = flow[i]!;
 
+    if (token.type === 'break') {
+      pendingBreak = { numbered: token.numbered };
+      continue;
+    }
+
     if (token.type === 'heading') {
       if (!seenHeading) {
         // First heading is the slot 3 H2, not a row.
         result.h2 = token.text;
         seenHeading = true;
+        pendingBreak = null;
+      } else if (pendingBreak) {
+        // A section head. Never numbered itself; it decides whether the items
+        // beneath it are, and the count starts over.
+        sectionNumbers = pendingBreak.numbered;
+        pendingBreak = null;
+        itemNum = 0;
+        currentRow = { heading: token.text, blocks: [], num: null, section: true };
+        result.rows.push(currentRow);
       } else {
-        currentRow = { heading: token.text, blocks: [] };
+        let num: string | null = null;
+        if (sectionNumbers) {
+          itemNum += 1;
+          num = String(itemNum).padStart(2, '0');
+        }
+        currentRow = { heading: token.text, blocks: [], num, section: false };
         result.rows.push(currentRow);
       }
       continue;
@@ -244,6 +302,11 @@ export function parseAnatomy(body: string, frontmatterCaption?: string): Anatomy
 
     if (token.type === 'list') {
       push({ kind: 'list', label: null, items: token.items.map(inline) });
+      continue;
+    }
+
+    if (token.type === 'image') {
+      push({ kind: 'image', src: token.src, alt: token.alt });
       continue;
     }
 
