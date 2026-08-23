@@ -138,6 +138,18 @@ In Astro, set them in `astro.config.mjs` under `redirects`, or at the host.
 > at posts that were never migrated, so they were already landing on a 404 before
 > this change; see `LAUNCH.md` §1.
 
+
+### WordPress archive URLs, added 2026-08-23
+
+Pulled from the OLD site's live Yoast sitemap (`sitemap_index.xml`, 84 URLs) and
+diffed against this map. 65 were already covered; the 19 below were not and would
+have 404'd the moment DNS cut over. `/portfolio` was the costly one: a top-level
+page with years of equity pointing at it.
+
+Tag and category archives have no equivalent here, so each points at the pillar
+or service page closest to its subject rather than at the homepage, which
+preserves more of the signal. Adjust any row whose mapping reads wrong.
+
 | From | To | Code |
 |---|---|---|
 | `/home` | `/` | 301 |
@@ -202,6 +214,25 @@ In Astro, set them in `astro.config.mjs` under `redirects`, or at the host.
 | `/request-a-quote` | `/contact` | 301 |
 | `/thank-you-sprints` | `/` | 301 |
 | `/services-master-template` | `/` | 301 |
+| `/portfolio` | `/work/portfolio` | 301 |
+| `/portfolio/3d` | `/work/portfolio` | 301 |
+| `/portfolio-category/photography` | `/execution/photography` | 301 |
+| `/portfolio-tag/3d` | `/work/portfolio` | 301 |
+| `/portfolio-tag/commercial` | `/work/portfolio` | 301 |
+| `/portfolio-tag/lifestyle` | `/work/portfolio` | 301 |
+| `/portfolio-tag/product` | `/work/portfolio` | 301 |
+| `/portfolio-tag/product-photography` | `/execution/photography` | 301 |
+| `/portfolio-tag/residential` | `/work/portfolio` | 301 |
+| `/category/branding` | `/foundation` | 301 |
+| `/category/marketing` | `/growth` | 301 |
+| `/tag/brand-identity-name-creation-services` | `/foundation/brand-name-identity` | 301 |
+| `/tag/branding-services` | `/foundation` | 301 |
+| `/tag/digital-marketing` | `/growth/digital-marketing` | 301 |
+| `/tag/google-ad-campaigns` | `/growth/digital-marketing` | 301 |
+| `/tag/integrated-marketing-services` | `/growth` | 301 |
+| `/tag/marketing` | `/growth` | 301 |
+| `/author/admin` | `/alive-pro/about-us` | 301 |
+| `/locations.kml` | `/contact` | 301 |
 | `/alive-template` | `/` | 301 |
 
 ---

@@ -181,18 +181,61 @@ curl -sI "$S/" | grep -i x-robots
 
 ---
 
-## 5. Cut over — the point of no return
+## 5. Cut over, the point of no return
 
-- [ ] Worker → Settings → Domains & Routes → add `aliveprostudios.com`
-      (the domain is already on this Cloudflare account)
-- [ ] Confirm production does **not** send `X-Robots-Tag`
-- [ ] Re-test a sample of the 63 redirects on the real domain
-- [ ] Submit the sitemap in Google Search Console
-- [ ] Re-scrape any previously shared URL through the LinkedIn Post Inspector and
-      the Facebook Sharing Debugger — a deploy does not refresh a preview a
-      platform already cached
+Verified state as of 2026-08-23: GoDaddy already delegates to Cloudflare
+(`etienne.ns.cloudflare.com`, `meilani.ns.cloudflare.com`), so **the registrar
+does not need to be touched at all**. The apex A record still points at
+`208.109.16.226`, the old WordPress host, which is what visitors see today.
 
----
+### What the cutover does and does not touch
+
+It replaces ONE record: the apex `A`. Email lives on different names and types
+and is not involved:
+
+| Record | Value | Cutover |
+|---|---|---|
+| `aliveprostudios.com` A | `208.109.16.226` | **REPLACED** by the Worker |
+| `aliveprostudios.com` MX | `...mail.protection.outlook.com` | untouched |
+| `aliveprostudios.com` TXT | `v=spf1 ...` | untouched |
+| `aliveprostudios.com` TXT | `MS=ms79490828` | untouched |
+| `autodiscover` CNAME | `autodiscover.outlook.com` | untouched |
+| `www` CNAME | `aliveprostudios.com` | see step 3 |
+
+Microsoft mail keeps flowing throughout. HSTS is deliberately set WITHOUT
+`includeSubDomains` so it can never reach `autodiscover.aliveprostudios.com`.
+
+### Steps
+
+1. **Promote to production first.** `git checkout main && git merge staging &&
+   git push origin main`. Confirm `aliveprostudios.javad-ade.workers.dev` serves
+   the new build, has NO `x-robots-tag`, and that `/robots.txt` is the
+   production one (`Allow: /`). Do not touch DNS until this is true.
+2. **Attach the custom domain.** Cloudflare dashboard, Workers & Pages,
+   `aliveprostudios`, Settings, Domains & Routes, Add, Custom Domain,
+   `aliveprostudios.com`. Cloudflare warns that it is replacing the existing A
+   record; that warning IS the cutover. It provisions the certificate itself.
+3. **Make www redirect, not duplicate.** Every canonical on the site points at
+   the bare apex, so www must 301 rather than serve a second copy. Rules,
+   Redirect Rules, new rule: hostname equals `www.aliveprostudios.com`, dynamic
+   redirect 301 to `concat("https://aliveprostudios.com", http.request.uri.path)`,
+   preserve query string. Leave the existing www CNAME in place.
+4. **Verify.** `https://aliveprostudios.com` serves the new site; www 301s to
+   apex; `/robots.txt` allows crawling and names the sitemap; spot-check three
+   redirects, e.g. `/portfolio`, `/faqs`, `/contact-us`. Send and receive one
+   email to confirm Microsoft is unaffected.
+5. **Check Cloudflare is not overriding robots.txt.** The zone currently serves
+   a Cloudflare-managed robots.txt with a content-signals preamble, plus a stale
+   Yoast block pointing at the old WordPress `sitemap_index.xml`. After cutover,
+   confirm `https://aliveprostudios.com/robots.txt` is OURS. If Cloudflare's
+   managed block is still prepended that is fine and even desirable, but the
+   Yoast `Sitemap:` line must not survive: it points at a sitemap that will no
+   longer exist.
+6. **Close the workers.dev door.** `aliveprostudios.javad-ade.workers.dev` will
+   keep serving the identical site with no noindex once main is promoted.
+   Canonicals point at the real domain so the duplicate-content risk is small,
+   but disabling the workers.dev route in the same Domains & Routes panel closes
+   it properly.
 
 ## 6. After launch
 
