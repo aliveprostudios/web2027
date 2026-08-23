@@ -15,9 +15,19 @@ interface Props {
   /** Extra JSON-LD entities beyond Organization + BreadcrumbList. */
   schema?: Record<string, unknown>[];
   breadcrumbs?: Array<{ name: string; url: string }>;
+  /** Keep this page out of the index. `follow` so its links still pass equity.
+   *  Pair it with the sitemap filter in astro.config.mjs. */
+  noindex?: boolean;
 }
 
-const { title, description, path, schema = [], breadcrumbs = [] } = Astro.props;
+const {
+  title,
+  description,
+  path,
+  schema = [],
+  breadcrumbs = [],
+  noindex = false,
+} = Astro.props;
 
 const SITE = 'https://aliveprostudios.com';
 const canonical = new URL(path, SITE).href;
@@ -65,6 +75,7 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
 
     <title>{pageTitle}</title>
     {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
 
     <link rel="icon" type="image/svg+xml" href="/assets/icon.svg" />

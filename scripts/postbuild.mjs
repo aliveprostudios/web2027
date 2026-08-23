@@ -63,6 +63,30 @@ for (const page of pages) {
   }
 }
 
+/* ------------------------------------------------------- form endpoint origin */
+
+// The contact form POSTs to a hosted endpoint whose URL lives in ONE place,
+// FORM_ENDPOINT in src/pages/contact.astro, which renders it onto the form as
+// `data-endpoint`. Read it back out of the built HTML so `connect-src` cannot
+// drift from it. Without this, setting the endpoint would ship a form whose
+// every submission is blocked by the CSP, and the failure is invisible until
+// someone opens the console.
+const formOrigins = new Set();
+for (const page of pages) {
+  const endpoint = readFileSync(page, 'utf8').match(/data-endpoint="(https:\/\/[^"]+)"/)?.[1];
+  if (!endpoint) continue;
+  try {
+    formOrigins.add(new URL(endpoint).origin);
+  } catch {
+    throw new Error(`postbuild: FORM_ENDPOINT is not a valid URL: ${endpoint}`);
+  }
+}
+
+const connectSrc = ["'self'", ...[...formOrigins].sort()].join(' ');
+if (formOrigins.size > 0) {
+  console.log(`postbuild: contact form endpoint allowed in connect-src (${[...formOrigins].join(', ')})`);
+}
+
 const csp = [
   "default-src 'self'",
   `script-src 'self' ${[...hashes].sort().join(' ')}`,
@@ -71,7 +95,7 @@ const csp = [
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data:",
   "frame-src https://player.vimeo.com https://www.youtube-nocookie.com",
-  "connect-src 'self'",
+  `connect-src ${connectSrc}`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

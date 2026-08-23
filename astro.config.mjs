@@ -7,7 +7,11 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://aliveprostudios.com',
   output: 'static',
-  integrations: [sitemap()],
+  integrations: [
+    // /thank-you is a post-submit destination, not a landing page. It carries
+    // `noindex` in its head, so it must not be advertised in the sitemap either.
+    sitemap({ filter: (page) => !page.endsWith('/thank-you') }),
+  ],
   trailingSlash: 'never',
   build: { format: 'file' },
 });

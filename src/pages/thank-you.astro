@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BgRails from '../components/BgRails.astro';
+import SiteNav from '../components/SiteNav.astro';
+import VideoHero from '../components/VideoHero.astro';
+import NextStep from '../components/NextStep.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+/**
+ * /thank-you (SITEMAP.md): the destination the contact form sends people to
+ * after a successful submission.
+ *
+ * Same shell as the 404 page: it is a utility page, so its copy lives here
+ * rather than in a Markdown file, and it carries no BookConsult band. Someone
+ * who has just written to us does not need to be asked again on the next screen.
+ *
+ * `noindex` because a confirmation page has no business in search results, and
+ * it is filtered out of the sitemap in astro.config.mjs to match.
+ */
+const path = '/thank-you';
+---
+
+<BaseLayout
+  title="Thank you"
+  {path}
+  description="Your message has reached Alive ProStudios."
+  noindex
+>
+  <div class="page-root">
+    <BgRails />
+
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav />
+
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Contact&nbsp;&nbsp;·&nbsp;&nbsp;Received</p>
+
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask">
+              <span class="hero__line dot">Message received</span>
+            </span>
+          </h1>
+
+          <p class="hero__caption">
+            <span class="hero__caption-lead">Thank you.</span> Your enquiry is with our team and
+            we will be in touch.
+          </p>
+
+          <div class="hero__actions">
+            <a href="/" class="aps-btn aps-btn-primary">
+              <span class="roll"><span>Back to Home</span><span>Back to Home</span></span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17L17 7M9 7h8v8"></path>
+              </svg>
+            </a>
+            <a href="/work" class="aps-btn aps-btn-ghost">
+              <span class="roll"><span>Explore Our Work</span><span>Explore Our Work</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main id="main">
+      <VideoHero route={path} title="Alive ProStudios reel" />
+    </main>
+
+    <NextStep sectionNum="03" />
+    <SiteFooter nextLabel="All Services" nextHref="/foundation" />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+
+  .hero__caption {
+    max-width: 680px;
+    margin: 40px 0 0;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--brand-orange);
+    animation: heroFade 800ms var(--ease-settle) both 600ms;
+  }
+  .hero__caption-lead { color: #fff; }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 44px;
+    animation: heroFade 800ms var(--ease-settle) both 750ms;
+  }
+</style>
