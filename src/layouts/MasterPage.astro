@@ -38,6 +38,8 @@ interface Props {
   footerHref: string;
   /** schema.org type for this page. Service pages are Services; the rest WebPage. */
   schemaType?: string;
+  /** Additional JSON-LD entities to add to the graph (e.g. Article, FAQPage). */
+  extraSchema?: Record<string, unknown>[];
 }
 
 const {
@@ -54,6 +56,7 @@ const {
   footerLabel,
   footerHref,
   schemaType = 'Service',
+  extraSchema = [],
 } = Astro.props;
 
 const heroCaption = caption ?? anatomy.caption;
@@ -80,6 +83,7 @@ const schema = [
         ...(description ? { description } : {}),
         isPartOf: { '@id': 'https://aliveprostudios.com/#organization' },
       },
+  ...extraSchema,
 ];
 ---
 

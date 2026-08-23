@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BgRails from '../../components/BgRails.astro';
+import SiteNav from '../../components/SiteNav.astro';
+import VideoHero from '../../components/VideoHero.astro';
+import BookConsult from '../../components/BookConsult.astro';
+import NextStep from '../../components/NextStep.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { parseLanding } from '../../lib/landing';
+import { allFaqs } from '../../lib/faqs';
+import { getCollection } from 'astro:content';
+
+/**
+ * /resources landing. Children come from `content/landing/resources.md`.
+ *
+ * The scrape's headings slugify to URLs that do not match SITEMAP.md
+ * ("Digital Brochure" -> /resources/digital-brochure), so the canonical routes
+ * are mapped by name here. SITEMAP.md stays the authority on URLs.
+ */
+const path = '/resources';
+const title = 'Resources';
+const description =
+  'Practical tools, expert insights, and honest answers. Everything you need to ' +
+  'make smarter brand and marketing decisions.';
+
+const URLS: Record<string, string> = {
+  'digital brochure': '/resources/brochure',
+  'brand marketing blog': '/resources/blog',
+  faqs: '/resources/faqs',
+};
+
+const landing = await parseLanding('resources', '/resources');
+const posts = await getCollection('blog');
+const COUNTS: Record<string, number> = {
+  '/resources/blog': posts.length,
+  '/resources/faqs': allFaqs().length,
+};
+
+const rows = (landing?.children ?? []).map((child, i) => ({
+  num: String(i + 1).padStart(2, '0'),
+  name: child.name,
+  blurb: child.blurb,
+  url: URLS[child.name.toLowerCase()] ?? child.url,
+}));
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: title, url: path },
+];
+---
+
+<BaseLayout {title} {description} {path} {breadcrumbs}>
+  <div class="page-root">
+    <BgRails />
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav active={path} />
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Resources</p>
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask"><span class="hero__line dot">{landing?.heading || title}</span></span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <VideoHero route={path} title="Alive ProStudios reel" />
+
+    <main id="main">
+      {landing?.intro && (
+        <section class="section"><p class="lede t-h4 z-content">{landing.intro}</p></section>
+      )}
+
+      <section class="rows">
+        {rows.map((row) => (
+          <a class="row z-content" href={row.url} data-stack>
+            <span class="row__num">{row.num}</span>
+            <div>
+              <h2 class="row__name">{row.name}<span class="row__dot" /></h2>
+              {row.blurb && <p class="row__blurb">{row.blurb}</p>}
+            </div>
+            <span class="row__explore">
+              <span>{COUNTS[row.url] ?? 'Explore Now'}</span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+            </span>
+          </a>
+        ))}
+        <div class="rows__end"></div>
+      </section>
+
+      <BookConsult />
+    </main>
+
+    <NextStep sectionNum="03" />
+    <SiteFooter nextLabel="FAQs" nextHref="/resources/faqs" />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero { position: relative; background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%); color: #fff; padding-bottom: 88px; overflow: hidden; }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+  .hero__crumb { color: var(--brand-lime); margin: 0 0 24px; padding-bottom: 16px; border-bottom: 1px solid var(--brand-orange); width: fit-content; animation: heroFade 800ms var(--ease-settle) both 100ms; }
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+  .lede { max-width: 760px; margin: 0; }
+  .rows { padding: 0 var(--gutter) 64px; }
+  .row { display: grid; grid-template-columns: var(--col-num) 1fr auto; gap: clamp(24px,3vw,56px); align-items: center; border-top: 1px solid var(--pg-line); padding: 40px 0; text-decoration: none; color: var(--pg-fg); transform: translateX(0); transition: transform var(--dur-micro) var(--ease-settle), color var(--dur-micro) ease; }
+  .row:hover { transform: translateX(12px); color: var(--orange-ink); }
+  .row__num { font-family: var(--font-mono); font-size: 13px; color: var(--pg-fg3); }
+  .row__name { margin: 0; font-size: clamp(28px,3.6vw,60px); font-weight: 200; letter-spacing: -0.01em; line-height: 1.05; color: inherit; text-transform: none; }
+  .row__dot { display: inline-block; width: 0.14em; height: 0.14em; margin-left: 0.06em; background: var(--brand-orange); border-radius: 999px; }
+  .row__blurb { margin: 10px 0 0; font-size: 17px; line-height: 1.6; color: var(--pg-fg2); max-width: 620px; }
+  .row__explore { display: flex; align-items: center; gap: 14px; flex: none; color: var(--orange-ink); font-family: var(--font-mono); font-size: 15px; transform: translate(0,0); transition: transform var(--dur-micro) var(--ease-settle); }
+  .row:hover .row__explore { transform: translate(4px,-4px); }
+  .rows__end { border-top: 1px solid var(--pg-line); }
+  @media (max-width: 760px) { .row__explore { margin-left: 68px; } }
+</style>

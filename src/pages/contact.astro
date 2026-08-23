@@ -1,0 +1,361 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BgRails from '../components/BgRails.astro';
+import SiteNav from '../components/SiteNav.astro';
+import VideoHero from '../components/VideoHero.astro';
+import NextStep from '../components/NextStep.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { SECTIONS, sectionLabel } from '../lib/sections';
+
+/**
+ * /contact — Master shell with the hairline form (STYLEGUIDE.md §8).
+ *
+ * Fields come from `content/pages/contact.md`.
+ *
+ * SUBMISSION: the site is fully static, so there is no server to POST to. The
+ * form composes a pre-filled mail message instead, which works today with no
+ * third-party account and no architecture change. Swapping in a real endpoint
+ * is a one-line change: set `action`/`method` on the form and delete the submit
+ * handler. See the note in TEMPLATE-ANATOMY.md.
+ *
+ * Email and phone are also shown as direct links, so there is always a working
+ * path even if scripting is off.
+ */
+const path = '/contact';
+const title = "Let's Start a Conversation";
+const description =
+  'Talk to Alive ProStudios about your brand. Toronto-based brand transformation ' +
+  'studio serving Canada, the USA, Germany and the Middle East since 1997.';
+
+const EMAIL = 'info@aliveprostudios.com';
+const PHONE_DISPLAY = '905-553-3044';
+const PHONE_HREF = '+19055533044';
+
+const schema = [
+  {
+    '@type': 'ContactPage',
+    '@id': `https://aliveprostudios.com${path}#contact`,
+    name: title,
+    description,
+    isPartOf: { '@id': 'https://aliveprostudios.com/#organization' },
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Contact', url: path },
+];
+---
+
+<BaseLayout title="Contact" {description} {path} {schema} {breadcrumbs}>
+  <div class="page-root">
+    <BgRails />
+
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav />
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Contact</p>
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask"><span class="hero__line dot">Let's start a conversation</span></span>
+          </h1>
+          <p class="hero__caption">
+            <span class="hero__caption-lead">
+              Whether you have a clear brief or just an idea that needs shaping, we are ready to listen.
+            </span> Reach out and let us explore what your brand can become.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <VideoHero route={path} title="Alive ProStudios reel" />
+
+    <main id="main">
+      <section class="contact section" data-stack>
+        <div class="contact__aside z-content">
+          <p class="t-eyebrow contact__label"><span class="contact__num">(01)</span>&nbsp;&nbsp;Direct</p>
+          <dl class="contact__list">
+            <dt>Email</dt>
+            <dd><a href={`mailto:${EMAIL}`}>{EMAIL}</a></dd>
+            <dt>Phone</dt>
+            <dd><a href={`tel:${PHONE_HREF}`}>{PHONE_DISPLAY}</a></dd>
+            <dt>Studio</dt>
+            <dd>Toronto, Canada</dd>
+          </dl>
+        </div>
+
+        <form class="form z-content" data-contact-form novalidate>
+          <div class="form__row">
+            <label class="field">
+              <span class="field__label">Full Name *</span>
+              <input type="text" name="name" required autocomplete="name" placeholder="Your name" />
+              <span class="field__error" data-error></span>
+            </label>
+
+            <label class="field">
+              <span class="field__label">Email Address *</span>
+              <input type="email" name="email" required autocomplete="email" placeholder="you@company.com" />
+              <span class="field__error" data-error></span>
+            </label>
+          </div>
+
+          <div class="form__row">
+            <label class="field">
+              <span class="field__label">Phone Number</span>
+              <input type="tel" name="phone" autocomplete="tel" placeholder="Optional" />
+            </label>
+
+            <label class="field">
+              <span class="field__label">Company</span>
+              <input type="text" name="company" autocomplete="organization" placeholder="Optional" />
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field__label">Service Category</span>
+            <select name="category">
+              <option value="">Select a category</option>
+              {SECTIONS.map((s) => <option value={sectionLabel(s)}>{sectionLabel(s)}</option>)}
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Message *</span>
+            <textarea name="message" rows="5" required placeholder="Tell us about your brand"></textarea>
+            <span class="field__error" data-error></span>
+          </label>
+
+          <label class="consent">
+            <input type="checkbox" name="consent" required />
+            <span>
+              I agree to the <a href="/privacy-policy">privacy policy</a> and consent to being
+              contacted about Alive ProStudios services.
+            </span>
+          </label>
+          <span class="field__error" data-error-consent></span>
+
+          <button type="submit" class="aps-btn aps-btn-primary form__submit">
+            <span class="roll"><span>Submit</span><span>Submit</span></span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 17L17 7M9 7h8v8"></path>
+            </svg>
+          </button>
+
+          <p class="form__status" data-status role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <NextStep sectionNum="02" />
+    <SiteFooter nextLabel="All Services" nextHref="/foundation" />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+  .hero__caption {
+    max-width: 680px;
+    margin: 40px 0 0;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--brand-orange);
+    animation: heroFade 800ms var(--ease-settle) both 600ms;
+  }
+  .hero__caption-lead { color: #fff; }
+
+  /* ---- Layout: label column + form, per the §1.4 two-column pattern ---- */
+  .contact {
+    display: grid;
+    grid-template-columns: var(--col-label) 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .contact__label { color: var(--pg-fg); margin: 0 0 32px; }
+  .contact__num { color: var(--orange-ink); }
+
+  .contact__list { margin: 0; }
+  .contact__list dt {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pg-fg3);
+    margin-top: 24px;
+  }
+  .contact__list dd {
+    margin: 6px 0 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--pg-fg);
+  }
+  .contact__list a { color: var(--pg-fg); text-decoration: none; }
+  .contact__list a:hover { color: var(--orange-ink); }
+
+  /* ---- Hairline form (§8): no boxes, bottom rule only ------------------ */
+  .form { max-width: 720px; display: flex; flex-direction: column; gap: 32px; }
+
+  .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+
+  .field { display: flex; flex-direction: column; gap: 10px; }
+
+  .field__label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pg-fg3);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--pg-line);
+    border-radius: 0;
+    padding: 12px 0;
+    font-family: var(--font-sans);
+    font-size: 20px;
+    color: var(--pg-fg);
+    outline: none;
+    transition: border-color var(--dur-micro) ease;
+  }
+  .field textarea { resize: vertical; line-height: 1.5; }
+
+  .field input::placeholder,
+  .field textarea::placeholder { color: var(--pg-fg); opacity: 0.35; }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus { border-bottom-color: var(--brand-orange); }
+
+  .field select { appearance: none; cursor: pointer; }
+
+  /* Error: orange hairline + 13px message (§8) */
+  .field.is-invalid input,
+  .field.is-invalid select,
+  .field.is-invalid textarea { border-bottom-color: var(--brand-orange); }
+
+  .field__error {
+    font-size: 13px;
+    color: var(--orange-ink);
+    min-height: 0;
+  }
+  .field__error:empty { display: none; }
+
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--pg-fg2);
+    cursor: pointer;
+  }
+  .consent input {
+    width: 20px;
+    height: 20px;
+    margin-top: 3px;
+    flex: none;
+    accent-color: var(--brand-orange);
+  }
+  .consent a { color: var(--orange-ink); text-decoration: underline; text-underline-offset: 3px; }
+
+  .form__submit { align-self: flex-start; }
+
+  .form__status {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--pg-fg2);
+  }
+  .form__status:empty { display: none; }
+
+  @media (max-width: 760px) {
+    .form__row { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const status = document.querySelector<HTMLElement>('[data-status]');
+
+  function setError(field: HTMLElement | null, message: string) {
+    const wrapper = field?.closest('.field');
+    wrapper?.classList.toggle('is-invalid', Boolean(message));
+    const slot = wrapper?.querySelector<HTMLElement>('[data-error]');
+    if (slot) slot.textContent = message;
+  }
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!form || !status) return;
+
+    const data = new FormData(form);
+    const get = (k: string) => String(data.get(k) ?? '').trim();
+
+    let firstInvalid: HTMLElement | null = null;
+    const check = (name: string, message: string, ok: boolean) => {
+      const el = form.querySelector<HTMLElement>(`[name="${name}"]`);
+      setError(el, ok ? '' : message);
+      if (!ok && !firstInvalid) firstInvalid = el;
+      return ok;
+    };
+
+    const valid = [
+      check('name', 'Please tell us your name.', get('name') !== ''),
+      check('email', 'A valid email address is required.', /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(get('email'))),
+      check('message', 'Please add a short message.', get('message') !== ''),
+    ].every(Boolean);
+
+    const consent = form.querySelector<HTMLInputElement>('[name="consent"]');
+    const consentSlot = document.querySelector<HTMLElement>('[data-error-consent]');
+    const consentOk = Boolean(consent?.checked);
+    if (consentSlot) consentSlot.textContent = consentOk ? '' : 'Please accept the privacy policy to continue.';
+
+    if (!valid || !consentOk) {
+      (firstInvalid ?? consent)?.focus();
+      status.textContent = '';
+      return;
+    }
+
+    // No server to POST to on a static site. Compose the message instead, so the
+    // form works today without a third-party account.
+    const lines = [
+      `Name: ${get('name')}`,
+      `Email: ${get('email')}`,
+      get('phone') && `Phone: ${get('phone')}`,
+      get('company') && `Company: ${get('company')}`,
+      get('category') && `Service: ${get('category')}`,
+      '',
+      get('message'),
+    ].filter(Boolean);
+
+    const subject = `Enquiry from ${get('name')}${get('company') ? ` (${get('company')})` : ''}`;
+    const href = `mailto:info@aliveprostudios.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+
+    status.textContent = 'Opening your email app with the message ready to send. If nothing happens, write to info@aliveprostudios.com.';
+    window.location.href = href;
+  });
+</script>

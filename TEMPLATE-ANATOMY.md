@@ -310,14 +310,22 @@ crawling the built HTML rather than by inspection.
 | Alive Pro | 1 + 8 | `landing/alive-pro.md` + `content/pages/*` without `url:` |
 | Work | 1 + 2 | `landing/work.md`, portfolio folder, videos table |
 
-**Still dead, linked from all 46 pages:**
+**55 routes. Zero dead internal links**, verified by crawling the built HTML.
 
-| Route | Linked from | Needs |
-|---|---|---|
-| `/contact` | BookConsult, NextStep, nav | Master shell + the §8 hairline form, and a decision on where the form posts |
-| `/resources` | nav | `/resources`, `/resources/blog` (3 posts), `/resources/faqs`, `/resources/brochure` |
+`/contact` carries the §8 hairline form. The site is fully static, so there is
+no endpoint to POST to: the form validates client-side and then composes a
+pre-filled mail message, which works today with no third-party account. Wiring a
+real endpoint is a one-line change (set `action`/`method`, delete the submit
+handler). Email and phone are also shown as direct links, so there is a working
+path with scripting off.
 
-`/thank-you` and `/brand-pulse` also have no route yet.
+`/thank-you` and `/brand-pulse` still have no route.
+
+**5 redirects point at blog articles that were never migrated**
+(`/resources/blog/online-digital-advertising` and four others). They 301
+correctly and land on the 404. Either write those posts or repoint those five
+rows in SITEMAP.md at `/resources/blog`; a 301 to the index beats a 301 to a
+404.
 
 ## 11. Deployment (Cloudflare)
 

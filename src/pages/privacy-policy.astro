@@ -1,0 +1,23 @@
+---
+import { getEntry } from 'astro:content';
+import MasterPage from '../layouts/MasterPage.astro';
+import { parseAnatomy } from '../lib/anatomy';
+
+const entry = await getEntry('pages', 'privacy-policy');
+const path = '/privacy-policy';
+const caption = entry?.data.caption?.trim() || undefined;
+const anatomy = parseAnatomy(entry?.body ?? '', caption);
+---
+
+<MasterPage
+  title={entry?.data.title ?? 'Privacy Policy'}
+  description={entry?.data.seoDescription ?? 'How Alive ProStudios collects, uses, and protects your information.'}
+  {path}
+  {anatomy}
+  {caption}
+  crumb="Legal  ·  Privacy"
+  breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Privacy Policy', url: path }]}
+  footerLabel="Contact"
+  footerHref="/contact"
+  schemaType="WebPage"
+/>

@@ -1,0 +1,27 @@
+---
+import { getEntry } from 'astro:content';
+import MasterPage from '../../layouts/MasterPage.astro';
+import { parseAnatomy } from '../../lib/anatomy';
+
+const entry = await getEntry('pages', 'brochure');
+const path = '/resources/brochure';
+const caption = entry?.data.caption?.trim() || undefined;
+const anatomy = parseAnatomy(entry?.body ?? '', caption);
+---
+
+<MasterPage
+  title={entry?.data.title ?? 'Digital Brochure'}
+  description={entry?.data.seoDescription ?? 'Everything you need to know about Alive ProStudios in one document.'}
+  {path}
+  {anatomy}
+  {caption}
+  crumb="Resources  ·  Brochure"
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Resources', url: '/resources' },
+    { name: 'Digital Brochure', url: path },
+  ]}
+  footerLabel="All Resources"
+  footerHref="/resources"
+  schemaType="WebPage"
+/>

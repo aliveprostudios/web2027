@@ -1,0 +1,199 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BgRails from '../../../components/BgRails.astro';
+import SiteNav from '../../../components/SiteNav.astro';
+import VideoHero from '../../../components/VideoHero.astro';
+import BookConsult from '../../../components/BookConsult.astro';
+import NextStep from '../../../components/NextStep.astro';
+import SiteFooter from '../../../components/SiteFooter.astro';
+
+/**
+ * /resources/blog — the article index, built from the blog collection.
+ * Adding a Markdown file adds a row and its route.
+ */
+const path = '/resources/blog';
+const title = 'Blog';
+const description =
+  'Insights on brand strategy, marketing, and growth from the Alive ProStudios team.';
+
+const posts = (await getCollection('blog')).sort((a, b) =>
+  String(b.data.date ?? '').localeCompare(String(a.data.date ?? '')),
+);
+
+const fmt = (iso?: string) => {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime())
+    ? ''
+    : d.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' });
+};
+
+const schema = [
+  {
+    '@type': 'Blog',
+    '@id': `https://aliveprostudios.com${path}#blog`,
+    name: 'Alive ProStudios Blog',
+    description,
+    publisher: { '@id': 'https://aliveprostudios.com/#organization' },
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Resources', url: '/resources' },
+  { name: title, url: path },
+];
+---
+
+<BaseLayout {title} {description} {path} {schema} {breadcrumbs}>
+  <div class="page-root">
+    <BgRails />
+
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav />
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Resources&nbsp;&nbsp;·&nbsp;&nbsp;Blog</p>
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask"><span class="hero__line dot">Brand marketing blog</span></span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <VideoHero route={path} title="Alive ProStudios reel" />
+
+    <main id="main">
+      <section class="posts section">
+        <p class="posts__eyebrow t-eyebrow z-content">
+          <span class="posts__num">(01)</span>&nbsp;&nbsp;Articles&nbsp;&nbsp;
+          <span class="posts__count">({posts.length})</span>
+        </p>
+
+        <div class="posts__list z-content">
+          {
+            posts.map((post, i) => (
+              <a class="post" href={`/resources/blog/${post.id}`} data-stack>
+                <span class="post__num">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h2 class="post__title">{post.data.title}<span class="post__dot" /></h2>
+                  <p class="post__meta">
+                    {[post.data.author, fmt(post.data.date), (post.data.categories ?? []).join(' · ')]
+                      .filter(Boolean)
+                      .join('  ·  ')}
+                  </p>
+                </div>
+                <span class="post__explore">
+                  <span>Read Article</span>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M7 17L17 7M9 7h8v8"></path>
+                  </svg>
+                </span>
+              </a>
+            ))
+          }
+          <div class="posts__end"></div>
+        </div>
+      </section>
+
+      <BookConsult />
+    </main>
+
+    <NextStep sectionNum="03" />
+    <SiteFooter backLabel="Resources" backHref="/resources" nextLabel="FAQs" nextHref="/resources/faqs" />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+
+  .posts__eyebrow { color: var(--pg-fg); margin: 0 0 40px; }
+  .posts__num { color: var(--orange-ink); }
+  .posts__count { color: var(--pg-fg3); }
+
+  .posts__list { display: flex; flex-direction: column; }
+
+  .post {
+    display: grid;
+    grid-template-columns: var(--col-num) 1fr auto;
+    gap: clamp(24px, 3vw, 56px);
+    align-items: center;
+    border-top: 1px solid var(--pg-line);
+    padding: 40px 0;
+    text-decoration: none;
+    color: var(--pg-fg);
+    transform: translateX(0);
+    transition: transform var(--dur-micro) var(--ease-settle), color var(--dur-micro) ease;
+  }
+  .post:hover { transform: translateX(12px); color: var(--orange-ink); }
+
+  .post__num { font-family: var(--font-mono); font-size: 13px; color: var(--pg-fg3); }
+
+  .post__title {
+    margin: 0;
+    font-size: clamp(28px, 3.6vw, 60px);
+    font-weight: 200;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    color: inherit;
+    text-transform: none;
+  }
+  .post__dot {
+    display: inline-block;
+    width: 0.14em;
+    height: 0.14em;
+    margin-left: 0.06em;
+    background: var(--brand-orange);
+    border-radius: 999px;
+  }
+
+  .post__meta {
+    margin: 10px 0 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pg-fg3);
+  }
+
+  .post__explore {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: none;
+    color: var(--orange-ink);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transform: translate(0, 0);
+    transition: transform var(--dur-micro) var(--ease-settle);
+  }
+  .post:hover .post__explore { transform: translate(4px, -4px); }
+
+  .posts__end { border-top: 1px solid var(--pg-line); }
+
+  @media (max-width: 760px) {
+    .post__explore { margin-left: 68px; }
+  }
+</style>

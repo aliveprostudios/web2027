@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BgRails from '../../components/BgRails.astro';
+import SiteNav from '../../components/SiteNav.astro';
+import VideoHero from '../../components/VideoHero.astro';
+import BookConsult from '../../components/BookConsult.astro';
+import NextStep from '../../components/NextStep.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { faqGroups, allFaqs } from '../../lib/faqs';
+
+/**
+ * /resources/faqs
+ *
+ * The accordion and the FAQPage structured data are both generated from
+ * `content/faqs.md`, so they cannot drift: adding a question to the Markdown
+ * adds it to the page and to the schema in one edit.
+ *
+ * `CLAUDE.md` lists FAQPage as a non-negotiable.
+ */
+const path = '/resources/faqs';
+const title = 'FAQs';
+const description =
+  'Answers to the questions we are asked most about brand strategy, timelines, ' +
+  'pricing, and working with Alive ProStudios.';
+
+const groups = faqGroups();
+const faqs = allFaqs();
+
+const schema = [
+  {
+    '@type': 'FAQPage',
+    '@id': `https://aliveprostudios.com${path}#faq`,
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Resources', url: '/resources' },
+  { name: title, url: path },
+];
+---
+
+<BaseLayout {title} {description} {path} {schema} {breadcrumbs}>
+  <div class="page-root">
+    <BgRails />
+
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav />
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Resources&nbsp;&nbsp;·&nbsp;&nbsp;FAQs</p>
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask"><span class="hero__line dot">Questions, answered</span></span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <VideoHero route={path} title="Alive ProStudios reel" />
+
+    <main id="main">
+      {
+        groups.map((group, gi) => (
+          <section class="faq section">
+            <p class="faq__eyebrow t-eyebrow z-content">
+              <span class="faq__num">({String(gi + 1).padStart(2, '0')})</span>&nbsp;&nbsp;{group.heading}
+              &nbsp;&nbsp;<span class="faq__count">({group.items.length})</span>
+            </p>
+
+            <div class="faq__list z-content">
+              {group.items.map((item, i) => (
+                <details class="faq__item" name={`faq-${gi}`} open={gi === 0 && i === 0}>
+                  <summary class="faq__q">
+                    <span>{item.q}</span>
+                    <span class="faq__glyph" aria-hidden="true"></span>
+                  </summary>
+                  <p class="faq__a">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+
+      <BookConsult />
+    </main>
+
+    <NextStep sectionNum="03" />
+    <SiteFooter backLabel="Resources" backHref="/resources" nextLabel="Contact" nextHref="/contact" />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+
+  .faq { padding-top: 0; }
+  .faq:first-of-type { padding-top: 96px; }
+  .faq__eyebrow { color: var(--pg-fg); margin: 0 0 32px; }
+  .faq__num { color: var(--orange-ink); }
+  .faq__count { color: var(--pg-fg3); }
+
+  .faq__list { display: flex; flex-direction: column; }
+
+  .faq__item { border-top: 1px solid var(--pg-line); }
+  .faq__item:last-child { border-bottom: 1px solid var(--pg-line); }
+
+  .faq__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 28px 0;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-sans);
+    font-weight: 200;
+    font-size: clamp(21px, 2vw, 30px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--pg-fg);
+    transition: color var(--dur-micro) ease;
+  }
+  .faq__q::-webkit-details-marker { display: none; }
+  .faq__q:hover { color: var(--orange-ink); }
+
+  /* +/- glyph, matching the menu accordion */
+  .faq__glyph {
+    flex: none;
+    position: relative;
+    width: 18px;
+    height: 18px;
+  }
+  .faq__glyph::before,
+  .faq__glyph::after {
+    content: '';
+    position: absolute;
+    background: var(--orange-ink);
+    transition: transform var(--dur-micro) var(--ease-settle);
+  }
+  .faq__glyph::before { left: 0; top: 8px; width: 18px; height: 2px; }
+  .faq__glyph::after { left: 8px; top: 0; width: 2px; height: 18px; }
+  .faq__item[open] .faq__glyph::after { transform: scaleY(0); }
+
+  .faq__a {
+    margin: 0;
+    padding: 0 0 32px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--pg-fg2);
+    max-width: 760px;
+  }
+</style>

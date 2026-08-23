@@ -79,13 +79,16 @@ export async function parseLanding(id: string, base: string): Promise<Landing | 
 
     const h2 = chunk.match(/^##\s+(.*)$/);
     if (h2) {
+      // A child row is an orphan index number FOLLOWED BY a heading ("01" then
+      // "## Portfolio"). A bare `##` with no number ahead of it is a content
+      // section of the landing page itself, like "## WHY RESOURCES MATTER", and
+      // must not become a nav entry or a link to a route that does not exist.
+      if (pendingNum === null) {
+        current = null;
+        continue;
+      }
       const name = h2[1]!.trim();
-      current = {
-        num: pendingNum ?? String(landing.children.length + 1).padStart(2, '0'),
-        name,
-        blurb: '',
-        url: `${base}/${slugify(name)}`,
-      };
+      current = { num: pendingNum, name, blurb: '', url: `${base}/${slugify(name)}` };
       landing.children.push(current);
       pendingNum = null;
       continue;
