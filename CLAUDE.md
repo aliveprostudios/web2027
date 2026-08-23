@@ -1,4 +1,4 @@
-# CLAUDE.md — Alive ProStudios (Astro rebuild)
+# CLAUDE.md — Alive ProStudios (Astro)
 
 > Read this fully before writing any code.
 
@@ -6,8 +6,8 @@
 
 ## What this project is
 
-A ground-up rebuild of aliveprostudios.com on **Astro**, replacing the existing
-Next.js + Sanity site.
+aliveprostudios.com, rebuilt on **Astro**, replacing the previous Next.js + Sanity
+site. Built, deployed to staging, and awaiting launch.
 
 **Client:** Alive ProStudios Inc.
 **Owner:** Javad Ahmadi — Founder & Brand Transformation Architect
@@ -19,84 +19,119 @@ Next.js + Sanity site.
 
 ## Decisions already made
 
-These are settled. Do not reopen without asking Javad.
+Settled. Do not reopen without asking Javad.
 
-1. **Astro, not Next.js.**
-2. **No CMS.** Sanity is gone. Content lives as Markdown in this repo and is
-   edited with Claude Code or Codex. No API, no CDN, no tokens, no `/studio`.
-3. **Text only.** Images, portfolio items, and page templates were deliberately
-   excluded from the migration. Design comes fresh from Javad.
-4. **Content is already exported** and sits in `content/`. Do not re-pull from
-   Sanity.
+1. **Astro, not Next.js.** Fully static: every route is prerendered, there is no
+   SSR and no server function.
+2. **No CMS.** Sanity is gone. Content is Markdown in this repo, edited with
+   Claude Code or Codex. No API, no CDN, no tokens, no `/studio`.
+3. **Cloudflare, not Vercel.** The Vercel adapter has been removed; `dist/` is
+   plain files. `STYLEGUIDE.md` §9 still says "Deploy target: Vercel" — that line
+   is superseded.
+4. **Content came from the Sanity export** and is not re-pulled.
+5. **Design is locked.** Typography, spacing, colour, and motion values come from
+   `STYLEGUIDE.md` and the three `.dc.html` templates. If something looks wrong,
+   ask before changing it.
 
 ---
 
 ## Current state
 
+**55 routes building. Deployed to staging. Not yet live.**
+
 ```
-20 Alive Astro/
-├── CLAUDE.md          ← this file
-├── SITEMAP.md         ← canonical URL map + 63 redirects. Read before routing.
-└── content/           ← 45 Markdown files, ~19,100 words
-    ├── README.md
-    ├── homepage.md
-    ├── faqs.md
-    ├── site-copy.md       footer + pre-footer copy
-    ├── services/
-    │   ├── foundation/       4 pages
-    │   ├── execution/        8 pages
-    │   ├── growth/          11 pages
-    │   └── infrastructure/   6 pages
-    ├── pages/             8 Alive Pro pages
-    ├── blog/              3 posts
-    └── work/videos.md     26 video URLs + tags
-```
-
-**Astro is not scaffolded yet.** Nothing has been installed. Javad is supplying
-design templates and the master brand style guide before the build starts.
-
----
-
-## Content format
-
-Every file carries frontmatter and clean Markdown:
-
-```markdown
----
-title: "Ongoing Brand Guardianship"
-slug: "ongoing-brand-guardianship"
-category: "growth"
-url: "/growth/ongoing-brand-guardianship"
-seoTitle: "..."
-seoDescription: "..."
----
+alive-astro/
+├── CLAUDE.md              ← this file
+├── SITEMAP.md             ← canonical URL map + 63 redirects
+├── TEMPLATE-ANATOMY.md    ← how the templates decompose; READ THIS FIRST
+├── astro.config.mjs       ← static, no adapter
+├── wrangler.jsonc         ← Cloudflare: ./dist, drop-trailing-slash
+├── scripts/
+│   ├── postbuild.mjs      ← generates dist/_headers and dist/_redirects
+│   └── fetch-video-meta.mjs ← video dimensions + poster frames
+├── src/
+│   ├── components/        ← SiteNav, SiteMenu, VideoHero, BookConsult,
+│   │                        RelatedServices, NextStep, SiteFooter, BgRails,
+│   │                        Lightbox
+│   ├── layouts/           ← BaseLayout, MasterPage
+│   ├── lib/               ← anatomy, nav, landing, sections, videos, gallery, faqs
+│   ├── pages/             ← 55 routes
+│   └── styles/            ← tokens.css, base.css
+└── content/               ← Markdown, the source of truth for all copy
 ```
 
-These map onto Astro **Content Collections**. Define the schema in
-`src/content/config.ts` with zod so frontmatter is type-checked at build.
+### URLs
+
+| | |
+|---|---|
+| Production (`main`) | `aliveprostudios.javad-ade.workers.dev` |
+| Staging (`staging`) | `staging-aliveprostudios.javad-ade.workers.dev` |
+| Repo | `github.com/aliveprostudios/web2027` |
+
+Push to `main` → production. Push to `staging` → staging. Nothing manual.
+Staging carries `X-Robots-Tag: noindex`; production must not.
 
 ---
 
-## Brand tokens
+## The rules that keep this site consistent
 
-Carried over from the previous build. Use these exact values.
+**Read `TEMPLATE-ANATOMY.md` before touching a template or a route.** It records
+where every slot's content comes from and the traps already hit.
 
-| Name | Hex | Usage |
-|---|---|---|
-| Black | `#000000` | Primary background, dominant surfaces |
-| Dark Green | `#346632` | Secondary brand, supporting accents |
-| Light Green | `#95C83F` | Energy accent, highlights |
-| Orange | `#F76E1E` | ALL primary CTAs, hover, key highlights |
-| Light Grey | `#E6E7E8` | Light-mode background, dividers |
+1. **The content collection is always the source of truth** for nav sub-menus,
+   related services, and every count. Never hard-code a list. Adding a Markdown
+   file must add its route, its menu entry, and its count with no code change.
+2. **Extract by type, place by slot.** `lib/anatomy.ts` maps Markdown to template
+   slots by kind, not document order.
+3. **Never invent copy.** A slot with no source is omitted, not filled.
+4. **The first paragraph of a page's Markdown IS the H4 lede.** Keep it to 2–3
+   sentences. Never split a paragraph in code to fake the design; fix the source.
+5. **`--brand-orange` never changes.** It is the brand, used for surfaces, fills,
+   dots, and rules. Small orange TEXT uses `--orange-ink`, which is theme-aware.
+6. **Scroll locks go on `<html>`, never `<body>`.**
+7. **Fixed overlays live outside `.page-root`.** `.hero` and `.page-root` both
+   clip fixed descendants.
 
-Extended UI: `#1A1A1A` surface · `#2E2E2E` border · `#6B6B6B` body text on light
-(note: `#6B6B6B` fails WCAG AA on light backgrounds — darken it this time).
+---
 
-Orange hover: `#D85A0A`. Radius near-zero, sharp. 8pt spacing grid.
+## Non-negotiables
 
-**Confirm the type stack against Javad's style guide before building.** The old
-site used Bebas Neue (display), Barlow (body), DM Mono (labels). Never Inter,
-Roboto, Arial, or system-ui.
+1. **Ship the 63 redirects.** Generated into `dist/_redirects` from `SITEMAP.md`.
+2. **One H1 per page**, no skipped heading levels.
+3. **JSON-LD**: Organization, Service, FAQPage, Article, BreadcrumbList.
+4. **Canonical URL per page.** The old site inherited the homepage canonical
+   everywhere. Do not repeat it.
+5. **WCAG 2.1 AA**, visible focus, keyboard navigation, `prefers-reduced-motion`.
+6. **i18n-ready.** English has no prefix; fr/de/es/zh/ar are Phase 2, Arabic RTL.
+
+---
+
+## Commands
+
+```bash
+npm run build          # build + generate _headers and _redirects
+npm run preview        # build, then serve through wrangler WITH headers
+npm run check          # astro check
+npm run video-meta     # refresh video dimensions and poster frames
+```
+
+**Verify through `npm run preview`, not `astro dev`.** A plain dev server applies
+neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
+
+---
+
+## Traps already hit — do not re-learn these
+
+- **The build image runs npm 10.** A lockfile written by npm 11 fails `npm ci`
+  there even though it passes locally. Regenerate with
+  `npx npm@10 install --package-lock-only` and check under both.
+- **Never hardcode a media aspect ratio.** Hero videos are scaled to cover using
+  each source's real aspect, fetched from the provider. Assuming 16:9 is what
+  makes a video letterbox inside its own iframe, which the box model cannot see.
+- **Verify visual bugs with rendered pixels**, not `getBoundingClientRect()`.
+- **`overflow: clip` and Safari's `overflow: hidden` clip fixed descendants.**
+- **Astro renders `alt=""` as a bare `alt`.** Both are valid; audit for both.
+- Framer Motion drove the old animations. All animation here is CSS.
 
 ---
 
@@ -105,61 +140,39 @@ Roboto, Arial, or system-ui.
 - **Canadian English** — colour, behaviour, centre, catalogue, honour
   ("ize" endings kept: organize, recognize)
 - **No em dashes anywhere. Ever.**
-- No filler ("In today's world", "In conclusion", "As a trusted partner")
+- No filler ("In today's world", "As a trusted partner")
 - Tone: strategic, authoritative, a partner not a vendor
-- 3–5 paragraphs per section
-
----
-
-## Non-negotiables for the build
-
-1. **Ship the 63 redirects** in `SITEMAP.md`. Losing them discards years of SEO
-   equity on the old WordPress URLs.
-2. **One H1 per page**, clean H2/H3 hierarchy, no skipped levels.
-3. **JSON-LD**: Organization (home), Service (service pages), FAQPage, Article
-   (blog), BreadcrumbList (all).
-4. **Canonical URL per page.** The old site shipped a bug where every page
-   inherited the homepage canonical. Do not repeat it.
-5. **Accessibility**: WCAG 2.1 AA, visible focus states, keyboard navigation,
-   `prefers-reduced-motion` respected on every animation.
-6. **i18n-ready structure.** English has no prefix. Phase 2 adds fr/de/es/zh/ar,
-   with Arabic RTL.
-
----
-
-## Lessons from the previous build
-
-Worth knowing so they are not repeated:
-
-- **Verify visual bugs with rendered pixels, not `getBoundingClientRect()`.** A
-  footer gap was declared fixed across ~10 sessions on box-model measurements
-  that read zero. The real cause was a video letterboxing itself *inside* an
-  iframe, which the box model cannot see. It blocked launch for weeks.
-- **Never hardcode a media aspect ratio.** Derive it from the asset.
-- Framer Motion drove the old animations. Astro ships no JS by default — reach
-  for CSS first, and use a React/Svelte island only where genuinely needed.
-- The old repo accumulated per-breakpoint magic numbers that masked bugs rather
-  than fixing them. Prefer one correct value over three tuned ones.
 
 ---
 
 ## Working agreements
 
 - Ask before structural decisions not covered here
-- One component per file
-- TypeScript throughout
+- One component per file · TypeScript throughout
 - Run commands directly rather than asking Javad to copy-paste
 - Commit messages: clear, descriptive, present tense
-- **Do not claim something works until it has been verified.** Show the evidence.
+- **Do not claim something works until it has been verified. Show the evidence.**
+
+---
+
+## Known gaps at end of 2026-08-22
+
+| Item | Impact |
+|---|---|
+| 5 redirects point at blog posts never migrated | They 301 correctly, then 404 |
+| All 3 blog posts are Lorem ipsum | Only pages without a meta description |
+| `homepage.md` is Sanity block descriptors | Home slots 2, 5, 7 render nothing |
+| Contact form composes mail, does not POST | No endpoint on a static site |
+| Cloudflare Access not yet on staging | Staging is noindexed but publicly reachable |
+| `/thank-you`, `/brand-pulse` | No route yet |
 
 ---
 
 ## Reference
 
-The previous site remains at `../04 Alive-Reborn/` (live, Next.js) for anything
-needing to be looked up: portfolio data, images, component behaviour, the full
-old `CLAUDE.md`. Sanity project `22a48h68` is still intact and untouched.
+Previous site at `../04 Alive-Reborn/` (Next.js) for portfolio data, images, and
+component behaviour. Sanity project `22a48h68` intact and untouched.
 
 ---
 
-*Alive ProStudios Inc. — Confidential — Astro rebuild — started August 22, 2026*
+*Alive ProStudios Inc. — Confidential — Astro rebuild — started 2026-08-22*
