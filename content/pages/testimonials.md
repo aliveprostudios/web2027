@@ -47,12 +47,6 @@ closing: false
 
 “I have been a client of Alive ProStudios since its inception. This group of young professionals do exceptional work. I get a lot of compliments from my business cards, brochures, website, etc. and it is all thanks to the professional image that Alive ProStudios has created for my business. I would recommend their work without hesitation.”
 
-### Sanjay Burman
-
-**CEO | Burman Books**
-
-“Alive ProStudios have made our book covers come to life and stand out from other books on the shelves. All my graphic work is done through them.”
-
 ### Bernie Ross
 
 **CEO | Frank T. Ross Ltd**
