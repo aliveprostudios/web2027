@@ -1,11 +1,11 @@
 # LAUNCH.md
 
-Pre-launch checklist for aliveprostudios.com. Written 2026-08-22, at the end of
-the build session.
+Launch record for aliveprostudios.com. Written 2026-08-22 as a checklist,
+kept afterwards as the record of what shipped and what is still open.
 
-**Nothing here is live yet.** `aliveprostudios.com` does not point at the new
-site, so everything below can be done without risk to the current site. The
-moment of no return is step 5.
+**LAUNCHED 2026-08-24.** `aliveprostudios.com` serves the Astro site from the
+`aliveprostudios` Worker. The WordPress site is retired. Sections 1 to 5 below
+are done; what remains is in "Still open" at the bottom.
 
 ---
 
@@ -13,14 +13,18 @@ moment of no return is step 5.
 
 | | |
 |---|---|
-| Routes building | 55 |
-| Redirects | 63, all verified 301 to the exact target |
-| Reachable from menu or footer | 51 of 54 (3 blog posts sit behind their index) |
-| axe-core (light + dark) | 2 findings, both the accepted white-on-orange exception |
-| Heading structure | one H1 per page, no skipped levels, all 55 |
-| Canonicals | unique per page |
-| Staging | `staging-aliveprostudios.javad-ade.workers.dev`, `noindex` |
-| Production | `aliveprostudios.javad-ade.workers.dev`, no custom domain yet |
+| **Live** | **`aliveprostudios.com`**, verified 2026-08-24 |
+| Routes | 49, all 200 on the live domain |
+| Redirects | 83, every one verified 301 to a target that returns 200 |
+| Old WordPress URLs | all 84 from its Yoast sitemap covered |
+| Heading structure | one H1 per page, no skipped levels, all 49 |
+| Canonicals | unique per page, absolute, https |
+| robots.txt | generated per environment; production allows and names the sitemap |
+| Security headers | CSP with per-build script hashes, HSTS, nosniff, DENY, referrer-policy |
+| Contact form | Formspree `mwlejogn`, verified end to end |
+| Microsoft mail | MX, both TXT and `autodiscover` verified intact after cutover |
+| Staging | `staging-aliveprostudios.javad-ade.workers.dev`, `noindex` + `Disallow: /` |
+| Production worker | `aliveprostudios.javad-ade.workers.dev`, still publicly reachable |
 
 ---
 
@@ -255,3 +259,33 @@ Proxied. Keep the GoDaddy hosting alive for a few days so that remains possible.
 - [ ] 21MB of design-tool screenshots sit in
       `content/assets/templates and styleguide/uploads/`. Not referenced by the
       build. Strip them if repo size matters — cheap now, awkward later.
+
+---
+
+## Still open at end of 2026-08-24
+
+Nothing here blocks the site being live. In rough order of value.
+
+- [ ] **Republish Resources** once the content is ready. Steps in §1. Blocked on
+      three Lorem ipsum blog posts and five old blog URLs with no target.
+      This is also the biggest AEO win available: `/resources/faqs` carries
+      `FAQPage` schema, which is exactly what answer engines quote.
+- [ ] **Privacy policy §2 and §3** still promise a cookie consent banner, an
+      analytics opt-in and a "Cookie settings" footer link. None exist. Build
+      the banner or soften the wording.
+- [ ] **Decide the AI crawler stance.** Cloudflare's managed robots.txt blocks
+      the training crawlers by default. Retrieval bots are allowed so citation
+      still works, but for a studio selling AEO this deserves a deliberate call.
+- [ ] **Add `sameAs` to the Organization schema**: LinkedIn, Instagram, YouTube,
+      Google Business Profile. Entity resolution, cheap and high value.
+- [ ] **35 service pages have 44-60 character meta descriptions.** Under spec.
+- [ ] **Foundation and Infrastructure sub-page order.** The other three sections
+      were sequenced by priority on 2026-08-24; these two are still alphabetical.
+- [ ] **Four-pillar diagram on mobile.** 855x409 artwork at a 390px viewport puts
+      the inner labels near 4px. Portrait variant, sideways scroll, or lightbox.
+- [ ] **Homayra's headshot is 400x500**, soft on retina at the 260px slot.
+- [ ] **Disable the `*-aliveprostudios` preview URL** so staging is not publicly
+      reachable, and consider disabling the workers.dev production URL too.
+- [ ] `/brand-pulse` has no route.
+- [ ] 15.2MB of the 29MB bundle is unreferenced portfolio originals that Astro
+      emits but nothing links to. Deploy weight only, no user impact.

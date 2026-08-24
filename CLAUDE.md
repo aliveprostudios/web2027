@@ -45,12 +45,19 @@ Settled. Do not reopen without asking Javad.
 
 ## Current state
 
-**55 routes building. Deployed to staging. Not yet live.**
+**LIVE at https://aliveprostudios.com since 2026-08-24. 49 routes, 83 redirects.**
+
+The WordPress site is gone. GoDaddy still holds the registration but has not
+served DNS for some time: the nameservers point at Cloudflare, and the apex is a
+Custom Domain on the `aliveprostudios` Worker. Microsoft mail was never touched
+and its four records are untouched to this day (MX, two TXT, `autodiscover`).
+
+49 rather than 55 because Resources is unpublished, see Known gaps.
 
 ```
 alive-astro/
 ├── CLAUDE.md              ← this file
-├── SITEMAP.md             ← canonical URL map + 63 redirects
+├── SITEMAP.md             ← canonical URL map + 83 redirects
 ├── TEMPLATE-ANATOMY.md    ← how the templates decompose; READ THIS FIRST
 ├── astro.config.mjs       ← static, no adapter
 ├── wrangler.jsonc         ← Cloudflare: ./dist, drop-trailing-slash
@@ -62,8 +69,9 @@ alive-astro/
 │   │                        RelatedServices, NextStep, SiteFooter, BgRails,
 │   │                        Lightbox
 │   ├── layouts/           ← BaseLayout, MasterPage
-│   ├── lib/               ← anatomy, nav, landing, sections, videos, gallery, faqs
-│   ├── pages/             ← 55 routes
+│   ├── lib/               ← anatomy, nav, landing, sections, videos, gallery,
+│   │                        faqs, figures, seo, pillars
+│   ├── pages/             ← 49 routes (+ `_resources/`, unpublished)
 │   └── styles/            ← tokens.css, base.css
 └── content/               ← Markdown, the source of truth for all copy
 ```
@@ -72,6 +80,7 @@ alive-astro/
 
 | | |
 |---|---|
+| **Live** | **`aliveprostudios.com`** |
 | Production (`main`) | `aliveprostudios.javad-ade.workers.dev` |
 | Staging (`staging`) | `staging-aliveprostudios.javad-ade.workers.dev` |
 | Repo | `github.com/aliveprostudios/web2027` |
@@ -163,7 +172,7 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 
 ---
 
-## Known gaps at end of 2026-08-22
+## Known gaps at end of 2026-08-24
 
 | Item | Impact |
 |---|---|
@@ -171,9 +180,14 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 | 5 redirects point at blog posts never migrated | Now moot while Resources is down: all 8 Resources redirects temporarily point at `/` |
 | All 3 blog posts are Lorem ipsum | Unpublished with the rest of Resources |
 | `homepage.md` is Sanity block descriptors | Home slots 2 (Why It Matters), 5 (founder quote) and 7 (closing) still render nothing. Slot 1b, the four intro blocks added 2026-08-23, reads from `content/home-intro.md` instead and is unaffected |
-| Contact form needs its Formspree endpoint | Fully wired: POST, `/thank-you` redirect, error fallback, honeypot, CSP auto-derived. Paste the URL into `FORM_ENDPOINT` in `src/pages/contact.astro` and it is done. Form Flow's iframe embed was evaluated and rejected, see `LAUNCH.md` §1 |
+| ~~Contact form~~ **DONE** | Live on Formspree `mwlejogn`, verified end to end 2026-08-24: POST, redirect to `/thank-you`, mail to `javad@`. reCAPTCHA must stay OFF in Formspree or AJAX submissions 403. Form Flow's iframe embed was evaluated and rejected, see `LAUNCH.md` |
 | Privacy policy describes a cookie banner | Javad's rewrite landed 2026-08-23 and fixed the false processors. §2 and §3 still promise a consent banner and a "Cookie settings" footer link that do not exist |
-| Cloudflare Access not yet on staging | Staging is noindexed but publicly reachable |
+| Cloudflare Access not yet on staging | Staging is noindexed but publicly reachable. The `*-aliveprostudios` preview URL is still enabled |
+| Cloudflare blocks AI training crawlers | Its managed robots.txt disallows GPTBot, ClaudeBot, Google-Extended, CCBot and others. Search crawlers and the AI *retrieval* bots are allowed, so citation still works. Toggle in AI Crawl Control. Worth a deliberate decision given the AEO service page |
+| Organization schema has no `sameAs` | No social profile links, which is most of how an engine resolves the entity. Waiting on Javad's LinkedIn, Instagram, YouTube, GBP URLs |
+| 35 service pages have 44-60 char meta descriptions | Under the 150-160 spec. Thin, not broken |
+| Homayra's headshot is 400x500 | Displays at 260px, so it is soft on retina. Javad's is 2000x2500 |
+| Foundation and Infrastructure are alphabetical | Execution, Growth and Alive Pro were sequenced by priority 2026-08-24; the other two await Javad's order |
 | `/brand-pulse` | No route yet. `/thank-you` was built 2026-08-23, noindex and out of the sitemap |
 
 ---

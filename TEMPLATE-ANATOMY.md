@@ -80,12 +80,15 @@ Worked against `brand-name-identity.md`:
 | Intro paragraph, remainder | 3, H4 statement | Two-tone: last sentence drops to `--pg-fg3` |
 | Further paragraphs before next heading | 3, body copy | 17px / 1.6 / `--pg-fg2` |
 | `**bold**` standalone paragraph | 3, stat block | Leading figure ("72%") extracted as the number, remainder becomes the caption, two-tone |
+| A break as the FIRST thing in the body | 4 | Sets the numbering mode for the page and opens NO section, for when the H1 already names it |
 | `---` on its own line | 4, section break | Opens a section whose items ARE numbered. Renders nothing itself |
 | `***` on its own line | 4, section break | Opens a section whose items are NOT numbered |
 | A heading straight after either | 4, section head | **Always unnumbered**, full width, no hairline, H2 at `t-h2` scale |
 | Each other subsequent `##` / `###` | 4, item | `01`, `02`, … **within the current section**, or no number in a `***` section. Condensed 800 H3 either way, on the same left edge |
 | Paragraphs under those headings | 4, row body | |
-| `![alt](/assets/diagrams/x.png)` alone on a line | 4, figure | **Edge to edge**, pulled out of the row grid and placed after that row's text |
+| `![alt](/assets/x.png)` alone on a line | 4, figure | **Edge to edge**, pulled out of the row grid and placed after that row's text |
+| the same with `"portrait"` as the image title | 4, in-row figure | Beside the text, cropped to the 4:5 people ratio so headshots line up |
+| the same with `"aside"` | 4, in-row figure | Beside the text, keeping the image's own shape. What a tall object like an award needs |
 | `**Label:**` followed by a `-` list | 4, row body | 12px uppercase label + disc `ul`, 22px indent |
 | `>` blockquote | 5, quote band | **Hoisted** out of document order into its own band |
 | Bold line following the blockquote | 5, attribution | "Name, Role" splits at the comma |
@@ -140,6 +143,25 @@ levels regardless of how the source file was authored. (`brand-name-identity.md`
 `## Brand Naming.` with `### Brand Identity Design.` for two peer rows.)
 
 **Never invent copy.** Where a slot has no source, the slot is omitted, not filled.
+
+**Frontmatter that changes how a page parses or is listed.** All optional.
+
+| Field | Effect |
+|---|---|
+| `order` | Position in the menu, the section landing rows and Related Services. Lower first; anything without one sorts alphabetically AFTER the numbered pages, so a new file still appears with no code change |
+| `navLabel` | Short label for the menu and Related Services when the H1 is long. Testimonials is "What Our Clients Say" on the page and "Testimonials" in the menu |
+| `closing` | `false` stops the document's last paragraph being lifted into the slot 6 closing statement. That rule fits a marketing page and mis-fires elsewhere: on About Us it swallowed the award copy, on Testimonials it would have taken a job title |
+| `updated` | ISO date for a legal document's "last updated" line and its JSON-LD `dateModified` |
+
+**Item heading levels are contextual.** A section head is always `h2`. An item is
+`h3` when something above it is already an `h2`, which is slot 3's heading or a
+section head. With neither, as on Testimonials, the items ARE the page's
+top-level headings and render `h2`, or the document jumps `h1` to `h3`.
+
+**Order the copy so each heading owns what follows it.** `parseAnatomy` assigns
+every block after a heading to that heading. Testimonials was authored
+quote-then-name, so all nine rows held the NEXT person's words and the first
+quote was lifted out entirely as the page statement. Name, then role, then quote.
 
 **A single `#` in the body is NOT a heading here.** `tokenize()` matches `^#{2,6}`,
 so a `# Title` line falls through to the paragraph branch and renders the hash
