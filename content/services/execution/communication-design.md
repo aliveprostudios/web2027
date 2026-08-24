@@ -6,6 +6,7 @@ category: "execution"
 url: "/execution/communication-design"
 seoTitle: "Communication Design"
 seoDescription: "Design that communicates with clarity and impact."
+order: 4
 ---
 ## Strategy Made Visual
 

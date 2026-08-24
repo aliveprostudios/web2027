@@ -4,6 +4,7 @@ caption: ""
 slug: "what-to-expect"
 seoTitle: "What to Expect"
 seoDescription: "Transparency from day one. Here is a clear picture of how we work, what you will receive, and how we measure success together."
+order: 6
 ---
 ## Before You Call, Here’s How It Works
 

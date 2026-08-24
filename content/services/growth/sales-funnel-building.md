@@ -6,6 +6,7 @@ category: "growth"
 url: "/growth/sales-funnel-building"
 seoTitle: "Sales Funnel Building"
 seoDescription: "Structured funnels that convert prospects into clients."
+order: 3
 ---
 ## From Stranger to Customer
 

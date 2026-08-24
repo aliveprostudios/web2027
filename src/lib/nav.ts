@@ -26,16 +26,32 @@ function pageUrl(entry: CollectionEntry<'pages'>): string {
   return entry.data.url ?? `/alive-pro/${entry.id}`;
 }
 
-function byTitle(a: { title: string }, b: { title: string }) {
-  return a.title.localeCompare(b.title);
+/**
+ * Section pages are sequenced by editorial priority, not alphabetically: Growth
+ * runs demand generation to nurture to retention to search, Execution starts at
+ * Web Solutions. That sequence lives in each page's `order` frontmatter, so the
+ * collection stays the source of truth and no list is hard-coded here.
+ *
+ * A page with no `order` falls to the end in alphabetical order rather than
+ * disappearing or landing first, so dropping in a new Markdown file still shows
+ * up with no code change.
+ */
+function byOrderThenTitle(
+  a: { data: { order?: number; title: string } },
+  b: { data: { order?: number; title: string } },
+) {
+  const ao = a.data.order ?? Number.MAX_SAFE_INTEGER;
+  const bo = b.data.order ?? Number.MAX_SAFE_INTEGER;
+  if (ao !== bo) return ao - bo;
+  return a.data.title.localeCompare(b.data.title);
 }
 
 /** Every page in a section, in collection order. */
 export async function servicesInSection(section: Section): Promise<NavChild[]> {
   const all = await getCollection('services', (e) => e.data.category === section);
   return all
-    .map((e) => ({ title: e.data.title, url: e.data.url ?? `/${section}/${e.id.split('/').pop()}` }))
-    .sort(byTitle);
+    .sort(byOrderThenTitle)
+    .map((e) => ({ title: e.data.title, url: e.data.url ?? `/${section}/${e.id.split('/').pop()}` }));
 }
 
 /**
@@ -56,7 +72,7 @@ export async function resourcesPages(): Promise<NavChild[]> {
 
 export async function aliveProPages(): Promise<NavChild[]> {
   const all = await getCollection('pages', (e) => !e.data.url);
-  return all.map((e) => ({ title: e.data.title, url: pageUrl(e) })).sort(byTitle);
+  return all.sort(byOrderThenTitle).map((e) => ({ title: e.data.title, url: pageUrl(e) }));
 }
 
 /**

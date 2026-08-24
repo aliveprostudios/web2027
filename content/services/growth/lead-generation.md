@@ -6,6 +6,7 @@ category: "growth"
 url: "/growth/lead-generation"
 seoTitle: "Lead Generation"
 seoDescription: "Systematic approaches to filling your pipeline."
+order: 2
 ---
 ## Leads That Actually Convert
 

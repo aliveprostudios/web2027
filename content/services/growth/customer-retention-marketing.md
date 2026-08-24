@@ -6,6 +6,7 @@ category: "growth"
 url: "/growth/customer-retention-marketing"
 seoTitle: "Customer Retention Marketing"
 seoDescription: "Keep your best clients engaged and coming back."
+order: 6
 ---
 ## Keep the Customers You’ve Already Won
 

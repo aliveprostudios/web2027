@@ -6,6 +6,7 @@ category: "growth"
 url: "/growth/aeo-answer-engine-optimization"
 seoTitle: "AEO (Answer Engine Optimization)"
 seoDescription: "Optimize for AI-powered search and answer engines."
+order: 11
 ---
 ## Be the Answer, Not Just a Result
 

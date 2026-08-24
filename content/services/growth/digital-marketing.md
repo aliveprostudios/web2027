@@ -6,6 +6,7 @@ category: "growth"
 url: "/growth/digital-marketing"
 seoTitle: "Digital Marketing"
 seoDescription: "Targeted campaigns that drive measurable results."
+order: 1
 ---
 ## Precision Over Guesswork
 

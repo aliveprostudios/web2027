@@ -4,6 +4,7 @@ caption: ""
 slug: "partnership"
 seoTitle: "Partnership"
 seoDescription: "We work with you, not just for you. Our partnership model means shared ownership, open communication, and aligned incentives."
+order: 5
 ---
 ## More Than a Client. A Partner.
 

@@ -6,6 +6,7 @@ category: "growth"
 url: "/growth/content-marketing"
 seoTitle: "Content Marketing"
 seoDescription: "Strategic content that builds authority and trust."
+order: 4
 ---
 ## Content With Intent
 

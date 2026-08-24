@@ -4,6 +4,7 @@ caption: ""
 slug: "why-alive-pro"
 seoTitle: "Why Alive Pro"
 seoDescription: "We are not a vendor. We are your brand transformation partner. Here is what makes working with us different."
+order: 2
 ---
 ## The Partner That Replaces Fragmented Marketing
 

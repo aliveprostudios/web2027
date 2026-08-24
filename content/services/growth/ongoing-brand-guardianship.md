@@ -6,6 +6,7 @@ category: "growth"
 url: "/growth/ongoing-brand-guardianship"
 seoTitle: "Ongoing Brand Guardianship"
 seoDescription: "Continuous brand management and quality assurance."
+order: 8
 ---
 ## Protect What You’ve Built
 

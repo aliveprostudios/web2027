@@ -4,6 +4,7 @@ caption: ""
 slug: "our-process"
 seoTitle: "Our Process"
 seoDescription: "A proven, structured approach to brand transformation. From discovery to delivery, every step is intentional."
+order: 4
 ---
 ## The Brand Transformation System
 

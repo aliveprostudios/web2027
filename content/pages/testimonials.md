@@ -4,6 +4,7 @@ caption: ""
 slug: "testimonials"
 seoTitle: "Testimonials"
 seoDescription: "Do not take our word for it. Hear from the businesses we have transformed."
+order: 8
 ---
 ## What Our Clients Say
 

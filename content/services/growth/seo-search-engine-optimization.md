@@ -6,6 +6,7 @@ category: "growth"
 url: "/growth/seo-search-engine-optimization"
 seoTitle: "SEO (Search Engine Optimization)"
 seoDescription: "Organic visibility that compounds over time."
+order: 10
 ---
 ## Own the Search Results
 

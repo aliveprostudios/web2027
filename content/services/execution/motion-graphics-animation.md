@@ -6,6 +6,7 @@ category: "execution"
 url: "/execution/motion-graphics-animation"
 seoTitle: "Motion Graphics & Animation"
 seoDescription: "Animated content that captures and holds attention."
+order: 6
 ---
 ## Motion That Communicates
 

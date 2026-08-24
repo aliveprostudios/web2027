@@ -24,6 +24,12 @@ const pageFields = {
   updated: z.string().optional(),
   /** Set false when the page's last paragraph is body copy, not a closing statement. */
   closing: z.boolean().optional(),
+  /**
+   * Position within its section's menu, landing rows and Related Services.
+   * Lower comes first. Anything without one sorts alphabetically after the
+   * ordered pages, so a new file still appears without needing a number.
+   */
+  order: z.number().optional(),
   source: z.string().optional(),
 };
 

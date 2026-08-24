@@ -4,6 +4,7 @@ caption: ""
 slug: "precision-impact-sprints"
 seoTitle: "Precision Impact Sprints"
 seoDescription: "Focused, time-boxed engagements that deliver fast, measurable results. Perfect for businesses that need momentum now."
+order: 7
 ---
 ## 90 Minutes. Total Clarity. Thousands Saved.
 

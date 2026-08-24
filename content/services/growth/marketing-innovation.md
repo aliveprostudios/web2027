@@ -6,6 +6,7 @@ category: "growth"
 url: "/growth/marketing-innovation"
 seoTitle: "Marketing Innovation"
 seoDescription: "Emerging tactics that keep you ahead of the market."
+order: 7
 ---
 ## Stay Ahead, Not Behind
 
