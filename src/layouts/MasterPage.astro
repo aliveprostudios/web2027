@@ -89,6 +89,17 @@ const schema = [
       },
   ...extraSchema,
 ];
+
+/**
+ * Heading level for a slot 4 ITEM.
+ *
+ * Section heads are always h2. An item is h3 when something above it on the
+ * page is already an h2, which is either slot 3's heading or a section head.
+ * With neither, as on Testimonials, the items ARE the page's top-level
+ * headings and must be h2, or the document jumps straight from h1 to h3.
+ */
+const hasH2Above = Boolean(anatomy.h2) || anatomy.rows.some((row) => row.section);
+const itemTag = hasH2Above ? 'h3' : 'h2';
 ---
 
 <BaseLayout {title} {description} {path} {schema} {breadcrumbs}>
@@ -247,7 +258,13 @@ const schema = [
                     {row.section ? (
                       <h2 class="t-h2 row__heading">{row.heading}</h2>
                     ) : (
-                      <h3 class="t-h3 row__heading">{row.heading}</h3>
+                      <Fragment>
+                        {itemTag === 'h2' ? (
+                          <h2 class="t-h3 row__heading">{row.heading}</h2>
+                        ) : (
+                          <h3 class="t-h3 row__heading">{row.heading}</h3>
+                        )}
+                      </Fragment>
                     )}
                     <div class="md">
                       {row.blocks

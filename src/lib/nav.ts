@@ -51,7 +51,10 @@ export async function servicesInSection(section: Section): Promise<NavChild[]> {
   const all = await getCollection('services', (e) => e.data.category === section);
   return all
     .sort(byOrderThenTitle)
-    .map((e) => ({ title: e.data.title, url: e.data.url ?? `/${section}/${e.id.split('/').pop()}` }));
+    .map((e) => ({
+      title: e.data.navLabel ?? e.data.title,
+      url: e.data.url ?? `/${section}/${e.id.split('/').pop()}`,
+    }));
 }
 
 /**
@@ -72,7 +75,7 @@ export async function resourcesPages(): Promise<NavChild[]> {
 
 export async function aliveProPages(): Promise<NavChild[]> {
   const all = await getCollection('pages', (e) => !e.data.url);
-  return all.sort(byOrderThenTitle).map((e) => ({ title: e.data.title, url: pageUrl(e) }));
+  return all.sort(byOrderThenTitle).map((e) => ({ title: e.data.navLabel ?? e.data.title, url: pageUrl(e) }));
 }
 
 /**

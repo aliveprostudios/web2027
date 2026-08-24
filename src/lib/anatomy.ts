@@ -301,7 +301,22 @@ export function parseAnatomy(
     }
 
     if (token.type === 'heading') {
-      if (!seenHeading) {
+      if (!seenHeading && pendingBreak) {
+        // A break BEFORE the first heading sets the numbering mode for the page
+        // and opens no section. Testimonials needs this: its H1 already names
+        // the section, so there is no heading to spare for a section head, and
+        // every name has to be a plain unnumbered item.
+        seenHeading = true;
+        sectionNumbers = pendingBreak.numbered;
+        pendingBreak = null;
+        let num: string | null = null;
+        if (sectionNumbers) {
+          itemNum += 1;
+          num = String(itemNum).padStart(2, '0');
+        }
+        currentRow = { heading: token.text, blocks: [], num, section: false };
+        result.rows.push(currentRow);
+      } else if (!seenHeading) {
         // First heading is the slot 3 H2, not a row.
         result.h2 = token.text;
         seenHeading = true;

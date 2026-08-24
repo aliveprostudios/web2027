@@ -30,6 +30,8 @@ const pageFields = {
    * ordered pages, so a new file still appears without needing a number.
    */
   order: z.number().optional(),
+  /** Short label for the menu and Related Services when the page title is long. */
+  navLabel: z.string().optional(),
   source: z.string().optional(),
 };
 
