@@ -22,6 +22,8 @@ const pageFields = {
   videoId: z.string().optional(),
   /** ISO date a legal document last changed, rendered as its "last updated" line. */
   updated: z.string().optional(),
+  /** Set false when the page's last paragraph is body copy, not a closing statement. */
+  closing: z.boolean().optional(),
   source: z.string().optional(),
 };
 

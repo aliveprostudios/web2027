@@ -219,7 +219,23 @@ function asAttribution(text: string): { name: string; role: string } {
 
 /* ------------------------------------------------------------------ parser */
 
-export function parseAnatomy(body: string, frontmatterCaption?: string): Anatomy {
+export type AnatomyOptions = {
+  /**
+   * Whether the document's final paragraph is lifted into the slot 6 closing
+   * statement. True by default, which is right for a marketing page.
+   *
+   * Set false when the last paragraph is body copy that belongs where it sits.
+   * On About Us it is the second half of the award story, and hoisting it left
+   * that section as a heading and a photograph with nothing under it.
+   */
+  closing?: boolean;
+};
+
+export function parseAnatomy(
+  body: string,
+  frontmatterCaption?: string,
+  options: AnatomyOptions = {},
+): Anatomy {
   const tokens = tokenize(body);
 
   const result: Anatomy = {
@@ -252,7 +268,7 @@ export function parseAnatomy(body: string, frontmatterCaption?: string): Anatomy
   }
 
   // The document's final paragraph is the closing statement, wherever it sits.
-  for (let i = flow.length - 1; i >= 0; i--) {
+  for (let i = flow.length - 1; options.closing !== false && i >= 0; i--) {
     if (flow[i]!.type === 'p') {
       result.closing = twoTone((flow[i] as { text: string }).text);
       flow.splice(i, 1);

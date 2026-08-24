@@ -27,7 +27,7 @@ const { entry } = Astro.props;
 
 const path = `/alive-pro/${entry.id}`;
 const caption = entry.data.caption?.trim() || undefined;
-const anatomy = parseAnatomy(entry.body ?? '', caption);
+const anatomy = parseAnatomy(entry.body ?? '', caption, { closing: entry.data.closing });
 const related = await relatedAlivePro(path);
 ---
 

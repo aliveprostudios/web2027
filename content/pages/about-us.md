@@ -3,6 +3,7 @@ title: "About Us"
 caption: ""
 slug: "about-us"
 seoTitle: "About Us"
+closing: false
 seoDescription: "Founded in 1997, Alive ProStudios has been transforming brands for over 27 years. Based in Toronto, serving visionary businesses worldwide."
 ---
 ## Alive ProStudios Inc.
@@ -73,6 +74,4 @@ Her steady leadership, technical precision, and commitment to operational excell
 
 ![The MetalFX Design Agency of the Year 2008 award presented to Alive ProStudios](/assets/people/mfx-award-2008.jpg "aside")
 
-In 2008, Alive ProStudios outperformed a global roster of entries from some of the world’s top international advertising and design agencies to receive the prestigious MetalFX Design Agency of the Year award.
-
-It was a recognition of the creative ambition and strategic depth that has defined our work from the beginning, and it remains a benchmark we hold ourselves to on every project.
+In 2008, Alive ProStudios outperformed a global roster of entries from some of the world’s top international advertising and design agencies to receive the prestigious MetalFX Design Agency of the Year award. It was a recognition of the creative ambition and strategic depth that has defined our work from the beginning, and it remains a benchmark we hold ourselves to on every project.
