@@ -76,8 +76,18 @@ export function splitSentences(text: string): string[] {
 export type Block =
   | { kind: 'p'; html: string }
   | { kind: 'list'; label: string | null; items: string[] }
-  /** A standalone Markdown image. Rendered edge to edge, outside the row grid. */
-  | { kind: 'image'; src: string; alt: string };
+  /**
+   * A standalone Markdown image.
+   *
+   * `full` goes edge to edge, outside the row grid. `portrait` and `aside` both
+   * sit INSIDE the row beside the text; `portrait` is cropped to the 4:5 people
+   * ratio so headshots line up, `aside` keeps the image's own shape, which is
+   * what a tall object like an award needs.
+   *
+   * The variant comes from the image's Markdown title:
+   *   `![alt](/assets/people/x.jpg "portrait")`
+   */
+  | { kind: 'image'; src: string; alt: string; variant: 'full' | 'portrait' | 'aside' };
 
 /**
  * A slot-4 entry, either a section head or an item inside one.
@@ -86,6 +96,10 @@ export type Block =
  * lives in one place. It is null for every section head, and also for an item in
  * a section that was opened with `***` rather than `---`.
  */
+/** `Block` narrowed to the image case, so `.filter()` can carry the type. */
+export type ImageBlock = Extract<Block, { kind: 'image' }>;
+export const isImageBlock = (block: Block): block is ImageBlock => block.kind === 'image';
+
 export type Row = {
   heading: string;
   blocks: Block[];
@@ -116,7 +130,7 @@ export type Anatomy = {
 type Raw =
   /** `numbered` distinguishes a `---` break from a `***` one. */
   | { type: 'break'; numbered: boolean }
-  | { type: 'image'; src: string; alt: string }
+  | { type: 'image'; src: string; alt: string; variant: 'full' | 'portrait' | 'aside' }
   | { type: 'heading'; text: string }
   | { type: 'quote'; text: string }
   | { type: 'list'; items: string[] }
@@ -143,8 +157,21 @@ function tokenize(body: string): Raw[] {
 
     // A paragraph that is nothing but an image: `![alt](/assets/thing.svg)`.
     // Only site-absolute paths, so the src cannot reach off-origin.
-    const image = chunk.match(/^!\[([^\]]*)\]\((\/[^)\s]+)\)$/);
-    if (image) return { type: 'image', src: image[2]!, alt: image[1]!.trim() };
+    // An optional Markdown title carries the layout variant.
+    const image = chunk.match(/^!\[([^\]]*)\]\((\/[^)\s]+)(?:\s+"([^"]*)")?\)$/);
+    if (image) {
+      return {
+        type: 'image',
+        src: image[2]!,
+        alt: image[1]!.trim(),
+        variant:
+          image[3]?.trim() === 'portrait'
+            ? 'portrait'
+            : image[3]?.trim() === 'aside'
+              ? 'aside'
+              : 'full',
+      };
+    }
 
     const heading = chunk.match(/^#{2,6}\s+(.*)$/);
     if (heading) return { type: 'heading', text: heading[1]!.trim() };
@@ -306,7 +333,7 @@ export function parseAnatomy(body: string, frontmatterCaption?: string): Anatomy
     }
 
     if (token.type === 'image') {
-      push({ kind: 'image', src: token.src, alt: token.alt });
+      push({ kind: 'image', src: token.src, alt: token.alt, variant: token.variant });
       continue;
     }
 

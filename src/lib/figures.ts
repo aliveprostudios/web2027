@@ -19,10 +19,17 @@ import type { ImageMetadata } from 'astro';
  *
  * Every glob pattern must stay a literal string for Vite to statically analyse it.
  */
-const rasters = import.meta.glob<{ default: ImageMetadata }>(
+const diagramRasters = import.meta.glob<{ default: ImageMetadata }>(
   '../../content/assets/diagrams/*.{jpg,jpeg,png,webp,avif}',
   { eager: true },
 );
+
+const peopleRasters = import.meta.glob<{ default: ImageMetadata }>(
+  '../../content/assets/people/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+);
+
+const rasters = { ...diagramRasters, ...peopleRasters };
 
 const svgUrls = import.meta.glob<string>('../../content/assets/diagrams/*.svg', {
   eager: true,
@@ -91,9 +98,9 @@ export function figure(src: string): Figure {
   if (raster) return { kind: 'raster', image: raster };
 
   const available =
-    [...svgByName.keys(), ...rasterByName.keys()].sort().join(', ') || '(the folder is empty)';
+    [...svgByName.keys(), ...rasterByName.keys()].sort().join(', ') || '(the folders are empty)';
   throw new Error(
-    `Markdown references the image "${src}", but content/assets/diagrams/${name} does not exist. ` +
-      `Available: ${available}`,
+    `Markdown references the image "${src}", but no file named ${name} exists in ` +
+      `content/assets/diagrams/ or content/assets/people/. Available: ${available}`,
   );
 }

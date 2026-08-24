@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { figure } from '../lib/figures';
+import { isImageBlock } from '../lib/anatomy';
 import BgRails from '../components/BgRails.astro';
 import SiteNav from '../components/SiteNav.astro';
 import VideoHero from '../components/VideoHero.astro';
@@ -207,11 +208,42 @@ const schema = [
                     'z-content',
                     row.section && 'row--section',
                     !row.section && !row.num && 'row--plain',
+                    row.blocks.some((b) => isImageBlock(b) && b.variant !== 'full') &&
+                      'row--illustrated',
                   ]}
                   data-stack
                 >
                   {row.num && <span class="row__num">{row.num}</span>}
                   <div>
+                    {row.blocks
+                      .filter(isImageBlock)
+                      .filter((block) => block.variant !== 'full')
+                      .map((block) => {
+                        const fig = figure(block.src);
+                        return (
+                          <figure class:list={['row__portrait', `row__portrait--${block.variant}`]}>
+                            {fig.kind === 'svg' ? (
+                              <img
+                                src={fig.src}
+                                alt={block.alt}
+                                width={fig.width}
+                                height={fig.height}
+                                loading="lazy"
+                                decoding="async"
+                              />
+                            ) : (
+                              <Image
+                                src={fig.image}
+                                alt={block.alt}
+                                widths={[320, 640]}
+                                sizes="(max-width: 760px) 60vw, 300px"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                            )}
+                          </figure>
+                        );
+                      })}
                     {row.section ? (
                       <h2 class="t-h2 row__heading">{row.heading}</h2>
                     ) : (
@@ -239,7 +271,8 @@ const schema = [
                 </div>
 
                 {row.blocks
-                  .filter((block) => block.kind === 'image')
+                  .filter(isImageBlock)
+                  .filter((block) => block.variant === 'full')
                   .map((block) => {
                     const fig = figure(block.src);
                     return (
@@ -448,6 +481,54 @@ const schema = [
   }
   .rows__figure img { display: block; width: 100%; height: auto; }
 
+  /* ---- Illustrated row: image beside the text -------------------------
+     A `"portrait"` image stays INSIDE the row instead of going full bleed,
+     which is what a headshot or a product shot wants. The body cell becomes
+     two columns: the picture spans both rows on the left, heading and copy
+     stack on the right. */
+  .row--illustrated > div {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 8px clamp(28px, 3.5vw, 56px);
+    align-items: start;
+  }
+  .row--illustrated .row__portrait { grid-column: 1; grid-row: 1 / 3; margin: 0; }
+  .row--illustrated .row__heading { grid-column: 2; grid-row: 1; }
+  .row--illustrated .md { grid-column: 2; grid-row: 2; }
+
+  /* One ratio for every portrait, so two headshots shot differently still
+     line up. §5 specifies 4:5 at a 12px radius. */
+  .row__portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+  /* People only. An `aside` image keeps its own shape. */
+  .row__portrait--portrait img { aspect-ratio: 4 / 5; object-fit: cover; }
+
+  /* A person is not a section: the name sits under the section head that
+     introduces them, so it drops well below the H3 display scale. */
+  .row--illustrated:not(.row--section) .row__heading {
+    font-size: clamp(22px, 2vw, 30px);
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  /* The role line: a paragraph that is nothing but bold text. Takes the H5
+     kicker role (§1.3) so it reads as a title rather than as body copy. */
+  .row--illustrated .md > p:has(> strong:only-child) {
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--orange-ink);
+    max-width: none;
+    margin: 0 0 20px;
+  }
+  .row--illustrated .md > p:has(> strong:only-child) strong { color: inherit; }
+
   .row__num {
     font-family: var(--font-condensed);
     font-weight: 800;
@@ -484,4 +565,20 @@ const schema = [
 
   /* ---- 6. Closing ------------------------------------------------------ */
   .closing { max-width: 760px; margin: 0; }
+
+  /* ---- Mobile ----------------------------------------------------------
+     The global `[data-stack]` rule in base.css stacks the ROW, but it cannot
+     reach the illustrated row's inner grid, which would otherwise keep a
+     260px picture beside the copy on a 390px screen. */
+  @media (max-width: 760px) {
+    .row--illustrated > div { grid-template-columns: 1fr; gap: 20px; }
+    .row--illustrated .row__portrait {
+      grid-column: 1;
+      grid-row: auto;
+      max-width: 200px;
+    }
+    .row--illustrated .row__heading,
+    .row--illustrated .md { grid-column: 1; grid-row: auto; }
+    .row--illustrated:not(.row--section) .row__heading { font-size: 26px; }
+  }
 </style>

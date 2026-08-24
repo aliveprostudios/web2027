@@ -35,11 +35,15 @@ We eliminate that problem. Everything we deliver is built from the same strategi
 
 We think in systems, not services. Every engagement is approached through a holistic lens that considers how each piece connects to the whole. Your website supports your sales funnel. Your content supports your SEO. Your social media reinforces your brand voice. Your campaigns drive traffic to conversion-ready pages. Your sales collateral carries the same story as your digital presence. Nothing is built in isolation because nothing in your business operates in isolation.
 
+***
+
 ## Leadership Team
 
 ### Javad Ahmadi
 
-### Founder & Brand Transformation Architect
+![Javad Ahmadi, Founder and Brand Transformation Architect at Alive ProStudios](/assets/people/javad-ahmadi.jpg "portrait")
+
+**Founder & Brand Transformation Architect**
 
 Javad founded Alive ProStudios in 1997 and has spent 29 years helping businesses transform their brands into market-leading assets. A classical artist by training, Javad began his career in Germany working with advertising agencies and developing deep expertise in European design principles, typography, photography, art direction, and film composition.
 
@@ -53,7 +57,9 @@ Over his career, Javad has worked with more than 400 clients across healthcare, 
 
 ### Homayra Ahmadi
 
-### Co-Founder & Operations Director
+![Homayra Ahmadi, Co-Founder and Operations Director at Alive ProStudios](/assets/people/homayra-ahmadi.jpg "portrait")
+
+**Co-Founder & Operations Director**
 
 Homayra joined Alive ProStudios in 1998 and has been the operational backbone of the company for over 27 years. As Co-Founder and Operations Director, she oversees the day-to-day management of the business, ensuring that every project is delivered on time, on budget, and to the highest standard.
 
@@ -61,6 +67,12 @@ A senior developer by background, Homayra brings deep technical expertise to the
 
 Her steady leadership, technical precision, and commitment to operational excellence are a major reason why clients stay with Alive Pro for decades.
 
+***
+
 ## Award-Winning Work
 
-In 2008, Alive ProStudios outperformed a global roster of entries from some of the world’s top international advertising and design agencies to receive the prestigious MetalFX Design Agency of the Year award. It was a recognition of the creative ambition and strategic depth that has defined our work from the beginning, and it remains a benchmark we hold ourselves to on every project.
+![The MetalFX Design Agency of the Year 2008 award presented to Alive ProStudios](/assets/people/mfx-award-2008.jpg "aside")
+
+In 2008, Alive ProStudios outperformed a global roster of entries from some of the world’s top international advertising and design agencies to receive the prestigious MetalFX Design Agency of the Year award.
+
+It was a recognition of the creative ambition and strategic depth that has defined our work from the beginning, and it remains a benchmark we hold ourselves to on every project.
