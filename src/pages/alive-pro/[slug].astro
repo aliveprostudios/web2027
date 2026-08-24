@@ -16,7 +16,7 @@ import { relatedAlivePro } from '../../lib/nav';
  * Alive Pro pages instead of a pillar's services.
  */
 export async function getStaticPaths() {
-  const pages = await getCollection('pages', (entry) => !entry.data.url);
+  const pages = await getCollection('pages', (entry) => !entry.data.url && entry.data.published !== false);
   return pages.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },

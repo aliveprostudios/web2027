@@ -74,7 +74,9 @@ export async function resourcesPages(): Promise<NavChild[]> {
 }
 
 export async function aliveProPages(): Promise<NavChild[]> {
-  const all = await getCollection('pages', (e) => !e.data.url);
+  // `published: false` removes a page from the menu, the Alive Pro landing rows
+  // and Related Services in one place, since all three read from here.
+  const all = await getCollection('pages', (e) => !e.data.url && e.data.published !== false);
   return all.sort(byOrderThenTitle).map((e) => ({ title: e.data.navLabel ?? e.data.title, url: pageUrl(e) }));
 }
 

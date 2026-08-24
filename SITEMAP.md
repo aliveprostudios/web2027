@@ -95,7 +95,7 @@ Locale: English only at launch. Architecture should stay i18n-ready
 | `/alive-pro/our-philosophy` | Our Philosophy | `content/pages/our-philosophy.md` |
 | `/alive-pro/our-process` | Our Process | `content/pages/our-process.md` |
 | `/alive-pro/partnership` | Partnership | `content/pages/partnership.md` |
-| `/alive-pro/precision-impact-sprints` | Precision Impact Sprints | `content/pages/precision-impact-sprints.md` |
+| ~~`/alive-pro/precision-impact-sprints`~~ | **UNPUBLISHED 2026-08-24.** Precision Impact Sprints, content being revised | `content/pages/precision-impact-sprints.md` |
 | `/alive-pro/testimonials` | Testimonials | `content/pages/testimonials.md` |
 | `/alive-pro/what-to-expect` | What to Expect | `content/pages/what-to-expect.md` |
 | `/alive-pro/why-alive-pro` | Why Alive Pro | `content/pages/why-alive-pro.md` |
@@ -205,6 +205,7 @@ are only ever discovered through that index, so redirecting the index is enough.
 | `/testimonials` | `/alive-pro/testimonials` | 301 |
 | `/precision-impact-sprints` | `/alive-pro/precision-impact-sprints` | 301 |
 | `/sprints` | `/alive-pro/precision-impact-sprints` | 301 |
+| `/alive-pro/precision-impact-sprints` | `/alive-pro` | 302 |
 | `/partnership-niu` | `/alive-pro/partnership` | 301 |
 | `/partnership-new` | `/alive-pro/partnership` | 301 |
 | `/faqs` | `/` | 301 |

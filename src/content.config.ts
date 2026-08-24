@@ -32,6 +32,12 @@ const pageFields = {
   order: z.number().optional(),
   /** Short label for the menu and Related Services when the page title is long. */
   navLabel: z.string().optional(),
+  /**
+   * Set false to take a page off the site without deleting anything: no route
+   * is built, and it disappears from the menu, the landing rows, Related
+   * Services, the counts and the sitemap. Flip it back to republish.
+   */
+  published: z.boolean().optional(),
   source: z.string().optional(),
 };
 

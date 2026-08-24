@@ -270,6 +270,16 @@ Nothing here blocks the site being live. In rough order of value.
       three Lorem ipsum blog posts and five old blog URLs with no target.
       This is also the biggest AEO win available: `/resources/faqs` carries
       `FAQPage` schema, which is exactly what answer engines quote.
+- [ ] **Republish `/alive-pro/precision-impact-sprints`.** Unpublished
+      2026-08-24 at Javad's request while he revises the copy. Nothing was
+      deleted: `content/pages/precision-impact-sprints.md` carries
+      `published: false`, which removes the route, the menu entry, the landing
+      row, Related Services, the counts and the sitemap entry in one flag.
+      **To republish:** delete that line, and delete the
+      `/alive-pro/precision-impact-sprints` to `/alive-pro` 302 from SITEMAP.md.
+      The two old WordPress URLs, `/precision-impact-sprints` and `/sprints`,
+      still point at the page and currently chain through that 302, so they come
+      back on their own.
 - [ ] **Privacy policy §2 and §3** still promise a cookie consent banner, an
       analytics opt-in and a "Cookie settings" footer link. None exist. Build
       the banner or soften the wording.
