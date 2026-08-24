@@ -1,51 +1,83 @@
 // Inlined by Vite at build time. A runtime fs read would resolve against the
 // bundled server output, not the repo, and fail during prerender.
 import videosMarkdown from '../../content/work/videos.md?raw';
+import heroVideosMarkdown from '../../content/work/hero-videos.md?raw';
 
 /**
- * ONE shared hero-video pool for the whole domain (STYLEGUIDE.md §4.1, §7).
+ * Hero videos, assigned per SECTION (STYLEGUIDE.md §4.1, §7).
  *
- * Every page gets an edge-to-edge looping background video, picked
- * deterministically from this pool by route hash so a given page always keeps
- * "its" video across rebuilds. Pool size is irrelevant to the rule
- * (§9 Clarifications) — it is whatever `content/work/videos.md` currently holds.
+ * `content/work/hero-videos.md` is the control surface and carries its own
+ * instructions. Each `## Heading` is a section; the links beneath it are that
+ * section's pool. A section with ONE link always shows that link, which is how
+ * the home page is pinned.
+ *
+ * Within a pool the pick is by route hash, not random, so a given page keeps
+ * "its" video across rebuilds and the site does not reshuffle on deploy.
+ *
+ * Kept separate from `content/work/videos.md`, which drives the /work/videos
+ * gallery. One file doing both jobs meant removing a video from the gallery
+ * silently pulled it out of the hero rotation too.
  */
 
 export type HeroVideo = { provider: 'vimeo' | 'youtube'; id: string };
 
-function parsePool(): HeroVideo[] {
-  const md = videosMarkdown;
+/** Any Vimeo or YouTube URL in the shapes you would copy from an address bar. */
+export function parseVideoUrl(text: string): HeroVideo | null {
+  const vimeo = text.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vimeo) return { provider: 'vimeo', id: vimeo[1]! };
 
-  // Only the "## All videos" table. The "## Plain URL list" below it repeats the
-  // same URLs and would double every entry's odds of being picked.
-  const start = md.indexOf('## All videos');
-  const end = md.indexOf('## Plain URL list');
-  const table = md.slice(start === -1 ? 0 : start, end === -1 ? undefined : end);
+  const youtube = text.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{6,})/,
+  );
+  if (youtube) return { provider: 'youtube', id: youtube[1]! };
 
-  const seen = new Set<string>();
-  const pool: HeroVideo[] = [];
-
-  for (const line of table.split('\n')) {
-    const vimeo = line.match(/vimeo\.com\/(\d+)/);
-    const youtube = line.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{6,})/);
-
-    const found: HeroVideo | null = vimeo
-      ? { provider: 'vimeo', id: vimeo[1]! }
-      : youtube
-        ? { provider: 'youtube', id: youtube[1]! }
-        : null;
-
-    if (!found) continue;
-    const key = `${found.provider}:${found.id}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    pool.push(found);
-  }
-
-  return pool;
+  return null;
 }
 
-export const HERO_VIDEOS: HeroVideo[] = parsePool();
+/** "Alive Pro" -> "alive-pro", so a heading matches the first URL segment. */
+function slugifySection(heading: string): string {
+  return heading
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+const DEFAULT_SECTION = 'default';
+const HOME_SECTION = 'home';
+
+function parseSections(): Map<string, HeroVideo[]> {
+  const sections = new Map<string, HeroVideo[]>();
+  let current: string | null = null;
+
+  for (const line of heroVideosMarkdown.replace(/\r\n/g, '\n').split('\n')) {
+    const heading = line.match(/^##\s+(.+?)\s*$/);
+    if (heading) {
+      current = slugifySection(heading[1]!);
+      if (!sections.has(current)) sections.set(current, []);
+      continue;
+    }
+
+    if (!current) continue;
+    const video = parseVideoUrl(line);
+    if (!video) continue;
+
+    const pool = sections.get(current)!;
+    // A link repeated inside one section would double its odds.
+    if (pool.some((v) => v.provider === video.provider && v.id === video.id)) continue;
+    pool.push(video);
+  }
+
+  // "How to use this file" is a `##` heading too, and prose carries no links,
+  // so empty sections are dropped rather than shadowing Default.
+  for (const [name, pool] of sections) if (pool.length === 0) sections.delete(name);
+
+  return sections;
+}
+
+const SECTIONS: Map<string, HeroVideo[]> = parseSections();
+
+/** Every video referenced anywhere, used only for the empty-pool guard. */
+export const HERO_VIDEOS: HeroVideo[] = [...SECTIONS.values()].flat();
 
 /** Stable 32-bit hash. Same string always yields the same index. */
 function hash(input: string): number {
@@ -56,10 +88,26 @@ function hash(input: string): number {
   return h;
 }
 
-/** Deterministic pick: a route always resolves to the same video. */
+/** "/execution/photography" -> "execution". "/" -> "home". */
+export function sectionForRoute(pathname: string): string {
+  const first = pathname.split('/').filter(Boolean)[0];
+  return first ? first.toLowerCase() : HOME_SECTION;
+}
+
+/**
+ * Deterministic pick: a route always resolves to the same video.
+ *
+ * Falls back to `## Default`, then to anything at all, so a page never loses
+ * its video because a section was renamed or emptied.
+ */
 export function videoForRoute(pathname: string): HeroVideo | null {
-  if (HERO_VIDEOS.length === 0) return null;
-  return HERO_VIDEOS[hash(pathname) % HERO_VIDEOS.length]!;
+  const pool =
+    SECTIONS.get(sectionForRoute(pathname)) ??
+    SECTIONS.get(DEFAULT_SECTION) ??
+    HERO_VIDEOS;
+
+  if (pool.length === 0) return null;
+  return pool[hash(pathname) % pool.length]!;
 }
 
 /** Background-embed URL: autoplay, muted, looping, no controls, no chrome. */

@@ -1,5 +1,5 @@
 ---
-import { videoForRoute, embedUrl, aspectOf, FRAME_ASPECT, HERO_VIDEOS } from '../lib/videos';
+import { videoForRoute, embedUrl, aspectOf, FRAME_ASPECT, HERO_VIDEOS, parseVideoUrl } from '../lib/videos';
 
 /**
  * Edge-to-edge looping background video (STYLEGUIDE.md §4.1).
@@ -12,14 +12,30 @@ import { videoForRoute, embedUrl, aspectOf, FRAME_ASPECT, HERO_VIDEOS } from '..
  */
 interface Props {
   route: string;
-  /** Frontmatter override for the route-hash pick. */
+  /**
+   * Frontmatter override, beating the section assignment for this page alone.
+   * Takes a full Vimeo or YouTube URL. A bare number is still read as a Vimeo
+   * id, which is how the field was originally used.
+   */
   videoId?: string | undefined;
   title?: string;
 }
 
 const { route, videoId, title = 'Alive ProStudios brand reel' } = Astro.props;
 
-const video = videoId ? { provider: 'vimeo' as const, id: videoId } : videoForRoute(route);
+const pinned = videoId
+  ? (parseVideoUrl(videoId) ??
+    (/^\d+$/.test(videoId.trim()) ? { provider: 'vimeo' as const, id: videoId.trim() } : null))
+  : null;
+
+if (videoId && !pinned) {
+  throw new Error(
+    `videoId "${videoId}" on ${route} is not a Vimeo or YouTube URL. ` +
+      `Paste the link from the address bar, or use a bare Vimeo id.`,
+  );
+}
+
+const video = pinned ?? videoForRoute(route);
 const style = video
   ? `--video-aspect:${aspectOf(video)};--frame-aspect:${FRAME_ASPECT}`
   : undefined;

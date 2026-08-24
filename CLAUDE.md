@@ -74,6 +74,7 @@ alive-astro/
 │   ├── pages/             ← 49 routes (+ `_resources/`, unpublished)
 │   └── styles/            ← tokens.css, base.css
 └── content/               ← Markdown, the source of truth for all copy
+    └── work/hero-videos.md ← which video each SECTION uses; carries its own guide
 ```
 
 ### URLs
