@@ -41,6 +41,15 @@ Settled. Do not reopen without asking Javad.
    own route and renders its Markdown through Astro, NOT through
    `MasterPage` + `parseAnatomy`. See `TEMPLATE-ANATOMY.md` §4 for why.
 
+8. **One enumerated framework on the whole site.** The Brand-to-Revenue
+   Performance System, four domains, owned by `/alive-pro/our-system`. Settled
+   2026-08-25 because three frameworks were competing under overlapping names:
+   the System on Home, a "Brand Transformation System" on Our Process that was
+   the same four domains relabelled as phases, and a separate "Four Pillars" on
+   Our Philosophy. Every other page now argues in prose and links to Our System.
+   Do not give any page its own four- or five-part model, and do not reintroduce
+   the name "Brand Transformation System".
+
 ---
 
 ## Current state
@@ -177,13 +186,18 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 
 | Item | Impact |
 |---|---|
+| **Alive Pro section rewritten 2026-08-25** | Shipped in `3090e98`. `/alive-pro/our-system` is new and owns the four domains, the Brand Core and the system diagram, which moved off Why Alive Pro. Our Process became six moments in time (First Conversation, Diagnosis, Blueprint, Build, Activation, Compounding) wrapped in a LifeCycle Support section, with no durations and no deliverable bullets, at Javad's direction. Why Alive Pro became a four-way comparison of the alternatives. Partnership leads with two paragraphs on what the relationship obligates both ways. What to Expect was cut to a lede plus two paragraphs on quality, precision and dedication. Each page owns a distinct stat so no figure is claimed twice: 29 (Why Alive Pro), 400+ (Our System), 6 (Our Process), 70% (Partnership) |
+| **Our Philosophy unpublished 2026-08-25** | `published: false` in `content/pages/our-philosophy.md`, file intact, one line flips it back. Its two strongest ideas, the positioning-discipline argument and "your brand is what your staff deliver", were folded into Why Alive Pro as prose rather than lost. `/alive-pro/our-philosophy` and the legacy `/our-philosophy` both 301 to `/alive-pro/why-alive-pro`, verified live |
+| Menu order is About, Why, System, Process, Partnership, What to Expect, Testimonials | Set by `order:` frontmatter. Sprints stays unpublished at 7. Blurbs on the `/alive-pro` landing rows are name-matched out of `content/landing/alive-pro.md`, so **a new page under `content/pages/` gets a row automatically but renders with no blurb until that file gains a matching `##` heading**. That is how Our System shipped bare for a build |
+| About Us still reads as a large company | Javad's positioning is boutique, and it is now stated on Why Alive Pro ("We are not a large agency and have never wanted to be one"). About Us still says "all under one roof" and Our System says "one team", which read as size. Javad was offered a boutique line on About Us on 2026-08-25 and it was left open, not declined |
+| `content/faqs.md` still says "four pillars" | The site now says four domains. Not live, since FAQs is unpublished with Resources, but fix it before that section returns |
 | **Resources unpublished 2026-08-23** | 7 routes pulled at Javad's request, content not ready. Files intact under `src/pages/_resources/`. Revert steps in `LAUNCH.md` §1 |
 | 5 redirects point at blog posts never migrated | Now moot while Resources is down: all 8 Resources redirects temporarily point at `/` |
 | All 3 blog posts are Lorem ipsum | Unpublished with the rest of Resources |
 | `homepage.md` is Sanity block descriptors | Home slots 2 (Why It Matters), 5 (founder quote) and 7 (closing) still render nothing. Slot 1b, the four intro blocks added 2026-08-23, reads from `content/home-intro.md` instead and is unaffected. That file gained a market-coverage caption above the four cards on 2026-08-25 |
 | Home hero rewritten 2026-08-25 | H1 "Fragmented Marketing is Expensive.", caption "Brand transformation is not." A new system-diagram section (heading + caption + `content/assets/diagrams/brand-to-revenue-system.svg`, full-bleed) was inserted into the existing pillars section, above the four Foundation/Execution/Growth/Infrastructure rows, which now each end in an EXPLORE NOW button (`.aps-btn-primary`, real link, no more whole-row anchor — heading and button are the two link targets). A second looping video (Vimeo `1211175802`, pinned via `VideoHero`'s `videoId` prop, not through `hero-videos.md`) sits right after the pillar rows, above the feature image |
 | Home hero video is YouTube, not Vimeo | `fch5EecRUSE`, pinned in `hero-videos.md`'s `## Home` section. YouTube's logo watermark cannot be removed via any public embed param (`modestbranding`, `fs=0`, `iv_load_policy=3` were added, that's the ceiling) — every other hero video is Vimeo specifically to avoid this. Swap to a Vimeo source if a fully chrome-free loop is wanted here too |
-| `brand-to-revenue-system.svg`'s capsule background is baked into the artwork | It is opaque white regardless of theme; only the transparent margins around it (near "DAY ONE" / "MARKET LEADERSHIP") are CSS-controlled (`.pillars__figure`, matches `--pg-bg`). Dark mode still shows a mostly-white diagram. Javad asked not to recolor the SVG; a proper dark-mode export from the source `.ai` file is the real fix if this needs to change |
+| `brand-to-revenue-system.svg`'s capsule background is baked into the artwork | It is opaque white regardless of theme; only the transparent margins around it (near "DAY ONE" / "MARKET LEADERSHIP") are CSS-controlled. Both containers now match `--pg-bg` in either theme: `.pillars__figure` on Home, and `.rows__figure` in `MasterPage.astro` as of 2026-08-25, which previously forced `#fff` and painted a white band across the dark Our System page. Dark mode still shows a mostly-white diagram because the capsule itself is baked in. Javad confirmed 2026-08-25 to leave the SVG alone; a dark-mode export from the source `.ai` file is the real fix if that ever changes |
 | ~~Contact form~~ **DONE** | Live on Formspree `mwlejogn`, verified end to end 2026-08-24: POST, redirect to `/thank-you`, mail to `javad@`. reCAPTCHA must stay OFF in Formspree or AJAX submissions 403. Form Flow's iframe embed was evaluated and rejected, see `LAUNCH.md` |
 | Privacy policy describes a cookie banner | Javad's rewrite landed 2026-08-23 and fixed the false processors. §2 and §3 still promise a consent banner and a "Cookie settings" footer link that do not exist |
 | Cloudflare Access not yet on staging | Staging is noindexed but publicly reachable. The `*-aliveprostudios` preview URL is still enabled |
