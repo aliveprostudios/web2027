@@ -45,14 +45,14 @@ Settled. Do not reopen without asking Javad.
 
 ## Current state
 
-**LIVE at https://aliveprostudios.com since 2026-08-24. 49 routes, 83 redirects.**
+**LIVE at https://aliveprostudios.com since 2026-08-24. 48 routes, 85 redirects.**
 
 The WordPress site is gone. GoDaddy still holds the registration but has not
 served DNS for some time: the nameservers point at Cloudflare, and the apex is a
 Custom Domain on the `aliveprostudios` Worker. Microsoft mail was never touched
 and its four records are untouched to this day (MX, two TXT, `autodiscover`).
 
-49 rather than 55 because Resources is unpublished, see Known gaps.
+48 rather than 55 because Resources is unpublished, see Known gaps. `/alive-pro/our-system` was added and `/alive-pro/our-philosophy` retired on 2026-08-25, so the count is unchanged from launch.
 
 ```
 alive-astro/
@@ -71,7 +71,7 @@ alive-astro/
 │   ├── layouts/           ← BaseLayout, MasterPage
 │   ├── lib/               ← anatomy, nav, landing, sections, videos, gallery,
 │   │                        faqs, figures, seo, pillars
-│   ├── pages/             ← 49 routes (+ `_resources/`, unpublished)
+│   ├── pages/             ← 48 routes (+ `_resources/`, unpublished)
 │   └── styles/            ← tokens.css, base.css
 └── content/               ← Markdown, the source of truth for all copy
     └── work/hero-videos.md ← which video each SECTION uses; carries its own guide
@@ -173,14 +173,17 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 
 ---
 
-## Known gaps at end of 2026-08-24
+## Known gaps at end of 2026-08-25
 
 | Item | Impact |
 |---|---|
 | **Resources unpublished 2026-08-23** | 7 routes pulled at Javad's request, content not ready. Files intact under `src/pages/_resources/`. Revert steps in `LAUNCH.md` §1 |
 | 5 redirects point at blog posts never migrated | Now moot while Resources is down: all 8 Resources redirects temporarily point at `/` |
 | All 3 blog posts are Lorem ipsum | Unpublished with the rest of Resources |
-| `homepage.md` is Sanity block descriptors | Home slots 2 (Why It Matters), 5 (founder quote) and 7 (closing) still render nothing. Slot 1b, the four intro blocks added 2026-08-23, reads from `content/home-intro.md` instead and is unaffected |
+| `homepage.md` is Sanity block descriptors | Home slots 2 (Why It Matters), 5 (founder quote) and 7 (closing) still render nothing. Slot 1b, the four intro blocks added 2026-08-23, reads from `content/home-intro.md` instead and is unaffected. That file gained a market-coverage caption above the four cards on 2026-08-25 |
+| Home hero rewritten 2026-08-25 | H1 "Fragmented Marketing is Expensive.", caption "Brand transformation is not." A new system-diagram section (heading + caption + `content/assets/diagrams/brand-to-revenue-system.svg`, full-bleed) was inserted into the existing pillars section, above the four Foundation/Execution/Growth/Infrastructure rows, which now each end in an EXPLORE NOW button (`.aps-btn-primary`, real link, no more whole-row anchor — heading and button are the two link targets). A second looping video (Vimeo `1211175802`, pinned via `VideoHero`'s `videoId` prop, not through `hero-videos.md`) sits right after the pillar rows, above the feature image |
+| Home hero video is YouTube, not Vimeo | `fch5EecRUSE`, pinned in `hero-videos.md`'s `## Home` section. YouTube's logo watermark cannot be removed via any public embed param (`modestbranding`, `fs=0`, `iv_load_policy=3` were added, that's the ceiling) — every other hero video is Vimeo specifically to avoid this. Swap to a Vimeo source if a fully chrome-free loop is wanted here too |
+| `brand-to-revenue-system.svg`'s capsule background is baked into the artwork | It is opaque white regardless of theme; only the transparent margins around it (near "DAY ONE" / "MARKET LEADERSHIP") are CSS-controlled (`.pillars__figure`, matches `--pg-bg`). Dark mode still shows a mostly-white diagram. Javad asked not to recolor the SVG; a proper dark-mode export from the source `.ai` file is the real fix if this needs to change |
 | ~~Contact form~~ **DONE** | Live on Formspree `mwlejogn`, verified end to end 2026-08-24: POST, redirect to `/thank-you`, mail to `javad@`. reCAPTCHA must stay OFF in Formspree or AJAX submissions 403. Form Flow's iframe embed was evaluated and rejected, see `LAUNCH.md` |
 | Privacy policy describes a cookie banner | Javad's rewrite landed 2026-08-23 and fixed the false processors. §2 and §3 still promise a consent banner and a "Cookie settings" footer link that do not exist |
 | Cloudflare Access not yet on staging | Staging is noindexed but publicly reachable. The `*-aliveprostudios` preview URL is still enabled |

@@ -488,13 +488,18 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
   /* Edge to edge. `.rows` is padded by exactly one gutter each side, so pulling
      the figure back by that much lands it on the viewport edges. Measuring off
      the container's own padding rather than 100vw keeps it exact when a classic
-     scrollbar is present, which 100vw does not account for. The white ground is
-     for the diagram's own artwork, so a transparent SVG still reads in dark mode. */
+     scrollbar is present, which 100vw does not account for.
+
+     The ground matches the page in BOTH themes, exactly as `.pillars__figure`
+     does on Home. The one diagram that uses this slot bakes its own opaque
+     capsule into the artwork; only the transparent margins around it are CSS
+     controlled, so forcing white there painted a white band across a dark page
+     instead of blending into it. */
   .rows__figure {
     position: relative;
     z-index: var(--z-content);
     margin: 0 calc(var(--gutter) * -1) 56px;
-    background: #fff;
+    background: var(--pg-bg);
   }
   .rows__figure img { display: block; width: 100%; height: auto; }
 

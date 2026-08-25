@@ -9,31 +9,31 @@ source: "rendered from live site 2026-08-22"
 
 # the alive proDIFFERENCE
 
-27 years of brand transformation. A team that understands your market, a process built on strategy, and results that speak for themselves.
+29 years of brand transformation. A team that understands your market, a process built on strategy, and results that speak for themselves.
 
 01
-
-## Why Alive Pro
-
-What makes us different and why it matters to you
-
-02
-
-## Our Process
-
-A proven system for brand transformation
-
-03
 
 ## About Us
 
 The team behind your brand transformation
 
+02
+
+## Why Alive Pro
+
+What makes us different and why it matters to you
+
+03
+
+## Our System
+
+The four connected domains that turn brand into revenue
+
 04
 
-## What to Expect
+## Our Process
 
-A clear picture of working with us
+The order we work in, and why the order matters
 
 05
 
@@ -43,9 +43,9 @@ We work with you, not just for you
 
 06
 
-## Our Philosophy
+## What to Expect
 
-The principles that guide everything we build
+A clear picture of working with us
 
 07
 
@@ -61,9 +61,9 @@ Focused engagements that deliver fast results
 
 ## WHY IT MATTERS WHO YOU WORK WITH
 
-Strategy without execution is just theory. Execution without strategy is just noise. Alive Pro brings both together — a proven system, an experienced team, and a genuine commitment to your brand's success.
+Strategy without execution is just theory. Execution without strategy is just noise. Alive Pro brings both together: a proven system, an experienced team, and a genuine commitment to your brand's success.
 
-27+
+29+
 
 Years of brand expertise
 

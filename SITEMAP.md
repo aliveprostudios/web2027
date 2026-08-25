@@ -92,8 +92,9 @@ Locale: English only at launch. Architecture should stay i18n-ready
 | URL | Title | Source file |
 |---|---|---|
 | `/alive-pro/about-us` | About Us | `content/pages/about-us.md` |
-| `/alive-pro/our-philosophy` | Our Philosophy | `content/pages/our-philosophy.md` |
+| ~~`/alive-pro/our-philosophy`~~ | **UNPUBLISHED 2026-08-25.** Our Philosophy, removed at Javad's request; its argument now lives in Why Alive Pro | `content/pages/our-philosophy.md` |
 | `/alive-pro/our-process` | Our Process | `content/pages/our-process.md` |
+| `/alive-pro/our-system` | Our System | `content/pages/our-system.md` |
 | `/alive-pro/partnership` | Partnership | `content/pages/partnership.md` |
 | ~~`/alive-pro/precision-impact-sprints`~~ | **UNPUBLISHED 2026-08-24.** Precision Impact Sprints, content being revised | `content/pages/precision-impact-sprints.md` |
 | `/alive-pro/testimonials` | Testimonials | `content/pages/testimonials.md` |
@@ -199,7 +200,8 @@ are only ever discovered through that index, so redirecting the index is enough.
 | `/3d-projects` | `/work/portfolio` | 301 |
 | `/about-us` | `/alive-pro/about-us` | 301 |
 | `/our-process` | `/alive-pro/our-process` | 301 |
-| `/our-philosophy` | `/alive-pro/our-philosophy` | 301 |
+| `/our-philosophy` | `/alive-pro/why-alive-pro` | 301 |
+| `/alive-pro/our-philosophy` | `/alive-pro/why-alive-pro` | 301 |
 | `/what-to-expect` | `/alive-pro/what-to-expect` | 301 |
 | `/why-alive-pro-2` | `/alive-pro/why-alive-pro` | 301 |
 | `/testimonials` | `/alive-pro/testimonials` | 301 |

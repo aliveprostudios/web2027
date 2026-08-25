@@ -17,8 +17,9 @@ Pulled from Sanity on 2026-08-22. Text only.
 **pages/**
 
 - about-us.md
-- our-philosophy.md
+- our-philosophy.md  (unpublished 2026-08-25)
 - our-process.md
+- our-system.md
 - partnership.md
 - precision-impact-sprints.md
 - testimonials.md

@@ -19,12 +19,11 @@ Over 29 years, we’ve worked with more than 400 clients across diverse industri
 
 ### What We Do
 
-We build, grow, and protect brands through five integrated capabilities:
+We build, grow, and protect brands through the four connected domains of the Brand-to-Revenue Performance System:
 
 - Foundation. Brand strategy, positioning, identity, voice, and rebranding that give your business a clear, differentiated place in the market.
 - Execution. Design, web, video, photography, AI production, social media branding, and sales collateral that bring your brand to life across every touchpoint.
-- Growth. Digital marketing, content, SEO, AEO, social media management, funnels, and lead generation that drive measurable revenue.
-- Leadership. Reputation management, customer retention, brand guardianship, and marketing innovation that keep your brand evolving and your market position secure.
+- Growth. Digital marketing, content, SEO, AEO, social media management, funnels, lead generation, and the reputation and retention work that keeps your market position secure.
 - Infrastructure. Custom applications, intelligent systems integration, dashboards, and lifecycle support that make your business operate smarter.
 
 ### How We’re Different
@@ -49,7 +48,7 @@ We think in systems, not services. Every engagement is approached through a holi
 
 Javad founded Alive ProStudios in 1997 and has spent 29 years helping businesses transform their brands into market-leading assets. A classical artist by training, Javad began his career in Germany working with advertising agencies and developing deep expertise in European design principles, typography, photography, art direction, and film composition.
 
-That rare combination of classical artistry and strategic business thinking is what drives the work at Alive Pro today. Javad doesn’t approach branding as a marketing exercise. He approaches it as a system, one that connects strategy, identity, voice, content, campaigns, and technology into a unified framework that produces measurable commercial results. This systems-based thinking led to the development of the Brand Transformation System, the four-phase methodology that powers every client engagement.
+That rare combination of classical artistry and strategic business thinking is what drives the work at Alive Pro today. Javad doesn’t approach branding as a marketing exercise. He approaches it as a system, one that connects strategy, identity, voice, content, campaigns, and technology into a unified framework that produces measurable commercial results. This systems-based thinking led to the Brand-to-Revenue Performance System, the architecture that powers every client engagement.
 
 Over his career, Javad has worked with more than 400 clients across healthcare, retail, manufacturing, technology, professional services, and more. His work has been recognized internationally, including the prestigious MetalFX Design Agency of the Year award. His curiosity for emerging technologies, including AI-powered production and intelligent business systems, keeps Alive Pro at the forefront of what’s possible.
 

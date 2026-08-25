@@ -4,7 +4,8 @@ caption: ""
 slug: "our-philosophy"
 seoTitle: "Our Philosophy"
 seoDescription: "Strategy before execution. Quality over speed. Clarity over complexity. The principles that guide everything we build."
-order: 3
+order: 5
+published: false
 ---
 ## The Four Pillars Behind Every Brand We Build
 
