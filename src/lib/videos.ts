@@ -174,10 +174,31 @@ function parseLibrary(): LibraryVideo[] {
 
   for (const line of table.split('\n')) {
     // | # | Title | URL | Tags | Client | Year |
-    const cells = line.split('|').map((c) => c.trim());
+    //
+    // Titles carry "|" as a visual separator ("Bellini Modern Living | Brand
+    // Video"), so the row cannot be split blindly into fixed positions: doing
+    // that puts the subtitle in the URL column and silently drops the video.
+    // Locate the URL cell first, then the title is everything between the
+    // number and it. An escaped \| is honoured too, so the file stays a valid
+    // Markdown table if it is ever authored that way.
+    const cells = line.split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, '|'));
     if (cells.length < 6) continue;
-    const [, num, title, url, tags] = cells;
+    const num = cells[1];
     if (!num || !/^\d+$/.test(num)) continue;
+
+    const URL_RE = /vimeo\.com\/\d+|(?:youtube\.com\/watch\?v=|youtu\.be\/)[\w-]{6,}/;
+    const urlAt = cells.findIndex((c, i) => i > 1 && URL_RE.test(c));
+    if (urlAt === -1) {
+      // Loud on purpose. A row with a mistyped URL used to disappear from the
+      // page with no error, which is how four videos went missing at once.
+      throw new Error(
+        `content/work/videos.md row ${num} has no Vimeo or YouTube URL in it. ` +
+          `Check the pipes: every cell boundary is a "|".\n  ${line.trim()}`,
+      );
+    }
+    const title = cells.slice(2, urlAt).join(' | ');
+    const url = cells[urlAt];
+    const tags = cells[urlAt + 1];
 
     const vimeo = url?.match(/vimeo\.com\/(\d+)/);
     const youtube = url?.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{6,})/);

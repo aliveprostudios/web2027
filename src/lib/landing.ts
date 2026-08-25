@@ -33,6 +33,11 @@ function unmash(heading: string): string {
  * can never disagree.
  */
 export const CHILD_URL_OVERRIDES: Record<string, string> = {
+  // Renamed 2026-08-25 for search: the display names changed, the routes did
+  // not. Without these, slugify() would send the nav to /work/projects-and-
+  // campaigns and /work/brand-marketing-videos, neither of which exists.
+  'projects & campaigns': '/work/portfolio',
+  'brand marketing videos': '/work/videos',
   'digital brochure': '/resources/brochure',
   'brand marketing blog': '/resources/blog',
   faqs: '/resources/faqs',

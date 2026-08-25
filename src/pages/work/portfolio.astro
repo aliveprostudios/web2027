@@ -22,7 +22,7 @@ import { galleryImages } from '../../lib/gallery';
  * page without a grid rather than erroring.
  */
 const path = '/work/portfolio';
-const title = 'Portfolio';
+const title = 'Projects & Campaigns';
 const caption = '';
 const description =
   'Brand transformations, creative productions, and strategic projects from ' +
@@ -45,7 +45,7 @@ const schema = [
   {
     '@type': 'ImageGallery',
     '@id': `https://aliveprostudios.com${path}#gallery`,
-    name: 'Alive ProStudios Portfolio',
+    name: 'Alive ProStudios Projects & Campaigns',
     description,
     numberOfItems: galleryImages.length,
     publisher: { '@id': 'https://aliveprostudios.com/#organization' },
@@ -73,7 +73,7 @@ const breadcrumbs = [
         <SiteNav active={path} />
 
         <div class="hero__copy">
-          <p class="hero__crumb t-eyebrow">Work&nbsp;&nbsp;·&nbsp;&nbsp;Portfolio</p>
+          <p class="hero__crumb t-eyebrow">Work&nbsp;&nbsp;·&nbsp;&nbsp;Projects &amp; Campaigns</p>
 
           <h1 class="hero__title t-h1">
             <span class="hero__line-mask">
@@ -128,7 +128,7 @@ const breadcrumbs = [
     <NextStep sectionNum="03" />
 
     <!-- 8. Footer -->
-    <SiteFooter nextLabel="Videos" nextHref="/work/videos" />
+    <SiteFooter nextLabel="Brand Marketing Videos" nextHref="/work/videos" />
   </div>
 </BaseLayout>
 
