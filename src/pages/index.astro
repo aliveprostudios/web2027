@@ -529,16 +529,18 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
 
   /* Full screen, edge to edge. `.pillars` is padded by exactly one gutter each
      side, so pulling the figure back by that much lands it on the viewport
-     edges, same trick as MasterPage's `.rows__figure`. No background in light
-     mode, since the page is already white there. Dark mode gets a white ground
-     forced back in, since the diagram's own artwork assumes one. */
+     edges, same trick as MasterPage's `.rows__figure`. Transparent in both
+     themes: the SVG's own artwork paints a large opaque white capsule that
+     covers most of this box regardless, so this only ever affects the small
+     margins outside that capsule (the corners near DAY ONE / MARKET
+     LEADERSHIP). Matching the page background there, instead of forcing
+     white, keeps those margins blended into the page rather than fighting it. */
   .pillars__figure {
     position: relative;
     z-index: var(--z-content);
     margin: 0 calc(var(--gutter) * -1) 64px;
-    background: transparent;
+    background: var(--pg-bg);
   }
-  :global(body[data-theme='dark']) .pillars__figure { background: #fff; }
   .pillars__figure img { display: block; width: 100%; height: auto; }
 
   .pillar {
