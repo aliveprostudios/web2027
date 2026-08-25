@@ -15,6 +15,7 @@ import NextStep from '../components/NextStep.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { pillars } from '../lib/pillars';
 import { parseAnatomy, splitSentences } from '../lib/anatomy';
+import { figure } from '../lib/figures';
 import homepageMarkdown from '../../content/homepage.md?raw';
 import homeIntroMarkdown from '../../content/home-intro.md?raw';
 
@@ -76,15 +77,18 @@ const introBlocks = introSource
   })
   .filter((block) => block.title && block.body);
 
-const title = 'Clarity. Consistency. Growth';
+const title = 'Fragmented Marketing is Expensive.';
 const description =
   'Alive ProStudios is a Toronto brand transformation studio. Strategy, identity, ' +
   'creative production, growth marketing, and the systems behind them. Est. 1997.';
 
 // The hero caption. `.hero__caption` already uppercases it, so it is authored
 // in sentence case and rendered in caps.
-const caption = 'Brand transformation that works.';
+const caption = 'Brand transformation is not.';
 const captionParts = caption ? splitSentences(caption) : [];
+
+// The system diagram, shared with why-alive-pro.md's "Four Pillars" section.
+const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
 ---
 
 <BaseLayout {title} {description} path="/" breadcrumbs={[{ name: 'Home', url: '/' }]}>
@@ -182,6 +186,26 @@ const captionParts = caption ? splitSentences(caption) : [];
       <!-- 4. Four pillar rows -->
       <section class="pillars">
         <h2 class="pillars__heading t-h2 dot z-content">The Brand-to-Revenue Performance System</h2>
+        <p class="pillars__caption t-h4 z-content">
+          Strategy, execution, and technology, engineered as one system. Built over 29 years,
+          trusted by 400+ brands, retained for decades.
+        </p>
+
+        <figure class="pillars__figure">
+          {
+            systemDiagram.kind === 'svg' && (
+              <img
+                src={systemDiagram.src}
+                alt="The Brand-to-Revenue Performance System: from Day One through Foundation, Execution, Growth and Infrastructure to market leadership, all built around your Brand Core."
+                width={systemDiagram.width}
+                height={systemDiagram.height}
+                loading="lazy"
+                decoding="async"
+              />
+            )
+          }
+        </figure>
+
         {
           rows.map((pillar) => (
             <a class="pillar z-content" href={pillar.url} data-stack>
@@ -451,7 +475,25 @@ const captionParts = caption ? splitSentences(caption) : [];
 
   /* ---- 4. Pillar rows -------------------------------------------------- */
   .pillars { padding: 0 var(--gutter) 64px; }
-  .pillars__heading { margin: 112px 0 64px; }
+  .pillars__heading { margin: 112px 0 24px; }
+
+  .pillars__caption {
+    max-width: 680px;
+    margin: 0 0 56px;
+    color: var(--pg-fg2);
+  }
+
+  /* Full screen, edge to edge. `.pillars` is padded by exactly one gutter each
+     side, so pulling the figure back by that much lands it on the viewport
+     edges, same trick as MasterPage's `.rows__figure`. The white ground is for
+     the diagram's own artwork, so it still reads correctly in dark mode. */
+  .pillars__figure {
+    position: relative;
+    z-index: var(--z-content);
+    margin: 0 calc(var(--gutter) * -1) 64px;
+    background: #fff;
+  }
+  .pillars__figure img { display: block; width: 100%; height: auto; }
 
   .pillar {
     display: grid;
