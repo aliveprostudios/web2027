@@ -529,14 +529,16 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
 
   /* Full screen, edge to edge. `.pillars` is padded by exactly one gutter each
      side, so pulling the figure back by that much lands it on the viewport
-     edges, same trick as MasterPage's `.rows__figure`. The white ground is for
-     the diagram's own artwork, so it still reads correctly in dark mode. */
+     edges, same trick as MasterPage's `.rows__figure`. No background in light
+     mode, since the page is already white there. Dark mode gets a white ground
+     forced back in, since the diagram's own artwork assumes one. */
   .pillars__figure {
     position: relative;
     z-index: var(--z-content);
     margin: 0 calc(var(--gutter) * -1) 64px;
-    background: #fff;
+    background: transparent;
   }
+  :global(body[data-theme='dark']) .pillars__figure { background: #fff; }
   .pillars__figure img { display: block; width: 100%; height: auto; }
 
   .pillar {
