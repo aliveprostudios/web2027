@@ -26,10 +26,15 @@ import homeIntroMarkdown from '../../content/home-intro.md?raw';
  * grey gradient, pillar rows instead of content rows, and NO BookConsult and
  * NO Related Services.
  *
- * Order: 1 Hero · 2 Why It Matters · 3 VideoHero · 4 Pillars · 5 Founder quote
- *        6 Feature image · 7 Closing · 8 NextStep · 9 Footer
+ * Order: 1 Hero · 2 Why It Matters · 3 VideoHero · 4 Pillars · 4b Second video
+ *        5 Founder quote · 6 Feature image · 7 Closing · 8 NextStep · 9 Footer
  *
  * Note slot 3: the video sits AFTER Why It Matters here, unlike Master.
+ *
+ * Slot 4b is a second looping video, pinned to one Vimeo id via VideoHero's
+ * `videoId` prop rather than drawn from `content/work/hero-videos.md`'s Home
+ * pool. It sits between the pillar rows and the founder quote band, so it
+ * reads as "above the feature image" while slot 5 stays empty (see below).
  *
  * Slots 2, 5 and 7 read from `content/homepage.md`, which currently holds Sanity
  * block descriptors rather than prose. They render nothing until that file
@@ -66,6 +71,10 @@ const introSource = homeIntroMarkdown.replace(/^---\n[\s\S]*?\n---\n/, '');
 
 /** The module's own section title: the file's single `#` heading. */
 const introTitle = introSource.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? '';
+
+/** The paragraph between the `#` heading and the first `##` card. */
+const introCaptionSource = introSource.replace(/^#\s+.+$/m, '').split(/^##\s+/m)[0]!.trim();
+const introCaption = introCaptionSource.replace(/\n/g, ' ').trim();
 
 const introBlocks = introSource
   .replace(/^#\s+.+$/m, '')
@@ -135,6 +144,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
         introBlocks.length > 0 && (
           <section class="intro section">
             {introTitle && <h2 class="intro__heading t-h2 dot z-content">{introTitle}</h2>}
+            {introCaption && <p class="intro__caption t-h4 z-content">{introCaption}</p>}
             <div class="intro__grid z-content">
               {introBlocks.map((block, i) => (
                 <article class="intro__card">
@@ -208,22 +218,50 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
 
         {
           rows.map((pillar) => (
-            <a class="pillar z-content" href={pillar.url} data-stack>
+            <div class="pillar z-content" data-stack>
               <span class="pillar__num">{pillar.num}</span>
               <div>
                 {/* H3 under the section's H2 heading. Visual spec unchanged:
                     the size comes from .pillar__name, not the tag. */}
                 <h3 class="pillar__name">
-                  {pillar.name}
-                  <span class="pillar__dot" />
+                  <a href={pillar.url} class="pillar__name-link">
+                    {pillar.name}
+                    <span class="pillar__dot" />
+                  </a>
                 </h3>
                 <p class="pillar__kicker t-h5">{pillar.kicker}</p>
                 <p class="pillar__body">{pillar.body}</p>
+                <a href={pillar.url} class="aps-btn aps-btn-primary pillar__cta">
+                  <span class="roll">
+                    <span>Explore Now</span>
+                    <span>Explore Now</span>
+                  </span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M7 17L17 7M9 7h8v8" />
+                  </svg>
+                </a>
               </div>
-            </a>
+            </div>
           ))
         }
       </section>
+
+      <!-- 4b. Second looping video, pinned regardless of route -->
+      <VideoHero
+        route="/"
+        videoId="https://vimeo.com/1211175802"
+        title="Alive ProStudios video"
+      />
 
       <!-- 5. Founder quote band -->
       {
@@ -359,7 +397,13 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
      display face. Titles are Condensed 800 at the H3 scale. The cards fade in
      on scroll via view() timelines, opacity only, so the hover lift's
      transform never fights the reveal. */
-  .intro__heading { margin: 0 0 64px; }
+  .intro__heading { margin: 0 0 24px; }
+
+  .intro__caption {
+    max-width: 680px;
+    margin: 0 0 56px;
+    color: var(--pg-fg2);
+  }
 
   .intro__grid {
     display: grid;
@@ -502,12 +546,11 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     border-top: 1px solid var(--pg-line);
     padding: 56px 0;
     align-items: start;
-    text-decoration: none;
     color: var(--pg-fg);
     transform: translateX(0);
     transition: transform var(--dur-move) var(--ease-settle);
   }
-  .pillar:hover { transform: translateX(12px); color: var(--pg-fg); }
+  .pillar:hover { transform: translateX(12px); }
 
   .pillar__num {
     font-family: var(--font-condensed);
@@ -517,17 +560,23 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     color: var(--orange-ink);
   }
 
-  .pillar__name {
+  .pillar__name { font-size: 0; margin: 0 0 14px; }
+
+  /* The heading's own visual spec lives on the link, since that's the actual
+     text node now: the H3 wraps it for outline order, not for styling. */
+  .pillar__name-link {
+    display: inline-block;
     font-family: var(--font-condensed);
     font-weight: 800;
     font-size: clamp(40px, 4.4vw, 72px);
     line-height: 0.96;
     text-transform: uppercase;
     color: var(--pg-fg);
-    margin: 0 0 14px;
+    text-decoration: none;
     transition: color var(--dur-micro) ease;
   }
-  .pillar:hover .pillar__name { color: var(--orange-ink); }
+  .pillar:hover .pillar__name-link,
+  .pillar__name-link:hover { color: var(--orange-ink); }
 
   .pillar__dot {
     display: inline-block;
@@ -541,12 +590,14 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
   .pillar__kicker { margin: 0 0 20px; color: var(--orange-ink); }
 
   .pillar__body {
-    margin: 0;
+    margin: 0 0 32px;
     font-size: 17px;
     line-height: 1.6;
     color: var(--pg-fg2);
     max-width: 720px;
   }
+
+  .pillar__cta { position: relative; z-index: 1; }
 
   /* ---- 5. Founder quote band ------------------------------------------ */
   .quote { background: var(--pg-band); padding: 96px var(--gutter); }
@@ -629,7 +680,8 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     /* 52vh less the same 40%. */
     [data-feature] { height: 32vh; }
     .quote__portrait { max-width: 240px; }
-    .intro__heading { margin-bottom: 48px; }
+    .intro__heading { margin-bottom: 20px; }
+    .intro__caption { margin-bottom: 40px; }
     .intro__grid { grid-template-columns: 1fr; gap: 16px; }
     .intro__card { padding: 36px 28px 40px; }
     .intro__ghost { font-size: 132px; top: -20px; right: 6px; }

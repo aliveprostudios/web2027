@@ -116,7 +116,11 @@ export function embedUrl(video: HeroVideo): string {
     return `https://player.vimeo.com/video/${video.id}?autoplay=1&muted=1&loop=1&background=1&controls=0&dnt=1&playsinline=1`;
   }
   // YouTube needs `playlist` set to its own id for a single video to loop.
-  return `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&mute=1&loop=1&playlist=${video.id}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1`;
+  // `fs=0` and `iv_load_policy=3` strip the fullscreen button and annotation
+  // cards, but YouTube's own logo watermark cannot be removed via any public
+  // embed param, unlike Vimeo's `background=1` mode above. A Vimeo source is
+  // the only way to get a fully chrome-free loop on this site.
+  return `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&mute=1&loop=1&playlist=${video.id}&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&fs=0&iv_load_policy=3`;
 }
 
 // ---------------------------------------------------------------- aspect ---
