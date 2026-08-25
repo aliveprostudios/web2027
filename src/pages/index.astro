@@ -295,8 +295,8 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
         <Image
           class="feature__img"
           src={homeFeature}
-          alt="Alive ProStudios brand work"
-          widths={[768, 1400]}
+          alt="Alfred smart home touchscreen deadbolt retail packaging in satin nickel, three boxes showing the bilingual carton system"
+          widths={[768, 1200, 1500]}
           sizes="100vw"
           loading="lazy"
           decoding="async"
@@ -631,44 +631,90 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
   }
 
   /* ---- 6. Feature image, parallax --------------------------------------
-     Height reduced 40% from the original 100vh. The image is 125% of the frame,
-     so 25% of the frame's height is spare travel: shifting it by 20% of its OWN
-     height moves it by exactly that 25%, and because both figures are relative
-     to the frame the maths holds at any height, desktop or mobile.
+     Height reduced 40% from the original 100vh. Two independent knobs:
 
-     Un-animated it sits centred, which is also what `prefers-reduced-motion`
-     leaves behind, since base.css kills every animation globally. */
-  .feature { position: relative; height: 60vh; overflow: hidden; }
+       height (140%)                  the SLIDE budget. The element is taller
+                                      than the frame, and the surplus is the
+                                      only thing the image has room to travel
+                                      through. This is where the movement comes
+                                      from; do not trade it away.
+       --pf-zoom-from / --pf-zoom-to  the PUSH, a slow scale across the scroll.
+
+     Do not try to fund the slide out of the zoom instead. Scale spreads its
+     surplus over all four sides, so a 1.08 zoom buys only 4% of the frame's
+     height to move through, against the 20% that height:140% gives outright.
+     Built that way the effect measures ~32px of travel and reads as nothing
+     at all on screen.
+
+     `top:50%` plus a base `translateY(-50%)` centres the surplus, so the slide
+     is just that -50% plus or minus `--pf-shift`, in % of the ELEMENT's height.
+     Staying covered needs `height x zoom / 2 >= 50% + height x shift`, which at
+     140% and the values below holds with roughly 30px to spare at the tight
+     end. Widen `--pf-shift` past ~18% and the image lifts off an edge, which
+     the frame cannot hide.
+
+     Un-animated it sits centred at the start zoom, which is also what
+     `prefers-reduced-motion` leaves behind, since base.css kills every
+     animation globally. */
+  /* `overflow: hidden` makes this frame a scroll container, and a bare
+     `view()` on the image would then resolve ITS scrollport to this frame
+     rather than the page. The frame never scrolls, so that timeline is
+     degenerate and parks at 50% for good: the image sits frozen mid-effect and
+     nothing moves. Naming the timeline here, on the element whose travel
+     through the viewport we actually mean, is what makes it track the page.
+     Keep the name and the frame together if this rule is ever split up. */
+  .feature {
+    position: relative;
+    height: 60vh;
+    overflow: hidden;
+    view-timeline-name: --featureView;
+    view-timeline-axis: block;
+  }
 
   .feature__img {
+    --pf-zoom-from: 1.02;
+    --pf-zoom-to: 1.14;
+    --pf-shift: 10%;
+
     position: absolute;
-    inset: 0;
+    left: 0;
+    top: 50%;
     width: 100%;
-    height: 125%;
+    height: 140%;
     object-fit: cover;
-    transform: translateY(-10%);
+    /* Below centre. The frame is ~2.7:1 on a laptop against a 16:9 source, so
+       `cover` is always dropping a third of the image height; biasing down
+       keeps the front carton's branding whole and spends the loss on the top
+       face of the tall box instead. */
+    object-position: center 45%;
+    transform: translateY(-50%) scale(var(--pf-zoom-from));
   }
 
   /* Scroll-driven, so no scroll listener and no JS. Browsers without
-     `animation-timeline` simply keep the centred crop above. */
+     `animation-timeline` simply keep the still crop above. */
   @supports (animation-timeline: view()) {
     .feature__img {
       animation-name: featureParallax;
       animation-duration: auto;
       animation-timing-function: linear;
       animation-fill-mode: both;
-      animation-timeline: view();
+      animation-timeline: --featureView;
       animation-range: cover 0% cover 100%;
       will-change: transform;
     }
   }
 
-  /* The image lags the page: as the frame travels up the viewport the crop
-     slides down inside it, which is what reads as depth. Reverse these and the
-     image races the scroll instead. */
+  /* Two moves at once. The image lags the page, sliding down inside the frame
+     as the frame travels up the viewport, and it pushes in the whole way, so
+     the crop tightens as the section passes. Depth from the lag, life from the
+     push. Reverse either and it races the scroll instead. */
   @keyframes featureParallax {
-    from { transform: translateY(-20%); }
-    to   { transform: translateY(0); }
+    from {
+      transform: translateY(calc(-50% - var(--pf-shift))) scale(var(--pf-zoom-from));
+    }
+    to {
+      transform: translateY(calc(-50% + var(--pf-shift))) scale(var(--pf-zoom-to));
+    }
   }
 
   /* ---- 7. Closing ------------------------------------------------------ */
@@ -683,6 +729,17 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     [data-hero-caption] { font-size: 22px; margin-top: 24px; }
     /* 52vh less the same 40%. */
     [data-feature] { height: 32vh; }
+    /* At 32vh the frame is NARROWER than the source, so `cover` scales to the
+       height and crops the sides instead, and the outer two cartons sit close
+       to the edges. Both knobs cost width here, so both stay small: this band
+       gets a gentle drift rather than the desktop push. Taking the desktop
+       numbers costs the outer cartons their edges. */
+    .feature__img {
+      --pf-zoom-from: 1.02;
+      --pf-zoom-to: 1.06;
+      --pf-shift: 4%;
+      height: 112%;
+    }
     .quote__portrait { max-width: 240px; }
     .intro__heading { margin-bottom: 20px; }
     .intro__caption { margin-bottom: 40px; }
