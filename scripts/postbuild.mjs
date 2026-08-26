@@ -87,15 +87,90 @@ if (formOrigins.size > 0) {
   console.log(`postbuild: contact form endpoint allowed in connect-src (${[...formOrigins].join(', ')})`);
 }
 
+// Google Tag Manager, added 2026-08-25. The container fires GA4, Google Ads
+// conversion tracking and the LinkedIn Insight Tag, and GTM injects some of
+// those as INLINE scripts from Custom HTML tags. A build-time hash cannot cover
+// those: their contents live in the GTM container, which changes without ever
+// rebuilding this site.
+//
+// 'strict-dynamic' is the way out. The GTM snippet in BaseLayout is hashed
+// above, and strict-dynamic propagates that trust to everything it goes on to
+// inject, however deep. Editing the container therefore cannot break the CSP,
+// and script-src still needs neither 'unsafe-inline' nor a host allowlist.
+//
+// This is only safe because EVERY script this site emits is inline and hashed.
+// strict-dynamic makes modern browsers ignore 'self' and host sources, so a
+// parser-inserted <script src> would be blocked; the guard below fails the
+// build if one ever appears.
+const external = [];
+for (const page of pages) {
+  const html = readFileSync(page, 'utf8');
+  for (const m of html.matchAll(/<script[^>]*\ssrc="([^"]+)"[^>]*>/g)) {
+    if (!/^https?:\/\//.test(m[1])) external.push(`${page}: ${m[1]}`);
+  }
+}
+if (external.length > 0) {
+  throw new Error(
+    "postbuild: script-src uses 'strict-dynamic', which makes browsers ignore " +
+      "'self'. These parser-inserted scripts would be blocked at runtime:\n  " +
+      external.slice(0, 5).join('\n  '),
+  );
+}
+
+// Beacon destinations. strict-dynamic covers script-src only, so the pixels and
+// fetches each tag sends still need img-src and connect-src. Google's
+// remarketing pings go to the visitor's local Google TLD, so the markets this
+// site serves are listed; a visitor elsewhere loses that one ping, not GA4 or
+// conversion tracking.
+const GOOGLE_TLDS = [
+  'https://www.google.com',
+  'https://www.google.ca',
+  'https://www.google.de',
+  'https://www.google.ae',
+];
+// A wildcard host does NOT match the bare domain: 'https://*.analytics.google.com'
+// leaves analytics.google.com itself blocked, which is where GA4 actually sends
+// its events. Both forms are listed wherever that applies.
+const ANALYTICS = [
+  'https://*.google-analytics.com',
+  'https://www.google-analytics.com',
+  'https://analytics.google.com',
+  'https://*.analytics.google.com',
+  'https://*.googletagmanager.com',
+  'https://*.doubleclick.net',
+];
+// The container also fires the LinkedIn Insight Tag and a Meta pixel.
+const SOCIAL = [
+  'https://px.ads.linkedin.com',
+  'https://www.linkedin.com',
+  'https://snap.licdn.com',
+  'https://www.facebook.com',
+  'https://connect.facebook.net',
+];
+const MARKETING = {
+  // Kept for browsers too old to understand strict-dynamic, which fall back to
+  // the host allowlist.
+  script: [
+    'https://*.googletagmanager.com',
+    'https://*.doubleclick.net',
+    'https://www.googleadservices.com',
+    'https://snap.licdn.com',
+    'https://connect.facebook.net',
+  ],
+  img: [...ANALYTICS, ...SOCIAL, ...GOOGLE_TLDS],
+  connect: [...ANALYTICS, ...SOCIAL, ...GOOGLE_TLDS],
+  frame: ['https://www.googletagmanager.com', 'https://td.doubleclick.net'],
+};
+
 const csp = [
   "default-src 'self'",
-  `script-src 'self' ${[...hashes].sort().join(' ')}`,
+  `script-src 'strict-dynamic' 'self' ${MARKETING.script.join(' ')} ${[...hashes].sort().join(' ')}`,
   // Inline style ATTRIBUTES are used for the rails and the video aspect vars.
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self' data:",
-  "frame-src https://player.vimeo.com https://www.youtube-nocookie.com",
-  `connect-src ${connectSrc}`,
+  `img-src 'self' data: ${MARKETING.img.join(' ')}`,
+  `frame-src https://player.vimeo.com https://www.youtube-nocookie.com ${MARKETING.frame.join(' ')}`,
+  `connect-src ${connectSrc} ${MARKETING.connect.join(' ')}`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
