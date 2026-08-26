@@ -159,6 +159,18 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 - **`overflow: clip` and Safari's `overflow: hidden` clip fixed descendants.**
 - **Astro renders `alt=""` as a bare `alt`.** Both are valid; audit for both.
 - Framer Motion drove the old animations. All animation here is CSS.
+- **`script-src` uses `'strict-dynamic'`, so `'self'` and every host source are
+  IGNORED by modern browsers.** Every script this site emits must stay inline, so
+  `postbuild.mjs` can hash it; a parser-inserted `<script src>` would be blocked
+  at runtime. The build throws if one appears. This is what lets GTM inject GA4,
+  Google Ads, Meta and LinkedIn without `'unsafe-inline'`, and it means editing
+  the GTM container can never break the CSP.
+- **`'unsafe-inline'` is inert here and always will be.** A policy carrying
+  hashes makes browsers ignore it, and so does `'strict-dynamic'`. Adding it to
+  fix a blocked script does nothing; add a hash or an origin instead.
+- **A wildcard host does not match the bare domain.** `https://*.analytics.google.com`
+  leaves `analytics.google.com` blocked, which is exactly where GA4 posts its
+  events. List both forms.
 
 ---
 
@@ -191,6 +203,7 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 | Menu order is About, Why, System, Process, Partnership, What to Expect, Testimonials | Set by `order:` frontmatter. Sprints stays unpublished at 7. Blurbs on the `/alive-pro` landing rows are name-matched out of `content/landing/alive-pro.md`, so **a new page under `content/pages/` gets a row automatically but renders with no blurb until that file gains a matching `##` heading**. That is how Our System shipped bare for a build |
 | About Us still reads as a large company | Javad's positioning is boutique, and it is now stated on Why Alive Pro ("We are not a large agency and have never wanted to be one"). About Us still says "all under one roof" and Our System says "one team", which read as size. Javad was offered a boutique line on About Us on 2026-08-25 and it was left open, not declined |
 | `content/faqs.md` still says "four pillars" | The site now says four domains. Not live, since FAQs is unpublished with Resources, but fix it before that section returns |
+| **Google Tag Manager live 2026-08-25** | `GTM-PJLQRZC`, in `BaseLayout.astro`, on all 48 pages. The container fires GA4 `G-L9G3DSQCJQ`, Google Ads `AW-967661948`, a Meta pixel `314453825678590` and LinkedIn Insight `7456860`; all four verified sending on production. Two GTM **Custom HTML** tags log a CSP violation each: the Meta bootstrap, which still works because GTM retries through an allowed path, and a HubSpot form listener that is dead weight here since the contact form is Formspree. Converting both to native GTM templates clears the console. Consent: Javad's decision 2026-08-25 is that Canada does not require it, so no banner and no Consent Mode |
 | **Resources unpublished 2026-08-23** | 7 routes pulled at Javad's request, content not ready. Files intact under `src/pages/_resources/`. Revert steps in `LAUNCH.md` §1 |
 | 5 redirects point at blog posts never migrated | Now moot while Resources is down: all 8 Resources redirects temporarily point at `/` |
 | All 3 blog posts are Lorem ipsum | Unpublished with the rest of Resources |
