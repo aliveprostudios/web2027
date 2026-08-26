@@ -6,7 +6,7 @@ Domain: **aliveprostudios.com**
 Locale: English only at launch. Architecture should stay i18n-ready
 (`/fr/`, `/de/`, `/es/`, `/zh/`, `/ar/` are Phase 2; English carries no prefix).
 
-**Totals:** 28 service pages · 8 Alive Pro pages · 3 blog posts · 26 videos · 63 redirects
+**Totals:** 28 service pages · 7 Alive Pro pages · 3 blog posts · 24 videos · 65 redirects
 
 ---
 
@@ -20,8 +20,8 @@ Locale: English only at launch. Architecture should stay i18n-ready
 | `/growth` | Category landing | `content/landing/growth.md` |
 | `/infrastructure` | Category landing | `content/landing/infrastructure.md` |
 | `/work` | Work landing | `content/landing/work.md` |
-| `/work/portfolio` | Image gallery | not exported (excluded) |
-| `/work/videos` | Video wall | `content/work/videos.md` |
+| `/work/portfolio` | Image gallery. Titled **Projects & Campaigns** since 2026-08-25; the route is deliberately unchanged | not exported (excluded) |
+| `/work/videos` | Video wall. Titled **Brand Marketing Videos** since 2026-08-25; the route is deliberately unchanged | `content/work/videos.md` |
 | `/alive-pro` | Alive Pro landing | `content/landing/alive-pro.md` |
 | ~~`/resources`~~ | **UNPUBLISHED 2026-08-23.** Resources landing | `content/landing/resources.md` |
 | ~~`/resources/blog`~~ | **UNPUBLISHED 2026-08-23.** Blog index | `content/landing/blog-index.md` |
@@ -115,8 +115,8 @@ Locale: English only at launch. Architecture should stay i18n-ready
 
 ## Videos
 
-26 videos on `/work/videos`. Full list with URLs, tags, client and year:
-`content/work/videos.md`
+24 videos on `/work/videos`. Two were removed on 2026-08-25. Full list with URLs,
+tags, client and year: `content/work/videos.md`
 
 Filter tabs come from tags: **Brand Marketing**, **Promotional & Educational**.
 

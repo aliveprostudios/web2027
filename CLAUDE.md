@@ -159,6 +159,12 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 - **`overflow: clip` and Safari's `overflow: hidden` clip fixed descendants.**
 - **Astro renders `alt=""` as a bare `alt`.** Both are valid; audit for both.
 - Framer Motion drove the old animations. All animation here is CSS.
+- **`content/work/videos.md` titles may contain `|`.** The table is parsed by
+  LOCATING the URL cell, not by counting columns, because titles are written
+  "Bellini Modern Living | Brand Video". Splitting on position put the subtitle
+  in the URL column, matched no provider, and dropped the row: four videos
+  vanished from the page at once with no error. A numbered row carrying no
+  Vimeo or YouTube URL now throws at build time.
 - **`script-src` uses `'strict-dynamic'`, so `'self'` and every host source are
   IGNORED by modern browsers.** Every script this site emits must stay inline, so
   `postbuild.mjs` can hash it; a parser-inserted `<script src>` would be blocked
@@ -194,7 +200,7 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 
 ---
 
-## Known gaps at end of 2026-08-25
+## Known gaps at end of 2026-08-26
 
 | Item | Impact |
 |---|---|
@@ -203,7 +209,9 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 | Menu order is About, Why, System, Process, Partnership, What to Expect, Testimonials | Set by `order:` frontmatter. Sprints stays unpublished at 7. Blurbs on the `/alive-pro` landing rows are name-matched out of `content/landing/alive-pro.md`, so **a new page under `content/pages/` gets a row automatically but renders with no blurb until that file gains a matching `##` heading**. That is how Our System shipped bare for a build |
 | About Us still reads as a large company | Javad's positioning is boutique, and it is now stated on Why Alive Pro ("We are not a large agency and have never wanted to be one"). About Us still says "all under one roof" and Our System says "one team", which read as size. Javad was offered a boutique line on About Us on 2026-08-25 and it was left open, not declined |
 | `content/faqs.md` still says "four pillars" | The site now says four domains. Not live, since FAQs is unpublished with Resources, but fix it before that section returns |
-| **Google Tag Manager live 2026-08-25** | `GTM-PJLQRZC`, in `BaseLayout.astro`, on all 48 pages. The container fires GA4 `G-L9G3DSQCJQ`, Google Ads `AW-967661948`, a Meta pixel `314453825678590` and LinkedIn Insight `7456860`; all four verified sending on production. Two GTM **Custom HTML** tags log a CSP violation each: the Meta bootstrap, which still works because GTM retries through an allowed path, and a HubSpot form listener that is dead weight here since the contact form is Formspree. Converting both to native GTM templates clears the console. Consent: Javad's decision 2026-08-25 is that Canada does not require it, so no banner and no Consent Mode |
+| **Work pages renamed 2026-08-25** | `/work/videos` is titled "Brand Marketing Videos" and `/work/portfolio` is "Projects & Campaigns", across H1, meta title, eyebrow, BreadcrumbList, gallery schema, nav sub-menu, `/work` rows and the prev/next footers. **Both routes are unchanged and that is deliberate.** Nav URLs are slugified from the display name, so both names are in `CHILD_URL_OVERRIDES` in `src/lib/landing.ts`; without them the menu would point at `/work/projects-and-campaigns` and `/work/brand-marketing-videos`, which do not exist, while the real pages stayed put. Rename either page again and that map must be updated in the same commit |
+| Video library is 24, was 26 | Maple Investment Realty and "Alive ProStudios, Branding Company Toronto" removed 2026-08-25 at Javad's request. Titles now mix two separator styles, pipes ("Bellini Modern Living \| Brand Video") and colons ("Claritas: Market Leader & Authority"); both read fine alone but the mix is visible scanning the grid. Javad has not chosen one |
+| **Google Tag Manager live 2026-08-26** | `GTM-PJLQRZC`, in `BaseLayout.astro`, on all 48 pages. The container fires GA4 `G-L9G3DSQCJQ`, Google Ads `AW-967661948`, a Meta pixel `314453825678590` and LinkedIn Insight `7456860`; all four verified sending on production. Two GTM **Custom HTML** tags log a CSP violation each: the Meta bootstrap, which still works because GTM retries through an allowed path, and a HubSpot form listener that is dead weight here since the contact form is Formspree. Converting both to native GTM templates clears the console. Consent: Javad's decision 2026-08-26 is that Canada does not require it, so no banner and no Consent Mode |
 | **Resources unpublished 2026-08-23** | 7 routes pulled at Javad's request, content not ready. Files intact under `src/pages/_resources/`. Revert steps in `LAUNCH.md` §1 |
 | 5 redirects point at blog posts never migrated | Now moot while Resources is down: all 8 Resources redirects temporarily point at `/` |
 | All 3 blog posts are Lorem ipsum | Unpublished with the rest of Resources |
@@ -212,7 +220,7 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 | Home hero video is YouTube, not Vimeo | `fch5EecRUSE`, pinned in `hero-videos.md`'s `## Home` section. YouTube's logo watermark cannot be removed via any public embed param (`modestbranding`, `fs=0`, `iv_load_policy=3` were added, that's the ceiling) — every other hero video is Vimeo specifically to avoid this. Swap to a Vimeo source if a fully chrome-free loop is wanted here too |
 | `brand-to-revenue-system.svg`'s capsule background is baked into the artwork | It is opaque white regardless of theme; only the transparent margins around it (near "DAY ONE" / "MARKET LEADERSHIP") are CSS-controlled. Both containers now match `--pg-bg` in either theme: `.pillars__figure` on Home, and `.rows__figure` in `MasterPage.astro` as of 2026-08-25, which previously forced `#fff` and painted a white band across the dark Our System page. Dark mode still shows a mostly-white diagram because the capsule itself is baked in. Javad confirmed 2026-08-25 to leave the SVG alone; a dark-mode export from the source `.ai` file is the real fix if that ever changes |
 | ~~Contact form~~ **DONE** | Live on Formspree `mwlejogn`, verified end to end 2026-08-24: POST, redirect to `/thank-you`, mail to `javad@`. reCAPTCHA must stay OFF in Formspree or AJAX submissions 403. Form Flow's iframe embed was evaluated and rejected, see `LAUNCH.md` |
-| Privacy policy describes a cookie banner | Javad's rewrite landed 2026-08-23 and fixed the false processors. §2 and §3 still promise a consent banner and a "Cookie settings" footer link that do not exist |
+| Privacy policy describes a cookie banner | Javad's rewrite landed 2026-08-23 and fixed the false processors. §2 and §3 still promise a consent banner and a "Cookie settings" footer link that do not exist. **Sharper since 2026-08-26:** GTM now sets Google, Meta and LinkedIn cookies on first load, so the policy describes a control the site does not offer. Javad decided no banner is required in Canada, which makes this a copy fix rather than a consent build |
 | Cloudflare Access not yet on staging | Staging is noindexed but publicly reachable. The `*-aliveprostudios` preview URL is still enabled |
 | Cloudflare blocks AI training crawlers | Its managed robots.txt disallows GPTBot, ClaudeBot, Google-Extended, CCBot and others. Search crawlers and the AI *retrieval* bots are allowed, so citation still works. Toggle in AI Crawl Control. Worth a deliberate decision given the AEO service page |
 | Organization schema has no `sameAs` | No social profile links, which is most of how an engine resolves the entity. Waiting on Javad's LinkedIn, Instagram, YouTube, GBP URLs |
