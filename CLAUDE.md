@@ -54,14 +54,14 @@ Settled. Do not reopen without asking Javad.
 
 ## Current state
 
-**LIVE at https://aliveprostudios.com since 2026-08-24. 48 routes, 85 redirects.**
+**LIVE at https://aliveprostudios.com since 2026-08-24. 54 routes, 85 redirects.**
 
 The WordPress site is gone. GoDaddy still holds the registration but has not
 served DNS for some time: the nameservers point at Cloudflare, and the apex is a
 Custom Domain on the `aliveprostudios` Worker. Microsoft mail was never touched
 and its four records are untouched to this day (MX, two TXT, `autodiscover`).
 
-48 rather than 55 because Resources is unpublished, see Known gaps. `/alive-pro/our-system` was added and `/alive-pro/our-philosophy` retired on 2026-08-25, so the count is unchanged from launch.
+54 as of 2026-08-30, up from 48: Resources came back in part, adding `/resources`, `/resources/blog` and four posts. Two Resources routes are still parked, see Known gaps. `/alive-pro/our-system` was added and `/alive-pro/our-philosophy` retired on 2026-08-25.
 
 ```
 alive-astro/
@@ -80,7 +80,7 @@ alive-astro/
 │   ├── layouts/           ← BaseLayout, MasterPage
 │   ├── lib/               ← anatomy, nav, landing, sections, videos, gallery,
 │   │                        faqs, figures, seo, pillars
-│   ├── pages/             ← 48 routes (+ `_resources/`, unpublished)
+│   ├── pages/             ← 54 routes (+ `_resources/`, faqs + brochure parked)
 │   └── styles/            ← tokens.css, base.css
 └── content/               ← Markdown, the source of truth for all copy
     └── work/hero-videos.md ← which video each SECTION uses; carries its own guide
@@ -174,6 +174,24 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 - **`'unsafe-inline'` is inert here and always will be.** A policy carrying
   hashes makes browsers ignore it, and so does `'strict-dynamic'`. Adding it to
   fix a blocked script does nothing; add a hash or an origin instead.
+- **`content/blog` and `content/drafts/blog` are not the same place.** The blog
+  collection globs `*.md` in `content/blog` and does NOT recurse, so a post in a
+  subfolder is invisible: no route, no error, no warning.
+- **Slot 4 lifts images OUT of the copy by default.** `MasterPage` renders row
+  images full bleed after the row, which is right for a service page's one
+  poster diagram and wrong for an article, where it stranded a figure several
+  paragraphs from the sentence introducing it. Articles pass `inlineFigures`.
+  Do not change the default: `/alive-pro/our-system` depends on the full bleed.
+- **Vite inlines any asset under 4KB as a base64 `data:` URI.** Seven of the
+  twelve blog diagrams ship inside the HTML, not as files, so grepping `dist/`
+  for a figure FILENAME under-counts them and looks like images were dropped.
+  Count `<img src="data:image/svg` too before concluding anything is missing.
+- **`schemaType="Article"` on `MasterPage` emits a SECOND Article.** The layout
+  builds a `#page` entity from `schemaType`, so passing `Article` there put a
+  thin stub (name + description) in the same graph as the real `#article`. Pass
+  `WebPage` and let the route's `extraSchema` own the Article.
+- **`new Date('2026-08-30')` is UTC midnight**, which is the previous day in
+  Toronto, so post dates rendered one day early. Parse `${iso}T00:00:00`.
 - **A wildcard host does not match the bare domain.** `https://*.analytics.google.com`
   leaves `analytics.google.com` blocked, which is exactly where GA4 posts its
   events. List both forms.
@@ -189,6 +207,31 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 - Tone: strategic, authoritative, a partner not a vendor
 
 ---
+
+## The blog
+
+Three commands, in order. Nothing about a post is edited by hand after writing.
+
+```bash
+npm run blog-tags     # assign categories + tags from content/taxonomy.md
+npm run blog-check    # the contract; also runs inside npm run build
+npm run build
+```
+
+- **Write** with the `blog-writer` skill. It produces a self-contained folder in
+  `intake/`, which is outside `content/` so a draft can never ship by accident.
+- **Publish** with the `alivepro-blog-publish` skill. It slugifies the title,
+  prefixes every figure with that slug, rewrites the paths, validates, and moves
+  the folder to `intake/_archive/`. A folder still in `intake/` has not shipped.
+- **Categories and tags are generated.** `content/taxonomy.md` holds the
+  vocabulary as editable tables; `scripts/blog-taxonomy.mjs` scores each post
+  and REWRITES its `categories` and `tags`. Editing either field by hand is
+  pointless, the next run overwrites it. Change the vocabulary instead.
+- **One category per post**, the highest scorer. Tags are labels plus Article
+  `keywords`, deliberately NOT routes: a tag archive holding one post is thin
+  content. Build category archives only once a category holds 3 or more posts.
+- **The slug is the permanent public URL.** Renaming a published post costs a
+  redirect, so it is worth a moment before the first publish.
 
 ## Working agreements
 
@@ -208,12 +251,12 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 | **Our Philosophy unpublished 2026-08-25** | `published: false` in `content/pages/our-philosophy.md`, file intact, one line flips it back. Its two strongest ideas, the positioning-discipline argument and "your brand is what your staff deliver", were folded into Why Alive Pro as prose rather than lost. `/alive-pro/our-philosophy` and the legacy `/our-philosophy` both 301 to `/alive-pro/why-alive-pro`, verified live |
 | Menu order is About, Why, System, Process, Partnership, What to Expect, Testimonials | Set by `order:` frontmatter. Sprints stays unpublished at 7. Blurbs on the `/alive-pro` landing rows are name-matched out of `content/landing/alive-pro.md`, so **a new page under `content/pages/` gets a row automatically but renders with no blurb until that file gains a matching `##` heading**. That is how Our System shipped bare for a build |
 | About Us still reads as a large company | Javad's positioning is boutique, and it is now stated on Why Alive Pro ("We are not a large agency and have never wanted to be one"). About Us still says "all under one roof" and Our System says "one team", which read as size. Javad was offered a boutique line on About Us on 2026-08-25 and it was left open, not declined |
-| `content/faqs.md` still says "four pillars" | The site now says four domains. Not live, since FAQs is unpublished with Resources, but fix it before that section returns |
+| **`content/faqs.md` still says "four pillars"** | The site says four domains. **This is the blocker for the FAQ section, which is the next piece of work (Javad, 2026-08-30).** `/resources/faqs` is still parked in `src/pages/_resources/faqs.astro`. To ship it: fix the copy, move the route to `src/pages/resources/`, restore the `01` number line above `## FAQs` in `content/landing/resources.md` so the menu row and the landing card come back on their own, and repoint the `/faqs` redirect in `SITEMAP.md` from `/` to `/resources/faqs` in the SAME commit |
 | **Work pages renamed 2026-08-25** | `/work/videos` is titled "Brand Marketing Videos" and `/work/portfolio` is "Projects & Campaigns", across H1, meta title, eyebrow, BreadcrumbList, gallery schema, nav sub-menu, `/work` rows and the prev/next footers. **Both routes are unchanged and that is deliberate.** Nav URLs are slugified from the display name, so both names are in `CHILD_URL_OVERRIDES` in `src/lib/landing.ts`; without them the menu would point at `/work/projects-and-campaigns` and `/work/brand-marketing-videos`, which do not exist, while the real pages stayed put. Rename either page again and that map must be updated in the same commit |
 | Video library is 24, was 26 | Maple Investment Realty and "Alive ProStudios, Branding Company Toronto" removed 2026-08-25 at Javad's request. Titles now mix two separator styles, pipes ("Bellini Modern Living \| Brand Video") and colons ("Claritas: Market Leader & Authority"); both read fine alone but the mix is visible scanning the grid. Javad has not chosen one |
 | **Google Tag Manager live 2026-08-26** | `GTM-PJLQRZC`, in `BaseLayout.astro`, on all 48 pages. The container fires GA4 `G-L9G3DSQCJQ`, Google Ads `AW-967661948`, a Meta pixel `314453825678590` and LinkedIn Insight `7456860`; all four verified sending on production. Two GTM **Custom HTML** tags log a CSP violation each: the Meta bootstrap, which still works because GTM retries through an allowed path, and a HubSpot form listener that is dead weight here since the contact form is Formspree. Converting both to native GTM templates clears the console. Consent: Javad's decision 2026-08-26 is that Canada does not require it, so no banner and no Consent Mode |
-| **Resources unpublished 2026-08-23** | 7 routes pulled at Javad's request, content not ready. Files intact under `src/pages/_resources/`. Revert steps in `LAUNCH.md` §1 |
-| 5 redirects point at blog posts never migrated | Now moot while Resources is down: all 8 Resources redirects temporarily point at `/` |
+| **Resources part-restored 2026-08-30** | `/resources` and `/resources/blog` are live. `faqs.astro` and `brochure.astro` are still parked under `src/pages/_resources/`. Nothing links to them because their rows in `content/landing/resources.md` had their number lines removed, and `parseLanding` only treats a NUMBERED `##` as a child (`src/lib/landing.ts`). That one edit controls the menu row, the landing card and the count together |
+| ~~5 redirects point at blog posts never migrated~~ **RESOLVED 2026-08-30** | Those five, plus `/brand-marketing-blog`, now 301 to `/resources/blog`. The posts they named were never migrated and never will be, so the index is the correct destination. Only `/faqs` and `/digital-brochure` are still parked at `/` |
 | **Marketing Blog live 2026-08-30** | Resources was restored and the section renamed **Marketing Blog**. 4 posts, 54 routes. Categories and tags are assigned by `npm run blog-tags` from `content/taxonomy.md`, never by hand; a post's `categories`/`tags` are overwritten on every run. Tags are labels plus Article `keywords`, NOT routes: a tag archive holding one post is thin content. Category archives are not built yet either, and should wait until a category holds 3 or more posts. `/resources/faqs` and `/resources/brochure` stay parked; their rows in `content/landing/resources.md` lost their number lines, which is what keeps them out of the menu and the landing page at once |
 | Blog holds real writing now | The 3 Lorem ipsum placeholders were **deleted 2026-08-30** at Javad's request. `content/blog/` holds original posts written through the `blog-writer` skill, staged first in `intake/`. Routes stay down with Resources, so nothing is live yet. Javad wants at least 6 posts before the section returns |
 | `homepage.md` is Sanity block descriptors | Home slots 2 (Why It Matters), 5 (founder quote) and 7 (closing) still render nothing. Slot 1b, the four intro blocks added 2026-08-23, reads from `content/home-intro.md` instead and is unaffected. That file gained a market-coverage caption above the four cards on 2026-08-25 |

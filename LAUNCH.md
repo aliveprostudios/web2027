@@ -32,22 +32,34 @@ are done; what remains is in "Still open" at the bottom.
 
 These need Javad, not code.
 
-- [ ] **RESOURCES IS UNPUBLISHED (2026-08-23), waiting on content.** Pulled at
-      Javad's request. Seven routes are gone: `/resources`, `/resources/blog`,
-      the three blog posts, `/resources/brochure` and `/resources/faqs`. Nothing
-      was deleted. The route files moved to `src/pages/_resources/`, which
-      Astro's router ignores because of the leading underscore, and the content
-      files are all untouched in `content/`.
-      **To republish:** rename `src/pages/_resources/` back to
-      `src/pages/resources/`, empty the `UNPUBLISHED` set in `src/lib/nav.ts`,
-      and restore the eight redirect targets in `SITEMAP.md` per the note above
-      its redirect table. Then rebuild; the menu row and the sitemap entries come
-      back on their own.
-      Still outstanding before it can go back up: the three blog posts are
-      Lorem ipsum and are the only pages with no meta description, and five old
-      `/branding/*` and `/marketing/*` URLs point at posts that were never
-      migrated. Either write those posts or point those five rows at
-      `/resources/blog`.
+- [x] **RESOURCES: BLOG SHIPPED 2026-08-30.** `/resources` and
+      `/resources/blog` are live, and the section is titled **Marketing Blog**.
+      Four real posts replaced the three Lorem ipsum placeholders, which were
+      deleted at Javad's request. Route count went 48 to 54.
+- [ ] **RESOURCES: FAQs AND BROCHURE STILL PARKED.** Next piece of work.
+      `src/pages/_resources/faqs.astro` and `brochure.astro` are the only two
+      files left under the underscore. Nothing on the site links to either, so
+      there are no dead links today.
+
+      **To ship the FAQ section, four edits in ONE commit:**
+      1. Fix `content/faqs.md`: it still says "four pillars" where the site says
+         **four domains** (CLAUDE.md decision 8, one framework site-wide).
+      2. `git mv src/pages/_resources/faqs.astro src/pages/resources/faqs.astro`
+      3. In `content/landing/resources.md`, restore a number line above
+         `## FAQs`. `parseLanding` only treats a NUMBERED `##` as a child, so
+         that single line brings back the menu entry AND the landing card.
+         Renumber so the rows read 01, 02 in order.
+      4. In `SITEMAP.md`, repoint `/faqs` from `/` to `/resources/faqs`. The
+         redirect and the route must move together: a 301 to a 404 is worse
+         than a 301 to the homepage.
+
+      Then `npm run build` and confirm 55 routes. The brochure follows the same
+      four steps whenever its PDF is ready.
+- [x] **The five `/branding/*` and `/marketing/*` redirects are resolved.**
+      They pointed at WordPress posts that were never migrated and never will
+      be. Since 2026-08-30 they 301 to `/resources/blog`, which is topically
+      what the visitor asked for. Only `/faqs` and `/digital-brochure` are still
+      parked at `/`.
 - [ ] **`homepage.md` is Sanity block descriptors, not prose.** Home slots 2
       (Why It Matters), 5 (founder quote) and 7 (closing statement) render
       nothing. Write those three as ordinary Markdown and they populate with no

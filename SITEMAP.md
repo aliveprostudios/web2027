@@ -143,15 +143,20 @@ site.** Dropping them discards accumulated SEO equity on the old URLs.
 
 In Astro, set them in `astro.config.mjs` under `redirects`, or at the host.
 
-> **Resources is unpublished (2026-08-23).** Eight rows below originally pointed
-> into `/resources/*` and now point at `/`, because those routes are no longer
-> built and a 301 to a 404 is worse than a 301 to the homepage. Restore them to
-> the targets recorded in the URL map above when the section is republished:
-> `/faqs` to `/resources/faqs`, `/digital-brochure` to `/resources/brochure`,
-> `/brand-marketing-blog` to `/resources/blog`, and the five `/branding/*` and
-> `/marketing/*` rows to their `/resources/blog/*` targets. Note those five point
-> at posts that were never migrated, so they were already landing on a 404 before
-> this change; see `LAUNCH.md` §1.
+> **Resources came back in part on 2026-08-30.** `/resources` and
+> `/resources/blog` are live, so six of the eight rows that had been parked at
+> `/` now point at real pages again: `/brand-marketing-blog` and the five
+> `/branding/*` and `/marketing/*` rows all land on `/resources/blog`.
+>
+> Those five originally pointed at WordPress posts that were never migrated, so
+> there is no per-post target to restore and there never will be. The blog index
+> is the right destination: it is topically what the visitor asked for, which a
+> 301 to the homepage was not.
+>
+> **Two rows are still parked at `/`:** `/faqs` and `/digital-brochure`. Restore
+> them to `/resources/faqs` and `/resources/brochure` in the same commit that
+> unparks those routes from `src/pages/_resources/`. A 301 to a 404 is worse
+> than a 301 to the homepage, so the redirect and the route must move together.
 
 
 ### WordPress archive URLs, added 2026-08-23
@@ -226,12 +231,12 @@ are only ever discovered through that index, so redirecting the index is enough.
 | `/partnership-new` | `/alive-pro/partnership` | 301 |
 | `/faqs` | `/` | 301 |
 | `/digital-brochure` | `/` | 301 |
-| `/brand-marketing-blog` | `/` | 301 |
-| `/branding/online-digital-advertising` | `/` | 301 |
-| `/branding/a-guide-to-developing-a-successful-brand-architecture` | `/` | 301 |
-| `/marketing/7-ways-influencer-marketing-levels-up-your-branding` | `/` | 301 |
-| `/branding/top-5-misconceptions-about-branding` | `/` | 301 |
-| `/branding/lights-camera-action-unleashing-the-power-of-video-marketing-for-smbs-in-2024` | `/` | 301 |
+| `/brand-marketing-blog` | `/resources/blog` | 301 |
+| `/branding/online-digital-advertising` | `/resources/blog` | 301 |
+| `/branding/a-guide-to-developing-a-successful-brand-architecture` | `/resources/blog` | 301 |
+| `/marketing/7-ways-influencer-marketing-levels-up-your-branding` | `/resources/blog` | 301 |
+| `/branding/top-5-misconceptions-about-branding` | `/resources/blog` | 301 |
+| `/branding/lights-camera-action-unleashing-the-power-of-video-marketing-for-smbs-in-2024` | `/resources/blog` | 301 |
 | `/contact-us` | `/contact` | 301 |
 | `/request-a-quote` | `/contact` | 301 |
 | `/thank-you-sprints` | `/` | 301 |

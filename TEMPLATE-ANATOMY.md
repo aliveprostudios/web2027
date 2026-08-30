@@ -593,3 +593,48 @@ sit in this table were deleted 2026-08-30:
 | File | Why |
 |---|---|
 | `pages/testimonials.md` | opening paragraph is a client quotation; breaking it would split the quote. It should probably become a `>` blockquote so it lands in the quote band instead of the H4 lede |
+
+
+---
+
+## 5. Articles differ from service pages in three ways
+
+Added 2026-08-30, when the Marketing Blog shipped. All three are opt-in props on
+`MasterPage`, so a service page is untouched by any of them.
+
+### `inlineFigures`
+
+By default slot 4 pulls every image OUT of the row's copy and bands it full
+bleed after the text. That is right for a service page, whose one diagram is a
+poster: `/alive-pro/our-system` depends on it.
+
+It is wrong for an article. A 1,600-word piece reads as a single column, and
+banding the figures left each diagram several paragraphs from the sentence that
+introduced it. With `inlineFigures`, row images render in document order inside
+`.md`, in the measure, as `.md__figure--inline`, with symmetrical spacing
+(`clamp(28px, 6vw, 48px)`) so the figure reads as its own beat.
+
+The full-bleed branch is skipped entirely when the prop is set, or every figure
+would render twice.
+
+### `topics`
+
+Renders the post's tags after the closing statement as labels, not links. They
+also become `keywords` on the Article. There is deliberately no tag archive: one
+post per tag page is thin content.
+
+### `schemaType="WebPage"`, not `"Article"`
+
+`MasterPage` builds a `#page` entity from `schemaType`, and the blog route
+supplies its own `#article` through `extraSchema`. Passing `Article` to the
+layout therefore emitted TWO Article entities for one URL, the layout's being a
+stub with only `name` and `description`. The route passes `WebPage`, and the
+Article carries `mainEntityOfPage` back to it.
+
+### The title tag is conditional
+
+`BaseLayout` appends ` | Alive ProStudios` only while the result stays within 60
+characters. The blog's titles are two full sentences, so the suffix pushed them
+to 79 and search results truncated the second sentence, which is the half that
+carries the argument. No pre-existing page was affected: all were already short
+enough to keep the suffix.

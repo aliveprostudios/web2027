@@ -7,9 +7,22 @@ Pulled from Sanity on 2026-08-22. Text only.
 
 The three exported posts were Lorem ipsum placeholders and were deleted
 2026-08-30. This folder now holds original posts only, written through the
-`blog-writer` skill rather than pulled from Sanity.
+`blog-writer` skill rather than pulled from Sanity. Live at `/resources/blog`.
+
+`categories` and `tags` in these files are GENERATED. `npm run blog-tags` scores
+each post against `content/taxonomy.md` and rewrites both fields, so editing
+them here is pointless. Edit the vocabulary instead.
 
 - brand-builds-trust-positioning-sharpens-focus.md
+- your-business-already-runs-on-a-system-nobody-designed-it.md
+- stop-treating-symptoms-real-growth-starts-with-a-diagnosis.md
+- fragmented-marketing-has-a-price-nobody-sends-you-the-bill.md
+
+**taxonomy.md**
+
+The controlled vocabulary for the blog: two Markdown tables, one for categories
+and one for tags, each mapping a label to its match terms. Read by
+`scripts/blog-taxonomy.mjs`. Not a collection, so it produces no route.
 
 **root/**
 
