@@ -23,9 +23,24 @@ function escapeHtml(text: string): string {
     .replace(/'/g, '&#39;');
 }
 
-/** Minimal inline Markdown, applied to already-escaped text. */
+/**
+ * Minimal inline Markdown, applied to already-escaped text.
+ *
+ * Links are SITE-ABSOLUTE ONLY: the href must start with a single `/`, exactly
+ * the rule the image tokenizer already enforces, so body copy cannot reach
+ * off-origin and a protocol-relative `//evil.example` cannot slip through. An
+ * external link simply does not match and prints as literal Markdown, which is
+ * ugly on purpose; `scripts/blog-check.mjs` fails the build before it ships.
+ *
+ * The href is interpolated from text that escapeHtml already ran over, so `"`
+ * is `&quot;` and the attribute cannot be broken out of.
+ *
+ * Links resolve BEFORE emphasis so `[**bold** label](/x)` still bolds inside
+ * the anchor rather than leaving the asterisks stranded in the href.
+ */
 function inline(text: string): string {
   return escapeHtml(text)
+    .replace(/\[([^\]]+)\]\((\/(?!\/)[^)\s]*)\)/g, '<a href="$2">$1</a>')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
 }

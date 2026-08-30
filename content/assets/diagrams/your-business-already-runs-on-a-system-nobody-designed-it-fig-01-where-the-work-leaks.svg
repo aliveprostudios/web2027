@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram of a five-stage chain, enquiry to lead to quote to job to invoice, with the losses marked in the gaps between stages: work re-keyed by hand, no owner, chased from memory, and reconciled monthly.">
+  <defs>
+    <pattern id="sys-grid-a" width="18" height="18" patternUnits="userSpaceOnUse">
+      <path d="M 18 0 L 0 0 0 18" fill="none" stroke="#C7D2D9" stroke-width="0.6"/>
+    </pattern>
+    <marker id="sys-arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#F76E1E"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="700" height="400" fill="#EEF2F4"/>
+  <rect x="0" y="0" width="700" height="400" fill="url(#sys-grid-a)"/>
+  <rect x="2" y="2" width="696" height="396" fill="none" stroke="#14181E" stroke-width="1.5" rx="4"/>
+
+  <text x="24" y="32" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="11" letter-spacing="1.5" fill="#B84A0E" font-weight="600">FIG. 01</text>
+  <text x="24" y="50" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" letter-spacing="1" fill="#14181E" font-weight="600">WHERE THE WORK LEAKS</text>
+
+  <circle cx="662" cy="34" r="14" fill="none" stroke="#14181E" stroke-width="1.2"/>
+  <line x1="662" y1="22" x2="662" y2="46" stroke="#14181E" stroke-width="1"/>
+  <line x1="650" y1="34" x2="674" y2="34" stroke="#14181E" stroke-width="1"/>
+
+  <g font-family="Barlow, system-ui, sans-serif" font-size="13.5" font-weight="600" letter-spacing="1" fill="#14181E" text-anchor="middle">
+    <rect x="32" y="140" width="108" height="58" fill="#F7F6F2" stroke="#14181E" stroke-width="1.4" rx="3"/>
+    <text x="86" y="174">ENQUIRY</text>
+
+    <rect x="164" y="140" width="108" height="58" fill="#F7F6F2" stroke="#14181E" stroke-width="1.4" rx="3"/>
+    <text x="218" y="174">LEAD</text>
+
+    <rect x="296" y="140" width="108" height="58" fill="#F7F6F2" stroke="#14181E" stroke-width="1.4" rx="3"/>
+    <text x="350" y="174">QUOTE</text>
+
+    <rect x="428" y="140" width="108" height="58" fill="#F7F6F2" stroke="#14181E" stroke-width="1.4" rx="3"/>
+    <text x="482" y="174">JOB</text>
+
+    <rect x="560" y="140" width="108" height="58" fill="#F7F6F2" stroke="#14181E" stroke-width="1.4" rx="3"/>
+    <text x="614" y="174">INVOICE</text>
+  </g>
+
+  <g stroke="#5B6472" stroke-width="1.2" stroke-dasharray="3 4">
+    <line x1="140" y1="169" x2="164" y2="169"/>
+    <line x1="272" y1="169" x2="296" y2="169"/>
+    <line x1="404" y1="169" x2="428" y2="169"/>
+    <line x1="536" y1="169" x2="560" y2="169"/>
+  </g>
+
+  <g stroke="#F76E1E" stroke-width="1.8" marker-end="url(#sys-arr-a)" fill="none">
+    <line x1="152" y1="206" x2="152" y2="238"/>
+    <line x1="284" y1="206" x2="284" y2="238"/>
+    <line x1="416" y1="206" x2="416" y2="238"/>
+    <line x1="548" y1="206" x2="548" y2="238"/>
+  </g>
+
+  <g font-family="Barlow, system-ui, sans-serif" font-size="11.5" fill="#5B6472" text-anchor="middle">
+    <text x="152" y="264">re-keyed</text><text x="152" y="279">by hand</text>
+    <text x="284" y="264">no owner,</text><text x="284" y="279">no clock</text>
+    <text x="416" y="264">chased from</text><text x="416" y="279">memory</text>
+    <text x="548" y="264">reconciled</text><text x="548" y="279">monthly</text>
+  </g>
+
+  <line x1="32" y1="312" x2="668" y2="312" stroke="#C7D2D9" stroke-width="1"/>
+  <text x="350" y="344" text-anchor="middle" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="12.5" letter-spacing="1" fill="#14181E" font-weight="600">THE TOOLS WORK. THE LOSSES HAPPEN BETWEEN THEM.</text>
+</svg>

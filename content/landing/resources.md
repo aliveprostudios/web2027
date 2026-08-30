@@ -11,19 +11,15 @@ source: "rendered from live site 2026-08-22"
 
 Practical tools, expert insights, and honest answers. Everything you need to make smarter brand and marketing decisions.
 
-01
-
 ## Digital Brochure
 
 Download our capabilities overview
 
-02
+01
 
-## Brand Marketing Blog
+## Marketing Blog
 
 Insights on brand strategy, marketing, and growth
-
-03
 
 ## FAQs
 

@@ -7,7 +7,7 @@ source: "rendered from live site 2026-08-22"
 
 Resources
 
-# BRAND MARKETINGBLOG
+# MARKETINGBLOG
 
 Insights on brand strategy, marketing, and growth from our team.
 

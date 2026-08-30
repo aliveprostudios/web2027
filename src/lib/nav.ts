@@ -102,16 +102,20 @@ function withOverview(item: NavItem): NavItem {
 /**
  * Menu rows that are built but NOT published.
  *
- * Resources was pulled on 2026-08-23 because its content is not ready. Its route
- * files still exist, moved to `src/pages/_resources/`, which Astro's router
- * ignores because of the underscore, so nothing is deleted and nothing is
- * rewritten. This set is the second half of that switch: it keeps the row out of
- * the menu so the site never links to a route that is no longer built.
+ * Resources was pulled on 2026-08-23 and RESTORED on 2026-08-30, once the blog
+ * carried real articles. `/resources` and `/resources/blog` are live again;
+ * `faqs.astro` and `brochure.astro` stay parked in `src/pages/_resources/`
+ * because their content is still not ready.
  *
- * To republish: rename the directory back to `src/pages/resources/`, empty this
- * set, and restore the redirect targets in SITEMAP.md (see the note there).
+ * Nothing links to those two: the Resources sub-menu and the landing rows are
+ * both built from the NUMBERED `##` headings in `content/landing/resources.md`,
+ * and their numbers were removed, so `parseLanding` skips them (landing.ts).
+ * Restore a number line and the row, the menu entry and the count all come back.
+ *
+ * To pull a whole row again: add its label here and move its routes back under
+ * an underscore directory.
  */
-const UNPUBLISHED = new Set<string>(['Resources']);
+const UNPUBLISHED = new Set<string>([]);
 
 export async function navItems(): Promise<NavItem[]> {
   const sectionItems: Omit<NavItem, 'num'>[] = await Promise.all(

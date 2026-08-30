@@ -165,11 +165,10 @@ quote was lifted out entirely as the page statement. Name, then role, then quote
 
 **A single `#` in the body is NOT a heading here.** `tokenize()` matches `^#{2,6}`,
 so a `# Title` line falls through to the paragraph branch and renders the hash
-literally. Four scraped files still carry one at line 10 (`brochure.md` and the three
-blog posts), which is why `/resources/brochure` prints "# digitalBROCHURE" and
-`/resources/blog/brand-marketing-toronto` prints "# GTA Market Growth" as its H4
-statement. The H1 comes from frontmatter `title`, so the fix is to delete the line
-from the source, not to widen the regex.
+literally. One scraped file still carries one at line 10 (`brochure.md`), which is why
+`/resources/brochure` prints "# digitalBROCHURE" as its H4 statement. The three blog
+posts that had the same defect were deleted 2026-08-30. The H1 comes from frontmatter
+`title`, so the fix is to delete the line from the source, not to widen the regex.
 
 **This mapping is for marketing pages only.** Run over a legal document it produces
 nonsense: `privacy-policy.md` yielded "1. Who we are" as the page's opening H2 under
@@ -588,11 +587,9 @@ All 29 rendered service pages now show a lede of 3 sentences or fewer.
 `brand-name-identity.md` reproduces the Master template exactly: a 3-sentence H4
 followed by two body paragraphs.
 
-Three files were deliberately left alone:
+One file was deliberately left alone. The three Lorem ipsum blog posts that used to
+sit in this table were deleted 2026-08-30:
 
 | File | Why |
 |---|---|
-| `blog/brand-marketing-toronto.md` | entire post is Lorem ipsum placeholder |
-| `blog/branding-restaurants.md` | entire post is Lorem ipsum placeholder |
-| `blog/digital-marketing-redefined.md` | entire post is Lorem ipsum placeholder |
 | `pages/testimonials.md` | opening paragraph is a client quotation; breaking it would split the quote. It should probably become a `>` blockquote so it lands in the quote band instead of the H4 lede |

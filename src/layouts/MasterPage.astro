@@ -44,6 +44,25 @@ interface Props {
   schemaType?: string;
   /** Additional JSON-LD entities to add to the graph (e.g. Article, FAQPage). */
   extraSchema?: Record<string, unknown>[];
+  /**
+   * Render slot 4 images INSIDE the text column, in the order they were
+   * authored, instead of pulling them out to a full-bleed band after the row.
+   *
+   * Long-form articles read as one column, so a diagram belongs where the
+   * sentence that introduces it left off. Service pages keep the full-bleed
+   * default: their one diagram is a poster, not an illustration, and
+   * `/alive-pro/our-system` depends on it (CLAUDE.md).
+   */
+  inlineFigures?: boolean;
+  /**
+   * Topic labels shown after the closing statement. Articles only.
+   *
+   * Assigned by `npm run blog-tags` from `content/taxonomy.md`, never by hand.
+   * They are labels, not links: a tag archive holding one post is thin content,
+   * so the tags earn their keep as `keywords` on the Article JSON-LD and as an
+   * at-a-glance summary, not as another set of routes to crawl.
+   */
+  topics?: string[];
 }
 
 const {
@@ -61,6 +80,8 @@ const {
   footerHref,
   schemaType = 'Service',
   extraSchema = [],
+  inlineFigures = false,
+  topics = [],
 } = Astro.props;
 
 const heroCaption = caption ?? anatomy.caption;
@@ -268,9 +289,35 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
                     )}
                     <div class="md">
                       {row.blocks
-                        .filter((block) => block.kind !== 'image')
+                        .filter((block) =>
+                          inlineFigures
+                            ? !(isImageBlock(block) && block.variant !== 'full')
+                            : block.kind !== 'image',
+                        )
                         .map((block) =>
-                          block.kind === 'p' ? (
+                          block.kind === 'image' ? (
+                            <figure class="md__figure md__figure--inline">
+                              {figure(block.src).kind === 'svg' ? (
+                                <img
+                                  src={(figure(block.src) as { src: string }).src}
+                                  alt={block.alt}
+                                  width={(figure(block.src) as { width: number }).width}
+                                  height={(figure(block.src) as { height: number }).height}
+                                  loading="lazy"
+                                  decoding="async"
+                                />
+                              ) : (
+                                <Image
+                                  src={(figure(block.src) as { image: ImageMetadata }).image}
+                                  alt={block.alt}
+                                  widths={[480, 720, 1080]}
+                                  sizes="(max-width: 760px) 92vw, 720px"
+                                  loading="lazy"
+                                  decoding="async"
+                                />
+                              )}
+                            </figure>
+                          ) : block.kind === 'p' ? (
                             <p set:html={block.html} />
                           ) : (
                             <div class="row__list">
@@ -287,7 +334,7 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
                   </div>
                 </div>
 
-                {row.blocks
+                {(inlineFigures ? [] : row.blocks)
                   .filter(isImageBlock)
                   .filter((block) => block.variant === 'full')
                   .map((block) => {
@@ -348,6 +395,19 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
               <span class="muted" set:html={anatomy.closing.muted} />{' '}
               <Fragment set:html={anatomy.closing.tail} />
             </p>
+          </section>
+        )
+      }
+
+      {
+        topics.length > 0 && (
+          <section class="section topics">
+            <p class="topics__label t-eyebrow z-content">Topics</p>
+            <ul class="topics__list z-content">
+              {topics.map((topic) => (
+                <li class="topics__item">{topic}</li>
+              ))}
+            </ul>
           </section>
         )
       }
@@ -428,9 +488,30 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
 
   .why__statement { max-width: 680px; margin: 56px 0 0; }
 
-  /* An image in slot 3 stays inside the measure; only slot 4 goes full bleed. */
-  .md__figure { margin: 32px 0 0; max-width: 720px; }
+  /* An image in slot 3 stays inside the measure; slot 4 goes full bleed UNLESS
+     the page asked for inline figures (long-form articles), in which case a
+     diagram sits in the text column where it was authored.
+
+     Spacing is symmetrical and larger than paragraph rhythm (32px) so the
+     figure reads as its own beat rather than as part of the paragraph above
+     it. `clamp` carries that down to mobile without a second breakpoint. */
+  .md__figure { margin: clamp(28px, 6vw, 48px) 0; max-width: 720px; }
   .md__figure img { display: block; width: 100%; height: auto; border-radius: 8px; }
+
+  /* Only a figure that ENDS its container drops the bottom gap; the container
+     supplies that space. A figure with copy after it keeps both margins, or the
+     paragraph below collides with the artwork. */
+  .why__body .md__figure:last-child { margin-bottom: 0; }
+
+  /* An inline figure is a sibling of <p> inside `.md`, whose own rhythm is
+     margin-top only. Both margins are declared so neither collapses to the
+     paragraph value, and the figure keeps equal air on both sides. */
+  .md__figure--inline {
+    margin-top: clamp(28px, 6vw, 48px);
+    margin-bottom: clamp(28px, 6vw, 48px);
+    width: 100%;
+  }
+  .md__figure--inline + p { margin-top: 0; }
   .why__body { margin-top: 32px; }
 
   /* Stat block (§5) */
@@ -587,6 +668,29 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
 
   /* ---- 6. Closing ------------------------------------------------------ */
   .closing { max-width: 760px; margin: 0; }
+
+  /* ---- Topics (articles only) ------------------------------------------
+     Labels, not links. `--pg-band` keeps them legible in both themes without
+     introducing a second accent. */
+  .topics__label { margin: 0 0 16px; color: var(--pg-fg3); }
+  .topics__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .topics__item {
+    padding: 7px 14px;
+    border: 1px solid var(--pg-line);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--pg-fg2);
+    background: var(--pg-band);
+  }
 
   /* ---- Mobile ----------------------------------------------------------
      The global `[data-stack]` rule in base.css stacks the ROW, but it cannot

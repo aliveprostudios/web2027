@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram of a system built in three stages along a single spine: stage one connects website, lead capture and quotes; stage two adds CRM and accounting; stage three adds operations, team, social and dashboards.">
+  <defs>
+    <pattern id="sys-grid-b" width="18" height="18" patternUnits="userSpaceOnUse">
+      <path d="M 18 0 L 0 0 0 18" fill="none" stroke="#C7D2D9" stroke-width="0.6"/>
+    </pattern>
+    <marker id="sys-arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#F76E1E"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="700" height="400" fill="#EEF2F4"/>
+  <rect x="0" y="0" width="700" height="400" fill="url(#sys-grid-b)"/>
+  <rect x="2" y="2" width="696" height="396" fill="none" stroke="#14181E" stroke-width="1.5" rx="4"/>
+
+  <text x="24" y="32" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="11" letter-spacing="1.5" fill="#B84A0E" font-weight="600">FIG. 02</text>
+  <text x="24" y="50" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" letter-spacing="1" fill="#14181E" font-weight="600">ONE SPINE, WIRED IN STAGES</text>
+
+  <circle cx="662" cy="34" r="14" fill="none" stroke="#14181E" stroke-width="1.2"/>
+  <line x1="662" y1="22" x2="662" y2="46" stroke="#14181E" stroke-width="1"/>
+  <line x1="650" y1="34" x2="674" y2="34" stroke="#14181E" stroke-width="1"/>
+
+  <line x1="60" y1="78" x2="60" y2="352" stroke="#F76E1E" stroke-width="3"/>
+  <line x1="60" y1="120" x2="92" y2="120" stroke="#F76E1E" stroke-width="1.6"/>
+  <line x1="60" y1="215" x2="92" y2="215" stroke="#F76E1E" stroke-width="1.6"/>
+  <line x1="60" y1="310" x2="92" y2="310" stroke="#F76E1E" stroke-width="1.6"/>
+  <circle cx="60" cy="120" r="8" fill="#F76E1E" stroke="#EEF2F4" stroke-width="2"/>
+  <circle cx="60" cy="215" r="8" fill="#F76E1E" stroke="#EEF2F4" stroke-width="2"/>
+  <circle cx="60" cy="310" r="8" fill="#F76E1E" stroke="#EEF2F4" stroke-width="2"/>
+
+  <g fill="#F7F6F2" stroke="#C7D2D9" stroke-width="1.2">
+    <rect x="92" y="78" width="576" height="84" rx="4"/>
+    <rect x="92" y="173" width="576" height="84" rx="4"/>
+    <rect x="92" y="268" width="576" height="84" rx="4"/>
+  </g>
+
+  <g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="1.4" fill="#B84A0E" font-weight="600">
+    <text x="108" y="100">STAGE 01</text>
+    <text x="108" y="195">STAGE 02</text>
+    <text x="108" y="290">STAGE 03</text>
+  </g>
+
+  <g font-family="Barlow, system-ui, sans-serif" font-size="12.5" font-weight="600" letter-spacing="0.8" fill="#14181E" text-anchor="middle">
+    <rect x="108" y="110" width="104" height="32" fill="#EEF2F4" stroke="#14181E" stroke-width="1.2" rx="16"/>
+    <text x="160" y="131">WEBSITE</text>
+    <rect x="226" y="110" width="138" height="32" fill="#EEF2F4" stroke="#14181E" stroke-width="1.2" rx="16"/>
+    <text x="295" y="131">LEAD CAPTURE</text>
+    <rect x="378" y="110" width="186" height="32" fill="#EEF2F4" stroke="#14181E" stroke-width="1.2" rx="16"/>
+    <text x="471" y="131">QUOTES &amp; ESTIMATES</text>
+
+    <rect x="108" y="205" width="84" height="32" fill="#EEF2F4" stroke="#14181E" stroke-width="1.2" rx="16"/>
+    <text x="150" y="226">+ CRM</text>
+    <rect x="206" y="205" width="146" height="32" fill="#EEF2F4" stroke="#14181E" stroke-width="1.2" rx="16"/>
+    <text x="279" y="226">+ ACCOUNTING</text>
+
+    <rect x="108" y="300" width="138" height="32" fill="#EEF2F4" stroke="#14181E" stroke-width="1.2" rx="16"/>
+    <text x="177" y="321">+ OPERATIONS</text>
+    <rect x="258" y="300" width="92" height="32" fill="#EEF2F4" stroke="#14181E" stroke-width="1.2" rx="16"/>
+    <text x="304" y="321">+ TEAM</text>
+    <rect x="362" y="300" width="100" height="32" fill="#EEF2F4" stroke="#14181E" stroke-width="1.2" rx="16"/>
+    <text x="412" y="321">+ SOCIAL</text>
+    <rect x="474" y="300" width="148" height="32" fill="#EEF2F4" stroke="#14181E" stroke-width="1.2" rx="16"/>
+    <text x="548" y="321">+ DASHBOARDS</text>
+  </g>
+
+  <g stroke="#F76E1E" stroke-width="1.6" marker-end="url(#sys-arr-b)" fill="none">
+    <line x1="214" y1="126" x2="224" y2="126"/>
+    <line x1="366" y1="126" x2="376" y2="126"/>
+    <line x1="194" y1="221" x2="204" y2="221"/>
+  </g>
+
+  <g font-family="Barlow, system-ui, sans-serif" font-size="11.5" fill="#5B6472">
+    <text x="108" y="156">One path, end to end, with nothing re-typed between the steps.</text>
+    <text x="108" y="251">The relationship and the revenue it produced become one record.</text>
+    <text x="108" y="346">The whole operation on one spine, visible without assembling a report.</text>
+  </g>
+
+  <text x="24" y="380" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="11" letter-spacing="1.2" fill="#14181E" font-weight="600">EACH STAGE IS COMPLETE AND USEFUL ON ITS OWN.</text>
+</svg>

@@ -202,6 +202,18 @@ body[data-theme='dark'] a { color: var(--brand-lime); }
 }
 .md strong { font-weight: 700; color: var(--pg-fg); }
 
+/* Inline links in body copy. The global `a` rule drops the underline, which is
+   right for nav and buttons and wrong inside a paragraph: WCAG 2.1 AA needs
+   more than colour to mark a link in running text. --orange-ink rather than
+   --brand-orange because this is small text, and it is theme-aware (§2). */
+.md a {
+  color: var(--orange-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.md a:hover { text-decoration-thickness: 2px; }
+
 /* =========================================================================
    4.3 Pill buttons — rolling label
    ========================================================================= */

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Flowchart showing positioning leading to brand, leading to compounding trust, leading to payoff, which reinvests back into sharper positioning.">
+  <defs>
+    <pattern id="grid3" width="18" height="18" patternUnits="userSpaceOnUse">
+      <path d="M 18 0 L 0 0 0 18" fill="none" stroke="#C7D2D9" stroke-width="0.6"/>
+    </pattern>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#14181E"/>
+    </marker>
+    <marker id="arrowBrass" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#A97C35"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="300" fill="#EEF2F4"/>
+  <rect x="0" y="0" width="760" height="300" fill="url(#grid3)"/>
+  <rect x="2" y="2" width="756" height="296" fill="none" stroke="#14181E" stroke-width="1.5" rx="4"/>
+
+  <text x="24" y="32" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1.5" fill="#A97C35" font-weight="600">FIG. 03</text>
+  <text x="24" y="50" font-family="IBM Plex Mono, monospace" font-size="13" letter-spacing="1" fill="#14181E" font-weight="600">THE COMPOUNDING LOOP</text>
+
+  <!-- Boxes -->
+  <g font-family="Inter, sans-serif">
+    <rect x="28" y="78" width="158" height="92" rx="3" fill="#F7F6F2" stroke="#14181E" stroke-width="1.3"/>
+    <text x="107" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#14181E">01 POSITIONING</text>
+    <text x="107" y="128" text-anchor="middle" font-size="11.5" fill="#5B6472">Define who, and</text>
+    <text x="107" y="144" text-anchor="middle" font-size="11.5" fill="#5B6472">the problem</text>
+
+    <rect x="222" y="78" width="158" height="92" rx="3" fill="#F7F6F2" stroke="#14181E" stroke-width="1.3"/>
+    <text x="301" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#14181E">02 BRAND</text>
+    <text x="301" y="128" text-anchor="middle" font-size="11.5" fill="#5B6472">Prove it,</text>
+    <text x="301" y="144" text-anchor="middle" font-size="11.5" fill="#5B6472">repeatedly</text>
+
+    <rect x="416" y="78" width="166" height="92" rx="3" fill="#F7F6F2" stroke="#14181E" stroke-width="1.3"/>
+    <text x="499" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#14181E">03 TRUST</text>
+    <text x="499" y="122" text-anchor="middle" font-size="14" font-weight="700" fill="#14181E">COMPOUNDS</text>
+    <text x="499" y="144" text-anchor="middle" font-size="11.5" fill="#5B6472">Every proof point lands</text>
+
+    <rect x="618" y="78" width="118" height="92" rx="3" fill="#F7F6F2" stroke="#14181E" stroke-width="1.3"/>
+    <text x="677" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#14181E">04 PAYOFF</text>
+    <text x="677" y="128" text-anchor="middle" font-size="11" fill="#5B6472">Referrals,</text>
+    <text x="677" y="144" text-anchor="middle" font-size="11" fill="#5B6472">pricing power,</text>
+    <text x="677" y="158" text-anchor="middle" font-size="11" fill="#5B6472">retention</text>
+  </g>
+
+  <line x1="188" y1="124" x2="220" y2="124" stroke="#14181E" stroke-width="1.6" marker-end="url(#arrow3)"/>
+  <line x1="382" y1="124" x2="414" y2="124" stroke="#14181E" stroke-width="1.6" marker-end="url(#arrow3)"/>
+  <line x1="584" y1="124" x2="616" y2="124" stroke="#14181E" stroke-width="1.6" marker-end="url(#arrow3)"/>
+
+  <path d="M 677 172 C 677 235, 107 235, 107 172" fill="none" stroke="#A97C35" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrowBrass)"/>
+  <text x="392" y="256" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" letter-spacing="1" fill="#A97C35" font-weight="600">REINVEST IN FOCUS</text>
+</svg>

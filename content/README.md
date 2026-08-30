@@ -5,9 +5,11 @@ Pulled from Sanity on 2026-08-22. Text only.
 
 **blog/**
 
-- brand-marketing-toronto.md
-- branding-restaurants.md
-- digital-marketing-redefined.md
+The three exported posts were Lorem ipsum placeholders and were deleted
+2026-08-30. This folder now holds original posts only, written through the
+`blog-writer` skill rather than pulled from Sanity.
+
+- brand-builds-trust-positioning-sharpens-focus.md
 
 **root/**
 

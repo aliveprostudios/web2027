@@ -40,6 +40,7 @@ export const CHILD_URL_OVERRIDES: Record<string, string> = {
   'brand marketing videos': '/work/videos',
   'digital brochure': '/resources/brochure',
   'brand marketing blog': '/resources/blog',
+  'marketing blog': '/resources/blog',
   faqs: '/resources/faqs',
 };
 

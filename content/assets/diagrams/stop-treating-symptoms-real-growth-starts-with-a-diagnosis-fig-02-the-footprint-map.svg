@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram of a map drawn from footprints: many competitor paths converging on a crowded point labelled category average, with one separate path leading off the map to unclaimed ground.">
+  <defs>
+    <pattern id="qf-grid-b" width="18" height="18" patternUnits="userSpaceOnUse">
+      <path d="M 18 0 L 0 0 0 18" fill="none" stroke="#C7D2D9" stroke-width="0.6"/>
+    </pattern>
+    <marker id="qf-arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#14181E"/>
+    </marker>
+    <marker id="qf-arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#F76E1E"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="700" height="400" fill="#EEF2F4"/>
+  <rect x="0" y="0" width="700" height="400" fill="url(#qf-grid-b)"/>
+  <rect x="2" y="2" width="696" height="396" fill="none" stroke="#14181E" stroke-width="1.5" rx="4"/>
+
+  <text x="24" y="32" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="11" letter-spacing="1.5" fill="#B84A0E" font-weight="600">FIG. 02</text>
+  <text x="24" y="50" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" letter-spacing="1" fill="#14181E" font-weight="600">THE FOOTPRINT MAP</text>
+
+  <circle cx="662" cy="34" r="14" fill="none" stroke="#14181E" stroke-width="1.2"/>
+  <line x1="662" y1="22" x2="662" y2="46" stroke="#14181E" stroke-width="1"/>
+  <line x1="650" y1="34" x2="674" y2="34" stroke="#14181E" stroke-width="1"/>
+
+  <rect x="44" y="92" width="430" height="216" rx="6" fill="none" stroke="#5B6472" stroke-width="1.2" stroke-dasharray="6 5"/>
+  <text x="60" y="114" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="1.2" fill="#5B6472" font-weight="600">THE MAP, DRAWN FROM FOOTPRINTS</text>
+
+  <g fill="#14181E">
+    <rect x="72" y="145" width="10" height="10"/>
+    <rect x="72" y="177" width="10" height="10"/>
+    <rect x="72" y="209" width="10" height="10"/>
+    <rect x="72" y="241" width="10" height="10"/>
+    <rect x="72" y="273" width="10" height="10"/>
+  </g>
+
+  <g stroke="#14181E" stroke-width="1.2" marker-end="url(#qf-arr-b)" fill="none">
+    <line x1="88" y1="150" x2="332" y2="203"/>
+    <line x1="88" y1="182" x2="330" y2="208"/>
+    <line x1="88" y1="214" x2="328" y2="214"/>
+    <line x1="88" y1="246" x2="330" y2="220"/>
+    <line x1="88" y1="278" x2="332" y2="225"/>
+  </g>
+
+  <circle cx="370" cy="214" r="30" fill="#F76E1E" stroke="#14181E" stroke-width="1.4"/>
+  <text x="370" y="272" text-anchor="middle" font-family="Barlow, system-ui, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.8" fill="#14181E">CATEGORY AVERAGE</text>
+  <text x="370" y="290" text-anchor="middle" font-family="Barlow, system-ui, sans-serif" font-size="11.5" fill="#5B6472">the busiest path on the map</text>
+
+  <line x1="402" y1="214" x2="541" y2="206" stroke="#F76E1E" stroke-width="2.2" marker-end="url(#qf-arr-c)"/>
+  <text x="500" y="188" text-anchor="middle" font-family="Barlow, system-ui, sans-serif" font-size="11" font-weight="600" fill="#B84A0E">off the map</text>
+
+  <circle cx="570" cy="205" r="15" fill="none" stroke="#F76E1E" stroke-width="2.2"/>
+  <line x1="570" y1="196" x2="570" y2="214" stroke="#F76E1E" stroke-width="1.6"/>
+  <line x1="561" y1="205" x2="579" y2="205" stroke="#F76E1E" stroke-width="1.6"/>
+  <text x="570" y="163" text-anchor="middle" font-family="Barlow, system-ui, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.8" fill="#14181E">UNCLAIMED GROUND</text>
+  <text x="570" y="248" text-anchor="middle" font-family="Barlow, system-ui, sans-serif" font-size="11.5" fill="#5B6472">your position</text>
+
+  <text x="259" y="334" text-anchor="middle" font-family="Barlow, system-ui, sans-serif" font-size="11.5" fill="#5B6472">Everyone prompting the same tools is routed to the same place.</text>
+
+  <text x="24" y="372" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="12" letter-spacing="1" fill="#14181E" font-weight="600">THE MAP ONLY SHOWS WHERE EVERYONE HAS ALREADY WALKED.</text>
+</svg>

@@ -31,7 +31,15 @@ const {
 
 const SITE = 'https://aliveprostudios.com';
 const canonical = new URL(path, SITE).href;
-const pageTitle = `${title} | Alive ProStudios`;
+/**
+ * The brand suffix is appended only while the result still fits a search
+ * result. Google truncates around 60 characters, and the blog's titles are two
+ * full sentences: appending " | Alive ProStudios" to them pushed the tag to 79
+ * characters, so the SERP cut the second sentence, which is the half that
+ * carries the argument. A long title keeps its own words instead.
+ */
+const SUFFIX = ' | Alive ProStudios';
+const pageTitle = title.length + SUFFIX.length <= 60 ? `${title}${SUFFIX}` : title;
 
 /**
  * Share card (STYLEGUIDE.md §8): 1200x630, dark grey ground, white Condensed

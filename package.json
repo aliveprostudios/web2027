@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/postbuild.mjs",
+    "build": "node scripts/blog-check.mjs && astro build && node scripts/postbuild.mjs",
+    "blog-tags": "node scripts/blog-taxonomy.mjs",
+    "blog-check": "node scripts/blog-check.mjs",
     "build:staging": "STAGING=1 npm run build",
     "preview": "npm run build && wrangler dev",
     "deploy": "npm run build && wrangler deploy",

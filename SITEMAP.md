@@ -6,7 +6,7 @@ Domain: **aliveprostudios.com**
 Locale: English only at launch. Architecture should stay i18n-ready
 (`/fr/`, `/de/`, `/es/`, `/zh/`, `/ar/` are Phase 2; English carries no prefix).
 
-**Totals:** 28 service pages · 7 Alive Pro pages · 3 blog posts · 24 videos · 65 redirects
+**Totals:** 28 service pages · 7 Alive Pro pages · 4 blog posts · 24 videos · 65 redirects
 
 ---
 
@@ -103,13 +103,27 @@ Locale: English only at launch. Architecture should stay i18n-ready
 
 ---
 
-## Blog (3)
+## Marketing Blog (4)
+
+**RESTORED 2026-08-30.** `/resources` and `/resources/blog` are live again; the
+section is titled **Marketing Blog**. `/resources/faqs` and `/resources/brochure`
+stay parked in `src/pages/_resources/` until their content is ready, and nothing
+links to them: their rows in `content/landing/resources.md` had their number
+lines removed, so `parseLanding` skips them (`src/lib/landing.ts`).
 
 | URL | Title | Source file |
 |---|---|---|
-| ~~`/resources/blog/brand-marketing-toronto`~~ | **UNPUBLISHED 2026-08-23.** Brand Marketing Toronto | `content/blog/brand-marketing-toronto.md` |
-| ~~`/resources/blog/branding-restaurants`~~ | **UNPUBLISHED 2026-08-23.** Branding Restaurants | `content/blog/branding-restaurants.md` |
-| ~~`/resources/blog/digital-marketing-redefined`~~ | **UNPUBLISHED 2026-08-23.** Digital Marketing Redefined | `content/blog/digital-marketing-redefined.md` |
+| `/resources/blog` | Marketing Blog, the article index | `content/landing/blog-index.md` |
+| `/resources/blog/brand-builds-trust-positioning-sharpens-focus` | Brand Builds Trust. Positioning Sharpens Focus. | `content/blog/brand-builds-trust-positioning-sharpens-focus.md` |
+| `/resources/blog/your-business-already-runs-on-a-system-nobody-designed-it` | Your Business Already Runs on a System. Nobody Designed It. | `content/blog/your-business-already-runs-on-a-system-nobody-designed-it.md` |
+| `/resources/blog/stop-treating-symptoms-real-growth-starts-with-a-diagnosis` | Stop Treating Symptoms. Real Growth Starts With a Diagnosis. | `content/blog/stop-treating-symptoms-real-growth-starts-with-a-diagnosis.md` |
+| `/resources/blog/fragmented-marketing-has-a-price-nobody-sends-you-the-bill` | Fragmented Marketing Has a Price. Nobody Sends You the Bill. | `content/blog/fragmented-marketing-has-a-price-nobody-sends-you-the-bill.md` |
+
+> The three Sanity-era posts (Brand Marketing Toronto, Branding Restaurants,
+> Digital Marketing Redefined) were **deleted 2026-08-30** at Javad's request.
+> All three were Lorem ipsum placeholders and none of them ever shipped. Nothing
+> redirected to them, so no redirect row changed. `content/blog/` now holds only
+> original posts written through the `blog-writer` skill.
 
 ---
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chart comparing two lines over six months: the quick fix drops sharply at first then climbs higher than where it started, while diagnosis costs more up front and then resolves and stays low.">
+  <defs>
+    <pattern id="qf-grid-a" width="18" height="18" patternUnits="userSpaceOnUse">
+      <path d="M 18 0 L 0 0 0 18" fill="none" stroke="#C7D2D9" stroke-width="0.6"/>
+    </pattern>
+  </defs>
+
+  <rect x="0" y="0" width="700" height="400" fill="#EEF2F4"/>
+  <rect x="0" y="0" width="700" height="400" fill="url(#qf-grid-a)"/>
+  <rect x="2" y="2" width="696" height="396" fill="none" stroke="#14181E" stroke-width="1.5" rx="4"/>
+
+  <text x="24" y="32" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="11" letter-spacing="1.5" fill="#B84A0E" font-weight="600">FIG. 01</text>
+  <text x="24" y="50" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" letter-spacing="1" fill="#14181E" font-weight="600">RELIEF VERSUS DIAGNOSIS</text>
+
+  <circle cx="662" cy="34" r="14" fill="none" stroke="#14181E" stroke-width="1.2"/>
+  <line x1="662" y1="22" x2="662" y2="46" stroke="#14181E" stroke-width="1"/>
+  <line x1="650" y1="34" x2="674" y2="34" stroke="#14181E" stroke-width="1"/>
+
+  <line x1="90" y1="100" x2="90" y2="300" stroke="#14181E" stroke-width="1.2"/>
+  <line x1="90" y1="300" x2="652" y2="300" stroke="#14181E" stroke-width="1.2"/>
+
+  <g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="10" letter-spacing="1" fill="#5B6472">
+    <text x="34" y="108">WORSE</text>
+    <text x="30" y="298">BETTER</text>
+    <text x="90" y="320">MONTH 0</text>
+    <text x="365" y="320" text-anchor="middle">MONTH 3</text>
+    <text x="640" y="320" text-anchor="end">MONTH 6</text>
+  </g>
+
+  <polyline points="90,160 182,260 273,240 365,210 457,180 548,150 640,124" fill="none" stroke="#F76E1E" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="90,160 182,144 273,180 365,216 457,244 548,264 640,276" fill="none" stroke="#14181E" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <circle cx="90" cy="160" r="4.5" fill="#14181E"/>
+  <circle cx="640" cy="124" r="4.5" fill="#F76E1E"/>
+  <circle cx="640" cy="276" r="4.5" fill="#14181E"/>
+
+  <line x1="345" y1="196" x2="345" y2="232" stroke="#5B6472" stroke-width="1" stroke-dasharray="3 4"/>
+  <text x="352" y="252" font-family="Barlow, system-ui, sans-serif" font-size="11.5" fill="#5B6472">the lines cross here</text>
+
+  <text x="632" y="110" text-anchor="end" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="700" letter-spacing="0.8" fill="#B84A0E">QUICK FIX</text>
+  <text x="632" y="256" text-anchor="end" font-family="Barlow, system-ui, sans-serif" font-size="13" font-weight="700" letter-spacing="0.8" fill="#14181E">DIAGNOSIS</text>
+
+  <text x="24" y="360" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="12" letter-spacing="1" fill="#14181E" font-weight="600">RELIEF ARRIVES FIRST. THE PROBLEM ARRIVES LATER.</text>
+</svg>

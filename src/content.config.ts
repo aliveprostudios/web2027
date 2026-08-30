@@ -66,6 +66,8 @@ const blog = defineCollection({
     date: z.string().optional(),
     author: z.string().optional(),
     categories: z.array(z.string()).optional(),
+    /** Assigned by `npm run blog-tags` from content/taxonomy.md, never by hand. */
+    tags: z.array(z.string()).optional(),
   }),
 });
 

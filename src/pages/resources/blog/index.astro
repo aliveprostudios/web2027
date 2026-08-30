@@ -13,9 +13,10 @@ import SiteFooter from '../../../components/SiteFooter.astro';
  * Adding a Markdown file adds a row and its route.
  */
 const path = '/resources/blog';
-const title = 'Blog';
+const title = 'Marketing Blog';
 const description =
-  'Insights on brand strategy, marketing, and growth from the Alive ProStudios team.';
+  'Practical articles on branding, marketing operations and growth for small ' +
+  'and mid-sized businesses, written by Javad Ahmadi from 29 years of work.';
 
 const posts = (await getCollection('blog')).sort((a, b) =>
   String(b.data.date ?? '').localeCompare(String(a.data.date ?? '')),
@@ -23,7 +24,10 @@ const posts = (await getCollection('blog')).sort((a, b) =>
 
 const fmt = (iso?: string) => {
   if (!iso) return '';
-  const d = new Date(iso);
+  // `new Date('2026-08-30')` is parsed as UTC midnight, which is the PREVIOUS
+  // day everywhere west of Greenwich, so a Toronto build printed "Aug 29".
+  // Appending a time makes it local midnight and the date reads as authored.
+  const d = new Date(`${iso}T00:00:00`);
   return Number.isNaN(d.getTime())
     ? ''
     : d.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -33,7 +37,7 @@ const schema = [
   {
     '@type': 'Blog',
     '@id': `https://aliveprostudios.com${path}#blog`,
-    name: 'Alive ProStudios Blog',
+    name: 'Alive ProStudios Marketing Blog',
     description,
     publisher: { '@id': 'https://aliveprostudios.com/#organization' },
   },
@@ -54,9 +58,9 @@ const breadcrumbs = [
       <div class="hero__inner">
         <SiteNav />
         <div class="hero__copy">
-          <p class="hero__crumb t-eyebrow">Resources&nbsp;&nbsp;·&nbsp;&nbsp;Blog</p>
+          <p class="hero__crumb t-eyebrow">Resources&nbsp;&nbsp;·&nbsp;&nbsp;Marketing Blog</p>
           <h1 class="hero__title t-h1">
-            <span class="hero__line-mask"><span class="hero__line dot">Brand marketing blog</span></span>
+            <span class="hero__line-mask"><span class="hero__line dot">Marketing blog</span></span>
           </h1>
         </div>
       </div>
@@ -101,7 +105,7 @@ const breadcrumbs = [
     </main>
 
     <NextStep sectionNum="03" />
-    <SiteFooter backLabel="Resources" backHref="/resources" nextLabel="FAQs" nextHref="/resources/faqs" />
+    <SiteFooter backLabel="Resources" backHref="/resources" nextLabel="Contact" nextHref="/contact" />
   </div>
 </BaseLayout>
 
