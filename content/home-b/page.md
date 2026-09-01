@@ -11,6 +11,9 @@ caseStudies:
   - alfred-smart-locks
   - assa-abloy-door-security-solutions
   - claritas
+videoUrl: "https://youtu.be/YoudIrML8lU"
+videoHeading: "Watch the Reel"
+videoCaption: "The work, the clients and the thinking behind them, in one sitting."
 featureCredit: "Work · Alfred Smart Locks · Retail packaging system"
 featureCreditHref: "/work/case-studies/alfred-smart-locks"
 ---

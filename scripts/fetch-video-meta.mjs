@@ -32,9 +32,28 @@ const start = md.indexOf('## All videos');
 const end = md.indexOf('## Plain URL list');
 const table = md.slice(start === -1 ? 0 : start, end === -1 ? undefined : end);
 
+/**
+ * Videos that play OUTSIDE the library still need dimensions and a poster:
+ * the looping heroes in `hero-videos.md`, any video a page embeds inline from
+ * its own Markdown, and the one loop the home page pins in code
+ * (`index.astro`, slot 4b). Each file is scanned whole, same URL rules as the
+ * table. Add a path here when a new page starts carrying its own video, or
+ * its entry silently disappears from video-meta.json on the next run and the
+ * embed falls back to 16:9.
+ */
+const extraSources = [
+  '../content/work/hero-videos.md',
+  '../content/home-b/page.md',
+  '../src/pages/index.astro',
+].map((rel) => fileURLToPath(new URL(rel, import.meta.url)));
+const extraText = extraSources
+  .filter((file) => existsSync(file))
+  .map((file) => readFileSync(file, 'utf8'))
+  .join('\n');
+
 const seen = new Set();
 const videos = [];
-for (const line of table.split('\n')) {
+for (const line of `${table}\n${extraText}`.split('\n')) {
   const vimeo = line.match(/vimeo\.com\/(\d+)/);
   const youtube = line.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{6,})/);
   const found = vimeo

@@ -1,5 +1,6 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import heroBg from '../../content/assets/site/hero-bg.jpg';
@@ -8,6 +9,8 @@ import founderPortrait from '../../content/assets/site/javad-ahmadi-portrait.jpg
 import BgRails from '../components/BgRails.astro';
 import SiteNav from '../components/SiteNav.astro';
 import VideoHero from '../components/VideoHero.astro';
+import InlineVideo from '../components/InlineVideo.astro';
+import Lightbox from '../components/Lightbox.astro';
 import NextStep from '../components/NextStep.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { pillars } from '../lib/pillars';
@@ -24,14 +27,15 @@ import { assetsFor } from '../lib/caseStudies';
  * content replaces `index.astro`'s and this route is deleted. No redirect is
  * needed because it was never indexed.
  *
- * Order: 1 Hero (with credit) · 2 How We Help You + four cards · 3 Brand reel
- *        (with caption) · 4 The System, four pillar rows · 5 Selected case
- *        studies · 6 Founder quote · 7 Feature image (with credit) · 8 Closing
- *        · 9 Next Step · 10 Footer
+ * Order: 1 Hero (with credit) · 2 How We Help You, logo beside the copy, four
+ *        cards · 3 Looping brand reel (with caption) · 4 The System, four
+ *        pillar rows · 5 Selected case studies · 6 The reel, click to play ·
+ *        7 Gallery · 8 Founder quote with both marks · 9 Feature image (with
+ *        credit) · 10 Closing · 11 Next Step · 12 Footer
  *
  * Against the live home page: the second looping video is gone, the empty
- * Why It Matters slot is gone, and blocks 5, 6 and 8 are new or newly filled.
- * The through-line is problem, help, trust, method, proof, person, ask.
+ * Why It Matters slot is gone, and blocks 5 to 8 and 10 are new or newly
+ * filled. The through-line is problem, help, trust, method, proof, person, ask.
  *
  * Every string comes from `content/home-b/`. `page.md` carries the hero, the
  * credits, the case study picks, the founder quote and the closing statement.
@@ -99,6 +103,28 @@ const studies = picked.map((study) => ({
   hero: assetsFor(study.id).hero,
 }));
 
+/* Block 7: the home gallery. Every image in `content/assets/home-b/gallery/`
+   is a tile, in filename order, so swapping the set is a matter of replacing
+   files. Same lightbox contract as the case studies: a 1800px-capped WebP for
+   the viewer, the thumbnail through <Image>. The glob stays a literal string
+   for Vite. */
+const galleryModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../../content/assets/home-b/gallery/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+);
+const gallery = await Promise.all(
+  Object.entries(galleryModules)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(async ([, module], i) => {
+      const full = await getImage({
+        src: module.default,
+        width: Math.min(1800, module.default.width),
+        format: 'webp',
+      });
+      return { src: module.default, full: full.src, alt: `Alive ProStudios work, image ${i + 1}` };
+    }),
+);
+
 const title = page.data.title;
 const caption = page.data.caption ?? '';
 const captionParts = caption ? splitSentences(caption) : [];
@@ -157,18 +183,28 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
         introBlocks.length > 0 && (
           <section class="intro section">
             {introTitle && <h2 class="intro__heading t-h2 dot z-content">{introTitle}</h2>}
-            {introCaption && <p class="intro__caption t-h4 z-content">{introCaption}</p>}
-            {introLink && (
-              <a class="aps-btn aps-btn-primary intro__cta z-content" href={introLink.href}>
-                <span class="roll">
-                  <span>{introLink.label}</span>
-                  <span>{introLink.label}</span>
-                </span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M7 17L17 7M9 7h8v8" />
-                </svg>
-              </a>
-            )}
+            <div class="intro__lead z-content">
+              {/* The full mark beside the statement. Two files, one per theme:
+                  the coloured logo's dark green vanishes on the dark ground. */}
+              <div class="intro__brand">
+                <img class="intro__logo intro__logo--light" src="/assets/logo-full.svg" alt="Alive ProStudios" width="375" height="140" loading="lazy" />
+                <img class="intro__logo intro__logo--dark" src="/assets/logo-full-white.svg" alt="" aria-hidden="true" width="375" height="140" loading="lazy" />
+              </div>
+              <div>
+                {introCaption && <p class="intro__caption t-h4">{introCaption}</p>}
+                {introLink && (
+                  <a class="aps-btn aps-btn-primary intro__cta" href={introLink.href}>
+                    <span class="roll">
+                      <span>{introLink.label}</span>
+                      <span>{introLink.label}</span>
+                    </span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M7 17L17 7M9 7h8v8" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
             <div class="intro__grid z-content">
               {introBlocks.map((block, i) => (
                 <article class="intro__card">
@@ -185,13 +221,18 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
         )
       }
 
-      <!-- 3. Brand reel, captioned -->
+      <!-- 3. Looping brand reel, captioned -->
       <VideoHero route="/" title="Alive ProStudios brand reel" />
-      {page.data.reelCaption && <p class="reel__caption t-eyebrow z-content">{page.data.reelCaption}</p>}
+      {page.data.reelCaption && <p class="loop__caption t-eyebrow z-content">{page.data.reelCaption}</p>}
 
       <!-- 4. The System: four pillar rows -->
       <section class="pillars">
-        <h2 class="pillars__heading t-h2 dot z-content">The Brand-to-Revenue Performance System</h2>
+        {/* Two deliberate lines, so "Performance System" never splits. The dot
+            rides the second line, or it would drop to a line of its own. */}
+        <h2 class="pillars__heading t-h2 z-content">
+          <span class="pillars__line">The Brand-to-Revenue</span>
+          <span class="pillars__line dot">Performance System</span>
+        </h2>
         <p class="pillars__caption t-h4 z-content">
           Strategy, execution, and technology, engineered as one system. Built over 29 years,
           trusted by 400+ brands, retained for decades.
@@ -296,7 +337,61 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
         )
       }
 
-      <!-- 6. Founder quote band -->
+      <!-- 6. The reel, click to play. Poster first, iframe on click, so the
+           page does not mount a second YouTube player on load. -->
+      {
+        page.data.videoUrl && (
+          <section class="reel section">
+            <div class="reel__head z-content">
+              {page.data.videoHeading && <h2 class="t-h2 dot">{page.data.videoHeading}</h2>}
+              {page.data.videoCaption && <p class="reel__lede t-h4">{page.data.videoCaption}</p>}
+            </div>
+            <div class="reel__frame z-content">
+              <InlineVideo url={page.data.videoUrl} />
+            </div>
+          </section>
+        )
+      }
+
+      <!-- 7. Gallery: three across, folder-driven, opens the lightbox -->
+      {
+        gallery.length > 0 && (
+          <section class="gallery" aria-label={`Work gallery, ${gallery.length} images`}>
+            <p class="gallery__eyebrow t-eyebrow z-content">
+              <span class="gallery__num">(02)</span>&nbsp;&nbsp;Gallery&nbsp;&nbsp;
+              <span class="gallery__count">({gallery.length})</span>
+            </p>
+            <div class="gallery__grid z-content">
+              {gallery.map((item, i) => (
+                <button
+                  type="button"
+                  class="gallery__tile"
+                  data-gallery-item
+                  aria-label={`Open image ${i + 1} of ${gallery.length}`}
+                >
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    widths={[480, 800, 1200]}
+                    sizes="(max-width: 760px) 50vw, 33vw"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </button>
+              ))}
+            </div>
+            <script
+              id="gallery-data"
+              type="application/json"
+              is:inline
+              set:html={JSON.stringify(gallery.map((g) => ({ full: g.full, alt: g.alt })))}
+            />
+            <Lightbox />
+          </section>
+        )
+      }
+
+      <!-- 8. Founder quote band, with both marks -->
       {
         anatomy.quote && (
           <section class="quote">
@@ -317,13 +412,21 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
                     {anatomy.quote.role && <span class="quote__role">{anatomy.quote.role}</span>}
                   </p>
                 )}
+                <div class="quote__marks">
+                  <img class="quote__mark quote__mark--light" src="/assets/logo-full.svg" alt="Alive ProStudios" width="375" height="140" loading="lazy" />
+                  <img class="quote__mark quote__mark--dark" src="/assets/logo-full-white.svg" alt="" aria-hidden="true" width="375" height="140" loading="lazy" />
+                  <a class="quote__javad" href="https://javad.ca/" rel="noopener" aria-label="Javad Ahmadi, javad.ca">
+                    <img class="quote__mark quote__mark--light" src="/assets/javad-ahmadi-logo.svg" alt="" width="522" height="112" loading="lazy" />
+                    <img class="quote__mark quote__mark--dark" src="/assets/javad-ahmadi-logo-white.svg" alt="" aria-hidden="true" width="522" height="112" loading="lazy" />
+                  </a>
+                </div>
               </div>
             </div>
           </section>
         )
       }
 
-      <!-- 7. Feature image, parallax, credited -->
+      <!-- 9. Feature image, parallax, credited -->
       <section class="feature" data-feature>
         <Image
           class="feature__img"
@@ -346,7 +449,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
         }
       </section>
 
-      <!-- 8. Closing statement -->
+      <!-- 10. Closing statement -->
       {
         anatomy.closing && (
           <section class="section">
@@ -365,10 +468,10 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
       }
     </main>
 
-    <!-- 9. Next Step -->
-    <NextStep sectionNum="02" />
+    <!-- 11. Next Step -->
+    <NextStep sectionNum="03" />
 
-    <!-- 10. Footer -->
+    <!-- 12. Footer -->
     <SiteFooter backLabel="Alive ProStudios" backHref="/" nextLabel="All Services" nextHref="/foundation" />
   </div>
 </BaseLayout>
@@ -425,12 +528,27 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
   }
 
   /* ---- 2. How We Help You ---------------------------------------------- */
-  .intro__heading { margin: 0 0 24px; }
+  .intro__heading { margin: 0 0 40px; }
+
+  /* The mark takes the label column, the statement the rest. */
+  .intro__lead {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 2fr;
+    gap: clamp(32px, 5vw, 96px);
+    align-items: center;
+    margin-bottom: 64px;
+  }
+  .intro__brand { display: flex; align-items: center; }
+  .intro__logo { display: block; width: 100%; max-width: 360px; height: auto; }
+  .intro__logo--dark { display: none; }
+  :global(body[data-theme='dark']) .intro__logo--light { display: none; }
+  :global(body[data-theme='dark']) .intro__logo--dark { display: block; }
+
   .intro__caption { max-width: 680px; margin: 0 0 32px; color: var(--pg-fg2); }
 
   /* The same orange pill as the pillar rows' Explore Now, so the page's two
      calls to action look like one device. Base.css owns the button itself. */
-  .intro__cta { margin: 0 0 64px; }
+  .intro__cta { margin: 0; }
 
   .intro__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
   .intro__card {
@@ -487,12 +605,13 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
   }
   @keyframes introReveal { from { opacity: 0; } to { opacity: 1; } }
 
-  /* ---- 3. Reel caption ------------------------------------------------- */
-  .reel__caption { margin: 0; padding: 20px var(--gutter) 0; color: var(--pg-fg3); }
+  /* ---- 3. Loop caption ------------------------------------------------- */
+  .loop__caption { margin: 0; padding: 20px var(--gutter) 0; color: var(--pg-fg3); }
 
   /* ---- 4. Pillar rows -------------------------------------------------- */
   .pillars { padding: 0 var(--gutter) 64px; }
   .pillars__heading { margin: 112px 0 24px; }
+  .pillars__line { display: block; }
   .pillars__caption { max-width: 680px; margin: 0 0 56px; color: var(--pg-fg2); }
   .pillars__figure {
     position: relative;
@@ -628,7 +747,45 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
   .proof__all svg { transition: transform 300ms var(--ease-settle); }
   .proof__all:hover svg { transform: translate(3px, -3px); }
 
-  /* ---- 6. Founder quote band ------------------------------------------ */
+  /* ---- 6. The reel ------------------------------------------------------ */
+  .reel__head { max-width: 760px; margin-bottom: 8px; }
+  .reel__head h2 { margin: 0 0 24px; }
+  .reel__lede { margin: 0; color: var(--pg-fg2); }
+  .reel__frame { max-width: 1160px; }
+
+  /* ---- 7. Gallery -------------------------------------------------------
+     Three across, edge to edge on the gutter. The tiles keep the sources'
+     16:9, which is what every portfolio frame is shot at; a different set
+     with mixed shapes would want a fixed crop here instead. */
+  .gallery { position: relative; padding: 0 var(--gutter) clamp(56px, 8vw, 96px); }
+  .gallery__eyebrow { color: var(--pg-fg); margin: 0 0 32px; }
+  .gallery__num { color: var(--orange-ink); }
+  .gallery__count { color: var(--pg-fg3); }
+  .gallery__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .gallery__tile {
+    display: block;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+    transform: translateY(0);
+    transition: transform 0.35s ease;
+  }
+  .gallery__tile :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    /* Load-bearing: Astro's height attribute wins without it (see CLAUDE.md). */
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+  .gallery__tile:hover { transform: translateY(-6px); }
+  .gallery__tile:hover :global(img) { transform: scale(1.07); }
+
+  /* ---- 8. Founder quote band ------------------------------------------ */
   .quote { padding: 96px var(--gutter); }
   .quote__inner {
     max-width: 1160px;
@@ -643,7 +800,24 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
   .quote__by { margin: 32px 0 0; font-weight: 700; font-size: 15px; color: var(--pg-fg); }
   .quote__role { margin-left: 12px; font-weight: 600; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pg-fg3); }
 
-  /* ---- 7. Feature image, parallax. Same knobs as index.astro. ---------- */
+  /* The two marks under the attribution: the studio, then the person, who
+     links out to javad.ca. Heights are matched by eye, since the two logos
+     have different proportions. */
+  .quote__marks {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: clamp(32px, 4vw, 72px);
+    margin-top: 56px;
+  }
+  .quote__mark { display: block; width: auto; height: clamp(56px, 5.5vw, 84px); }
+  .quote__javad { display: block; }
+  .quote__javad .quote__mark { height: clamp(44px, 4.2vw, 64px); }
+  .quote__mark--dark { display: none; }
+  :global(body[data-theme='dark']) .quote__mark--light { display: none; }
+  :global(body[data-theme='dark']) .quote__mark--dark { display: block; }
+
+  /* ---- 9. Feature image, parallax. Same knobs as index.astro. ---------- */
   .feature {
     position: relative;
     height: 60vh;
@@ -696,7 +870,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
   }
   a.feature__credit:hover { background: var(--brand-orange); color: #000; }
 
-  /* ---- 8. Closing ------------------------------------------------------ */
+  /* ---- 10. Closing ----------------------------------------------------- */
   .closing { max-width: 760px; margin: 0; }
 
   /* ---- Mobile ---------------------------------------------------------- */
@@ -709,9 +883,12 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     .feature__credit { bottom: 16px; }
     .quote__inner { grid-template-columns: 1fr; }
     .quote__portrait { max-width: 240px; }
-    .intro__heading { margin-bottom: 20px; }
+    .intro__heading { margin-bottom: 28px; }
+    .intro__lead { grid-template-columns: 1fr; gap: 28px; margin-bottom: 40px; }
+    .intro__logo { max-width: 220px; }
     .intro__caption { margin-bottom: 24px; }
-    .intro__cta { margin-bottom: 40px; }
+    .gallery__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .quote__marks { gap: 28px; margin-top: 40px; }
     .intro__grid { grid-template-columns: 1fr; gap: 16px; }
     .intro__card { padding: 36px 28px 40px; }
     .intro__ghost { font-size: 132px; top: -20px; right: 6px; }
@@ -725,5 +902,8 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     .tile, .tile__img, .tile__explore svg, .proof__all svg { transition: none; }
     .tile:hover { transform: none; }
     .tile:hover .tile__img { transform: none; }
+    .gallery__tile, .gallery__tile :global(img) { transition: none; }
+    .gallery__tile:hover { transform: none; }
+    .gallery__tile:hover :global(img) { transform: none; }
   }
 </style>

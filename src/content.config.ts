@@ -108,6 +108,10 @@ const homeB = defineCollection({
     proofHeading: z.string().optional(),
     /** Case study slugs to feature, in order. Defaults to the first three by `order`. */
     caseStudies: z.array(z.string()).optional(),
+    /** A click-to-play video with its own section: URL, H2 and lede. */
+    videoUrl: z.string().optional(),
+    videoHeading: z.string().optional(),
+    videoCaption: z.string().optional(),
     /** Credit line on the feature image, and where it links. */
     featureCredit: z.string().optional(),
     featureCreditHref: z.string().optional(),
