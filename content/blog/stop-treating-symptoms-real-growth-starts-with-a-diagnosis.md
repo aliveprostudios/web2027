@@ -72,7 +72,7 @@ Work runs in four stages: diagnose the actual problem, decide what you are going
 
 Used in the right two stages, these tools are transformative, and we lean on them hard. That is precisely how we run [AI-Generated Production](/execution/ai-generated-production): multiple engines accelerate the production itself, while art direction, colour science, brand alignment and quality control stay with people who are accountable for the result. The technology compresses the work. It does not choose what the work should be.
 
-Before you next reach for a tool to solve something, four questions are worth answering honestly:
+Before you next reach for a tool to solve something, four questions are worth answering first:
 
 - **Is this a headache or a knee?** A social post for Thursday is a headache. What your business stands for is not.
 - **If a competitor prompted the same tool with the same brief**, how different would their output be from yours?
@@ -83,4 +83,4 @@ Before you next reach for a tool to solve something, four questions are worth an
 
 **Javad Ahmadi, Brand Transformation Architect**
 
-The businesses that come through this period in good shape will not be the ones that refused the tools, and they will not be the ones that handed everything over to them either. They will be the ones that did the unglamorous part first: sitting down, looking honestly at what is actually wrong, deciding what they intend to be known for, and only then turning the accelerator on. The tools will still be there when the thinking is finished. The opening to be genuinely different from everyone else prompting the same machine will not stay open nearly as long.
+The businesses that come through this period in good shape will not be the ones that refused the tools, and they will not be the ones that handed everything over to them either. They will be the ones that did the unglamorous part first: sitting down, naming what is actually wrong, deciding what they intend to be known for, and only then turning the accelerator on. The tools will still be there when the thinking is finished. The opening to be genuinely different from everyone else prompting the same machine will not stay open nearly as long.

@@ -127,8 +127,8 @@ a technical product to a non-technical buyer. *[filler]*
 **H2:** Most clients never leave
 
 Seventy percent of our clients have been with us for more than sixteen years. That is not
-a marketing statistic. It is what happens when the work performs and the partner stays
-honest about what is working and what is not.
+a marketing statistic. It is what happens when the work performs and the partner keeps
+telling you what is working and what is not.
 
 We do not take on projects. We take on partnerships. You work with the same people
 throughout, on defined timelines, with reporting tied to outcomes rather than activity.

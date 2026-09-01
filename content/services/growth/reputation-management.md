@@ -22,7 +22,7 @@ Most businesses don’t think about reputation management until something goes w
 
 We start with a deep-level audit across search engines, social media, review sites, and directories to uncover exactly what’s being said about your business. The audit gives you three things:
 
-- A clear, honest snapshot of your online reputation today
+- A clear snapshot of your online reputation today, including what you would rather not see
 - Critical issues that need to be addressed, corrected, or removed
 - Opportunities your competitors haven’t discovered or acted on
 

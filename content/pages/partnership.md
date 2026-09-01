@@ -52,7 +52,7 @@ Not the tidied version. What actually closed, what it actually cost, which custo
 
 Work reviewed by people without the authority to approve it produces consensus, and consensus is where good ideas go to become average. The engagements that go well have somebody present who can simply say yes.
 
-### The Honest History.
+### What Was Tried Before.
 
 What was tried before, what failed, and why you think it failed. Most companies arrive carrying scar tissue from a previous agency. That history is useful information rather than an embarrassment, and leaving it out usually means we repeat it.
 

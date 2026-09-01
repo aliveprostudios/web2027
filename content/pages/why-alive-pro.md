@@ -3,7 +3,7 @@ title: "Why Alive Pro"
 caption: "One partner accountable for the whole, instead of five accountable for their piece."
 slug: "why-alive-pro"
 seoTitle: "Why Alive Pro"
-seoDescription: "An honest comparison of your options: a stack of specialists, a large agency, an in-house team, or one boutique partner accountable for the whole of it."
+seoDescription: "A comparison of your four real options: a stack of specialists, a large agency, an in-house team, or one boutique partner accountable for the whole of it."
 order: 2
 ---
 ## The Real Cost of Running Five Vendors
@@ -36,7 +36,7 @@ Total dedication and total context, which is genuinely hard to beat. It is also 
 
 ### One Integrated Partner.
 
-Strategy, creative, growth, and technology under one roof, on one strategy, accountable as a single unit. We are not a large agency and have never wanted to be one. We are boutique on purpose: you work with senior people rather than the junior layer a big shop needs in order to staff its volume, and the person who understands your brand is the person who answers the phone. The honest trade is that you give up the option of hiring the best specialist on earth for one narrow task. For most businesses that is a good trade. For some it is not, and we will tell you when you are one of them.
+Strategy, creative, growth, and technology under one roof, on one strategy, accountable as a single unit. We are not a large agency and have never wanted to be one. We are boutique on purpose: you work with senior people rather than the junior layer a big shop needs in order to staff its volume, and the person who understands your brand is the person who answers the phone. The trade is that you give up the option of hiring the best specialist on earth for one narrow task. For most businesses that is a good trade. For some it is not, and we will tell you when you are one of them.
 
 ***
 

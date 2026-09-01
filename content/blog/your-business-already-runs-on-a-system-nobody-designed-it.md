@@ -66,9 +66,9 @@ Those four returns are not separate benefits. They feed each other. Connected wo
 
 Not with software. Buying a platform before mapping the work is how businesses end up with three tools that overlap and a team that has quietly gone back to the spreadsheet.
 
-It starts with an honest map of how the business actually runs today, seams included. This is the work we do inside [Solution Architecture & Design](/infrastructure/solution-architecture-design): mapping the real workflow, auditing where it breaks, and designing the spine before anyone chooses a single platform.
+It starts with a map of how the business actually runs today, seams included. This is the work we do inside [Solution Architecture & Design](/infrastructure/solution-architecture-design): mapping the real workflow, auditing where it breaks, and designing the spine before anyone chooses a single platform.
 
-Four questions worth answering honestly first, because the answers usually locate the first stage on their own:
+Four questions worth answering first, because the answers usually locate the first stage on their own:
 
 - **Where does an enquiry actually land**, and how long can it sit there before anyone would notice?
 - **What gets typed twice** in a normal week, by whom, and into what?

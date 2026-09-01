@@ -76,7 +76,7 @@ What changes is that somebody owns the outcome rather than a deliverable. When a
 
 That is the entire argument behind [our system](/alive-pro/our-system): four connected domains operated by one team, drawing on one strategy and measured against one set of numbers, rather than four services bought separately and hoped into alignment.
 
-Before you change anything, four questions are worth sitting with honestly:
+Before you change anything, four questions are worth sitting with:
 
 - **When last quarter underperformed**, who was accountable for the result, rather than for their own deliverable?
 - **How many hours a week** do you personally spend briefing, chasing or reconciling suppliers, and what is an hour of your attention worth?

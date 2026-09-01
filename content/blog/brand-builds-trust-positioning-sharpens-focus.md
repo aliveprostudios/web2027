@@ -78,11 +78,11 @@ The gap between the answer a business wants and the one it would actually get is
 
 ## Where This Starts
 
-Neither problem gets solved with a new logo or a clever slogan. Positioning starts with an honest audit: who is the business actually best at serving, and what specific problem does it solve better than a generalist would. Brand starts with an equally honest one: what has this business promised, explicitly or implicitly, and where has it actually delivered versus fallen short.
+Neither problem gets solved with a new logo or a clever slogan. Positioning starts with an audit nobody enjoys: who is the business actually best at serving, and what specific problem does it solve better than a generalist would. Brand starts with an equally uncomfortable one: what has this business promised, explicitly or implicitly, and where has it actually delivered versus fallen short.
 
 This is precisely the audit we run with clients inside our [Brand Strategy & Positioning](/foundation/brand-strategy-positioning) process: market and competitive analysis, value proposition development, audience mapping, and a positioning framework the whole team can work from.
 
-A useful place to begin is with direct questions, answered honestly rather than aspirationally:
+A useful place to begin is with direct questions, answered about the business as it is rather than as you intend it to become:
 
 - **Positioning:** If this business turned away every customer outside its ideal profile tomorrow, could it describe, in one sentence, who would be left and what problem unites them?
 - **Positioning:** What does this business turn down today that it should be turning down on purpose instead of by accident?

@@ -127,7 +127,7 @@ which is generated from the collection. The prose convinces, the component route
 | | Menu item (their words) | H1 (the answer) | URL |
 |---|---|---|---|
 | 01 | I want more leads to grow my sales | Leads that convert, not just traffic | `/start-here/more-leads` |
-| 02 | I need an expert to look at my business | An honest read on where you actually stand | `/start-here/need-a-consultant` |
+| 02 | I need an expert to look at my business | An outside read on where you actually stand | `/start-here/need-a-consultant` |
 | 03 | I need packaging that sells my product | Packaging that sells, at a print cost that works | `/start-here/packaging` |
 | 04 | I want to reach my ideal audiences | Found by the people worth reaching | `/start-here/reach-my-audience` |
 | 05 | I need authentic content to tell my story | Your story, told the way you would tell it | `/start-here/tell-my-story` |

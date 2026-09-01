@@ -18,7 +18,7 @@ Great content marketing doesn’t start with a topic calendar. It starts with a 
 
 ### Authenticity & Clarity with Content.
 
-The fastest way to lose your audience is to sound like everyone else. Generic, jargon-filled content that could belong to any company in your industry does nothing for your brand. The content that performs is the content that sounds unmistakably like you. Clear, direct, and honest. When your audience reads something you’ve published and thinks “this is exactly how they talk,” you’ve earned something advertising can’t buy: trust.
+The fastest way to lose your audience is to sound like everyone else. Generic, jargon-filled content that could belong to any company in your industry does nothing for your brand. The content that performs is the content that sounds unmistakably like you. Clear, direct, and specific. When your audience reads something you’ve published and thinks “this is exactly how they talk,” you’ve earned something advertising can’t buy: trust.
 
 ### Measuring the Impact of High Quality Content.
 

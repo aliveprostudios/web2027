@@ -6,7 +6,7 @@ url: "/brand-pulse"
 
 # BRAND PULSE
 
-Five questions, two minutes, one honest read on how alive your brand really is. Answer the way things are today, not the way you want them to be.
+Five questions, two minutes, one clear read on how alive your brand really is. Answer the way things are today, not the way you want them to be.
 
 Start button: **Take the Pulse**
 
@@ -42,7 +42,7 @@ Start button: **Take the Pulse**
 
 ### 5. What happens after someone lands on your website?
 
-- Honestly, we would rather they did not see it *(0 pts)*
+- Between us, we would rather they did not see it *(0 pts)*
 - They get the basics, then leave *(7 pts)*
 - They stay a while and sometimes reach out *(14 pts)*
 - It sells for us: visitors become conversations *(20 pts)*

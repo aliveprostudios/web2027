@@ -214,7 +214,7 @@ either way.
 
 **Discovery and audit.** Competitive intelligence, a review of your digital presence, an
 assessment of your sales process, and conversations with your leadership team. You get an
-honest read on where the brand actually stands, which is useful to you whatever you decide
+unvarnished read on where the brand actually stands, which is useful to you whatever you decide
 next.
 
 **Strategy and proposal.** Not a menu of services with prices attached. A recommendation

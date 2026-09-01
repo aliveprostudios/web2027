@@ -9,7 +9,7 @@ source: "rendered from live site 2026-08-22"
 
 # knowledge thatDRIVES RESULTS
 
-Practical tools, expert insights, and honest answers. Everything you need to make smarter brand and marketing decisions.
+Practical tools, expert insights, and answers you can act on. Everything you need to make smarter brand and marketing decisions.
 
 ## Digital Brochure
 
