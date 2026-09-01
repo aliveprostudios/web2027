@@ -7,6 +7,8 @@ import { isImageBlock } from '../lib/anatomy';
 import BgRails from '../components/BgRails.astro';
 import SiteNav from '../components/SiteNav.astro';
 import VideoHero from '../components/VideoHero.astro';
+import InlineVideo from '../components/InlineVideo.astro';
+import Lightbox from '../components/Lightbox.astro';
 import BookConsult from '../components/BookConsult.astro';
 import RelatedServices from '../components/RelatedServices.astro';
 import NextStep from '../components/NextStep.astro';
@@ -55,6 +57,30 @@ interface Props {
    */
   inlineFigures?: boolean;
   /**
+   * Signature photo for slot 2, replacing the looping video.
+   *
+   * Case studies each get their own hero still rather than a route-hashed clip
+   * from the shared pool, because the page is a story about one client and a
+   * generic reel undercuts that. Absent, slot 2 falls back to `VideoHero`, so a
+   * case study with no photo yet still renders correctly.
+   *
+   * The frame is `aspect-ratio: 1280 / 600`, so the source wants to be that
+   * shape. A squarer image is cropped top and bottom to cover.
+   */
+  heroImage?: ImageMetadata | undefined;
+  /** Alt text for `heroImage`. Required whenever a hero image is passed. */
+  heroAlt?: string | undefined;
+  /**
+   * Edge-to-edge lightbox gallery after the closing statement.
+   *
+   * Reuses the portfolio `Lightbox` island (prev/next, counter, 2s advance) so
+   * behaviour matches the rest of the site. An empty array renders no section
+   * at all rather than an empty grid.
+   */
+  gallery?: GalleryItem[];
+  /** Per-page share card. See BaseLayout. */
+  ogImageOverride?: { url: string; width: number; height: number; alt: string } | undefined;
+  /**
    * Topic labels shown after the closing statement. Articles only.
    *
    * Assigned by `npm run blog-tags` from `content/taxonomy.md`, never by hand.
@@ -82,7 +108,14 @@ const {
   extraSchema = [],
   inlineFigures = false,
   topics = [],
+  heroImage,
+  heroAlt,
+  gallery = [],
+  ogImageOverride,
 } = Astro.props;
+
+/** One lightbox slide: the grid thumbnail plus the full-size render. */
+export type GalleryItem = { src: ImageMetadata; full: string; alt: string };
 
 const heroCaption = caption ?? anatomy.caption;
 
@@ -123,7 +156,7 @@ const hasH2Above = Boolean(anatomy.h2) || anatomy.rows.some((row) => row.section
 const itemTag = hasH2Above ? 'h3' : 'h2';
 ---
 
-<BaseLayout {title} {description} {path} {schema} {breadcrumbs}>
+<BaseLayout {title} {description} {path} {schema} {breadcrumbs} {ogImageOverride}>
   <div class="page-root">
     <BgRails />
 
@@ -153,8 +186,25 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
       </div>
     </section>
 
-    <!-- 2. VideoHero -->
-    <VideoHero route={path} videoId={videoId} title={`${title} reel`} />
+    {/* 2. Slot 2 is the signature hero photo when the page has one, and the
+        shared looping video when it does not. Same frame either way. */}
+    {
+      heroImage ? (
+        <figure class="hero-still">
+          <Image
+            src={heroImage}
+            alt={heroAlt ?? ''}
+            widths={[768, 1280, 1920, 2560]}
+            sizes="100vw"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      ) : (
+        <VideoHero route={path} videoId={videoId} title={`${title} reel`} />
+      )
+    }
 
     <main id="main">
       <!-- 3. Why It Matters -->
@@ -181,6 +231,8 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
                   {anatomy.intro.map((block) =>
                     block.kind === 'p' ? (
                       <p set:html={block.html} />
+                    ) : block.kind === 'video' ? (
+                      <InlineVideo url={block.url} />
                     ) : block.kind === 'image' ? (
                       <figure class="md__figure">
                         {figure(block.src).kind === 'svg' ? (
@@ -295,7 +347,9 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
                             : block.kind !== 'image',
                         )
                         .map((block) =>
-                          block.kind === 'image' ? (
+                          block.kind === 'video' ? (
+                            <InlineVideo url={block.url} />
+                          ) : block.kind === 'image' ? (
                             <figure class="md__figure md__figure--inline">
                               {figure(block.src).kind === 'svg' ? (
                                 <img
@@ -408,6 +462,42 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
                 <li class="topics__item">{topic}</li>
               ))}
             </ul>
+          </section>
+        )
+      }
+
+      {/* 6b. Gallery. Edge to edge, three across, reusing the portfolio
+          lightbox island so prev/next, the counter and the 2s advance behave
+          exactly as they do on /work/portfolio. No images, no section. */}
+      {
+        gallery.length > 0 && (
+          <section class="cs-gallery" aria-label={`Project gallery, ${gallery.length} images`}>
+            <div class="cs-gallery__grid z-content">
+              {gallery.map((item, i) => (
+                <button
+                  type="button"
+                  class="cs-tile"
+                  data-gallery-item
+                  aria-label={`Open image ${i + 1} of ${gallery.length}`}
+                >
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    widths={[400, 800]}
+                    sizes="(max-width: 760px) 100vw, 33vw"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </button>
+              ))}
+            </div>
+            <script
+              id="gallery-data"
+              type="application/json"
+              is:inline
+              set:html={JSON.stringify(gallery.map((g) => ({ full: g.full, alt: g.alt })))}
+            />
+            <Lightbox />
           </section>
         )
       }
@@ -664,6 +754,76 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--pg-fg3);
+  }
+
+  /* ---- 2. Hero still ----------------------------------------------------
+     Same frame as VideoHero (STYLEGUIDE.md §4.1) so a case study with a photo
+     and one with the shared clip occupy identical space. The image covers, so
+     a source that is not 1280:600 is cropped rather than letterboxed. */
+  .hero-still {
+    margin: 0;
+    position: relative;
+    z-index: var(--z-content);
+    aspect-ratio: 1280 / 600;
+    overflow: hidden;
+    background: var(--pg-bg2, #111);
+  }
+
+  .hero-still :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---- 6b. Gallery ------------------------------------------------------
+     Edge to edge on purpose: the reading column holds the argument, the
+     gallery is the evidence and gets the full width of the page. */
+  .cs-gallery {
+    padding: clamp(56px, 8vw, 96px) var(--gutter);
+    position: relative;
+  }
+
+  .cs-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+
+  .cs-tile {
+    display: block;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+    transform: translateY(0);
+    transition: transform 0.35s ease;
+  }
+
+  .cs-tile :global(img) {
+    display: block;
+    width: 100%;
+    /* 16:9, not the portfolio's 19:9. Case study galleries mix aspects (a
+       square product shot beside a widescreen render), and the wider crop
+       takes more than half the height off anything close to square. */
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+
+  .cs-tile:hover { transform: translateY(-6px); }
+  .cs-tile:hover :global(img) { transform: scale(1.07); }
+
+  @media (max-width: 760px) {
+    .cs-gallery__grid { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cs-tile, .cs-tile :global(img) { transition: none; }
+    .cs-tile:hover { transform: none; }
+    .cs-tile:hover :global(img) { transform: none; }
   }
 
   /* ---- 6. Closing ------------------------------------------------------ */

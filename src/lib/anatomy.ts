@@ -102,7 +102,21 @@ export type Block =
    * The variant comes from the image's Markdown title:
    *   `![alt](/assets/people/x.jpg "portrait")`
    */
-  | { kind: 'image'; src: string; alt: string; variant: 'full' | 'portrait' | 'aside' };
+  | { kind: 'image'; src: string; alt: string; variant: 'full' | 'portrait' | 'aside' }
+  /**
+   * A standalone Vimeo or YouTube URL, alone on its own line.
+   *
+   * Mirrors the standalone-image rule: a line that is nothing but a video URL
+   * becomes a video block at that point in the copy. The page renders a POSTER
+   * FRAME and builds the iframe only on click, because a case study carrying
+   * three autoplaying embeds is unusable and every one of them would phone the
+   * provider on load.
+   *
+   * Only the two providers the site already handles match. Anything else falls
+   * through to the paragraph branch and prints as a literal URL, which is ugly
+   * on purpose rather than silently dropped.
+   */
+  | { kind: 'video'; url: string };
 
 /**
  * A slot-4 entry, either a section head or an item inside one.
@@ -114,6 +128,10 @@ export type Block =
 /** `Block` narrowed to the image case, so `.filter()` can carry the type. */
 export type ImageBlock = Extract<Block, { kind: 'image' }>;
 export const isImageBlock = (block: Block): block is ImageBlock => block.kind === 'image';
+
+/** `Block` narrowed to the video case. */
+export type VideoBlock = Extract<Block, { kind: 'video' }>;
+export const isVideoBlock = (block: Block): block is VideoBlock => block.kind === 'video';
 
 export type Row = {
   heading: string;
@@ -146,6 +164,7 @@ type Raw =
   /** `numbered` distinguishes a `---` break from a `***` one. */
   | { type: 'break'; numbered: boolean }
   | { type: 'image'; src: string; alt: string; variant: 'full' | 'portrait' | 'aside' }
+  | { type: 'video'; url: string }
   | { type: 'heading'; text: string }
   | { type: 'quote'; text: string }
   | { type: 'list'; items: string[] }
@@ -187,6 +206,14 @@ function tokenize(body: string): Raw[] {
               : 'full',
       };
     }
+
+    // A paragraph that is nothing but a Vimeo or YouTube URL. Matched against
+    // the same two providers `src/lib/videos.ts` parses, so a URL that reaches
+    // here is one the poster/aspect pipeline can actually resolve.
+    const video = chunk.match(
+      /^(https:\/\/(?:www\.)?(?:vimeo\.com\/[^\s)]+|youtu\.be\/[^\s)]+|youtube\.com\/watch\?[^\s)]+))$/,
+    );
+    if (video) return { type: 'video', url: video[1]! };
 
     const heading = chunk.match(/^#{2,6}\s+(.*)$/);
     if (heading) return { type: 'heading', text: heading[1]!.trim() };
@@ -380,6 +407,11 @@ export function parseAnatomy(
 
     if (token.type === 'image') {
       push({ kind: 'image', src: token.src, alt: token.alt, variant: token.variant });
+      continue;
+    }
+
+    if (token.type === 'video') {
+      push({ kind: 'video', url: token.url });
       continue;
     }
 

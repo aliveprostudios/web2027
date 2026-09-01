@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import MasterPage from '../../../layouts/MasterPage.astro';
+import { parseAnatomy } from '../../../lib/anatomy';
+import { assetsFor } from '../../../lib/caseStudies';
+
+/**
+ * A case study.
+ *
+ * Shaped like an article rather than a service page: `inlineFigures` keeps
+ * figures in the reading column where the sentence that introduces them left
+ * off, which is the whole point of a story told in prose. Slot 2 is the
+ * client's own hero photo instead of a clip from the shared pool.
+ *
+ * Imagery is addressed entirely by folder. See `src/lib/caseStudies.ts`.
+ */
+export async function getStaticPaths() {
+  const entries = await getCollection('caseStudies');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, entries },
+  }));
+}
+
+const { entry, entries } = Astro.props;
+const path = `/work/case-studies/${entry.id}`;
+const caption = entry.data.caption?.trim() || undefined;
+const anatomy = parseAnatomy(entry.body ?? '', caption);
+
+const assets = assetsFor(entry.id);
+
+// The lightbox needs a larger render than the thumbnail: 900px display, 2x for
+// retina, capped at the source width so nothing is upscaled.
+const gallery = await Promise.all(
+  assets.gallery.map(async (image) => {
+    const full = await getImage({
+      src: image.src,
+      width: Math.min(1800, image.src.width),
+      format: 'webp',
+    });
+    return {
+      src: image.src,
+      full: full.src,
+      alt: `${entry.data.title}, project image`,
+    };
+  }),
+);
+
+// The share card is the hero photo, rendered to the 1200x630 a scraper expects.
+// Absolute URL: every scraper that reads it is off-origin.
+const share = assets.hero
+  ? await getImage({ src: assets.hero.src, width: 1200, height: 630, fit: 'cover', format: 'jpeg' })
+  : null;
+
+const ogImageOverride = share
+  ? {
+      url: new URL(share.src, 'https://aliveprostudios.com').href,
+      width: 1200,
+      height: 630,
+      alt: `${entry.data.title}, a case study by Alive ProStudios.`,
+    }
+  : undefined;
+
+const related = entries
+  .filter((e) => e.id !== entry.id)
+  .map((e, i) => ({
+    num: String(i + 1).padStart(2, '0'),
+    title: e.data.client ?? e.data.title,
+    url: `/work/case-studies/${e.id}`,
+  }));
+
+/** One Article per URL. The page entity stays a WebPage (CLAUDE.md). */
+const article = {
+  '@type': 'Article',
+  '@id': `https://aliveprostudios.com${path}#article`,
+  headline: entry.data.title,
+  ...(entry.data.seoDescription ? { description: entry.data.seoDescription } : {}),
+  ...(share ? { image: new URL(share.src, 'https://aliveprostudios.com').href } : {}),
+  mainEntityOfPage: { '@id': `https://aliveprostudios.com${path}#page` },
+  publisher: { '@id': 'https://aliveprostudios.com/#organization' },
+  author: { '@id': 'https://aliveprostudios.com/#organization' },
+};
+---
+
+<MasterPage
+  inlineFigures
+  title={entry.data.title}
+  description={entry.data.seoDescription}
+  {path}
+  {anatomy}
+  {caption}
+  {related}
+  {gallery}
+  {ogImageOverride}
+  heroImage={assets.hero?.src}
+  heroAlt={assets.hero ? `${entry.data.title}, hero image` : undefined}
+  crumb="Work  ·  Case Studies"
+  relatedLabel="More Case Studies"
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Work', url: '/work' },
+    { name: 'Case Studies', url: '/work/case-studies' },
+    { name: entry.data.title, url: path },
+  ]}
+  footerLabel="All Case Studies"
+  footerHref="/work/case-studies"
+  schemaType="WebPage"
+  extraSchema={[article]}
+/>

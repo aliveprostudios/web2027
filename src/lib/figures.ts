@@ -31,6 +31,26 @@ const peopleRasters = import.meta.glob<{ default: ImageMetadata }>(
 
 const rasters = { ...diagramRasters, ...peopleRasters };
 
+/**
+ * Case study imagery, resolved by FULL PATH rather than bare filename.
+ *
+ * These live one folder per client, so `body-01.jpg` exists eleven times over
+ * and the filename map above would let one silently win. Markdown therefore
+ * carries the whole virtual path, `/assets/case-studies/<slug>/body-01.jpg`,
+ * and it is matched as such.
+ */
+const caseStudyRasters = import.meta.glob<{ default: ImageMetadata }>(
+  '../../content/assets/case-studies/**/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+);
+
+const caseStudyByPath = new Map<string, ImageMetadata>(
+  Object.entries(caseStudyRasters).map(([path, module]) => [
+    path.replace('../../content', ''),
+    module.default,
+  ]),
+);
+
 const svgUrls = import.meta.glob<string>('../../content/assets/diagrams/*.svg', {
   eager: true,
   query: '?url',
@@ -89,6 +109,10 @@ export type Figure =
  * typo in a content file should stop the build, not reach a visitor.
  */
 export function figure(src: string): Figure {
+  // Case studies match on the full path, before the filename maps are consulted.
+  const byPath = caseStudyByPath.get(src);
+  if (byPath) return { kind: 'raster', image: byPath };
+
   const name = filename(src);
 
   const svg = svgByName.get(name);
@@ -96,6 +120,14 @@ export function figure(src: string): Figure {
 
   const raster = rasterByName.get(name);
   if (raster) return { kind: 'raster', image: raster };
+
+  if (src.startsWith('/assets/case-studies/')) {
+    const available = [...caseStudyByPath.keys()].sort().join(', ') || '(no case study images)';
+    throw new Error(
+      `Markdown references the case study image "${src}", but no such file exists under ` +
+        `content/assets/case-studies/. Available: ${available}`,
+    );
+  }
 
   const available =
     [...svgByName.keys(), ...rasterByName.keys()].sort().join(', ') || '(the folders are empty)';

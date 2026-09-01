@@ -18,6 +18,16 @@ interface Props {
   /** Keep this page out of the index. `follow` so its links still pass equity.
    *  Pair it with the sitemap filter in astro.config.mjs. */
   noindex?: boolean;
+  /**
+   * Per-page share card, overriding the site-wide one.
+   *
+   * A case study link pasted into an email or LinkedIn should preview with
+   * that client's hero photo, not the generic Alive Pro card. Pass an absolute
+   * URL plus its real rendered dimensions: a scraper will not fetch the image
+   * to work them out, and `summary_large_image` with the wrong numbers crops
+   * unpredictably.
+   */
+  ogImageOverride?: { url: string; width: number; height: number; alt: string } | undefined;
 }
 
 const {
@@ -27,6 +37,7 @@ const {
   schema = [],
   breadcrumbs = [],
   noindex = false,
+  ogImageOverride,
 } = Astro.props;
 
 const SITE = 'https://aliveprostudios.com';
@@ -47,7 +58,10 @@ const pageTitle = title.length + SUFFIX.length <= 60 ? `${title}${SUFFIX}` : tit
  * scraper that reads it is off-origin, and `summary_large_image` without an
  * image renders as a broken preview rather than falling back to a small card.
  */
-const ogImage = new URL('/assets/og-image.jpg', SITE).href;
+const ogImage = ogImageOverride?.url ?? new URL('/assets/og-image.jpg', SITE).href;
+const ogImageWidth = ogImageOverride?.width ?? 1200;
+const ogImageHeight = ogImageOverride?.height ?? 630;
+const ogImageAlt = ogImageOverride?.alt ?? 'Alive ProStudios: clarity, consistency, growth.';
 
 const organization = {
   '@type': 'Organization',
@@ -121,9 +135,9 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
     {description && <meta property="og:description" content={description} />}
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Alive ProStudios: clarity, consistency, growth." />
+    <meta property="og:image:width" content={String(ogImageWidth)} />
+    <meta property="og:image:height" content={String(ogImageHeight)} />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:locale" content="en_CA" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />

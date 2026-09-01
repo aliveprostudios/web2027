@@ -141,6 +141,21 @@ export const FRAME_ASPECT = 1280 / 600;
  * not, so the embed has to be scaled to cover using the real number or it
  * pillarboxes inside its own iframe.
  */
+/**
+ * Poster filename in `content/assets/video-posters/`, or null when the fetch
+ * script has not run for this video yet. Committed posters are what let a
+ * network failure at deploy time fail loudly here rather than silently ship a
+ * page of blank frames.
+ */
+export function posterName(video: HeroVideo): string | null {
+  return META[`${video.provider}:${video.id}`]?.poster ?? null;
+}
+
+/** Provider title for the video, used as accessible label text. */
+export function titleOf(video: HeroVideo): string | null {
+  return META[`${video.provider}:${video.id}`]?.title ?? null;
+}
+
 export function aspectOf(video: HeroVideo): number {
   const dims = META[`${video.provider}:${video.id}`];
   if (!dims || !dims.height) return 16 / 9;

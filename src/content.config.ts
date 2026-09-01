@@ -71,4 +71,17 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { services, landing, pages, blog };
+/**
+ * Case studies. One file per client, imagery in
+ * `content/assets/case-studies/<slug>/` (see `src/lib/caseStudies.ts`).
+ */
+const caseStudies = defineCollection({
+  loader: glob({ pattern: '*.md', base: './content/case-studies' }),
+  schema: z.object({
+    ...pageFields,
+    /** Client name for the index row and Related, when the H1 is a headline. */
+    client: z.string().optional(),
+  }),
+});
+
+export const collections = { services, landing, pages, blog, caseStudies };
