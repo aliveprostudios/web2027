@@ -29,6 +29,33 @@
 - Verify through `npm run preview`, not `astro dev`.
 - Commit after every task.
 
+## Content status
+
+**All nine pages of copy are already written** in `content/start-here/`, validated
+for description length, the no-numbered-rows rule, the em dash rule, and service
+URL resolution. Every one of the 28 services is reachable.
+
+That means **this plan is now code only.** No task here writes page copy. Where a
+task references a content file, the file exists: read it, do not recreate it.
+
+| File | Menu item |
+|---|---|
+| `more-leads.md` | I want more leads to grow my sales |
+| `need-a-consultant.md` | I need an expert to look at my business |
+| `packaging.md` | I need packaging that sells my product |
+| `reach-my-audience.md` | I want to reach my ideal audiences |
+| `tell-my-story.md` | I need authentic content to tell my story |
+| `one-brand.md` | My brand looks different everywhere it shows up |
+| `marketing-that-matches.md` | My product is amazing, but my marketing is bad |
+| `custom-system.md` | One centralized system to run my business |
+| `efficiency.md` | I need efficiency and productivity in my business |
+
+Because all nine exist, the first build produces **10 new routes, not 4**, and the
+site goes from 49 routes to 59. Update the counts in Task 4 Step 4 and Task 6
+Step 4 accordingly.
+
+---
+
 ## File Structure
 
 | File | Responsibility |
@@ -191,34 +218,9 @@ export async function resolveServices(urls: string[], sourceId: string): Promise
 
 - [ ] **Step 3: Create `content/start-here/custom-system.md`**
 
-```markdown
----
-title: "One place where the whole business runs"
-need: "One centralized system to run my business"
-url: "/start-here/custom-system"
-order: 8
-seoTitle: "Custom business systems and integration"
-seoDescription: "Most companies do not choose their software, they accumulate it. We map how work really moves, connect what is worth keeping, and build only what must be built."
-services:
-  - "/infrastructure/solution-architecture-design"
-  - "/infrastructure/intelligent-systems-integration"
-  - "/infrastructure/custom-app-development"
-  - "/infrastructure/dashboards-analytics"
----
-## The Real Cost Is in the Gaps
+**Already written: `content/start-here/custom-system.md`.**
 
-Most companies never chose their software. They accumulated it, one urgent decision at a time, and every piece works perfectly well on its own.
-
-The cost was never in the software. It is in the gaps between it: the same order typed in three times, a delivery date nobody can confirm without two phone calls, a month end that takes a week because the numbers have to be reconciled by hand before anyone trusts them. No new platform fixes that, which is why so many companies buy one and still keep the spreadsheets. The problem was never the tools. It was that nothing was designed to work together.
-
-So we start with the process rather than a software shortlist. We map how work actually moves through your business, find the point where it stalls, and only then decide what to connect, what to keep, and what genuinely has to be built. Sometimes the answer is custom software, and in manufacturing it often is, because routing and scheduling logic tend to be the thing you compete on. Often the answer is that you already own the right tools and nobody joined them up. We will tell you which one it is.
-
-> *"The question is never which software is best. It is what your process actually is, and whether that process is the thing you compete on. If it is, bending it to fit somebody else's product is the most expensive decision you will make."*
-
-**Javad Ahmadi, Brand Transformation Architect**
-
-Tell us how one order moves through your business today, from the first enquiry to the invoice. If we can help, you will know quickly. If we are not the right fit, you will know that just as quickly.
-```
+The copy exists and is validated. Do not recreate or overwrite it. Read it, confirm the frontmatter matches the Task 1 schema, and move on.
 
 - [ ] **Step 4: Verify the schema and resolver compile**
 
@@ -679,66 +681,15 @@ git commit -m "Put Start Here first in the main navigation"
 
 - [ ] **Step 1: Create `content/start-here/efficiency.md`**
 
-```markdown
----
-title: "Hours back, every week"
-need: "I need efficiency and productivity in my business"
-url: "/start-here/efficiency"
-order: 9
-seoTitle: "Workflow automation and business efficiency"
-seoDescription: "Every business carries work that exists only because the systems do not. It is repetitive, rule-based and measurable, which makes it the easiest money to find."
-services:
-  - "/infrastructure/intelligent-systems-integration"
-  - "/infrastructure/custom-app-development"
-  - "/infrastructure/solution-architecture-design"
-  - "/infrastructure/dashboards-analytics"
-  - "/infrastructure/lifecycle-support"
----
-## Nobody Defends the Fourth Time
+**Already written: `content/start-here/efficiency.md`.**
 
-Every business carries work that exists only because the systems do not. Re-keying an order from an email into a spreadsheet and then into an invoice. Chasing an approval that has been sitting in an inbox since Tuesday.
-
-Nobody defends that work. They have simply never counted it. Multiply one handoff by a year of volume and the conversation stops being about software: it becomes a question of how many hours your team spends moving information from one place to another instead of doing the work you actually hired them for.
-
-That is the root cause worth fixing, and unusually it is measurable, so the case for the work is arithmetic rather than opinion. We count the handoffs before we touch anything. Then we take the steps out, which is not about replacing people. It is about giving them back the part of the week that was never really their job.
-
-> *"Nobody defends the fourth time an order gets typed in. They just have not counted it. Once you multiply that handoff by a year of volume, the business case stops being a debate."*
-
-**Javad Ahmadi, Brand Transformation Architect**
-
-Pick one process and walk us through it end to end. That number usually settles the question on its own, in either direction.
-```
+The copy exists and is validated. Do not recreate or overwrite it. Read it, confirm the frontmatter matches the Task 1 schema, and move on.
 
 - [ ] **Step 2: Create `content/start-here/more-leads.md`**
 
-```markdown
----
-title: "Leads that convert, not just traffic"
-need: "I want more leads to grow my sales"
-url: "/start-here/more-leads"
-order: 1
-seoTitle: "Lead generation that fills a real pipeline"
-seoDescription: "Traffic is not a pipeline. We build the demand generation, funnel and follow-up that turn interest into qualified conversations your team can actually close."
-services:
-  - "/growth/lead-generation"
-  - "/growth/sales-funnel-building"
-  - "/growth/digital-marketing"
-  - "/growth/customer-retention-marketing"
----
-## More Traffic Will Not Fix This
+**Already written: `content/start-here/more-leads.md`.**
 
-Most companies asking for more leads do not have a traffic problem. Here is the test: if your visitors doubled tomorrow, would you close twice as much?
-
-When the honest answer is no, the leak is further down, and it is usually one of three things. The people arriving are the wrong ones. The path from interest to enquiry asks too much, too early. Or the leads reach your sales team stripped of context and get worked like cold calls. Buying more attention to pour into that is the most common way marketing budget quietly disappears.
-
-We work backwards from the close instead. Find where people actually drop, fix that first, and spend on traffic afterwards, because that is the point at which more visitors start being worth paying for. It is slower to start and it is the only version that compounds.
-
-> *"Buying more attention to pour into a broken funnel is the most common way marketing money disappears. Fix the path first. Then the traffic is worth paying for."*
-
-**Javad Ahmadi, Brand Transformation Architect**
-
-Tell us what happens after someone lands on your site today. That conversation usually locates the problem inside ten minutes, and sometimes the answer is that you do not need us yet.
-```
+The copy exists and is validated. Do not recreate or overwrite it. Read it, confirm the frontmatter matches the Task 1 schema, and move on.
 
 - [ ] **Step 3: Build and confirm three pages exist**
 
