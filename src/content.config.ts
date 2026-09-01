@@ -84,4 +84,37 @@ const caseStudies = defineCollection({
   }),
 });
 
-export const collections = { services, landing, pages, blog, caseStudies };
+/**
+ * Home-B: the draft home page at `/home-b`, noindex and out of the sitemap.
+ *
+ * Two entries, `page` and `intro`, both in `content/home-b/`. Every string the
+ * route renders that is not a full block of prose lives in frontmatter here,
+ * so the draft can be reworked without opening the template. When Home-B is
+ * approved its copy replaces the live home page's and the route is deleted.
+ */
+const homeB = defineCollection({
+  loader: glob({ pattern: '*.md', base: './content/home-b' }),
+  schema: z.object({
+    title: z.string(),
+    caption: z.string().optional(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    source: z.string().optional(),
+    /** Small credit line on the hero photo. Omitted when empty. */
+    heroCredit: z.string().optional(),
+    /** One line under the brand reel. Omitted when empty. */
+    reelCaption: z.string().optional(),
+    /** H2 over the case study tiles. */
+    proofHeading: z.string().optional(),
+    /** Case study slugs to feature, in order. Defaults to the first three by `order`. */
+    caseStudies: z.array(z.string()).optional(),
+    /** Credit line on the feature image, and where it links. */
+    featureCredit: z.string().optional(),
+    featureCreditHref: z.string().optional(),
+    /** The text link under the intro block. */
+    linkLabel: z.string().optional(),
+    linkHref: z.string().optional(),
+  }),
+});
+
+export const collections = { services, landing, pages, blog, caseStudies, homeB };

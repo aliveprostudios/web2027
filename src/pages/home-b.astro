@@ -1,0 +1,737 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import heroBg from '../../content/assets/site/hero-bg.jpg';
+import homeFeature from '../../content/assets/site/home-feature.jpg';
+import founderPortrait from '../../content/assets/site/javad-ahmadi-portrait.jpg';
+import BgRails from '../components/BgRails.astro';
+import SiteNav from '../components/SiteNav.astro';
+import VideoHero from '../components/VideoHero.astro';
+import NextStep from '../components/NextStep.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { pillars } from '../lib/pillars';
+import { parseAnatomy, splitSentences } from '../lib/anatomy';
+import { figure } from '../lib/figures';
+import { assetsFor } from '../lib/caseStudies';
+
+/**
+ * Home-B: the draft home page, at `/home-b`.
+ *
+ * Built 2026-09-01 as the working copy of a new home page. It is `noindex`,
+ * filtered out of the sitemap in astro.config.mjs, and linked from nowhere, so
+ * it can sit on production without being found. When it is approved its
+ * content replaces `index.astro`'s and this route is deleted. No redirect is
+ * needed because it was never indexed.
+ *
+ * Order: 1 Hero (with credit) · 2 How We Help You + four cards · 3 Brand reel
+ *        (with caption) · 4 The System, four pillar rows · 5 Selected case
+ *        studies · 6 Founder quote · 7 Feature image (with credit) · 8 Closing
+ *        · 9 Next Step · 10 Footer
+ *
+ * Against the live home page: the second looping video is gone, the empty
+ * Why It Matters slot is gone, and blocks 5, 6 and 8 are new or newly filled.
+ * The through-line is problem, help, trust, method, proof, person, ask.
+ *
+ * Every string comes from `content/home-b/`. `page.md` carries the hero, the
+ * credits, the case study picks, the founder quote and the closing statement.
+ * `intro.md` carries the How We Help You block and the four cards.
+ */
+const path = '/home-b';
+
+const page = await getEntry('homeB', 'page');
+const intro = await getEntry('homeB', 'intro');
+if (!page || !intro) {
+  throw new Error('content/home-b needs both page.md and intro.md');
+}
+
+const rows = await pillars();
+
+// The founder quote and the closing statement, hoisted by type exactly as the
+// Master template does it. The file holds no heading, so h2/statement stay null.
+const anatomy = parseAnatomy(page.body ?? '');
+
+/* Block 2: the section title is the file's single `#` heading, the paragraph
+   under it is the visitor-facing statement, and each `##` is a card. Same flat
+   split as index.astro, for the same reason: parseAnatomy would number the
+   cards as rows. */
+const introSource = (intro.body ?? '').trim();
+const introTitle = introSource.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? '';
+const introCaption = introSource
+  .replace(/^#\s+.+$/m, '')
+  .split(/^##\s+/m)[0]!
+  .replace(/\n/g, ' ')
+  .trim();
+const introBlocks = introSource
+  .replace(/^#\s+.+$/m, '')
+  .split(/^##\s+/m)
+  .slice(1)
+  .map((chunk) => {
+    const [heading, ...rest] = chunk.trim().split(/\n{2,}/);
+    return { title: heading!.trim(), body: rest.join(' ').replace(/\n/g, ' ').trim() };
+  })
+  .filter((block) => block.title && block.body);
+
+const introLink =
+  intro.data.linkLabel && intro.data.linkHref
+    ? { label: intro.data.linkLabel, href: intro.data.linkHref }
+    : null;
+
+/* Block 5: three case studies. The frontmatter list wins; with no list the
+   first three by `order` are used, so the block never renders empty while the
+   collection holds anything. A slug that matches nothing throws, because a
+   silently missing tile is the kind of bug that ships. */
+const allStudies = (await getCollection('caseStudies')).sort(
+  (a, b) => (a.data.order ?? Number.MAX_SAFE_INTEGER) - (b.data.order ?? Number.MAX_SAFE_INTEGER),
+);
+const wanted = page.data.caseStudies ?? [];
+const picked = wanted.length
+  ? wanted.map((slug) => {
+      const found = allStudies.find((s) => s.id === slug);
+      if (!found) throw new Error(`content/home-b/page.md lists case study "${slug}", which does not exist`);
+      return found;
+    })
+  : allStudies.slice(0, 3);
+const studies = picked.map((study) => ({
+  href: `/work/case-studies/${study.id}`,
+  name: study.data.client ?? study.data.title,
+  blurb: study.data.caption ?? '',
+  hero: assetsFor(study.id).hero,
+}));
+
+const title = page.data.title;
+const caption = page.data.caption ?? '';
+const captionParts = caption ? splitSentences(caption) : [];
+const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
+---
+
+<BaseLayout
+  title={page.data.seoTitle ?? title}
+  description={page.data.seoDescription}
+  {path}
+  noindex
+  breadcrumbs={[{ name: 'Home', url: '/' }]}
+>
+  <div class="page-root">
+    <BgRails />
+
+    <!-- 1. Hero: full-bleed photo, no overlay, credited -->
+    <section class="hero" data-hero>
+      <Image
+        class="hero__bg"
+        src={heroBg}
+        alt=""
+        widths={[768, 1280, 1920, 2400]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+
+      <div class="hero__inner">
+        <SiteNav active="/" />
+
+        <div class="hero__copy">
+          <h1 class="hero__title t-h1" data-hero-title>
+            <span class="hero__line-mask">
+              <span class="hero__line dot">{title}</span>
+            </span>
+          </h1>
+
+          {
+            captionParts.length > 0 && (
+              <p class="hero__caption" data-hero-caption>
+                <span class="hero__caption-lead">{captionParts[0]}</span>
+                {captionParts.length > 1 && ` ${captionParts.slice(1).join(' ')}`}
+              </p>
+            )
+          }
+        </div>
+
+        {page.data.heroCredit && <p class="hero__credit t-eyebrow">{page.data.heroCredit}</p>}
+      </div>
+    </section>
+
+    <main id="main">
+      <!-- 2. How We Help You: headline, statement, link, four cards -->
+      {
+        introBlocks.length > 0 && (
+          <section class="intro section">
+            {introTitle && <h2 class="intro__heading t-h2 dot z-content">{introTitle}</h2>}
+            {introCaption && <p class="intro__caption t-h4 z-content">{introCaption}</p>}
+            {introLink && (
+              <a class="intro__link z-content" href={introLink.href}>
+                <span>{introLink.label}</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17L17 7M9 7h8v8" />
+                </svg>
+              </a>
+            )}
+            <div class="intro__grid z-content">
+              {introBlocks.map((block, i) => (
+                <article class="intro__card">
+                  <span class="intro__ghost" aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span class="intro__num t-index">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="intro__title">{block.title}</h3>
+                  <p class="intro__body">{block.body}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <!-- 3. Brand reel, captioned -->
+      <VideoHero route="/" title="Alive ProStudios brand reel" />
+      {page.data.reelCaption && <p class="reel__caption t-eyebrow z-content">{page.data.reelCaption}</p>}
+
+      <!-- 4. The System: four pillar rows -->
+      <section class="pillars">
+        <h2 class="pillars__heading t-h2 dot z-content">The Brand-to-Revenue Performance System</h2>
+        <p class="pillars__caption t-h4 z-content">
+          Strategy, execution, and technology, engineered as one system. Built over 29 years,
+          trusted by 400+ brands, retained for decades.
+        </p>
+
+        <figure class="pillars__figure">
+          {
+            systemDiagram.kind === 'svg' && (
+              <img
+                src={systemDiagram.src}
+                alt="The Brand-to-Revenue Performance System: from Day One through Foundation, Execution, Growth and Infrastructure to market leadership, all built around your Brand Core."
+                width={systemDiagram.width}
+                height={systemDiagram.height}
+                loading="lazy"
+                decoding="async"
+              />
+            )
+          }
+        </figure>
+
+        {
+          rows.map((pillar) => (
+            <div class="pillar z-content" data-stack>
+              <span class="pillar__num">{pillar.num}</span>
+              <div>
+                <h3 class="pillar__name">
+                  <a href={pillar.url} class="pillar__name-link">
+                    {pillar.name}
+                    <span class="pillar__dot" />
+                  </a>
+                </h3>
+                <p class="pillar__kicker t-h5">{pillar.kicker}</p>
+                <p class="pillar__body">{pillar.body}</p>
+                <a href={pillar.url} class="aps-btn aps-btn-primary pillar__cta">
+                  <span class="roll">
+                    <span>Explore Now</span>
+                    <span>Explore Now</span>
+                  </span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M7 17L17 7M9 7h8v8" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          ))
+        }
+      </section>
+
+      <!-- 5. Selected case studies: the proof the live page lacks -->
+      {
+        studies.length > 0 && (
+          <section class="proof section">
+            <p class="proof__eyebrow t-eyebrow z-content">
+              <span class="proof__num">(01)</span>&nbsp;&nbsp;Selected Case Studies&nbsp;&nbsp;
+              <span class="proof__count">({allStudies.length})</span>
+            </p>
+            {page.data.proofHeading && (
+              <h2 class="proof__heading t-h2 dot z-content">{page.data.proofHeading}</h2>
+            )}
+            <div class="proof__grid z-content">
+              {studies.map((study, i) => (
+                <a class="tile" href={study.href} data-stack>
+                  <span class="tile__media">
+                    {study.hero ? (
+                      <Image
+                        class="tile__img"
+                        src={study.hero.src}
+                        alt=""
+                        widths={[480, 800, 1200]}
+                        sizes="(max-width: 760px) 100vw, 33vw"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <span class="tile__ghost" aria-hidden="true">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                    )}
+                  </span>
+                  <span class="tile__num t-index">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="tile__title">
+                    {study.name}
+                    <span class="tile__dot" />
+                  </h3>
+                  {study.blurb && <p class="tile__blurb">{study.blurb}</p>}
+                  <span class="tile__explore">
+                    <span>Read Case Study</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M7 17L17 7M9 7h8v8" />
+                    </svg>
+                  </span>
+                </a>
+              ))}
+            </div>
+            <a class="proof__all z-content" href="/work/case-studies">
+              <span>All case studies</span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17L17 7M9 7h8v8" />
+              </svg>
+            </a>
+          </section>
+        )
+      }
+
+      <!-- 6. Founder quote band -->
+      {
+        anatomy.quote && (
+          <section class="quote">
+            <div class="quote__inner z-content" data-stack>
+              <Image
+                class="quote__portrait"
+                src={founderPortrait}
+                alt="Javad Ahmadi, Founder and Brand Transformation Architect"
+                widths={[320, 640]}
+                sizes="(max-width: 760px) 240px, 320px"
+                loading="lazy"
+              />
+              <div>
+                <blockquote class="t-h4 quote__text" set:html={anatomy.quote.html} />
+                {anatomy.quote.name && (
+                  <p class="quote__by">
+                    {anatomy.quote.name}
+                    {anatomy.quote.role && <span class="quote__role">{anatomy.quote.role}</span>}
+                  </p>
+                )}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      <!-- 7. Feature image, parallax, credited -->
+      <section class="feature" data-feature>
+        <Image
+          class="feature__img"
+          src={homeFeature}
+          alt="Alfred smart home touchscreen deadbolt retail packaging in satin nickel, three boxes showing the bilingual carton system"
+          widths={[768, 1200, 1500]}
+          sizes="100vw"
+          loading="lazy"
+          decoding="async"
+        />
+        {
+          page.data.featureCredit &&
+            (page.data.featureCreditHref ? (
+              <a class="feature__credit t-eyebrow" href={page.data.featureCreditHref}>
+                {page.data.featureCredit}
+              </a>
+            ) : (
+              <p class="feature__credit t-eyebrow">{page.data.featureCredit}</p>
+            ))
+        }
+      </section>
+
+      <!-- 8. Closing statement -->
+      {
+        anatomy.closing && (
+          <section class="section">
+            <p class="closing t-h4 z-content">
+              <Fragment set:html={anatomy.closing.lead} />{' '}
+              <span class="muted" set:html={anatomy.closing.muted} />
+              {anatomy.closing.tail && (
+                <>
+                  {' '}
+                  <Fragment set:html={anatomy.closing.tail} />
+                </>
+              )}
+            </p>
+          </section>
+        )
+      }
+    </main>
+
+    <!-- 9. Next Step -->
+    <NextStep sectionNum="02" />
+
+    <!-- 10. Footer -->
+    <SiteFooter backLabel="Alive ProStudios" backHref="/" nextLabel="All Services" nextHref="/foundation" />
+  </div>
+</BaseLayout>
+
+<style>
+  /* Styles are index.astro's, minus the Why It Matters slot, plus the credit
+     lines, the intro link, the reel caption and the case study tiles. When
+     Home-B replaces the live page these move with it. */
+
+  /* ---- 1. Hero ---------------------------------------------------------- */
+  .hero {
+    position: relative;
+    background: var(--surface-hero-bottom);
+    color: #fff;
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero__inner { position: relative; z-index: var(--z-nav); flex: 1; display: flex; flex-direction: column; }
+  .hero__copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 56px var(--gutter) 0; }
+  .hero__title {
+    margin: 0;
+    line-height: 0.92;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 16px 48px rgba(0, 0, 0, 0.45);
+  }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+  .hero__caption {
+    max-width: 900px;
+    margin: 32px 0 0;
+    font-weight: 600;
+    font-size: clamp(24px, 3.5vw, 45px);
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: var(--brand-orange);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 10px 32px rgba(0, 0, 0, 0.4);
+    animation: heroFade 800ms var(--ease-settle) both 600ms;
+  }
+  .hero__caption-lead { color: #fff; }
+
+  /* The credit sits in the hero's bottom padding, right-aligned to the gutter,
+     so it reads as a caption on the photograph rather than part of the copy. */
+  .hero__credit {
+    position: absolute;
+    right: var(--gutter);
+    bottom: -56px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    animation: heroFade 800ms var(--ease-settle) both 900ms;
+  }
+
+  /* ---- 2. How We Help You ---------------------------------------------- */
+  .intro__heading { margin: 0 0 24px; }
+  .intro__caption { max-width: 680px; margin: 0 0 32px; color: var(--pg-fg2); }
+
+  .intro__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 64px;
+    color: var(--orange-ink);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .intro__link svg { transition: transform 300ms var(--ease-settle); }
+  .intro__link:hover svg { transform: translate(3px, -3px); }
+
+  .intro__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .intro__card {
+    position: relative;
+    background: var(--pg-band);
+    padding: 44px 40px 48px;
+    overflow: hidden;
+    transform: translateY(0);
+    transition: transform var(--dur-move) var(--ease-settle);
+  }
+  .intro__card:hover { transform: translateY(-6px); }
+  .intro__card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 64px;
+    background: var(--brand-orange);
+    transition: width 480ms var(--ease-settle);
+  }
+  .intro__card:hover::before { width: 100%; }
+  .intro__ghost {
+    position: absolute;
+    top: -28px;
+    right: 12px;
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: 176px;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--pg-line);
+    pointer-events: none;
+    user-select: none;
+  }
+  .intro__num { display: block; margin-bottom: 18px; color: var(--orange-ink); }
+  .intro__title {
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: clamp(26px, 2.6vw, 40px);
+    line-height: 1.04;
+    text-transform: uppercase;
+    color: var(--pg-fg);
+    margin: 0 0 18px;
+  }
+  .intro__body { margin: 0; font-size: 17px; line-height: 1.6; color: var(--pg-fg2); max-width: 46ch; }
+
+  @supports (animation-timeline: view()) {
+    .intro__card {
+      animation: introReveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+  @keyframes introReveal { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ---- 3. Reel caption ------------------------------------------------- */
+  .reel__caption { margin: 0; padding: 20px var(--gutter) 0; color: var(--pg-fg3); }
+
+  /* ---- 4. Pillar rows -------------------------------------------------- */
+  .pillars { padding: 0 var(--gutter) 64px; }
+  .pillars__heading { margin: 112px 0 24px; }
+  .pillars__caption { max-width: 680px; margin: 0 0 56px; color: var(--pg-fg2); }
+  .pillars__figure {
+    position: relative;
+    z-index: var(--z-content);
+    margin: 0 calc(var(--gutter) * -1) 64px;
+    background: var(--pg-bg);
+  }
+  .pillars__figure img { display: block; width: 100%; height: auto; }
+  .pillar {
+    display: grid;
+    grid-template-columns: var(--col-num) 1fr;
+    gap: clamp(24px, 3vw, 56px);
+    border-top: 1px solid var(--pg-line);
+    padding: 56px 0;
+    align-items: start;
+    color: var(--pg-fg);
+    transform: translateX(0);
+    transition: transform var(--dur-move) var(--ease-settle);
+  }
+  .pillar:hover { transform: translateX(12px); }
+  .pillar__num { font-family: var(--font-condensed); font-weight: 800; font-size: 56px; line-height: 1; color: var(--orange-ink); }
+  .pillar__name { font-size: 0; margin: 0 0 14px; }
+  .pillar__name-link {
+    display: inline-block;
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: clamp(40px, 4.4vw, 72px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    color: var(--pg-fg);
+    text-decoration: none;
+    transition: color var(--dur-micro) ease;
+  }
+  .pillar:hover .pillar__name-link, .pillar__name-link:hover { color: var(--orange-ink); }
+  .pillar__dot { display: inline-block; width: 0.14em; height: 0.14em; margin-left: 0.06em; background: var(--brand-orange); border-radius: 999px; }
+  .pillar__kicker { margin: 0 0 20px; color: var(--orange-ink); }
+  .pillar__body { margin: 0 0 32px; font-size: 17px; line-height: 1.6; color: var(--pg-fg2); max-width: 720px; }
+  .pillar__cta { position: relative; z-index: 1; }
+
+  /* ---- 5. Case study tiles --------------------------------------------- */
+  .proof { background: var(--pg-band); }
+  .proof__eyebrow { color: var(--pg-fg); margin: 0 0 32px; }
+  .proof__num { color: var(--orange-ink); }
+  .proof__count { color: var(--pg-fg3); }
+  .proof__heading { margin: 0 0 56px; }
+
+  .proof__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+
+  .tile {
+    display: flex;
+    flex-direction: column;
+    color: var(--pg-fg);
+    text-decoration: none;
+    transform: translateY(0);
+    transition: transform var(--dur-move) var(--ease-settle), color var(--dur-micro) ease;
+  }
+  .tile:hover { transform: translateY(-6px); color: var(--orange-ink); }
+
+  /* A fixed 4:3 frame. The Image ships width/height attributes, so the height
+     is set explicitly here or the source height wins (see CLAUDE.md). A study
+     with no hero yet gets an outlined ghost numeral on the page ground, so the
+     grid holds its shape while the imagery lands. */
+  .tile__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--pg-bg);
+    margin-bottom: 28px;
+  }
+  .tile__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 700ms var(--ease-settle);
+  }
+  .tile:hover .tile__img { transform: scale(1.04); }
+  .tile__ghost {
+    position: absolute;
+    right: 16px;
+    bottom: -20px;
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: 176px;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--pg-line);
+    pointer-events: none;
+    user-select: none;
+  }
+  .tile__num { display: block; margin-bottom: 14px; }
+  .tile__title {
+    margin: 0 0 14px;
+    font-family: var(--font-condensed);
+    font-weight: 800;
+    font-size: clamp(26px, 2.4vw, 36px);
+    line-height: 1.04;
+    text-transform: uppercase;
+    color: inherit;
+  }
+  .tile__dot { display: inline-block; width: 0.14em; height: 0.14em; margin-left: 0.06em; background: var(--brand-orange); border-radius: 999px; }
+  .tile__blurb { margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: var(--pg-fg2); }
+  .tile__explore {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    color: var(--orange-ink);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .tile__explore svg { transition: transform 300ms var(--ease-settle); }
+  .tile:hover .tile__explore svg { transform: translate(3px, -3px); }
+
+  .proof__all {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 56px;
+    color: var(--pg-fg);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color var(--dur-micro) ease;
+  }
+  .proof__all:hover { color: var(--orange-ink); }
+  .proof__all svg { transition: transform 300ms var(--ease-settle); }
+  .proof__all:hover svg { transform: translate(3px, -3px); }
+
+  /* ---- 6. Founder quote band ------------------------------------------ */
+  .quote { padding: 96px var(--gutter); }
+  .quote__inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: clamp(32px, 4vw, 64px);
+    align-items: start;
+  }
+  .quote__portrait { width: 100%; max-width: 320px; height: auto; border-radius: 12px; }
+  .quote__text { margin: 0; }
+  .quote__by { margin: 32px 0 0; font-weight: 700; font-size: 15px; color: var(--pg-fg); }
+  .quote__role { margin-left: 12px; font-weight: 600; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pg-fg3); }
+
+  /* ---- 7. Feature image, parallax. Same knobs as index.astro. ---------- */
+  .feature {
+    position: relative;
+    height: 60vh;
+    overflow: hidden;
+    view-timeline-name: --featureView;
+    view-timeline-axis: block;
+  }
+  .feature__img {
+    --pf-zoom-from: 1.02;
+    --pf-zoom-to: 1.14;
+    --pf-shift: 10%;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 140%;
+    object-fit: cover;
+    object-position: center 45%;
+    transform: translateY(-50%) scale(var(--pf-zoom-from));
+  }
+  @supports (animation-timeline: view()) {
+    .feature__img {
+      animation-name: featureParallax;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --featureView;
+      animation-range: cover 0% cover 100%;
+      will-change: transform;
+    }
+  }
+  @keyframes featureParallax {
+    from { transform: translateY(calc(-50% - var(--pf-shift))) scale(var(--pf-zoom-from)); }
+    to { transform: translateY(calc(-50% + var(--pf-shift))) scale(var(--pf-zoom-to)); }
+  }
+
+  /* The credit floats over the image's bottom-left corner. Links to the case
+     study when the frontmatter gives one. */
+  .feature__credit {
+    position: absolute;
+    left: var(--gutter);
+    bottom: 28px;
+    z-index: 1;
+    margin: 0;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    text-decoration: none;
+    backdrop-filter: blur(6px);
+  }
+  a.feature__credit:hover { background: var(--brand-orange); color: #000; }
+
+  /* ---- 8. Closing ------------------------------------------------------ */
+  .closing { max-width: 760px; margin: 0; }
+
+  /* ---- Mobile ---------------------------------------------------------- */
+  @media (max-width: 760px) {
+    [data-hero] { min-height: 62vh; }
+    [data-hero-caption] { font-size: 22px; margin-top: 24px; }
+    .hero__credit { bottom: -48px; }
+    [data-feature] { height: 32vh; }
+    .feature__img { --pf-zoom-from: 1.02; --pf-zoom-to: 1.06; --pf-shift: 4%; height: 112%; }
+    .feature__credit { bottom: 16px; }
+    .quote__inner { grid-template-columns: 1fr; }
+    .quote__portrait { max-width: 240px; }
+    .intro__heading { margin-bottom: 20px; }
+    .intro__caption { margin-bottom: 24px; }
+    .intro__link { margin-bottom: 40px; }
+    .intro__grid { grid-template-columns: 1fr; gap: 16px; }
+    .intro__card { padding: 36px 28px 40px; }
+    .intro__ghost { font-size: 132px; top: -20px; right: 6px; }
+    .intro__body { max-width: none; }
+    .pillars__heading { margin: 72px 0 48px; }
+    .proof__grid { grid-template-columns: 1fr; gap: 40px; }
+    .proof__heading { margin-bottom: 40px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile, .tile__img, .tile__explore svg, .intro__link svg, .proof__all svg { transition: none; }
+    .tile:hover { transform: none; }
+    .tile:hover .tile__img { transform: none; }
+  }
+</style>
