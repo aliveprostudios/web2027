@@ -67,6 +67,25 @@ export async function workPages(): Promise<NavChild[]> {
   return (landing?.children ?? []).map((child) => ({ title: child.name, url: child.url }));
 }
 
+/**
+ * Case Studies children, straight from the collection.
+ *
+ * Its own top-level row rather than a child of Work: these are the proof a
+ * prospect is sent to read, not a gallery to browse. The route stays under
+ * /work/case-studies, which is where the section was built and approved.
+ *
+ * `client` is the menu label when the H1 is a headline rather than a name.
+ */
+export async function caseStudyPages(): Promise<NavChild[]> {
+  const all = await getCollection('caseStudies', (e) => e.data.published !== false);
+  return all
+    .sort(byOrderThenTitle)
+    .map((e) => ({
+      title: e.data.navLabel ?? e.data.client ?? e.data.title,
+      url: `/work/case-studies/${e.id}`,
+    }));
+}
+
 /** Resources children (Brochure, Blog, FAQs) from content/landing/resources.md. */
 export async function resourcesPages(): Promise<NavChild[]> {
   const landing = await parseLanding('resources', '/resources');
@@ -81,9 +100,9 @@ export async function aliveProPages(): Promise<NavChild[]> {
 }
 
 /**
- * The 8 primary menu rows (§4.2). Foundation, Execution, Growth, Infrastructure
- * and Alive Pro expand into accordions; Work, Resources and Contact are direct
- * links.
+ * The 9 primary menu rows (§4.2). Foundation, Execution, Growth, Infrastructure,
+ * Work, Case Studies, Alive Pro and Resources expand into accordions; Contact is
+ * a direct link. Case Studies was added after Work on 2026-09-01.
  */
 /**
  * An accordion row is a toggle, not a link (STYLEGUIDE.md §4.2), which left
@@ -129,6 +148,7 @@ export async function navItems(): Promise<NavItem[]> {
   const rows: Omit<NavItem, 'num'>[] = [
     ...sectionItems,
     { label: 'Work', url: '/work', children: await workPages() },
+    { label: 'Case Studies', url: '/work/case-studies', children: await caseStudyPages() },
     { label: 'Alive Pro', url: '/alive-pro', children: await aliveProPages() },
     { label: 'Resources', url: '/resources', children: await resourcesPages() },
     { label: 'Contact', url: '/contact', children: [] },

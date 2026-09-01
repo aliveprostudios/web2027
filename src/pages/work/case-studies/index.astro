@@ -1,0 +1,222 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BgRails from '../../../components/BgRails.astro';
+import SiteNav from '../../../components/SiteNav.astro';
+import VideoHero from '../../../components/VideoHero.astro';
+import BookConsult from '../../../components/BookConsult.astro';
+import NextStep from '../../../components/NextStep.astro';
+import SiteFooter from '../../../components/SiteFooter.astro';
+
+/**
+ * /work/case-studies — the index, built from the caseStudies collection.
+ *
+ * Adding a Markdown file adds a row here, a route, a menu entry and the count,
+ * with no code change. The order is the `order` frontmatter, which mirrors the
+ * numbering on the intake folders so the two cannot drift.
+ */
+const path = '/work/case-studies';
+const title = 'Case Studies';
+const description =
+  'How Alive ProStudios works with manufacturers, specialists and market ' +
+  'leaders, told one client at a time. Several of these relationships have run ' +
+  'for more than two decades.';
+
+const studies = (await getCollection('caseStudies')).sort(
+  (a, b) => (a.data.order ?? Number.MAX_SAFE_INTEGER) - (b.data.order ?? Number.MAX_SAFE_INTEGER),
+);
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `https://aliveprostudios.com${path}#collection`,
+    name: 'Alive ProStudios Case Studies',
+    description,
+    publisher: { '@id': 'https://aliveprostudios.com/#organization' },
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Work', url: '/work' },
+  { name: title, url: path },
+];
+---
+
+<BaseLayout {title} {description} {path} {schema} {breadcrumbs}>
+  <div class="page-root">
+    <BgRails />
+
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav active={path} />
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Work&nbsp;&nbsp;·&nbsp;&nbsp;Case Studies</p>
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask"><span class="hero__line dot">Case studies</span></span>
+          </h1>
+          <p class="hero__caption">
+            <span class="hero__caption-lead">Real clients, real problems, real work.</span>{' '}
+            <span class="hero__caption-tail">
+              Several of these relationships have run for more than two decades.
+            </span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <VideoHero route={path} title="Alive ProStudios reel" />
+
+    <main id="main">
+      <section class="studies section">
+        <p class="studies__eyebrow t-eyebrow z-content">
+          <span class="studies__num">(01)</span>&nbsp;&nbsp;Clients&nbsp;&nbsp;
+          <span class="studies__count">({studies.length})</span>
+        </p>
+
+        <div class="studies__list z-content">
+          {
+            studies.map((study, i) => (
+              <a class="study" href={`/work/case-studies/${study.id}`} data-stack>
+                <span class="study__num">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h2 class="study__title">
+                    {study.data.client ?? study.data.title}
+                    <span class="study__dot" />
+                  </h2>
+                  {study.data.caption && <p class="study__blurb">{study.data.caption}</p>}
+                </div>
+                <span class="study__explore">
+                  <span>Read Case Study</span>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M7 17L17 7M9 7h8v8" />
+                  </svg>
+                </span>
+              </a>
+            ))
+          }
+          <div class="studies__end" />
+        </div>
+      </section>
+
+      <BookConsult />
+    </main>
+
+    <NextStep sectionNum="03" />
+    <SiteFooter backLabel="Work" backHref="/work" nextLabel="Contact" nextHref="/contact" />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+
+  /* Two-tone, matching the master hero: lead white, tail drops to orange. */
+  .hero__caption {
+    margin: 32px 0 0;
+    max-width: 720px;
+    font-size: clamp(15px, 1.3vw, 17px);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    text-transform: uppercase;
+    animation: heroFade 800ms var(--ease-settle) both 300ms;
+  }
+  .hero__caption-lead { color: #fff; }
+  .hero__caption-tail { color: var(--brand-orange); }
+
+  .studies__eyebrow { color: var(--pg-fg); margin: 0 0 40px; }
+  .studies__num { color: var(--orange-ink); }
+  .studies__count { color: var(--pg-fg3); }
+
+  .studies__list { display: flex; flex-direction: column; }
+
+  .study {
+    display: grid;
+    grid-template-columns: var(--col-num) 1fr auto;
+    gap: clamp(24px, 3vw, 56px);
+    align-items: center;
+    border-top: 1px solid var(--pg-line);
+    padding: 40px 0;
+    text-decoration: none;
+    color: var(--pg-fg);
+    transform: translateX(0);
+    transition: transform var(--dur-micro) var(--ease-settle), color var(--dur-micro) ease;
+  }
+  .study:hover { transform: translateX(12px); color: var(--orange-ink); }
+
+  .study__num { font-family: var(--font-mono); font-size: 13px; color: var(--pg-fg3); }
+
+  .study__title {
+    margin: 0;
+    font-size: clamp(28px, 3.6vw, 60px);
+    font-weight: 200;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    color: inherit;
+    text-transform: none;
+  }
+  .study__dot {
+    display: inline-block;
+    width: 0.14em;
+    height: 0.14em;
+    margin-left: 0.06em;
+    background: var(--brand-orange);
+    border-radius: 999px;
+  }
+
+  /* The caption is the page's own hero line, so the index and the case study
+     make the same promise in the same words. */
+  .study__blurb {
+    margin: 14px 0 0;
+    max-width: 62ch;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--pg-fg2);
+  }
+
+  .study__explore {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: none;
+    color: var(--orange-ink);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transform: translate(0, 0);
+    transition: transform var(--dur-micro) var(--ease-settle);
+  }
+  .study:hover .study__explore { transform: translate(4px, -4px); }
+
+  .studies__end { border-top: 1px solid var(--pg-line); }
+
+  @media (max-width: 760px) {
+    .study__explore { margin-left: 68px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .study, .study__explore { transition: none; }
+    .study:hover { transform: none; }
+    .study:hover .study__explore { transform: none; }
+  }
+</style>
