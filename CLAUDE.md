@@ -37,11 +37,18 @@ Settled. Do not reopen without asking Javad.
    superseded. It clipped 11 of the 55 titles at every viewport >= 761px, invisibly, because
    `.hero__line-mask` is `overflow:hidden`. Titles that fit still sit on one
    line; the rest wrap and balance. Do not restore `nowrap`.
-7. **Legal pages are documents, not service pages.** `/privacy-policy` has its
+7. **Case Studies is its own menu row, but its routes live under `/work`.**
+   Settled 2026-09-01. The row sits after Work and expands to all eleven
+   clients; the URLs stay `/work/case-studies/<slug>`, which is where the
+   section was built and approved. Menu position and URL depth were treated as
+   separate decisions deliberately. Moving to a top-level `/case-studies/` is
+   still free while this is staging-only, and costs a redirect once it ships.
+
+8. **Legal pages are documents, not service pages.** `/privacy-policy` has its
    own route and renders its Markdown through Astro, NOT through
    `MasterPage` + `parseAnatomy`. See `TEMPLATE-ANATOMY.md` §4 for why.
 
-8. **One enumerated framework on the whole site.** The Brand-to-Revenue
+9. **One enumerated framework on the whole site.** The Brand-to-Revenue
    Performance System, four domains, owned by `/alive-pro/our-system`. Settled
    2026-08-25 because three frameworks were competing under overlapping names:
    the System on Home, a "Brand Transformation System" on Our Process that was
@@ -192,6 +199,33 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
   `WebPage` and let the route's `extraSchema` own the Article.
 - **`new Date('2026-08-30')` is UTC midnight**, which is the previous day in
   Toronto, so post dates rendered one day early. Parse `${iso}T00:00:00`.
+- **`aspect-ratio` loses to Astro's width/height attributes.** Every `<Image>`
+  ships `width` and `height`, and without an explicit `height: auto` the
+  presentational height wins: the case study gallery tiles rendered at their
+  SOURCE height, 2160px for one, and the page carried 4,800px of empty column
+  on a phone. Everything else measured correctly, including a computed
+  `aspect-ratio: 1 / 1`, which is what made it hard to see. Any cropped
+  `<Image>` needs `height: auto` beside the ratio.
+- **Astro scopes component CSS with a data attribute, so a rule cannot reach an
+  element built at runtime.** `InlineVideo` swaps its poster for an iframe on
+  click; the new node carries no `data-astro-cid-*`, so the plain
+  `.cs-video__frame` rule never matched and the player collapsed to an iframe's
+  default 150px. Scope through a static parent and mark the runtime node
+  `:global()`.
+- **`figures.ts` resolves by BARE FILENAME across one flat folder.** That is why
+  blog figures carry a slug prefix. Case study imagery instead lives one folder
+  per client and resolves by FULL PATH, so eleven clients can each hold a
+  `body-01.jpg`. Markdown must therefore carry the whole virtual path,
+  `/assets/case-studies/<slug>/body-01.jpg`.
+- **`content/case-studies/*.md` and the `intake/` drafts are two copies.**
+  Regenerating the content files from intake silently reverted an edit made
+  only in `content/`, dropping Alfred's video URL. The CSP hash count falling
+  from 9 to 8 in the build output was the only signal. Edit both, or regenerate
+  and re-apply.
+- **A deploy-wait loop needs a marker unique to the NEW build.** Polling staging
+  for `aspect-ratio:1` matched the hero's `1280 / 600` on the first request and
+  reported a deploy that had not happened. Key on a string that cannot exist in
+  the previous build.
 - **A wildcard host does not match the bare domain.** `https://*.analytics.google.com`
   leaves `analytics.google.com` blocked, which is exactly where GA4 posts its
   events. List both forms.
