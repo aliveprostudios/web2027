@@ -159,9 +159,12 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
             {introTitle && <h2 class="intro__heading t-h2 dot z-content">{introTitle}</h2>}
             {introCaption && <p class="intro__caption t-h4 z-content">{introCaption}</p>}
             {introLink && (
-              <a class="intro__link z-content" href={introLink.href}>
-                <span>{introLink.label}</span>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <a class="aps-btn aps-btn-primary intro__cta z-content" href={introLink.href}>
+                <span class="roll">
+                  <span>{introLink.label}</span>
+                  <span>{introLink.label}</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M7 17L17 7M9 7h8v8" />
                 </svg>
               </a>
@@ -425,20 +428,9 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
   .intro__heading { margin: 0 0 24px; }
   .intro__caption { max-width: 680px; margin: 0 0 32px; color: var(--pg-fg2); }
 
-  .intro__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    margin: 0 0 64px;
-    color: var(--orange-ink);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    text-decoration: none;
-  }
-  .intro__link svg { transition: transform 300ms var(--ease-settle); }
-  .intro__link:hover svg { transform: translate(3px, -3px); }
+  /* The same orange pill as the pillar rows' Explore Now, so the page's two
+     calls to action look like one device. Base.css owns the button itself. */
+  .intro__cta { margin: 0 0 64px; }
 
   .intro__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
   .intro__card {
@@ -719,7 +711,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     .quote__portrait { max-width: 240px; }
     .intro__heading { margin-bottom: 20px; }
     .intro__caption { margin-bottom: 24px; }
-    .intro__link { margin-bottom: 40px; }
+    .intro__cta { margin-bottom: 40px; }
     .intro__grid { grid-template-columns: 1fr; gap: 16px; }
     .intro__card { padding: 36px 28px 40px; }
     .intro__ghost { font-size: 132px; top: -20px; right: 6px; }
@@ -730,7 +722,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .tile, .tile__img, .tile__explore svg, .intro__link svg, .proof__all svg { transition: none; }
+    .tile, .tile__img, .tile__explore svg, .proof__all svg { transition: none; }
     .tile:hover { transform: none; }
     .tile:hover .tile__img { transform: none; }
   }
