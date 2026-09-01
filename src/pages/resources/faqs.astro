@@ -1,24 +1,27 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import BgRails from '../components/BgRails.astro';
-import SiteNav from '../components/SiteNav.astro';
-import VideoHero from '../components/VideoHero.astro';
-import BookConsult from '../components/BookConsult.astro';
-import NextStep from '../components/NextStep.astro';
-import SiteFooter from '../components/SiteFooter.astro';
-import { faqGroups, allFaqs } from '../lib/faqs';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BgRails from '../../components/BgRails.astro';
+import SiteNav from '../../components/SiteNav.astro';
+import VideoHero from '../../components/VideoHero.astro';
+import BookConsult from '../../components/BookConsult.astro';
+import NextStep from '../../components/NextStep.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { faqGroups, allFaqs } from '../../lib/faqs';
 
 /**
- * /faqs-b: design B for the FAQ accordion, a draft on staging.
+ * /resources/faqs
  *
- * `noindex`, filtered out of the sitemap in astro.config.mjs, linked from
- * nowhere. Built 2026-09-01 after Javad rejected the parked accordion in
- * `src/pages/_resources/faqs.astro`: thin 200-weight questions, tall empty
- * rows, the glyph stranded at the page edge, no motion, no H2.
+ * Design B of the FAQ accordion, approved by Javad 2026-09-01 and moved here
+ * from the `/faqs-b` draft in the same session. The parked original in
+ * `src/pages/_resources/` is gone.
  *
- * What changes here:
- *   - each `##` group in `content/faqs.md` is a section with an eyebrow and a
- *     real H2, so the page has a spine and no skipped heading level;
+ * The accordion and the FAQPage structured data are both generated from
+ * `content/faqs.md`, so they cannot drift: adding a `### Question` and its
+ * answer under a `## Group` adds it to the page, the schema, the menu count
+ * and the Resources landing card in one edit.
+ *
+ * How it is built:
+ *   - each `##` group is a section with an eyebrow and a real H2;
  *   - rows follow the pillar grid: mono index, question at a solid 600
  *     weight, the +/- glyph tucked beside the question, the answer opening in
  *     the question's own column;
@@ -31,11 +34,9 @@ import { faqGroups, allFaqs } from '../lib/faqs';
  *     the row first and removes the attribute when the transition ends. One
  *     item open per group, closed with the same motion.
  *
- * The FAQPage schema is the same one the parked route emits, from the same
- * Markdown, so the two cannot drift. When this is approved it replaces the
- * parked file and ships at /resources/faqs per the CLAUDE.md checklist.
+ * `CLAUDE.md` lists FAQPage as a non-negotiable.
  */
-const path = '/faqs-b';
+const path = '/resources/faqs';
 const title = 'FAQs';
 const description =
   'Answers to the questions we are asked most about brand strategy, timelines, ' +
@@ -59,11 +60,11 @@ const schema = [
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Resources', url: '/resources' },
-  { name: title, url: '/resources/faqs' },
+  { name: title, url: path },
 ];
 ---
 
-<BaseLayout {title} {description} {path} {schema} {breadcrumbs} noindex>
+<BaseLayout {title} {description} {path} {schema} {breadcrumbs}>
   <div class="page-root">
     <BgRails />
 
@@ -83,7 +84,7 @@ const breadcrumbs = [
       </div>
     </section>
 
-    <VideoHero route="/resources/faqs" title="Alive ProStudios reel" />
+    <VideoHero route={path} title="Alive ProStudios reel" />
 
     <main id="main">
       {

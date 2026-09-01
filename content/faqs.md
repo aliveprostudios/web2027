@@ -34,6 +34,3 @@ Every project begins with a discovery phase where we understand your business, m
 
 Project costs vary significantly based on scope, complexity, and deliverables. We provide detailed proposals after an initial discovery conversation so you know exactly what to expect. Contact us to discuss your specific needs.
 
-### What are Precision Impact Sprints?
-
-Precision Impact Sprints are focused, time-boxed engagements designed to deliver fast, measurable results. They are perfect for businesses that need momentum quickly without committing to a long-term retainer upfront.

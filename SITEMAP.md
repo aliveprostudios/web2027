@@ -27,7 +27,7 @@ Locale: English only at launch. Architecture should stay i18n-ready
 | `/alive-pro` | Alive Pro landing | `content/landing/alive-pro.md` |
 | ~~`/resources`~~ | **UNPUBLISHED 2026-08-23.** Resources landing | `content/landing/resources.md` |
 | ~~`/resources/blog`~~ | **UNPUBLISHED 2026-08-23.** Blog index | `content/landing/blog-index.md` |
-| ~~`/resources/faqs`~~ | **UNPUBLISHED 2026-08-23.** FAQs | `content/faqs.md` |
+| `/resources/faqs` | FAQs. **Restored 2026-09-01** with the design B accordion; two groups, seven questions | `content/faqs.md` |
 | ~~`/resources/brochure`~~ | **UNPUBLISHED 2026-08-23.** Digital brochure | `content/pages/brochure.md` |
 | `/contact` | Contact form | `content/pages/contact.md` |
 | `/thank-you` | Post-submit (noindex) | — |
@@ -108,10 +108,10 @@ Locale: English only at launch. Architecture should stay i18n-ready
 ## Marketing Blog (4)
 
 **RESTORED 2026-08-30.** `/resources` and `/resources/blog` are live again; the
-section is titled **Marketing Blog**. `/resources/faqs` and `/resources/brochure`
-stay parked in `src/pages/_resources/` until their content is ready, and nothing
-links to them: their rows in `content/landing/resources.md` had their number
-lines removed, so `parseLanding` skips them (`src/lib/landing.ts`).
+section is titled **Marketing Blog**. `/resources/faqs` was restored 2026-09-01.
+`/resources/brochure` stays parked in `src/pages/_resources/` until its content
+is ready, and nothing links to it: its row in `content/landing/resources.md` has
+no number line, so `parseLanding` skips it (`src/lib/landing.ts`).
 
 | URL | Title | Source file |
 |---|---|---|
@@ -155,9 +155,10 @@ In Astro, set them in `astro.config.mjs` under `redirects`, or at the host.
 > is the right destination: it is topically what the visitor asked for, which a
 > 301 to the homepage was not.
 >
-> **Two rows are still parked at `/`:** `/faqs` and `/digital-brochure`. Restore
-> them to `/resources/faqs` and `/resources/brochure` in the same commit that
-> unparks those routes from `src/pages/_resources/`. A 301 to a 404 is worse
+> **One row is still parked at `/`:** `/digital-brochure`. `/faqs` was repointed
+> to `/resources/faqs` on 2026-09-01 in the commit that unparked the route.
+> Restore `/digital-brochure` to `/resources/brochure` in the same commit that
+> unparks that route from `src/pages/_resources/`. A 301 to a 404 is worse
 > than a 301 to the homepage, so the redirect and the route must move together.
 
 
@@ -231,7 +232,7 @@ are only ever discovered through that index, so redirecting the index is enough.
 | `/alive-pro/precision-impact-sprints` | `/alive-pro` | 302 |
 | `/partnership-niu` | `/alive-pro/partnership` | 301 |
 | `/partnership-new` | `/alive-pro/partnership` | 301 |
-| `/faqs` | `/` | 301 |
+| `/faqs` | `/resources/faqs` | 301 |
 | `/digital-brochure` | `/` | 301 |
 | `/brand-marketing-blog` | `/resources/blog` | 301 |
 | `/branding/online-digital-advertising` | `/resources/blog` | 301 |
