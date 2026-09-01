@@ -15,7 +15,7 @@ services:
 
 Most companies asking for more leads do not have a traffic problem. Here is the test: if your visitors doubled tomorrow, would you close twice as much?
 
-When the honest answer is no, the leak is further down, and it is usually one of three things. The people arriving are the wrong ones. The path from interest to enquiry asks too much, too early. Or the leads reach your sales team stripped of context and get worked like cold calls. Buying more attention to pour into that is the most common way marketing budget quietly disappears.
+When the answer is no, the leak is further down, and it is usually one of three things. The people arriving are the wrong ones. The path from interest to enquiry asks too much, too early. Or the leads reach your sales team stripped of context and get worked like cold calls. Buying more attention to pour into that is the most common way marketing budget quietly disappears.
 
 We work backwards from the close instead. Find where people actually drop, fix that first, and spend on traffic afterwards, because that is the point at which more visitors start being worth paying for. It is slower to start and it is the only version that compounds.
 

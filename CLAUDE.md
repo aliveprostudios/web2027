@@ -203,6 +203,9 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 - **Canadian English** — colour, behaviour, centre, catalogue, honour
   ("ize" endings kept: organize, recognize)
 - **No em dashes anywhere. Ever.**
+- **Never use "honest" or "honestly".** Javad's rule, 2026-08-31. Say the candid
+  thing instead of announcing that you are about to be candid. Applies to headings,
+  body copy, meta descriptions and quotes alike. There is no approved exception.
 - No filler ("In today's world", "As a trusted partner")
 - Tone: strategic, authoritative, a partner not a vendor
 
@@ -271,6 +274,7 @@ npm run build
 | 35 service pages have 44-60 char meta descriptions | Under the 150-160 spec. Thin, not broken |
 | Homayra's headshot is 400x500 | Displays at 260px, so it is soft on retina. Javad's is 2000x2500 |
 | Foundation and Infrastructure are alphabetical | Execution, Growth and Alive Pro were sequenced by priority 2026-08-24; the other two await Javad's order |
+| **"honest" needs a site-wide sweep** | Banned 2026-08-31, see Content rules. **18 occurrences across 12 live files remain**, plus 2 in `content/drafts/`. By file: 4 blog posts (8), `pages/why-alive-pro.md` (2), `pages/brand-pulse.md` (2), `pages/partnership.md` (1, an H3 "The Honest History."), `pages/what-to-expect.md` (1), `landing/resources.md` (1), `services/growth/content-marketing.md` (1), `services/growth/reputation-management.md` (1), `src/pages/resources/index.astro` (1). **Not a blind find and replace:** each needs a rewrite, and the Brand Pulse one is a scored answer option. **Trap: the Resources intro is duplicated** in `content/landing/resources.md` AND hard-coded in `src/pages/resources/index.astro`, so fixing the Markdown alone leaves the rendered page unchanged. `content/start-here/` is already clean |
 | `/brand-pulse` | No route yet. `/thank-you` was built 2026-08-23, noindex and out of the sitemap |
 
 ---

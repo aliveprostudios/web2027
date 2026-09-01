@@ -1,5 +1,5 @@
 ---
-title: "An honest read on where you actually stand"
+title: "An outside read on where you actually stand"
 need: "I need an expert to look at my business"
 url: "/start-here/need-a-consultant"
 order: 2
