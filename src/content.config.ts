@@ -104,6 +104,8 @@ const homeB = defineCollection({
     heroCredit: z.string().optional(),
     /** One line under the brand reel. Omitted when empty. */
     reelCaption: z.string().optional(),
+    /** H2 over the client logo wall. */
+    clientsHeading: z.string().optional(),
     /** H2 over the case study tiles. */
     proofHeading: z.string().optional(),
     /** Case study slugs to feature, in order. Defaults to the first three by `order`. */

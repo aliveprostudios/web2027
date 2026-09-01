@@ -4,8 +4,8 @@ caption: "Brand transformation is not."
 seoTitle: "Brand Transformation Agency in Toronto"
 seoDescription: "Boutique brand transformation agency in Toronto. Since 1997, Alive ProStudios has turned fragmented marketing into one connected growth system."
 source: "authored 2026-09-01, draft for Home-B"
-heroCredit: "Work · Client name to confirm"
 reelCaption: "Selected work, 1997 to today."
+clientsHeading: "The Brands We Build With"
 proofHeading: "Proof, One Client at a Time"
 caseStudies:
   - alfred-smart-locks

@@ -3,7 +3,7 @@ import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import heroBg from '../../content/assets/site/hero-bg.jpg';
+import heroBg from '../../content/assets/home-b/hero.jpg';
 import homeFeature from '../../content/assets/site/home-feature.jpg';
 import founderPortrait from '../../content/assets/site/javad-ahmadi-portrait.jpg';
 import BgRails from '../components/BgRails.astro';
@@ -27,11 +27,11 @@ import { assetsFor } from '../lib/caseStudies';
  * content replaces `index.astro`'s and this route is deleted. No redirect is
  * needed because it was never indexed.
  *
- * Order: 1 Hero (with credit) · 2 How We Help You, logo beside the copy, four
- *        cards · 3 Looping brand reel (with caption) · 4 The System, four
- *        pillar rows · 5 Selected case studies · 6 The reel, click to play ·
- *        7 Gallery · 8 Founder quote with both marks · 9 Feature image (with
- *        credit) · 10 Closing · 11 Next Step · 12 Footer
+ * Order: 1 Hero · 2 How We Help You, logo beside the copy, four cards ·
+ *        2b Client logo wall · 3 Looping brand reel (with caption) · 4 The
+ *        System, four pillar rows · 5 Selected case studies · 6 The reel,
+ *        click to play · 7 Gallery · 8 Founder quote with both marks ·
+ *        9 Feature image (with credit) · 10 Closing · 11 Next Step · 12 Footer
  *
  * Against the live home page: the second looping video is gone, the empty
  * Why It Matters slot is gone, and blocks 5 to 8 and 10 are new or newly
@@ -124,6 +124,27 @@ const gallery = await Promise.all(
       return { src: module.default, full: full.src, alt: `Alive ProStudios work, image ${i + 1}` };
     }),
 );
+
+/* Block 2b: the client logo wall. Every PNG in `content/assets/logos-clients/`
+   is a logo, in numeric filename order. The wall is a fixed grid of TILES;
+   each tile stacks several logos and flips between them on a staggered CSS
+   timeline, so the whole set is seen without a marquee. Logos are dealt to
+   the tiles round-robin, and a short tile is padded by repeating its own
+   logos so every tile keeps the same four-beat cycle the keyframes assume. */
+const logoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../../content/assets/logos-clients/*.{png,webp,svg}',
+  { eager: true },
+);
+const logos = Object.entries(logoModules)
+  .map(([path, module]) => ({ n: Number(path.match(/(\d+)\.\w+$/)?.[1] ?? 0), src: module.default }))
+  .sort((a, b) => a.n - b.n)
+  .map((l) => l.src);
+const TILE_COUNT = 8;
+const LAYERS = 4;
+const tiles = Array.from({ length: Math.min(TILE_COUNT, logos.length) }, (_, t) => {
+  const own = logos.filter((_, i) => i % TILE_COUNT === t);
+  return Array.from({ length: LAYERS }, (_, k) => own[k % own.length]!);
+});
 
 const title = page.data.title;
 const caption = page.data.caption ?? '';
@@ -221,6 +242,32 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
         )
       }
 
+      <!-- 2b. Client logo wall: eight tiles flipping through the set -->
+      {
+        tiles.length > 0 && (
+          <section class="clients section" aria-label={`Client logos, ${logos.length} brands`}>
+            <p class="clients__eyebrow t-eyebrow z-content">
+              <span class="clients__num">(01)</span>&nbsp;&nbsp;Clients&nbsp;&nbsp;
+              <span class="clients__count">({logos.length})</span>
+            </p>
+            {page.data.clientsHeading && (
+              <h2 class="clients__heading t-h2 dot z-content">{page.data.clientsHeading}</h2>
+            )}
+            <div class="clients__wall z-content">
+              {tiles.map((layers) => (
+                <div class="flip">
+                  {layers.map((logo, k) => (
+                    <div class="flip__face" style={`--k:${k}`}>
+                      <Image src={logo} alt="" width={461} height={297} loading="lazy" decoding="async" />
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
       <!-- 3. Looping brand reel, captioned -->
       <VideoHero route="/" title="Alive ProStudios brand reel" />
       {page.data.reelCaption && <p class="loop__caption t-eyebrow z-content">{page.data.reelCaption}</p>}
@@ -286,7 +333,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
         studies.length > 0 && (
           <section class="proof section">
             <p class="proof__eyebrow t-eyebrow z-content">
-              <span class="proof__num">(01)</span>&nbsp;&nbsp;Selected Case Studies&nbsp;&nbsp;
+              <span class="proof__num">(02)</span>&nbsp;&nbsp;Selected Case Studies&nbsp;&nbsp;
               <span class="proof__count">({allStudies.length})</span>
             </p>
             {page.data.proofHeading && (
@@ -358,7 +405,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
         gallery.length > 0 && (
           <section class="gallery" aria-label={`Work gallery, ${gallery.length} images`}>
             <p class="gallery__eyebrow t-eyebrow z-content">
-              <span class="gallery__num">(02)</span>&nbsp;&nbsp;Gallery&nbsp;&nbsp;
+              <span class="gallery__num">(03)</span>&nbsp;&nbsp;Gallery&nbsp;&nbsp;
               <span class="gallery__count">({gallery.length})</span>
             </p>
             <div class="gallery__grid z-content">
@@ -469,7 +516,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     </main>
 
     <!-- 11. Next Step -->
-    <NextStep sectionNum="03" />
+    <NextStep sectionNum="04" />
 
     <!-- 12. Footer -->
     <SiteFooter backLabel="Alive ProStudios" backHref="/" nextLabel="All Services" nextHref="/foundation" />
@@ -604,6 +651,84 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     }
   }
   @keyframes introReveal { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ---- 2b. Client logo wall ---------------------------------------------
+     Eight tiles, four logos each. Every face runs the same 12s keyframe; its
+     own `--k` pushes it a quarter-cycle later than the face beneath, and each
+     tile carries a different `--offset`, so the wall ripples rather than
+     flipping in unison. A face enters by swinging up from rotateX(90deg) and
+     leaves by swinging away, split-flap style, under a shared perspective.
+     Hover holds a tile still. With animations off (reduced motion, which
+     base.css applies globally) only the first face shows, which is a plain
+     static logo grid: the right fallback. */
+  .clients { padding-top: 0; }
+  .clients__eyebrow { color: var(--pg-fg); margin: 0 0 32px; }
+  .clients__num { color: var(--orange-ink); }
+  .clients__count { color: var(--pg-fg3); }
+  .clients__heading { margin: 0 0 56px; }
+
+  .clients__wall {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    perspective: 1400px;
+  }
+
+  .flip {
+    --step: 3s;
+    --cycle: calc(var(--step) * 4);
+    position: relative;
+    aspect-ratio: 461 / 297;
+    transform-style: preserve-3d;
+  }
+  .flip:nth-child(1) { --offset: 0s; }
+  .flip:nth-child(2) { --offset: 1.3s; }
+  .flip:nth-child(3) { --offset: 2.1s; }
+  .flip:nth-child(4) { --offset: 0.6s; }
+  .flip:nth-child(5) { --offset: 1.7s; }
+  .flip:nth-child(6) { --offset: 2.6s; }
+  .flip:nth-child(7) { --offset: 0.9s; }
+  .flip:nth-child(8) { --offset: 2.3s; }
+
+  .flip__face {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform-origin: 50% 100%;
+    backface-visibility: hidden;
+    animation: flipFace var(--cycle) linear infinite both;
+    animation-delay: calc(-1 * (var(--k) * var(--step) + var(--offset)));
+    will-change: transform, opacity;
+  }
+  .flip__face:first-child { opacity: 1; }
+  .flip:hover .flip__face { animation-play-state: paused; }
+  .flip__face :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  /* One face's share of the cycle is 25%. It swings in over the first 5%,
+     holds, and swings out over the last 4% of its slot; the rest of the
+     cycle it is folded flat and invisible. */
+  @keyframes flipFace {
+    0%   { opacity: 0; transform: rotateX(90deg); }
+    5%   { opacity: 1; transform: rotateX(0deg); }
+    21%  { opacity: 1; transform: rotateX(0deg); }
+    25%  { opacity: 0; transform: rotateX(-90deg); }
+    100% { opacity: 0; transform: rotateX(-90deg); }
+  }
+
+  /* Rises into view on scroll, same device as the intro cards. */
+  @supports (animation-timeline: view()) {
+    .flip {
+      animation: introReveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
 
   /* ---- 3. Loop caption ------------------------------------------------- */
   .loop__caption { margin: 0; padding: 20px var(--gutter) 0; color: var(--pg-fg3); }
@@ -889,6 +1014,8 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     .intro__caption { margin-bottom: 24px; }
     .gallery__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .quote__marks { gap: 28px; margin-top: 40px; }
+    .clients__wall { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .clients__heading { margin-bottom: 40px; }
     .intro__grid { grid-template-columns: 1fr; gap: 16px; }
     .intro__card { padding: 36px 28px 40px; }
     .intro__ghost { font-size: 132px; top: -20px; right: 6px; }
