@@ -484,7 +484,7 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
                     src={item.src}
                     alt={item.alt}
                     widths={[400, 800]}
-                    sizes="(max-width: 760px) 100vw, 33vw"
+                    sizes="(max-width: 760px) 50vw, 33vw"
                     loading="lazy"
                     decoding="async"
                   />
@@ -805,10 +805,14 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
   .cs-tile :global(img) {
     display: block;
     width: 100%;
-    /* 16:9, not the portfolio's 19:9. Case study galleries mix aspects (a
-       square product shot beside a widescreen render), and the wider crop
-       takes more than half the height off anything close to square. */
-    aspect-ratio: 16 / 9;
+    /* Square. Case study galleries mix aspects (a 1:1 product shot beside a
+       widescreen render), and a square crop treats every source alike instead
+       of privileging the landscape ones. Row count flows from the image count. */
+    aspect-ratio: 1 / 1;
+    /* `height: auto` is load-bearing. Astro emits width/height attributes on
+       every <Image>, and without this the presentational height (1080) wins
+       over aspect-ratio, so each tile renders at the source's full height. */
+    height: auto;
     object-fit: cover;
     transition: transform 0.35s ease;
   }
@@ -816,8 +820,11 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
   .cs-tile:hover { transform: translateY(-6px); }
   .cs-tile:hover :global(img) { transform: scale(1.07); }
 
+  /* Two across on a phone, not one. A full-width square tile is enormous and
+     three would be too small to read, so the grid halves rather than
+     collapsing. The gutter tightens with it to keep the rhythm. */
   @media (max-width: 760px) {
-    .cs-gallery__grid { grid-template-columns: 1fr; }
+    .cs-gallery__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
