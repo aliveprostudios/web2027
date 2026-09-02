@@ -46,6 +46,9 @@ Reviewing `/common-questions` on staging, 2026-09-02:
    titles already read that way ("Questions from Manufacturers").
 6. **The menu keeps listing every topic.** Fine at eight. Past about twelve,
    cap the row and add an "All common questions" entry. Not before.
+   *Superseded the same day:* Javad moved Common Questions into the Resources
+   sub-menu as a single child entry, so the topics are no longer menu items at
+   all and the cap question is moot. URLs unchanged.
 7. **Cost questions stay, estimates go.** The two question headings remain,
    because people search for them. Their direct answers are rewritten to the
    rule in §4. No figure, percentage or range of any kind remains in the

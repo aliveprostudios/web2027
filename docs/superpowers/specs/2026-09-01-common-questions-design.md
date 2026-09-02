@@ -45,7 +45,8 @@ is rebuilt, its rows should link into the matching cluster rather than re-explai
 
 ## 2. Decisions settled
 
-1. **Top-level `/common-questions/`, not under Resources.** Its own menu row, placed
+1. **Top-level `/common-questions/`, not under Resources.** *(Menu placement reversed
+   2026-09-02: Javad moved the row into the Resources sub-menu. The URL stayed.)* Its own menu row, placed
    after Case Studies. Same call as Case Studies: menu position and URL depth are
    separate decisions. It REPLACED `/resources/faqs` rather than sitting beside it.
 2. **Cluster pages, not one page per question.** At the answer spec below, a

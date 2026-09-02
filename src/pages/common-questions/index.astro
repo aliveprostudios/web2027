@@ -46,6 +46,7 @@ const schema = [
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
+  { name: 'Resources', url: '/resources' },
   { name: title, url: path },
 ];
 ---
@@ -58,7 +59,7 @@ const breadcrumbs = [
       <div class="hero__inner">
         <SiteNav active={path} />
         <div class="hero__copy">
-          <p class="hero__crumb t-eyebrow">Alive ProStudios&nbsp;&nbsp;·&nbsp;&nbsp;Common Questions</p>
+          <p class="hero__crumb t-eyebrow">Resources&nbsp;&nbsp;·&nbsp;&nbsp;Common Questions</p>
           <h1 class="hero__title t-h1">
             <span class="hero__line-mask"><span class="hero__line dot">Common questions</span></span>
           </h1>
@@ -117,7 +118,7 @@ const breadcrumbs = [
     </main>
 
     <NextStep sectionNum="03" />
-    <SiteFooter backLabel="Case Studies" backHref="/work/case-studies" nextLabel="Alive Pro" nextHref="/alive-pro" />
+    <SiteFooter backLabel="Resources" backHref="/resources" nextLabel="Contact" nextHref="/contact" />
   </div>
 </BaseLayout>
 

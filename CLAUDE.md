@@ -55,6 +55,14 @@ Settled. Do not reopen without asking Javad.
    looked like a structure that could not grow. Do not reintroduce grouping in
    the URL or the frontmatter; if the list ever needs themes, do it on the hub
    as presentation only.
+   **In the Resources menu since 2026-09-02, URLs unchanged.** Javad's call, the
+   same day it got its own row: the section is a Resources child, from a
+   numbered `##` in `content/landing/resources.md`, with the display name
+   mapped to `/common-questions` in `CHILD_URL_OVERRIDES`. Menu position and
+   URL depth are separate decisions, as with Case Studies; moving the URL under
+   `/resources/` is still free while this is staging-only. "Do not rebuild a
+   second FAQ under Resources" still holds: this is the one FAQ, linked from
+   where visitors expect it.
 
 9. **Legal pages are documents, not service pages.** `/privacy-policy` has its
    own route and renders its Markdown through Astro, NOT through

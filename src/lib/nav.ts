@@ -1,7 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { SECTIONS, sectionLabel, type Section } from './sections';
 import { parseLanding } from './landing';
-import { clusters } from './commonQuestions';
 
 /**
  * Navigation and Related Services data, built from the content collection at
@@ -119,14 +118,6 @@ function withOverview(item: NavItem): NavItem {
   };
 }
 
-/**
- * Common Questions' children: one entry per cluster page, from the collection.
- * Adding a Markdown file under `content/common-questions/` adds its route, its
- * menu entry and every count on the hub in one edit.
- */
-export async function commonQuestionPages(): Promise<NavChild[]> {
-  return (await clusters()).map((c) => ({ title: c.title, url: c.url }));
-}
 
 /**
  * Menu rows that are built but NOT published.
@@ -135,7 +126,9 @@ export async function commonQuestionPages(): Promise<NavChild[]> {
  * carried real articles. `/resources` and `/resources/blog` are live again;
  * `brochure.astro` stays parked in `src/pages/_resources/` because its content
  * is still not ready. The FAQ row was retired on 2026-09-01, when the Common
- * Questions section replaced it.
+ * Questions section replaced it. Common Questions had its own top-level row for
+ * one day; on 2026-09-02 Javad moved it under Resources, where the FAQ had
+ * lived, so it is a Resources child from `content/landing/resources.md` now.
  *
  * Nothing links to those two: the Resources sub-menu and the landing rows are
  * both built from the NUMBERED `##` headings in `content/landing/resources.md`,
@@ -160,7 +153,6 @@ export async function navItems(): Promise<NavItem[]> {
     ...sectionItems,
     { label: 'Work', url: '/work', children: await workPages() },
     { label: 'Case Studies', url: '/work/case-studies', children: await caseStudyPages() },
-    { label: 'Common Questions', url: '/common-questions', children: await commonQuestionPages() },
     { label: 'Alive Pro', url: '/alive-pro', children: await aliveProPages() },
     { label: 'Resources', url: '/resources', children: await resourcesPages() },
     { label: 'Contact', url: '/contact', children: [] },

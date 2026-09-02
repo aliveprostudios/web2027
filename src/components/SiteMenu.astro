@@ -50,7 +50,7 @@ const isActive = (url: string) => active === url || (url !== '/' && active.start
               >
                 <span class="menu__label-group">
                   <span class="menu__num">{item.num}</span>
-                  <span class:list={['menu__label', isActive(item.url) && 'is-active']}>
+                  <span class:list={['menu__label', (isActive(item.url) || item.children.some((c) => isActive(c.url))) && 'is-active']}>
                     {item.label}
                   </span>
                 </span>
