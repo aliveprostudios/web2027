@@ -7,7 +7,7 @@ url: "/work/case-studies/brading-specialty-shades"
 seoTitle: "Brading Specialty Shades Case Study"
 seoDescription: "Twenty-nine years of branding, cinematic production and digital work for a custom shading company whose installations include the Aga Khan Museum and the OLG Theatre."
 ---
-## The Client That Does Not Need Advertising
+## Twenty-Nine Years of Keeping a Brand Current
 
 Brading Specialty Shades builds custom window treatments and automated shading systems for private residences and landmark commercial spaces, including the Aga Khan Museum and the OLG Theatre. They work directly with the client and the project, which makes them a separate business from BFL, the trade supplier we also work with. They have been our client since 1997, the year we opened, which makes them the second-oldest relationship the company has.
 
@@ -17,7 +17,7 @@ Brading runs at capacity. A company in that position does not need lead generati
 
 ---
 
-## An Audience That Cannot Be Told, Only Shown.
+## An Audience of Architects and Designers.
 
 The audience is the difficulty. Architects, developers and interior designers assess a supplier the way they assess a material, on evidence and on taste, and they are professionally equipped to notice when something is slightly off.
 
@@ -25,7 +25,7 @@ That audience cannot be persuaded by claims. It can only be shown. Which puts th
 
 The second difficulty is time. An identity that was correct in 2005 is a liability in 2015. A company whose proposition is contemporary architectural sensibility cannot present itself in a brand that has aged, and nobody inside the business notices the drift, because they see it every day.
 
-## Evolving an Identity Rather Than Owning One.
+## Brand Position Instead of Advertising.
 
 We left advertising out of it and put everything into brand position and visual storytelling, on the principle that the portfolio should carry business development rather than a campaign.
 
@@ -49,11 +49,11 @@ This carries the most weight of anything we produce for them, because it is the 
 
 ![Architectural photography of a white stone museum facade under blue sky, with interior views of a lecture hall, a dining room and offices fitted with shading.](/assets/case-studies/brading-specialty-shades/body-02.jpg)
 
-## Digital Properties.
+## Websites and Digital Properties.
 
 We designed, built and maintain all of Brading's corporate websites and digital properties, so the standard set by the brochure and the production work holds at the point where most first impressions now happen.
 
-## Two Submissions, Two Wins.
+## Two Award Entries, Two Wins.
 
 Brading recently entered two of their key projects for industry awards and won both. The photography and video narratives we produced carried those submissions, which is the clearest available measure of the work: not that it looked good, but that it persuaded a jury of people who assess this category for a living.
 

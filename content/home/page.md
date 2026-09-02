@@ -9,7 +9,7 @@ clientsHeading: "Our Clients"
 proofHeading: "Proof, One Client at a Time"
 caseStudies:
   - alfred-smart-locks
-  - assa-abloy-door-security-solutions
+  - gallery-specialty-hardware
   - claritas
 videoUrl: "https://youtu.be/YoudIrML8lU"
 videoHeading: "Watch the Reel"

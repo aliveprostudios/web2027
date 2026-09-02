@@ -1,13 +1,13 @@
 ---
 title: "BFL"
-caption: "An award-winning shade manufacturer with seven product brands, most of them named here. We have been their marketing partner since the early years of the company."
+caption: "An award-winning shade manufacturer with seven product brands. We have been their brand and marketing partner since the early years of the company."
 order: 8
 slug: "bfl"
 url: "/work/case-studies/bfl"
 seoTitle: "BFL Case Study"
 seoDescription: "Brand identity, product naming, technical literature, photography and video for an award-winning B2B shade manufacturer selling through a dealer network."
 ---
-## A Portfolio That Had to Be Named Before It Could Be Sold
+## Building the BFL Brand From the Early Years
 
 BFL is an award-winning shade manufacturer serving the B2B market, built around custom fabrication, specialty systems and a dealer network. It is a separate company from Brading Specialty Shades, which sells direct to the client. BFL supplies the trade. We have been their brand and marketing partner since the early years of the company.
 
@@ -17,7 +17,7 @@ Their audience is dealers, architects, designers, builders and trade partners, w
 
 ***
 
-## Naming the Portfolio.
+## Product Naming and Positioning.
 
 Astirium™. ElaraShade™. Elara FreshAir™. Laudations™. SolaraShade™. SolaraSky™. Solara Roman.
 
@@ -27,7 +27,7 @@ A manufacturer who launches products with descriptive names is selling component
 
 ![The named portfolio: the SilentGliss roller blind systems brochure, a grid of specification sheets, and the marks for Elara Shade, Brading Fabrication, Allusions, Astirium, Solara Sky, Laudations and Solara Roman.](/assets/case-studies/bfl/body-02.jpg)
 
-## Technical Product Storytelling.
+## Technical Literature Dealers Can Sell From.
 
 These are not window coverings. The systems involve motorization, specialty fabrics, custom installation requirements, automation integration, privacy control, light management, UV protection and advanced hardware, in combinations that change with the application.
 
@@ -51,7 +51,7 @@ An engineered shade is only convincing installed. We produce the project photogr
 
 ![Product specification sheets for the shading portfolio, each in its own brand colour, beside interiors showing the shades installed and a blue Brading Fabrication folder.](/assets/case-studies/bfl/body-01.jpg)
 
-## Why It Reads as One Company.
+## One Brand Across Every Asset.
 
 Every asset is drawn from the same Foundation, which is why a product sheet for one system, a video for another and a page on the website all read as output from a single manufacturer. That is not a house style applied afterwards. It is a consequence of the names, the positioning and the literature all having been built from one strategy.
 

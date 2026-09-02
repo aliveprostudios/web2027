@@ -7,7 +7,7 @@ url: "/work/case-studies/stone-lamina"
 seoTitle: "Stone Lamina Case Study"
 seoDescription: "Brand identity, technical catalogue, website, photography and 3D visualization for an engineered stone cladding manufacturer introducing a product with no established category."
 ---
-## The Brief Was a Catalogue. The Problem Was a Category.
+## Building a Category for a New Kind of Stone Cladding
 
 Stone Lamina makes an engineered cladding system: real stone veneer bonded to a composite honeycomb panel, lighter, stronger and more versatile than conventional dimensional stone, for exterior and interior work across commercial, residential, institutional, renovation and retrofit projects.
 
@@ -17,7 +17,7 @@ Being first is not an advantage on its own. It means there is no shelf to sit on
 
 ---
 
-## Nobody Specifies What They Cannot Compare.
+## Why Architects Hesitate to Specify Something New.
 
 Architectural specification is conservative by design, and correctly so. A specifier who names a material is attached to that decision for the life of the building. The safe choice is the material that has been on facades for a century. The new one carries every unasked question: does it burn, does it delaminate, does it hold in a storm, will anyone stand behind it in twenty years.
 
@@ -25,13 +25,13 @@ Stone Lamina had answers to all of it. Non-combustible construction, a flame spr
 
 What they did not have was a way to put those answers in front of a specifier in the order a specifier needs them. A buyer cannot want a thing they have no name for, and cannot approve a thing they cannot compare.
 
-## Diagnosing the Right Domain.
+## Positioning Before Collateral.
 
 This is worth naming, because it happens often. The request was for Execution work: a catalogue, a brochure, a website. The problem sat one level up, in Foundation.
 
 The [Brand-to-Revenue Performance System](/alive-pro/our-system) exists to be entered where the pain is loudest, and clients are usually right about where it hurts and wrong about what is causing it. Producing beautiful collateral for a product nobody has a category for would have been expensive and useless. Settling what the product is, who it is against and how it should be compared had to come first, and then the catalogue had something to be built on.
 
-## Built Around Comparison.
+## A Catalogue Built Around Comparison.
 
 The catalogue became the primary instrument, and it was not a layout exercise.
 

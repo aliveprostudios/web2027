@@ -7,7 +7,7 @@ url: "/work/case-studies/darmaga-hardwood"
 seoTitle: "Darmaga Hardwood Case Study"
 seoDescription: "Repositioning, education-based marketing, lead generation and a connected order and invoicing system for a long-standing Ontario hardwood flooring company."
 ---
-## A Company With Everything Except a System
+## One Marketing System for a Family Business Since 1940
 
 Darmaga Hardwood Flooring was one of Ontario's long-standing flooring companies, with deep roots in Richmond Hill, Vaughan and the wider Greater Toronto Area, specializing in hardwood, engineered, laminate and hand-scraped floors. The business had been family owned since 1940 and carried four generations of accumulated craft.
 
@@ -17,7 +17,7 @@ Their marketing was being bought from several suppliers at once: one for web des
 
 ---
 
-## What Fragmentation Was Costing Them.
+## The Problem With Competing on Price.
 
 Hardwood flooring is a category where most companies compete on price, and price is the argument that wins by default when nothing else has been established.
 
@@ -25,7 +25,7 @@ Darmaga had every ingredient of a different argument. A long history, genuine ex
 
 So the company was being forced to compete on the one dimension where its advantages counted for nothing. Not because the advantages were not real, but because nobody had built the system that made them legible.
 
-## Repositioning Around What They Actually Had.
+## Repositioning on Craft, Materials and Expertise.
 
 We repositioned Darmaga on its own strengths: the market history, the craftsmanship, the quality of materials, the expertise in installation, the design guidance, and the long-term performance of a floor rather than the price of one.
 
@@ -35,7 +35,7 @@ The goal was never to make Darmaga look cheaper. It was to make the market under
 
 ![Darmaga Hardwood Flooring collateral: a photo-led brochure spread, website pages on desktop and phone, a promotional card and showroom photography.](/assets/case-studies/darmaga-hardwood/body-01.jpg)
 
-## Teaching Homeowners What Goes Wrong.
+## Homeowner Education Instead of Promotions.
 
 Most of the strategy ran on teaching, because a claim about quality is worthless until the buyer can check it for themselves.
 
@@ -45,7 +45,7 @@ A homeowner who understands that has stopped comparing quotes. They are comparin
 
 ![Darmaga’s product photography grid, a customer journey map, the branded delivery van and the YouTube channel of homeowner education videos.](/assets/case-studies/darmaga-hardwood/body-02.jpg)
 
-## Winning the Sales Team Over.
+## Marketing as a Sales-Support System.
 
 The sales team did not see the point at first, and it is worth saying so, because that is the normal reaction and pretending otherwise would make this story less useful.
 
@@ -53,7 +53,7 @@ What changed their view was accumulation. A campaign brought better-qualified le
 
 Marketing stopped being promotion and became a sales-support system, which is the only definition of marketing that survives contact with a sales floor.
 
-## The Layer Most Agencies Will Not Touch.
+## From Lead Capture to Invoicing.
 
 Marketing that works produces a problem: more leads arriving than the back office was built to absorb.
 
@@ -61,7 +61,7 @@ So the work extended into operations. We supported a connected order-processing,
 
 That work belongs to Infrastructure, the part of the [Brand-to-Revenue Performance System](/alive-pro/our-system) most agencies will not go near. Darmaga is the clearest example in our work of all four domains running at once: Foundation in the repositioning, Execution in the content and video, Growth in the search and lead generation, Infrastructure in the operating workflow underneath. Most engagements use two. This one used the whole architecture, which is why brand, sales, operations and customer experience ended up connected rather than merely coordinated.
 
-## What One Partner Replaced.
+## One Partner Instead of Several Suppliers.
 
 Instead of managing disconnected suppliers, Darmaga had one team that understood the brand, the customer, the market, the product, the sales process and what the company believed about its own work.
 

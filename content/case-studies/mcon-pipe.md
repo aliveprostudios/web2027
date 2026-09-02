@@ -7,7 +7,7 @@ url: "/work/case-studies/mcon-pipe"
 seoTitle: "MCON Pipe Case Study"
 seoDescription: "Website management, technical catalogues and price lists for an established precast manufacturer, delivered with the responsiveness of an internal department at a distance."
 ---
-## Down the Hall, From Another City
+## Their Marketing Department, Based in Another City
 
 MCON Pipe, now operating as Omni Precast, is an established manufacturer of precast products and a leader in supplying safe, sustainable infrastructure for community development across Ontario. Their position in the market is already made.
 
@@ -17,7 +17,7 @@ We are their sole branding and marketing arm, and we are not in their building.
 
 ***
 
-## Why Distance Is the Real Problem.
+## Responding Like an Internal Team.
 
 Established manufacturers usually have no difficulty finding an agency. They have difficulty finding one that matches their scale without also matching an agency's pace.
 
@@ -39,7 +39,7 @@ That audience does not respond to persuasion. It responds to a product being cor
 
 ![MCON Pipe: the product catalogue cover, the website on desktop and mobile, aerial photographs of the precast concrete pipe yard and the wordmark.](/assets/case-studies/mcon-pipe/body-01.jpg)
 
-## On-Demand Initiatives.
+## Projects on Demand.
 
 Beyond the standing assets, we take on specific branding and marketing work as it is called for, which is the arrangement that suits a company whose marketing calendar is driven by the business rather than by a campaign schedule.
 

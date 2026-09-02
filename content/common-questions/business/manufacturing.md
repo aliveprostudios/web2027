@@ -32,14 +32,14 @@ questions:
       - /foundation/brand-strategy-positioning
       - /execution/sales-marketing-collateral
     caseStudies:
-      - assa-abloy-door-security-solutions
+      - stone-lamina
       - darmaga-hardwood
     related:
       - /common-questions/topics/brand-and-positioning#positioning-vs-logo
       - /common-questions/business/manufacturing#manufacturer-marketing
 ---
 
-Eight of the eleven clients in our case studies make something. These are the three questions that come up most often in a first conversation with a manufacturer.
+Seven of the ten clients in our case studies make something. These are the three questions that come up most often in a first conversation with a manufacturer.
 
 ## Should a manufacturer invest in marketing, or is it all relationships and trade shows?
 

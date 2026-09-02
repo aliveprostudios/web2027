@@ -15,7 +15,7 @@ That arrangement did not start this way. It began as a vendor relationship and b
 
 The commercial argument for it is simple. A hardware brand at this level touches a customer through packaging, a retail shelf, two consumer storefronts, a wholesale portal, a trade show booth and a social feed. Split that across specialist agencies and someone has to spend their week holding it together, and the brand still arrives at each touchpoint slightly different from the last.
 
-## What Was Slowing Them Down.
+## The Three Challenges.
 
 Three obstacles were slowing growth at once.
 
@@ -25,7 +25,7 @@ The second was structural. Alfred needed to expand into B2B without diluting the
 
 The third was consistency. Packaging is governed by technical print specifications with no tolerance for error. Digital is governed by nothing of the kind. Holding one brand standard across both, through several agencies each seeing only their own piece, was producing friction rather than output.
 
-## Consolidate, Then Remove the Bottleneck.
+## One Partner for Every Touchpoint.
 
 Consolidation meant every creative and technical requirement running through one partner, so that consistency stopped being a coordination problem and became a default. Removing the bottleneck meant abandoning traditional product photography rather than trying to make it faster.
 
@@ -33,7 +33,7 @@ Alongside both, we built a segmented digital architecture with separate routes f
 
 This is the [Brand-to-Revenue Performance System](/alive-pro/our-system) doing what it was built to do. Foundation settles the standard once. Execution produces against it, from the packaging to the 3D compositions to the trade show wall. Infrastructure carries the storefronts and the wholesale portal. One team reading from one strategy, so the output of each part becomes the input of the next instead of a handoff between suppliers who have never met.
 
-## Replacing the Photoshoot.
+## 3D Visualization Instead of Photography.
 
 We model Alfred's hardware in 3D and composite it onto virtually constructed doors, which means any combination of product, finish and door style can be produced on demand without a studio, a physical door or an installer.
 
@@ -43,11 +43,11 @@ This is the change that pays for the relationship. A builder or developer asking
 
 ![Six 3D compositions placing Alfred locks on virtually constructed doors, across street, hallway, apartment and residential settings.](/assets/case-studies/alfred-smart-locks/body-01.jpg)
 
-## The Box Does the Selling.
+## Retail Packaging and Combo Kits.
 
 Retail packaging and the Combo Kit boxes are engineered rather than designed, because a tactile finish at this level has to survive complex print production without drifting from the brand guidelines. The box is also the last thing that speaks for the product before someone buys it, and the first thing they handle after. We treat it accordingly.
 
-## Three Storefronts, Two Audiences.
+## Two Shopify Stores and a Wholesale Portal.
 
 We manage, optimize and maintain two Shopify storefronts, one for the Canadian consumer market and one for the United States, each tailored to its own market rather than sharing a compromise.
 

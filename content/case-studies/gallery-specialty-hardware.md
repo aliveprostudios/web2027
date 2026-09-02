@@ -7,7 +7,7 @@ url: "/work/case-studies/gallery-specialty-hardware"
 seoTitle: "Gallery Specialty Hardware Case Study"
 seoDescription: "Catalogue management, product communications and sales enablement for a Canadian architectural door hardware manufacturer, as an extension of their internal team."
 ---
-## An Extension of Their Team, Not a List of Projects
+## An Extension of Gallery's Team for More Than a Decade
 
 Gallery Specialty is a Canadian door hardware manufacturer based in the Toronto area, with manufacturing and sourcing reaching well beyond it. For more than a decade we have worked as their branding, marketing, advertising and creative partner.
 
@@ -35,7 +35,7 @@ The point is not to present a product. It is to make its value legible to the ar
 
 ![The Gallery Specialty Hardware website for architectural door hardware, a trifold brochure, 3D-rendered hardware details and a one-stop-shop building diagram.](/assets/case-studies/gallery-specialty-hardware/body-01.jpg)
 
-## Sales and Presentation Support.
+## Sales Presentations in 48 Hours.
 
 This is the part of the relationship that gets tested hardest. For a major opportunity, Gallery may hand us little more than architectural information, a door reference, a set of product selections, finishes, hardware requirements or preliminary drawings.
 
@@ -43,7 +43,7 @@ From that we build a finished presentation showing how those specific locks, lev
 
 It gets done because the capability sits in one place. Gallery moves on the opportunity while their sales team stays focused on winning it.
 
-## One Team, Not Eight Suppliers.
+## One Team Instead of Eight Suppliers.
 
 Handled the traditional way, this work would require Gallery to coordinate a brand strategist, a graphic designer, a photographer, a copywriter, a web developer, a marketing specialist and a production designer, then keep all of them aligned.
 
@@ -57,7 +57,7 @@ Responding quickly is not a service level. It is the compound result of years sp
 
 That distinction matters, because it sets what happens when a deadline compresses. The timeline moves. The standard does not.
 
-## What Gallery Stopped Having to Do.
+## What It Frees Gallery to Do.
 
 Gallery does not rebuild a team every time a catalogue, a launch, a presentation, a website update, a photograph or an opportunity appears. One partner is already holding the brand, the products, the technical requirements and the business in mind.
 

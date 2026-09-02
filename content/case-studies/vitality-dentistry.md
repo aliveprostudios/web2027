@@ -7,7 +7,7 @@ url: "/work/case-studies/vitality-dentistry"
 seoTitle: "Vitality Dentistry Case Study"
 seoDescription: "Brand positioning, patient education and more than 100 videos for a Unionville implant and digital dentistry practice, and the category expertise that came out of it."
 ---
-## What Decades in One Category Teaches You
+## Positioning an Implant Practice Above Price Since 1998
 
 Vitality Dentistry is a Unionville practice built around implant, cosmetic and family dentistry, and positioned on digital dentistry, computer-guided implants and complete care in one location. The relationship began in 1998 and has been one of the most significant long-term brand partnerships in this company's history.
 
@@ -17,7 +17,7 @@ Dental implants are among the most competitive areas in dentistry. Most clinics 
 
 ---
 
-## Two Claims That Sound Identical.
+## When Patients Cannot Tell the Difference.
 
 A patient shopping for implants cannot tell the difference between a low-cost offer and a digitally planned, computer-guided treatment. Both are described in the same words. Both promise comfort and results. One costs a fraction of the other.
 
@@ -25,7 +25,7 @@ Faced with two claims that sound identical, a patient rationally chooses the che
 
 The second difficulty is emotional rather than commercial. Implants are expensive, permanent and frightening. The patient who needs the work most has often avoided a dentist for years, and no technical claim reaches someone who is not ready to walk through the door.
 
-## Above the Pricing Noise.
+## A Position Built on Precision, Not Price.
 
 We helped shape and communicate Vitality's position as a clinic built on a philosophy rather than a procedure, with the messaging carried by precision, planning, technology, patient comfort and long-term outcomes.
 
@@ -43,7 +43,7 @@ We produced a large volume of educational and informational content covering opt
 
 ![Vitality’s cornerstones of implant philosophy, a grid of patient education cards, the Digital Dentistry brochure and a long scrolling website page.](/assets/case-studies/vitality-dentistry/body-02.jpg)
 
-## Video, Content and Campaigns.
+## More Than 100 Videos, Content and Campaigns.
 
 Across the relationship we produced more than 100 videos in educational, informational, patient-focused and promotional formats, alongside multiple websites, photography, digital and social campaigns, content strategy, search visibility and lead generation.
 
@@ -51,7 +51,7 @@ The campaigns ran the full length of the decision rather than the moment of inte
 
 This is what the Growth domain of the [Brand-to-Revenue Performance System](/alive-pro/our-system) is built to do, and why it sits downstream of Foundation rather than beside it. Campaigns built on a settled position and stocked with aligned assets convert at a rate that campaigns assembled from scratch never reach. Vitality's funnel worked because it was never asked to invent the argument. The argument already existed, and a hundred videos were waiting to make it.
 
-## What the Category Taught Us.
+## What We Learned About the Implant Market.
 
 The most durable outcome of this relationship is knowledge, and it belongs to both sides.
 

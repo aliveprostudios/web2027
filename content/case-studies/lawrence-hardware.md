@@ -7,7 +7,7 @@ url: "/work/case-studies/lawrence-hardware"
 seoTitle: "Lawrence Hardware Case Study"
 seoDescription: "Fourteen years of catalogue management, product data, 3D visualization and sales enablement for a Canadian architectural door hardware manufacturer founded over 140 years ago."
 ---
-## Selling the Room, Not the Lockset
+## Fourteen Years Managing a 140-Year-Old Brand
 
 Lawrence Hardware is a Canadian architectural door hardware manufacturer with a history spanning more than 140 years, positioned around integrity, quality, innovation and continued leadership in the markets it serves. For roughly fourteen years we have managed virtually every aspect of that brand.
 
@@ -33,7 +33,7 @@ Rather than general marketing material, we build communications aimed at a speci
 
 Lawrence's condominium door suite materials are the clearest example, built around particular locksets and interior door hardware for one application rather than describing the range and hoping the reader locates themselves in it.
 
-## 3D Visualization and Experiential Selling.
+## 3D Visualization for Sales Presentations.
 
 This is the capability that most changes what a salesperson can walk into a meeting carrying.
 
@@ -61,7 +61,7 @@ The obvious cost of that is coordination. The less obvious one arrives when some
 
 Lawrence has one. We own the outcome, which is the difference between a problem being diagnosed and a problem being fixed.
 
-## Why It Compounds.
+## Why Every Project Makes the Next One Faster.
 
 The efficiency here is not a rate. It is accumulation, which is why the [Brand-to-Revenue Performance System](/alive-pro/our-system) is designed to be entered once and extended rather than repurchased.
 

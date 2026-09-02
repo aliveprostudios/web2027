@@ -7,7 +7,7 @@ url: "/work/case-studies/claritas"
 seoTitle: "Claritas Case Study"
 seoDescription: "How Alive ProStudios turned a 70-page sales training document into a single unified visual system for a US leader in audience optimization and identity resolution."
 ---
-## Seventy Pages, One Slide
+## From a 70-Page Training Document to One Slide
 
 Claritas is the market leader in audience identification and optimization in the United States, resolving identity in real time for the ecosystem partners that the advertising industry runs on. Their own sales team was learning to pitch it from a 70-page training document.
 
@@ -17,7 +17,7 @@ The platform underneath is on the order of 265 million US consumers, 580 million
 
 ---
 
-## A Wall, Seen From Outside.
+## A Complex Platform That Was Hard to Explain.
 
 Claritas had accumulated the brand architecture of a company that keeps inventing things. Several named segmentation systems, proprietary identity technologies, an AI layer, an attribution layer and a distribution layer, each of them real, each valuable, each with its own name and its own history.
 
@@ -27,7 +27,7 @@ The failure mode here is quiet and expensive. Nobody objects. They simply stop f
 
 This is a Foundation problem, in the language of the [Brand-to-Revenue Performance System](/alive-pro/our-system), and it is the reason Foundation sits where it does. Claritas had formidable capability in every other domain. When the architecture is not legible, that capability does not compensate for it. It amplifies the error, because every asset produced downstream inherits the confusion and spends real money distributing it.
 
-## One View, Then Everything Beneath It.
+## One Slide That Explains the Whole System.
 
 Deconstruct, rethink, re-strategize. Not redesign.
 
@@ -45,13 +45,13 @@ These are not illustrations of the product. They are the product, drawn. A buyer
 
 ![The Claritas Digital Audiences and Activation and Real-Time Identity Resolution diagrams, one light and one dark, beside two smaller wheels for the product suite.](/assets/case-studies/claritas/body-02.jpg)
 
-## The Rollout.
+## Rolling It Out Across the Company.
 
 The system then had to hold everywhere. We scaled the visual language across presentations, offline and online assets, and video production, so that a deck built by one team and a video produced by another read as output from the same company.
 
 That is what makes a visual system worth building rather than a single good slide. Consistency stops being something anyone has to enforce, because there is one place for every asset to read from.
 
-## What Replaced the Seventy Pages.
+## The Results.
 
 The work replaced the legacy training materials outright. What began as a request for creative support became the foundational visual language Claritas now uses across their presentations and marketing collateral.
 
