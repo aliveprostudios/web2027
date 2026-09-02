@@ -14,8 +14,6 @@ caseStudies:
 videoUrl: "https://youtu.be/YoudIrML8lU"
 videoHeading: "Watch the Reel"
 videoCaption: "The work, the clients and the thinking behind them, in one sitting."
-featureCredit: "Work · Alfred Smart Locks · Retail packaging system"
-featureCreditHref: "/work/case-studies/alfred-smart-locks"
 ---
 
 > Most companies do not have a marketing problem. They have six suppliers, six opinions and nobody accountable for the whole. Make it one system and the parts start paying for each other.
