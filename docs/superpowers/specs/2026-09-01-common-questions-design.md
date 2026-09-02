@@ -1,7 +1,9 @@
 # Common Questions — Knowledge Base Design
 
 **Date:** 2026-09-01
-**Status:** Architecture and question map approved by Javad. Content not yet written.
+**Status:** BUILT and on staging, commit `3fea7f3`. Architecture and question map
+approved by Javad; four decisions changed during the build and are marked
+SUPERSEDED below.
 **Scope:** A top-level educational knowledge base at `/common-questions`, built for
 SEO, AEO and AI search visibility. 24 questions across 8 cluster pages plus a hub.
 
@@ -22,12 +24,13 @@ sales FAQ. `/resources/faqs` is the sales FAQ and stays exactly as it is.
 
 | Section | Job | Status |
 |---|---|---|
-| `/resources/faqs` | Company FAQ: who we are, how we work, cost | Live on staging, design approved 2026-09-01. **Untouched by this work.** |
+| ~~`/resources/faqs`~~ | Company FAQ | **RETIRED 2026-09-01.** SUPERSEDED: Javad asked for it to be removed, because its seven questions came from the Sanity export and read like it. `/faqs` and `/resources/faqs` both 301 here. |
 | `/common-questions` | Subject knowledge base: branding, marketing, systems | This spec |
 | `/start-here` | Router: visitor's need to the right service | 9 files written, copy rejected 2026-08-31, nothing wired |
 
-The seven questions on `/resources/faqs` are all company-scoped, so none of them
-duplicates a question here. The two sections cross-link once each.
+SUPERSEDED. The plan was for the two sections to coexist and cross-link. Javad
+removed the old FAQ instead, so this section is now the only place on the site
+that answers questions. Do not rebuild a second FAQ under Resources.
 
 Start Here and Common Questions are structurally similar and could compete. They do
 not, because they do different jobs: Start Here routes a visitor who already knows
@@ -40,7 +43,7 @@ is rebuilt, its rows should link into the matching cluster rather than re-explai
 
 1. **Top-level `/common-questions/`, not under Resources.** Its own menu row, placed
    after Case Studies. Same call as Case Studies: menu position and URL depth are
-   separate decisions.
+   separate decisions. It REPLACED `/resources/faqs` rather than sitting beside it.
 2. **Cluster pages, not one page per question.** At the answer spec below, a
    single-question page runs about 350 words, which would be the thinnest route on the
    site. Case studies run 651 to 968. Clusters run 1,200 to 1,800 with a linkable
@@ -195,7 +198,7 @@ Each question is one block on its cluster page:
 2. **Direct answer, 40 to 70 words**, as the first paragraph, styled as a lede so it
    reads as the answer and not as an introduction. This paragraph is the unit an answer
    engine quotes and the unit that goes into the schema. It must stand alone with no
-   preceding context.
+   preceding context. It is ALWAYS VISIBLE: only the detail below it collapses.
 3. **Detail, 150 to 300 words** of prose. What it means, why it matters, when it is
    relevant, what people get wrong.
 4. **Related line:** the service pages, the case study where one exists, and 2 to 4
@@ -373,6 +376,12 @@ const commonQuestions = defineCollection({
 `published: false` works here as it does everywhere else, so a cluster can be taken off
 the site without deleting it.
 
+**SUPERSEDED:** an earlier draft of this spec required the declared `anchor` to
+match the slugified heading. That was backwards. It would have made rewording a
+question silently change a public URL fragment, and it forced anchors as long as
+`should-we-build-custom-software-or-use-an-off-the-shelf-platform`. Anchors are
+now declared independently and validated only for uniqueness.
+
 ### Library
 
 `src/lib/commonQuestions.ts`, one purpose: turn the collection into clusters and
@@ -383,8 +392,8 @@ Exposes: `clusters()`, `cluster(url)`, `questionsIn(cluster)`, `allQuestions()`,
 
 Throws at build when:
 
-- a `##` heading has no matching frontmatter entry, or an entry has no heading;
-- a declared `anchor` does not match the slugified heading;
+- the `##` heading count and the `questions` count disagree (they pair by position);
+- two questions in one file share an anchor;
 - a question has no direct answer paragraph;
 - a `related` path names a cluster or anchor that does not exist;
 - a `services` path is not a real service route;
