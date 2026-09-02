@@ -56,10 +56,10 @@ is rebuilt, its rows should link into the matching cluster rather than re-explai
 5. **Two industries, not five.** Manufacturing and dental/medical, because 8 of the 11
    case studies are manufacturing or industrial and Vitality Dentistry covers dental.
    Law firms and gyms have no proof behind them and go on the future list.
-6. **No search volume data was used.** DataForSEO returned HTTP 402, out of credit, on
-   both the Google Ads volume and Keyword Difficulty endpoints on 2026-09-01, the same
-   failure recorded on 2026-08-31. The map is judgment. Re-validate before any paid
-   search spend on these terms.
+6. **No search volume data was used, and none will be.** Keyword tooling is out of
+   scope on this project as of 2026-09-01 (CLAUDE.md decision 10). The map is
+   judgment: search intent, the service pages each question supports, and the case
+   studies that prove it.
 
 ---
 
