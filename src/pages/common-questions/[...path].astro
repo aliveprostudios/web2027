@@ -1,0 +1,514 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BgRails from '../../components/BgRails.astro';
+import SiteNav from '../../components/SiteNav.astro';
+import VideoHero from '../../components/VideoHero.astro';
+import BookConsult from '../../components/BookConsult.astro';
+import NextStep from '../../components/NextStep.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { clusters, CATEGORY_LABELS } from '../../lib/commonQuestions';
+
+/**
+ * /common-questions/<category>/<cluster>
+ *
+ * The design language is the FAQ accordion Javad approved on 2026-09-01: the
+ * pillar grid, a mono index, the question at a solid 600 weight, the glyph
+ * beside it, orange and the dot on the open row, and the panel animated through
+ * a one-row grid easing 0fr to 1fr.
+ *
+ * What changed, deliberately. On the old FAQ the whole answer was inside the
+ * accordion. Here the DIRECT ANSWER is always visible and only the detail
+ * collapses. Burying a 40-70 word answer behind a click works against the
+ * point of the section: that paragraph is what a person reads and what an
+ * answer engine quotes, and it is the paragraph in the FAQPage schema.
+ *
+ * `<details>` still carries the collapse, which is what makes this work with no
+ * JavaScript at all. The script only intercepts the toggle to animate it. That
+ * also avoids the trap from the first FAQ build: a fallback that opened panels
+ * to full height killed the animation, because `open` lands two frames before
+ * the attribute the CSS transitions on. The fallback here is scoped to lists
+ * the script never marked.
+ */
+export async function getStaticPaths() {
+  const all = await clusters();
+  return all.map((cluster, i) => ({
+    params: { path: cluster.path },
+    props: {
+      cluster,
+      prev: all[i - 1] ?? null,
+      next: all[i + 1] ?? null,
+      siblings: all.filter((c) => c.url !== cluster.url && c.category === cluster.category),
+    },
+  }));
+}
+
+const { cluster, prev, next, siblings } = Astro.props;
+const SITE = 'https://aliveprostudios.com';
+
+const schema = [
+  {
+    '@type': 'WebPage',
+    '@id': `${SITE}${cluster.url}#page`,
+    name: cluster.seoTitle,
+    description: cluster.seoDescription,
+    isPartOf: { '@id': `${SITE}/common-questions#collection` },
+    publisher: { '@id': `${SITE}/#organization` },
+  },
+  {
+    /* Answers here are the visible direct-answer paragraphs, taken from the
+       same Markdown the page renders, so the two cannot drift. */
+    '@type': 'FAQPage',
+    '@id': `${SITE}${cluster.url}#faq`,
+    mainEntity: cluster.questions.map((q) => ({
+      '@type': 'Question',
+      '@id': `${SITE}${cluster.url}#${q.anchor}`,
+      name: q.q,
+      acceptedAnswer: { '@type': 'Answer', text: q.answer },
+    })),
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Common Questions', url: '/common-questions' },
+  { name: cluster.title, url: cluster.url },
+];
+---
+
+<BaseLayout
+  title={cluster.seoTitle}
+  description={cluster.seoDescription}
+  path={cluster.url}
+  {schema}
+  {breadcrumbs}
+>
+  <div class="page-root">
+    <BgRails />
+
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav active="/common-questions" />
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">
+            Common Questions&nbsp;&nbsp;·&nbsp;&nbsp;{CATEGORY_LABELS[cluster.category]}
+          </p>
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask"><span class="hero__line dot">{cluster.title}</span></span>
+          </h1>
+          <p class="hero__caption">
+            <span class="hero__caption-lead">
+              {cluster.questions.length} {cluster.questions.length === 1 ? 'answer' : 'answers'}.
+            </span>{' '}
+            <span class="hero__caption-tail">{cluster.caption}</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <VideoHero route={cluster.url} title="Alive ProStudios reel" />
+
+    <main id="main">
+      <section class="cq section">
+        <p class="cq__eyebrow t-eyebrow z-content">
+          <span class="cq__num">(01)</span>&nbsp;&nbsp;Answers
+          &nbsp;&nbsp;<span class="cq__count">({cluster.questions.length})</span>
+        </p>
+        <p class="cq__lede z-content">{cluster.lede}</p>
+
+        <div class="cq__list z-content" data-cq-list>
+          {
+            cluster.questions.map((q, i) => (
+              <article class="cq__item">
+                <div class="cq__head">
+                  <span class="cq__index t-index">{String(i + 1).padStart(2, '0')}</span>
+                  <div class="cq__headBody">
+                    <h2 class="cq__q dot" id={q.anchor}>{q.q}</h2>
+                    <p class="cq__answer">{q.answer}</p>
+                  </div>
+                </div>
+
+                <details class="cq__more" data-cq-item open={i === 0}>
+                  <summary class="cq__toggle">
+                    <span class="cq__toggleLabel">The detail</span>
+                    <span class="cq__glyph" aria-hidden="true" />
+                  </summary>
+                  <div class="cq__panel">
+                    <div class="cq__panel-inner">
+                      {q.detail.map((block) =>
+                        block.type === 'p' ? (
+                          <p class="cq__p">{block.text}</p>
+                        ) : (
+                          <ul class="cq__ul">
+                            {block.items.map((item) => (
+                              <li>{item}</li>
+                            ))}
+                          </ul>
+                        ),
+                      )}
+
+                      {(q.services.length > 0 || q.caseStudies.length > 0 || q.related.length > 0) && (
+                        <div class="cq__links">
+                          {q.services.length > 0 && (
+                            <div class="cq__linkGroup">
+                              <p class="cq__linkTitle t-eyebrow">Related services</p>
+                              <ul>
+                                {q.services.map((s) => (
+                                  <li><a href={s.url}>{s.label}</a></li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          {q.caseStudies.length > 0 && (
+                            <div class="cq__linkGroup">
+                              <p class="cq__linkTitle t-eyebrow">See it in practice</p>
+                              <ul>
+                                {q.caseStudies.map((s) => (
+                                  <li><a href={s.url}>{s.label}</a></li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          {q.related.length > 0 && (
+                            <div class="cq__linkGroup cq__linkGroup--wide">
+                              <p class="cq__linkTitle t-eyebrow">Related questions</p>
+                              <ul>
+                                {q.related.map((r) => (
+                                  <li><a href={r.url}>{r.label}</a></li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </details>
+              </article>
+            ))
+          }
+          <div class="cq__end" />
+        </div>
+
+        <figure class="cq__quote z-content">
+          <blockquote>{cluster.quote}</blockquote>
+          <figcaption>
+            <span class="cq__quoteName">Javad Ahmadi</span>
+            <span class="cq__quoteRole">Brand Transformation Architect</span>
+          </figcaption>
+        </figure>
+      </section>
+
+      {
+        siblings.length > 0 && (
+          <section class="cq section cq--siblings">
+            <p class="cq__eyebrow t-eyebrow z-content">
+              <span class="cq__num">(02)</span>&nbsp;&nbsp;Keep reading
+            </p>
+            <h2 class="cq__heading t-h2 dot z-content">More on {CATEGORY_LABELS[cluster.category].toLowerCase()}</h2>
+            <ul class="cq__siblings z-content">
+              {siblings.map((s) => (
+                <li>
+                  <a href={s.url}>
+                    <span class="cq__siblingTitle">{s.title}</span>
+                    <span class="cq__siblingMeta">{s.questions.length} answers</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      <BookConsult />
+    </main>
+
+    <NextStep sectionNum={siblings.length > 0 ? '03' : '02'} />
+    <SiteFooter
+      backLabel={prev ? prev.title : 'Common Questions'}
+      backHref={prev ? prev.url : '/common-questions'}
+      nextLabel={next ? next.title : 'Contact'}
+      nextHref={next ? next.url : '/contact'}
+    />
+  </div>
+</BaseLayout>
+
+<script>
+  /* Animated <details>, the mechanism approved on the FAQ page. The browser
+     toggles `open` instantly, so the click is intercepted and the attribute is
+     managed around the transition. `data-open` drives the CSS; `open` keeps the
+     semantics and the no-JS behaviour. Unlike the FAQ, items here are
+     independent: opening one does not close the others, because the answers are
+     already visible and reading two details side by side is reasonable. */
+  const DURATION = 420;
+
+  function expand(item: HTMLDetailsElement) {
+    item.open = true;
+    /* Two frames: one for `open` to lay the panel out at 0fr, one to start the
+       transition to 1fr. The timeout is the safety net, and it matters: frames
+       are starved entirely in a hidden or backgrounded tab, and without it the
+       panel would sit at 0fr while `open` was true, leaving the detail in the
+       DOM but unreachable. `collapse` already had this net; `expand` did not. */
+    const open = () => item.setAttribute('data-open', '');
+    requestAnimationFrame(() => requestAnimationFrame(open));
+    setTimeout(open, DURATION);
+  }
+
+  function collapse(item: HTMLDetailsElement) {
+    item.removeAttribute('data-open');
+    const panel = item.querySelector<HTMLElement>('.cq__panel');
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      item.open = false;
+    };
+    panel?.addEventListener('transitionend', finish, { once: true });
+    setTimeout(finish, DURATION + 60);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-cq-list]').forEach((list) => {
+    /* Hands the list to the script: the CSS no-JS fallback stands down. */
+    list.setAttribute('data-js', '');
+    list.querySelectorAll<HTMLDetailsElement>('[data-cq-item]').forEach((item) => {
+      if (item.open) item.setAttribute('data-open', '');
+      item.querySelector('summary')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (item.open) collapse(item);
+        else expand(item);
+      });
+    });
+  });
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+  .hero__caption {
+    margin: 32px 0 0;
+    max-width: 720px;
+    font-size: clamp(15px, 1.3vw, 17px);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    text-transform: uppercase;
+    animation: heroFade 800ms var(--ease-settle) both 300ms;
+  }
+  .hero__caption-lead { color: #fff; }
+  .hero__caption-tail { color: var(--brand-orange); }
+
+  .cq { padding-top: 96px; }
+  .cq--siblings { padding-top: 0; }
+  .cq__eyebrow { color: var(--pg-fg); margin: 0 0 28px; }
+  .cq__num { color: var(--orange-ink); }
+  .cq__count { color: var(--pg-fg3); }
+  .cq__heading { margin: 0 0 48px; }
+  .cq__lede {
+    margin: 0 0 56px;
+    max-width: 62ch;
+    font-size: clamp(19px, 1.7vw, 23px);
+    line-height: 1.55;
+    color: var(--pg-fg2);
+  }
+
+  .cq__list { display: flex; flex-direction: column; }
+  .cq__end { border-top: 1px solid var(--pg-line); }
+  .cq__item { border-top: 1px solid var(--pg-line); padding-top: 34px; }
+
+  /* The pillar grid: index column, then content. */
+  .cq__head {
+    display: grid;
+    grid-template-columns: var(--col-num) 1fr;
+    gap: clamp(24px, 3vw, 56px);
+    align-items: baseline;
+  }
+  .cq__index { padding-top: 0.35em; }
+  .cq__headBody { min-width: 0; }
+
+  .cq__q {
+    margin: 0 0 18px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(20px, 1.9vw, 26px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--pg-fg);
+    scroll-margin-top: 96px;
+  }
+  /* The direct answer is the point of the page: it reads at body-plus size and
+     is never hidden behind a control. */
+  .cq__answer {
+    margin: 0;
+    max-width: 66ch;
+    font-size: clamp(17px, 1.45vw, 19px);
+    line-height: 1.6;
+    font-weight: 500;
+    color: var(--pg-fg);
+  }
+
+  .cq__more { grid-column: 1 / -1; }
+  .cq__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-left: calc(var(--col-num) + clamp(24px, 3vw, 56px));
+    padding: 20px 0 34px;
+    cursor: pointer;
+    list-style: none;
+    color: var(--orange-ink);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: transform var(--dur-micro) var(--ease-settle);
+  }
+  .cq__toggle::-webkit-details-marker { display: none; }
+  .cq__toggle:focus-visible { outline: 2px solid var(--brand-orange); outline-offset: 4px; }
+  .cq__toggle:hover { transform: translateX(6px); }
+
+  .cq__glyph { flex: none; position: relative; width: 14px; height: 14px; }
+  .cq__glyph::before,
+  .cq__glyph::after {
+    content: '';
+    position: absolute;
+    background: var(--orange-ink);
+    transition: transform var(--dur-move) var(--ease-settle);
+  }
+  .cq__glyph::before { left: 0; top: 6px; width: 14px; height: 2px; }
+  .cq__glyph::after { left: 6px; top: 0; width: 2px; height: 14px; }
+  .cq__more[data-open] .cq__glyph::after { transform: rotate(90deg); }
+  .cq__more[data-open] .cq__glyph::before { transform: rotate(180deg); }
+
+  .cq__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    grid-template-columns: var(--col-num) 1fr;
+    column-gap: clamp(24px, 3vw, 56px);
+    transition: grid-template-rows 420ms var(--ease-settle);
+  }
+  .cq__more[data-open] .cq__panel { grid-template-rows: 1fr; }
+  .cq__panel-inner { grid-column: 2; min-height: 0; overflow: hidden; }
+
+  .cq__p, .cq__ul {
+    margin: 0 0 20px;
+    max-width: 68ch;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--pg-fg2);
+  }
+  .cq__ul { padding-left: 1.1em; }
+  .cq__ul li { margin-bottom: 10px; }
+
+  .cq__links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 28px clamp(24px, 3vw, 48px);
+    margin: 34px 0 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--pg-line);
+  }
+  .cq__linkGroup--wide { grid-column: span 2; }
+  .cq__linkTitle { margin: 0 0 12px; color: var(--pg-fg3); }
+  .cq__linkGroup ul { margin: 0; padding: 0; list-style: none; }
+  .cq__linkGroup li { margin-bottom: 8px; line-height: 1.45; }
+  .cq__linkGroup a {
+    color: var(--pg-fg);
+    text-decoration: none;
+    border-bottom: 1px solid var(--pg-line);
+    transition: color var(--dur-micro) ease, border-color var(--dur-micro) ease;
+  }
+  .cq__linkGroup a:hover { color: var(--orange-ink); border-color: var(--brand-orange); }
+
+  /* No-JS fallback, scoped to lists the script never reached. Without it a
+     visitor with JavaScript off could not read any detail at all. It must not
+     apply once the script runs: between `open` landing and `data-open`
+     following two frames later the panel would already be at full height and
+     there would be nothing left to animate. */
+  .cq__list:not([data-js]) .cq__more[open] .cq__panel { grid-template-rows: 1fr; }
+
+  .cq__quote {
+    margin: 72px 0 0;
+    padding: 40px 0 0;
+    border-top: 1px solid var(--pg-line);
+    max-width: 44ch;
+  }
+  .cq__quote blockquote {
+    margin: 0 0 20px;
+    font-family: var(--font-sans);
+    font-size: clamp(20px, 2vw, 27px);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--pg-fg);
+  }
+  .cq__quote figcaption { display: flex; flex-direction: column; gap: 3px; }
+  .cq__quoteName {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange-ink);
+  }
+  .cq__quoteRole {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--pg-fg3);
+  }
+
+  .cq__siblings { margin: 0; padding: 0; list-style: none; }
+  .cq__siblings li { border-top: 1px solid var(--pg-line); }
+  .cq__siblings li:last-child { border-bottom: 1px solid var(--pg-line); }
+  .cq__siblings a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    padding: 22px 0;
+    text-decoration: none;
+    color: var(--pg-fg);
+    transition: color var(--dur-micro) ease, transform var(--dur-micro) var(--ease-settle);
+  }
+  .cq__siblings a:hover { color: var(--orange-ink); transform: translateX(6px); }
+  .cq__siblingTitle { font-weight: 600; font-size: clamp(17px, 1.5vw, 20px); line-height: 1.3; }
+  .cq__siblingMeta {
+    flex: none;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pg-fg3);
+  }
+
+  @media (max-width: 760px) {
+    .cq { padding-top: 64px; }
+    .cq__lede { margin-bottom: 40px; }
+    .cq__head { grid-template-columns: 40px 1fr; gap: 16px; }
+    .cq__panel { grid-template-columns: 40px 1fr; column-gap: 16px; }
+    .cq__toggle { margin-left: 56px; }
+    .cq__links { grid-template-columns: 1fr; }
+    .cq__linkGroup--wide { grid-column: auto; }
+    .cq__toggle:hover, .cq__siblings a:hover { transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cq__panel, .cq__toggle, .cq__glyph::before, .cq__glyph::after { transition: none; }
+  }
+</style>

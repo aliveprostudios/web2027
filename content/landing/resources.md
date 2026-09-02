@@ -21,12 +21,6 @@ Download our capabilities overview
 
 Insights on brand strategy, marketing, and growth
 
-02
-
-## FAQs
-
-Answers to common questions about our services
-
 ## WHY RESOURCES MATTER
 
 Great decisions start with the right information. Our resources are built for business owners and marketing leaders who want to understand the strategy behind the work — not just the deliverables.

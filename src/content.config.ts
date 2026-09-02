@@ -122,4 +122,36 @@ const home = defineCollection({
   }),
 });
 
-export const collections = { services, landing, pages, blog, caseStudies, home };
+/**
+ * Common Questions, the knowledge base at `/common-questions`.
+ *
+ * One file per CLUSTER (2 to 4 related questions), not per question. Prose
+ * lives in the body, links live here as data so `src/lib/commonQuestions.ts`
+ * can check every one of them at build time. Headings and `questions` pair by
+ * POSITION, so the counts must match; the parser throws when they do not.
+ */
+const commonQuestions = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './content/common-questions' }),
+  schema: z.object({
+    ...pageFields,
+    category: z.enum(['systems', 'topics', 'business']),
+    /** One Javad quote per cluster page. */
+    quote: z.string(),
+    questions: z
+      .array(
+        z.object({
+          /**
+           * Declared, never derived from the heading: an anchor is a public URL
+           * fragment, so rewording a question must not silently break links to it.
+           */
+          anchor: z.string(),
+          services: z.array(z.string()).default([]),
+          caseStudies: z.array(z.string()).default([]),
+          related: z.array(z.string()).default([]),
+        }),
+      )
+      .min(1),
+  }),
+});
+
+export const collections = { services, landing, pages, blog, caseStudies, home, commonQuestions };

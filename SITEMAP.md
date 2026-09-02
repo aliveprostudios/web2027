@@ -6,7 +6,7 @@ Domain: **aliveprostudios.com**
 Locale: English only at launch. Architecture should stay i18n-ready
 (`/fr/`, `/de/`, `/es/`, `/zh/`, `/ar/` are Phase 2; English carries no prefix).
 
-**Totals:** 28 service pages · 7 Alive Pro pages · 4 blog posts · 24 videos · 65 redirects
+**Totals:** 28 service pages · 7 Alive Pro pages · 4 blog posts · 24 videos · 9 Common Questions routes (24 answers) · 66 redirects
 
 ---
 
@@ -27,7 +27,8 @@ Locale: English only at launch. Architecture should stay i18n-ready
 | `/alive-pro` | Alive Pro landing | `content/landing/alive-pro.md` |
 | ~~`/resources`~~ | **UNPUBLISHED 2026-08-23.** Resources landing | `content/landing/resources.md` |
 | ~~`/resources/blog`~~ | **UNPUBLISHED 2026-08-23.** Blog index | `content/landing/blog-index.md` |
-| `/resources/faqs` | FAQs. **Restored 2026-09-01** with the design B accordion; two groups, seven questions | `content/faqs.md` |
+| `/common-questions` | Common Questions hub. **Added 2026-09-01.** Its OWN top-level menu row, after Case Studies. Replaced `/resources/faqs` | `content/common-questions/**/*.md` |
+| `/common-questions/<category>/<cluster>` | 8 cluster pages holding 24 anchored questions. Categories: `systems` (3), `topics` (3), `business` (2). No category hub route: the hub does the routing and breadcrumbs skip the category | `content/common-questions/<category>/<cluster>.md` |
 | ~~`/resources/brochure`~~ | **UNPUBLISHED 2026-08-23.** Digital brochure | `content/pages/brochure.md` |
 | `/contact` | Contact form | `content/pages/contact.md` |
 | `/thank-you` | Post-submit (noindex) | — |
@@ -108,7 +109,8 @@ Locale: English only at launch. Architecture should stay i18n-ready
 ## Marketing Blog (4)
 
 **RESTORED 2026-08-30.** `/resources` and `/resources/blog` are live again; the
-section is titled **Marketing Blog**. `/resources/faqs` was restored 2026-09-01.
+section is titled **Marketing Blog**. `/resources/faqs` was retired 2026-09-01 and
+301s to `/common-questions`, which replaced it.
 `/resources/brochure` stays parked in `src/pages/_resources/` until its content
 is ready, and nothing links to it: its row in `content/landing/resources.md` has
 no number line, so `parseLanding` skips it (`src/lib/landing.ts`).
@@ -155,8 +157,8 @@ In Astro, set them in `astro.config.mjs` under `redirects`, or at the host.
 > is the right destination: it is topically what the visitor asked for, which a
 > 301 to the homepage was not.
 >
-> **One row is still parked at `/`:** `/digital-brochure`. `/faqs` was repointed
-> to `/resources/faqs` on 2026-09-01 in the commit that unparked the route.
+> **One row is still parked at `/`:** `/digital-brochure`. `/faqs` now points at
+> `/common-questions`, as does `/resources/faqs`, retired the same day.
 > Restore `/digital-brochure` to `/resources/brochure` in the same commit that
 > unparks that route from `src/pages/_resources/`. A 301 to a 404 is worse
 > than a 301 to the homepage, so the redirect and the route must move together.
@@ -232,7 +234,8 @@ are only ever discovered through that index, so redirecting the index is enough.
 | `/alive-pro/precision-impact-sprints` | `/alive-pro` | 302 |
 | `/partnership-niu` | `/alive-pro/partnership` | 301 |
 | `/partnership-new` | `/alive-pro/partnership` | 301 |
-| `/faqs` | `/resources/faqs` | 301 |
+| `/faqs` | `/common-questions` | 301 |
+| `/resources/faqs` | `/common-questions` | 301 |
 | `/digital-brochure` | `/` | 301 |
 | `/brand-marketing-blog` | `/resources/blog` | 301 |
 | `/branding/online-digital-advertising` | `/resources/blog` | 301 |

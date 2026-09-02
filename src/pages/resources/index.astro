@@ -7,7 +7,6 @@ import BookConsult from '../../components/BookConsult.astro';
 import NextStep from '../../components/NextStep.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import { parseLanding } from '../../lib/landing';
-import { allFaqs } from '../../lib/faqs';
 import { getCollection } from 'astro:content';
 
 /**
@@ -26,7 +25,6 @@ const landing = await parseLanding('resources', '/resources');
 const posts = await getCollection('blog');
 const COUNTS: Record<string, number> = {
   '/resources/blog': posts.length,
-  '/resources/faqs': allFaqs().length,
 };
 
 const rows = (landing?.children ?? []).map((child, i) => ({

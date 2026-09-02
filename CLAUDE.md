@@ -44,11 +44,17 @@ Settled. Do not reopen without asking Javad.
    separate decisions deliberately. Moving to a top-level `/case-studies/` is
    still free while this is staging-only, and costs a redirect once it ships.
 
-8. **Legal pages are documents, not service pages.** `/privacy-policy` has its
+8. **Common Questions replaced the FAQ.** Settled 2026-09-01. `/resources/faqs`
+   is gone, along with `content/faqs.md` and `src/lib/faqs.ts`; `/faqs` and
+   `/resources/faqs` both 301 to `/common-questions`. Javad's reason was that
+   the seven questions read like nobody wrote them, which is fair: they came
+   from the Sanity export. Do not rebuild a second FAQ under Resources.
+
+9. **Legal pages are documents, not service pages.** `/privacy-policy` has its
    own route and renders its Markdown through Astro, NOT through
    `MasterPage` + `parseAnatomy`. See `TEMPLATE-ANATOMY.md` §4 for why.
 
-9. **One enumerated framework on the whole site.** The Brand-to-Revenue
+10. **One enumerated framework on the whole site.** The Brand-to-Revenue
    Performance System, four domains, owned by `/alive-pro/our-system`. Settled
    2026-08-25 because three frameworks were competing under overlapping names:
    the System on Home, a "Brand Transformation System" on Our Process that was
@@ -68,7 +74,7 @@ served DNS for some time: the nameservers point at Cloudflare, and the apex is a
 Custom Domain on the `aliveprostudios` Worker. Microsoft mail was never touched
 and its four records are untouched to this day (MX, two TXT, `autodiscover`).
 
-54 as of 2026-08-30, up from 48: Resources came back in part, adding `/resources`, `/resources/blog` and four posts. Two Resources routes are still parked, see Known gaps. `/alive-pro/our-system` was added and `/alive-pro/our-philosophy` retired on 2026-08-25.
+Staging builds 75 HTML routes as of 2026-09-01, up from 67 (Case Studies, Common Questions, the new home page and the new footer are all staging-only; production is still 54). Counts here are `find dist -name '*.html' | wc -l`, which includes `404` and `thank-you`; earlier entries saying 66 and 68 were off by one against that measure. 54 as of 2026-08-30, up from 48: Resources came back in part, adding `/resources`, `/resources/blog` and four posts. Two Resources routes are still parked, see Known gaps. `/alive-pro/our-system` was added and `/alive-pro/our-philosophy` retired on 2026-08-25.
 
 ```
 alive-astro/
@@ -90,6 +96,7 @@ alive-astro/
 │   ├── pages/             ← 54 routes (+ `_resources/`, faqs + brochure parked)
 │   └── styles/            ← tokens.css, base.css
 └── content/               ← Markdown, the source of truth for all copy
+    ├── common-questions/  ← 8 cluster files, 24 answers; one file per CLUSTER
     └── work/hero-videos.md ← which video each SECTION uses; carries its own guide
 ```
 
@@ -226,6 +233,22 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
   for `aspect-ratio:1` matched the hero's `1280 / 600` on the first request and
   reported a deploy that had not happened. Key on a string that cannot exist in
   the previous build.
+- **`--pg-bg` / `--pg-fg` and `data-theme` live on `body`, NOT `:root`.** Reading
+  them off `document.documentElement` returns empty and makes correct pages look
+  like they have lost their theme tokens. `tokens.css` sets them on `body` and
+  `body[data-theme='dark']`.
+- **The hero H1's reveal animation looks exactly like a clipping bug.**
+  `.hero__line-mask` is `overflow:hidden` and `heroRise` translates the line up
+  from below, so a screenshot taken before the animation settles shows the last
+  line cut in half. Wait for it before concluding anything. Separately, every
+  wrapping title overhangs its mask by ~16px because `.t-h1` is
+  `line-height: 0.88`; that is site-wide and by design, not a defect.
+- **A hidden browser pane reports a 0x0 viewport and starves
+  `requestAnimationFrame`.** `body` then measures 0 wide, text wraps at zero
+  width, screenshots come back blank, and any double-rAF callback never fires.
+  All three look like real bugs and are not. Check `window.innerWidth` and
+  `document.hidden` before debugging layout through the pane, and call
+  `resize_window` to force a real viewport.
 - **A wildcard host does not match the bare domain.** `https://*.analytics.google.com`
   leaves `analytics.google.com` blocked, which is exactly where GA4 posts its
   events. List both forms.
@@ -288,7 +311,7 @@ npm run build
 | **Our Philosophy unpublished 2026-08-25** | `published: false` in `content/pages/our-philosophy.md`, file intact, one line flips it back. Its two strongest ideas, the positioning-discipline argument and "your brand is what your staff deliver", were folded into Why Alive Pro as prose rather than lost. `/alive-pro/our-philosophy` and the legacy `/our-philosophy` both 301 to `/alive-pro/why-alive-pro`, verified live |
 | Menu order is About, Why, System, Process, Partnership, What to Expect, Testimonials | Set by `order:` frontmatter. Sprints stays unpublished at 7. Blurbs on the `/alive-pro` landing rows are name-matched out of `content/landing/alive-pro.md`, so **a new page under `content/pages/` gets a row automatically but renders with no blurb until that file gains a matching `##` heading**. That is how Our System shipped bare for a build |
 | About Us still reads as a large company | Javad's positioning is boutique, and it is now stated on Why Alive Pro ("We are not a large agency and have never wanted to be one"). About Us still says "all under one roof" and Our System says "one team", which read as size. Javad was offered a boutique line on About Us on 2026-08-25 and it was left open, not declined |
-| **FAQ section LIVE ON STAGING 2026-09-01, `/resources/faqs`** | Design B accordion approved by Javad the same day and moved from the `/faqs-b` draft into `src/pages/resources/faqs.astro`; the parked `_resources/faqs.astro` and the draft are deleted. Seven questions in two groups, About Alive ProStudios (5) and Working Together (2); the Precision Impact Sprints question was removed because Javad is not publishing Sprints. The `02` number line above `## FAQs` in `content/landing/resources.md` brought back the menu row, the landing card and the count together, and `/faqs` now 301s to `/resources/faqs` in `SITEMAP.md`. Design: each group is a section with eyebrow and H2, rows on the pillar grid with mono index and 600-weight question, glyph beside the question, open question orange with the dot, open/close animated through a one-row grid easing 0fr to 1fr with `<details>` kept for semantics. **Trap:** a no-JS fallback that showed any `[open]` panel at full height silently killed the animation, because `open` is set two frames before the animating attribute; the fallback is scoped to lists the script never marked. Staging is 68 routes; production still 54
+| **Common Questions LIVE ON STAGING 2026-09-01, `/common-questions`** | Replaced `/resources/faqs`, which Javad asked to remove because its seven questions came from the Sanity export and read like it. 9 routes: a hub plus 8 cluster pages holding 24 answers, weighted 10 systems, 9 topics, 5 business. **Cluster pages, not one route per question:** at 40-70 words of direct answer plus 150-300 of detail a per-question page would be ~350 words, the thinnest route on the site against case studies at 651-968. Each question keeps an anchor, so answer engines still extract one answer. Its OWN top-level menu row after Case Studies. **Design:** the approved FAQ accordion grammar (pillar grid, mono index, 600-weight question, glyph, orange plus dot, 0fr-to-1fr panel), but the DIRECT ANSWER is always visible and only the detail collapses; that paragraph is also the FAQPage `acceptedAnswer`, so visible text and schema cannot drift. One Javad quote per cluster page, eight in total. Schema is `WebPage` + `FAQPage` per cluster, `CollectionPage` on the hub; not `Article` (competes with the blog) and not `QAPage` (that is for forums). **Industries cut from five to two:** manufacturing and dental have 8 and 1 case studies behind them; law firms, gyms and med spas had none and went to the future list. **No search data informed it:** DataForSEO returned HTTP 402, out of credit, on both volume and difficulty endpoints, same as 2026-08-31. Re-validate before paid search spend. **Round one has no video or photography question**, which leaves Execution's 8 service pages unsupported; it is item 1 on the 30-question future list in the spec. Spec: `docs/superpowers/specs/2026-09-01-common-questions-design.md`. Staging builds 75 HTML routes, up from 67; production still 54 |
 | **Work pages renamed 2026-08-25** | `/work/videos` is titled "Brand Marketing Videos" and `/work/portfolio` is "Projects & Campaigns", across H1, meta title, eyebrow, BreadcrumbList, gallery schema, nav sub-menu, `/work` rows and the prev/next footers. **Both routes are unchanged and that is deliberate.** Nav URLs are slugified from the display name, so both names are in `CHILD_URL_OVERRIDES` in `src/lib/landing.ts`; without them the menu would point at `/work/projects-and-campaigns` and `/work/brand-marketing-videos`, which do not exist, while the real pages stayed put. Rename either page again and that map must be updated in the same commit |
 | Video library is 24, was 26 | Maple Investment Realty and "Alive ProStudios, Branding Company Toronto" removed 2026-08-25 at Javad's request. Titles now mix two separator styles, pipes ("Bellini Modern Living \| Brand Video") and colons ("Claritas: Market Leader & Authority"); both read fine alone but the mix is visible scanning the grid. Javad has not chosen one |
 | **Google Tag Manager live 2026-08-26** | `GTM-PJLQRZC`, in `BaseLayout.astro`, on all 48 pages. The container fires GA4 `G-L9G3DSQCJQ`, Google Ads `AW-967661948`, a Meta pixel `314453825678590` and LinkedIn Insight `7456860`; all four verified sending on production. Two GTM **Custom HTML** tags log a CSP violation each: the Meta bootstrap, which still works because GTM retries through an allowed path, and a HubSpot form listener that is dead weight here since the contact form is Formspree. Converting both to native GTM templates clears the console. Consent: Javad's decision 2026-08-26 is that Canada does not require it, so no banner and no Consent Mode |

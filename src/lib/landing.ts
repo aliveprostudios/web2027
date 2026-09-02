@@ -41,7 +41,6 @@ export const CHILD_URL_OVERRIDES: Record<string, string> = {
   'digital brochure': '/resources/brochure',
   'brand marketing blog': '/resources/blog',
   'marketing blog': '/resources/blog',
-  faqs: '/resources/faqs',
 };
 
 export function slugify(value: string): string {

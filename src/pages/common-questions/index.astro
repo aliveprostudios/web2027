@@ -1,0 +1,248 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BgRails from '../../components/BgRails.astro';
+import SiteNav from '../../components/SiteNav.astro';
+import VideoHero from '../../components/VideoHero.astro';
+import BookConsult from '../../components/BookConsult.astro';
+import NextStep from '../../components/NextStep.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { byCategory, questionCount, clusters } from '../../lib/commonQuestions';
+
+/**
+ * /common-questions — the hub.
+ *
+ * Every question on the site is listed here, linked to its own anchor, so this
+ * page is both the human entry point and the densest internal link source in
+ * the section. Counts come from the collection, so adding a cluster file adds
+ * its card, its questions and every number on this page with no code change.
+ */
+const path = '/common-questions';
+const title = 'Common Questions';
+const description =
+  'Straight answers on branding, marketing, search and business systems, for ' +
+  'business owners deciding what to do next. Some of them end with advice not ' +
+  'to spend the money.';
+
+const groups = await byCategory();
+const count = await questionCount();
+const all = await clusters();
+const SITE = 'https://aliveprostudios.com';
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `${SITE}${path}#collection`,
+    name: 'Alive ProStudios Common Questions',
+    description,
+    publisher: { '@id': `${SITE}/#organization` },
+    hasPart: all.map((c) => ({
+      '@type': 'WebPage',
+      '@id': `${SITE}${c.url}#page`,
+      name: c.seoTitle,
+      url: `${SITE}${c.url}`,
+    })),
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: title, url: path },
+];
+---
+
+<BaseLayout {title} {description} {path} {schema} {breadcrumbs}>
+  <div class="page-root">
+    <BgRails />
+
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav active={path} />
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Alive ProStudios&nbsp;&nbsp;·&nbsp;&nbsp;Common Questions</p>
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask"><span class="hero__line dot">Common questions</span></span>
+          </h1>
+          <p class="hero__caption">
+            <span class="hero__caption-lead">{count} answers, no sales pitch.</span>{' '}
+            <span class="hero__caption-tail">Several of them end with advice not to spend the money.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <VideoHero route={path} title="Alive ProStudios reel" />
+
+    <main id="main">
+      {
+        groups.map((group, gi) => (
+          <section class="cqh section">
+            <p class="cqh__eyebrow t-eyebrow z-content">
+              <span class="cqh__num">({String(gi + 1).padStart(2, '0')})</span>&nbsp;&nbsp;
+              {group.label}&nbsp;&nbsp;
+              <span class="cqh__count">
+                ({group.items.reduce((n, c) => n + c.questions.length, 0)})
+              </span>
+            </p>
+            <h2 class="cqh__heading t-h2 dot z-content">{group.label}</h2>
+
+            <div class="cqh__grid z-content">
+              {group.items.map((cluster) => (
+                <article class="cqh__card">
+                  <a class="cqh__cardHead" href={cluster.url}>
+                    <h3 class="cqh__cardTitle">{cluster.title}</h3>
+                    <span class="cqh__cardMeta">{cluster.questions.length} answers</span>
+                  </a>
+                  <ul class="cqh__questions">
+                    {cluster.questions.map((q) => (
+                      <li>
+                        <a href={`${cluster.url}#${q.anchor}`}>{q.q}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+
+      <section class="cqh section cqh--ask">
+        <p class="cqh__eyebrow t-eyebrow z-content">
+          <span class="cqh__num">({String(groups.length + 1).padStart(2, '0')})</span>&nbsp;&nbsp;Not here
+        </p>
+        <h2 class="cqh__heading t-h2 dot z-content">Ask us the one that is missing</h2>
+        <p class="cqh__ask z-content">
+          This section grows from the questions people actually ask in first conversations.
+          If yours is not answered here, send it to us and we will answer it directly,
+          whether or not it turns into work.
+        </p>
+        <a class="cqh__askLink z-content" href="/contact">Ask a question</a>
+      </section>
+
+      <BookConsult />
+    </main>
+
+    <NextStep sectionNum={String(groups.length + 2).padStart(2, '0')} />
+    <SiteFooter backLabel="Case Studies" backHref="/work/case-studies" nextLabel="Alive Pro" nextHref="/alive-pro" />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+  .hero__caption {
+    margin: 32px 0 0;
+    max-width: 720px;
+    font-size: clamp(15px, 1.3vw, 17px);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    text-transform: uppercase;
+    animation: heroFade 800ms var(--ease-settle) both 300ms;
+  }
+  .hero__caption-lead { color: #fff; }
+  .hero__caption-tail { color: var(--brand-orange); }
+
+  .cqh { padding-top: 0; }
+  .cqh:first-of-type { padding-top: 96px; }
+  .cqh__eyebrow { color: var(--pg-fg); margin: 0 0 28px; }
+  .cqh__num { color: var(--orange-ink); }
+  .cqh__count { color: var(--pg-fg3); }
+  .cqh__heading { margin: 0 0 48px; }
+
+  .cqh__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: clamp(28px, 3vw, 48px);
+  }
+  .cqh__card { border-top: 1px solid var(--pg-line); padding-top: 22px; }
+
+  .cqh__cardHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 18px;
+    text-decoration: none;
+    color: var(--pg-fg);
+    transition: color var(--dur-micro) ease;
+  }
+  .cqh__cardHead:hover { color: var(--orange-ink); }
+  .cqh__cardTitle {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(18px, 1.5vw, 21px);
+    line-height: 1.28;
+    letter-spacing: -0.005em;
+  }
+  .cqh__cardMeta {
+    flex: none;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pg-fg3);
+  }
+
+  .cqh__questions { margin: 18px 0 0; padding: 0; list-style: none; }
+  .cqh__questions li { margin-bottom: 11px; }
+  .cqh__questions a {
+    color: var(--pg-fg2);
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1.5;
+    border-bottom: 1px solid transparent;
+    transition: color var(--dur-micro) ease, border-color var(--dur-micro) ease;
+  }
+  .cqh__questions a:hover { color: var(--orange-ink); border-color: var(--brand-orange); }
+
+  .cqh--ask { padding-top: 24px; }
+  .cqh__ask {
+    margin: 0 0 32px;
+    max-width: 60ch;
+    font-size: clamp(17px, 1.45vw, 19px);
+    line-height: 1.65;
+    color: var(--pg-fg2);
+  }
+  .cqh__askLink {
+    display: inline-block;
+    padding: 15px 30px;
+    background: var(--brand-orange);
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: transform var(--dur-micro) var(--ease-settle);
+  }
+  .cqh__askLink:hover { transform: translateY(-2px); }
+  .cqh__askLink:focus-visible { outline: 2px solid var(--pg-fg); outline-offset: 4px; }
+
+  @media (max-width: 760px) {
+    .cqh:first-of-type { padding-top: 64px; }
+    .cqh__heading { margin-bottom: 32px; }
+    .cqh__askLink:hover { transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cqh__askLink { transition: none; }
+  }
+</style>
