@@ -25,11 +25,15 @@ The catalogue is the largest single responsibility, running to roughly 380 pages
 
 The website functions as an online extension of that catalogue, which means both have to agree. A product detail that is right in print and wrong on the site is not a small inconsistency in this industry. It is a wrong order, a returned shipment and a distributor who checks everything twice from then on.
 
+![Gallery’s commercial product catalogue: interior spreads, the Turkey architectural door hardware brochure and the boxed 2019 catalogue set.](/assets/case-studies/gallery-specialty-hardware/body-02.jpg)
+
 ## Product Launches and Communications.
 
 Gallery introduces and updates products constantly, and each one needs the communications that bring it to market: product bulletins, feature campaigns, brochures, product sheets, digital content, website updates and material built for specific verticals.
 
 The point is not to present a product. It is to make its value legible to the architect, builder, designer or distributor who has to decide whether it belongs in their project.
+
+![The Gallery Specialty Hardware website for architectural door hardware, a trifold brochure, 3D-rendered hardware details and a one-stop-shop building diagram.](/assets/case-studies/gallery-specialty-hardware/body-01.jpg)
 
 ## Sales and Presentation Support.
 

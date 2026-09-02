@@ -25,6 +25,8 @@ The part of this that is easy to underestimate is the data itself. Nearly every 
 
 That work is not graphic production. It depends on an established understanding of product structure, technical information, pricing systems and document management, which is knowledge that takes years to build and cannot be briefed into a supplier in a week.
 
+![Lawrence Hardware collateral: a Commercial and Residential folder, a column of lever handles in seven finishes, a trade show banner, a catalogue spread and a hotel room door with keypad lock.](/assets/case-studies/lawrence-hardware/body-01.jpg)
+
 ## Targeted Communications.
 
 Rather than general marketing material, we build communications aimed at a specific audience and a specific objective: product families, new introductions, market segments, industry verticals, architectural applications, commercial and residential opportunities, and dealer and partner initiatives.
@@ -40,6 +42,8 @@ A salesperson often needs to present one specific combination: a lock, a lever, 
 We build the environment digitally instead, then produce photographic renderings of the exact combination being proposed. Lawrence can put together a customized presentation quickly and economically, and is no longer limited to showing whatever happens to have been photographed already.
 
 The distinction matters more than it sounds. Showing the hardware answers a technical question. Showing the hardware in the room answers the question the client is actually asking, which is whether this is the right decision. That is what gives architects, builders, dealers and customers confidence in a proposal, and what separates Lawrence during a competitive opportunity.
+
+![The Architects of Style and Bold Italian Levers brochures, an Art of Perfection spread, and three door photographs showing levers in a bathroom, a bedroom and a hallway.](/assets/case-studies/lawrence-hardware/body-02.jpg)
 
 ## Video and Digital Content.
 

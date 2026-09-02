@@ -33,11 +33,15 @@ That meant leading with digital dentistry and computer-guided implant planning, 
 
 The goal was never to make Vitality look like every other implant provider with a better logo. It was to make it the destination for a patient who had decided this was not a purchase to win on price.
 
+![Vitality Dentistry: the clinic exterior, a newspaper advertisement, a welcome brochure with the multicolour star mark and a Seven Reasons Patients Choose Us for Dental Implants diagram.](/assets/case-studies/vitality-dentistry/body-01.jpg)
+
 ## Patient Education.
 
 Education carried most of the strategy, because the position only holds if the patient understands what they are comparing.
 
 We produced a large volume of educational and informational content covering options, risks, benefits, technologies and treatment philosophy, turning clinical knowledge into something a patient could follow while frightened. That is a specific writing problem. Too technical and it reassures nobody. Too promotional and it sounds like everything else in the category, which is the one thing it cannot afford to sound like.
+
+![Vitality’s cornerstones of implant philosophy, a grid of patient education cards, the Digital Dentistry brochure and a long scrolling website page.](/assets/case-studies/vitality-dentistry/body-02.jpg)
 
 ## Video, Content and Campaigns.
 

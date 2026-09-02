@@ -33,6 +33,8 @@ The shift underneath was in what the company was selling. It stopped being floor
 
 The goal was never to make Darmaga look cheaper. It was to make the market understand why better materials, better installation and better expertise are worth what they cost.
 
+![Darmaga Hardwood Flooring collateral: a photo-led brochure spread, website pages on desktop and phone, a promotional card and showroom photography.](/assets/case-studies/darmaga-hardwood/body-01.jpg)
+
 ## Teaching Homeowners What Goes Wrong.
 
 Most of the strategy ran on teaching, because a claim about quality is worthless until the buyer can check it for themselves.
@@ -40,6 +42,8 @@ Most of the strategy ran on teaching, because a claim about quality is worthless
 Rather than running promotions, we built content explaining the difference between a low-cost flooring solution and a properly specified one: how the materials, the fasteners, the installation method and the product selection determine what the floor does in year five, and why squeaking, movement and premature wear are consequences of decisions made at purchase rather than bad luck.
 
 A homeowner who understands that has stopped comparing quotes. They are comparing outcomes, and Darmaga wins that comparison.
+
+![Darmaga’s product photography grid, a customer journey map, the branded delivery van and the YouTube channel of homeowner education videos.](/assets/case-studies/darmaga-hardwood/body-02.jpg)
 
 ## Winning the Sales Team Over.
 

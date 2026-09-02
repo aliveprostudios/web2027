@@ -39,9 +39,13 @@ It had to carry the cladding system itself, the benefits, the installation metho
 
 The organizing decision was comparison. The material leads with what a specifier already knows, conventional stone cladding, and places the panel directly against it on the measures that decide a project: weight, strength, fire performance, installation speed, transport cost, design freedom. That framing does work no adjective can, because it lets someone evaluate an unfamiliar product using judgment they already trust.
 
+![The full Stone Lamina catalogue laid out page by page: material photography, technical drawings, comparison charts and building case examples.](/assets/case-studies/stone-lamina/body-02.jpg)
+
 ## Brand, Website and Collateral.
 
 Around the catalogue we built the identity and visual presentation, the company marketing brochure, the website, and the sales and marketing collateral for both online and offline use, all reading from the same position so the product met an architect the same way in every format.
+
+![Stone Lamina brochure: a stone cladding panel product overview, a Long Lasting cover with a commercial building, and a spread on a curved timber-clad interior.](/assets/case-studies/stone-lamina/body-01.jpg)
 
 ## Photography, Video and 3D Visualization.
 

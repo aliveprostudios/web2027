@@ -25,6 +25,8 @@ Seven product brands, developed with the naming and positioning work behind them
 
 A manufacturer who launches products with descriptive names is selling components. A manufacturer whose products have brands is selling a range, and can extend it for years without starting over each time.
 
+![The named portfolio: the SilentGliss roller blind systems brochure, a grid of specification sheets, and the marks for Elara Shade, Brading Fabrication, Allusions, Astirium, Solara Sky, Laudations and Solara Roman.](/assets/case-studies/bfl/body-02.jpg)
+
 ## Technical Product Storytelling.
 
 These are not window coverings. The systems involve motorization, specialty fabrics, custom installation requirements, automation integration, privacy control, light management, UV protection and advanced hardware, in combinations that change with the application.
@@ -46,6 +48,8 @@ For a dealer, that combination is the actual value. One relationship covers what
 ## Photography, Video and Sales Literature.
 
 An engineered shade is only convincing installed. We produce the project photography, the promotional and educational video, the product sheets, the branded system literature and the web assets, so a dealer has something to put in front of a client that shows the fascia detail, the fabric behaviour and the finished sight lines rather than describing them.
+
+![Product specification sheets for the shading portfolio, each in its own brand colour, beside interiors showing the shades installed and a blue Brading Fabrication folder.](/assets/case-studies/bfl/body-01.jpg)
 
 ## Why It Reads as One Company.
 

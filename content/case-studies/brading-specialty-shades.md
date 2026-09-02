@@ -39,11 +39,15 @@ Rebranding a company that often is not indecision. The Brand Core underneath has
 
 Their B2B brochure is built as a lookbook rather than a sales document, because the buyer is a designer and the format has to respect that. Its job is to sit on an architect's desk and make the case through Brading's best-known projects, without asking anyone to read a paragraph about quality.
 
+![Lookbook spreads: a residential atrium with tall drapery, an OLG Theatre auditorium feature, a bay window with sheer shades, a living room with layered treatments and a Lutron partner vehicle.](/assets/case-studies/brading-specialty-shades/body-01.jpg)
+
 ## Cinematic Production and Photography.
 
 We built a production framework for capturing installations properly: cinematic video and photography of the key properties, shot to hold both the scale of a space and the detail of the mechanism, including the Lutron integrations that make the systems disappear into the architecture.
 
 This carries the most weight of anything we produce for them, because it is the only way an architect who was not in the room can assess what Brading does.
+
+![Architectural photography of a white stone museum facade under blue sky, with interior views of a lecture hall, a dining room and offices fitted with shading.](/assets/case-studies/brading-specialty-shades/body-02.jpg)
 
 ## Digital Properties.
 

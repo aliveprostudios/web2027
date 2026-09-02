@@ -29,6 +29,8 @@ Corporate events are photographed to record scale and to record atmosphere, and 
 
 For specific campaigns we build the visual structure and the assets that sit inside it, working from the group's brand system rather than around it.
 
+![Team photograph outside the ASSA ABLOY building, the NASCAR Canada Series sponsorship car, the Accentra and ASSA ABLOY Opening Solutions marks, and a column of bilingual promotional web banners.](/assets/case-studies/assa-abloy-door-security-solutions/body-01.jpg)
+
 ## French Localization, at Speed.
 
 Urgent material needs accurate French faster than internal processes can turn it around. We handle that, which is less a translation service than a requirement of operating properly in this country. A Canadian campaign that ships in one language has not shipped.

@@ -35,11 +35,15 @@ The goal was one high-level view: a single slide that explains the entire system
 
 Then make that view scalable rather than final. The same visual logic had to branch down into core functionality, specific portals, market verticals and partner integrations, so the depth a particular audience needs is available without a different diagram being invented for it. One structure, examined at whatever resolution the room requires.
 
+![Claritas information graphics: a dark platform diagram running data inflows through proprietary technologies to distribution end points, a segment wheel, and the Cornerstones of Claritas AI ring.](/assets/case-studies/claritas/body-01.jpg)
+
 ## Visual Information Design.
 
 Underneath the top-level view we built the models that carry the technical argument: Claritas Real-Time Identity Resolution and the Claritas Attribution Service, each tracing the full path from initial data inflows to final distribution end-points.
 
 These are not illustrations of the product. They are the product, drawn. A buyer evaluating identity resolution is asking a structural question about how records are matched, stored and acted on, and a diagram that answers it honours the question in a way prose cannot.
+
+![The Claritas Digital Audiences and Activation and Real-Time Identity Resolution diagrams, one light and one dark, beside two smaller wheels for the product suite.](/assets/case-studies/claritas/body-02.jpg)
 
 ## The Rollout.
 

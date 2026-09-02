@@ -37,6 +37,8 @@ The catalogue is the primary sales instrument in precast. We structure, design a
 
 That audience does not respond to persuasion. It responds to a product being correctly documented, dimensionally certain and clearly compliant, and it penalizes anything that is not. A wrong figure in a price list is not a typo. It is a quote that has to be withdrawn.
 
+![MCON Pipe: the product catalogue cover, the website on desktop and mobile, aerial photographs of the precast concrete pipe yard and the wordmark.](/assets/case-studies/mcon-pipe/body-01.jpg)
+
 ## On-Demand Initiatives.
 
 Beyond the standing assets, we take on specific branding and marketing work as it is called for, which is the arrangement that suits a company whose marketing calendar is driven by the business rather than by a campaign schedule.
