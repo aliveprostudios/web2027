@@ -21,6 +21,13 @@ const related = posts
   .filter((p) => p.id !== entry.id)
   .map((p, i) => ({ num: String(i + 1).padStart(2, '0'), title: p.data.title, url: `/resources/blog/${p.id}` }));
 
+// The page entity is a WebPage; this Article is the ONE Article for this URL.
+// Passing schemaType="Article" to MasterPage emitted a second, thin Article
+// entity (#page, name + description only) alongside the real one (#article),
+// so the graph advertised two different Articles for the same page. The
+// MasterPage call below therefore passes "WebPage" and hands this in as
+// extraSchema. (A comment between the component's attributes broke
+// `astro check` with a bogus "unterminated string literal", hence it lives here.)
 const article = {
   '@type': 'Article',
   '@id': `https://aliveprostudios.com${path}#article`,
@@ -53,10 +60,6 @@ const article = {
   ]}
   footerLabel="All Articles"
   footerHref="/resources/blog"
-  {/* The page entity is a WebPage; the Article below is the ONE Article for
-      this URL. Passing "Article" here emitted a second, thin Article entity
-      (#page, name + description only) alongside the real one (#article), so
-      the graph advertised two different Articles for the same page. */}
   schemaType="WebPage"
   extraSchema={[article]}
 />
