@@ -85,15 +85,14 @@ const caseStudies = defineCollection({
 });
 
 /**
- * Home-B: the draft home page at `/home-b`, noindex and out of the sitemap.
- *
- * Two entries, `page` and `intro`, both in `content/home-b/`. Every string the
- * route renders that is not a full block of prose lives in frontmatter here,
- * so the draft can be reworked without opening the template. When Home-B is
- * approved its copy replaces the live home page's and the route is deleted.
+ * The home page's copy. Two entries, `page` and `intro`, both in
+ * `content/home/`. Every string the route renders that is not a full block of
+ * prose lives in frontmatter here, so the page can be reworked without
+ * opening `src/pages/index.astro`. (Built as "Home-B" in `content/home-b/`,
+ * promoted to the home route 2026-09-01.)
  */
-const homeB = defineCollection({
-  loader: glob({ pattern: '*.md', base: './content/home-b' }),
+const home = defineCollection({
+  loader: glob({ pattern: '*.md', base: './content/home' }),
   schema: z.object({
     title: z.string(),
     caption: z.string().optional(),
@@ -123,4 +122,4 @@ const homeB = defineCollection({
   }),
 });
 
-export const collections = { services, landing, pages, blog, caseStudies, homeB };
+export const collections = { services, landing, pages, blog, caseStudies, home };

@@ -1,6 +1,6 @@
 ---
-title: "Home-B intro block"
-source: "authored 2026-09-01, draft for Home-B"
+title: "Home intro block"
+source: "authored 2026-09-01, home page, promoted from the Home-B draft 2026-09-01"
 linkLabel: "Start the conversation"
 linkHref: "/contact"
 ---
