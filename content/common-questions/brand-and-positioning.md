@@ -1,7 +1,6 @@
 ---
 title: "Brand, Positioning and Consistency"
-url: "/common-questions/topics/brand-and-positioning"
-category: topics
+url: "/common-questions/brand-and-positioning"
 order: 4
 caption: "What positioning actually is, when to rebrand, and why brands drift."
 seoTitle: "Brand, Positioning and Consistency"
@@ -13,21 +12,21 @@ questions:
       - /foundation/brand-strategy-positioning
       - /foundation/brand-name-identity
     related:
-      - /common-questions/topics/brand-and-positioning#when-to-rebrand
-      - /common-questions/business/manufacturing#manufacturer-differentiation
+      - /common-questions/brand-and-positioning#when-to-rebrand
+      - /common-questions/manufacturing#manufacturer-differentiation
   - anchor: when-to-rebrand
     services:
       - /foundation/rebranding
     related:
-      - /common-questions/topics/brand-and-positioning#positioning-vs-logo
-      - /common-questions/topics/brand-and-positioning#brand-consistency
+      - /common-questions/brand-and-positioning#positioning-vs-logo
+      - /common-questions/brand-and-positioning#brand-consistency
   - anchor: brand-consistency
     services:
       - /foundation/brand-voice
       - /growth/ongoing-brand-guardianship
     related:
-      - /common-questions/topics/brand-and-positioning#positioning-vs-logo
-      - /common-questions/topics/marketing-and-leads#traffic-no-leads
+      - /common-questions/brand-and-positioning#positioning-vs-logo
+      - /common-questions/marketing-and-leads#traffic-no-leads
 ---
 
 Brand work gets confused with design work constantly, and the confusion is expensive. The decisions below are made once and lived with for years, which is why they are worth slowing down for.

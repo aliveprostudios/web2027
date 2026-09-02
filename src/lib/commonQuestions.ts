@@ -24,6 +24,11 @@ import { getCollection } from 'astro:content';
  * Deriving them would mean that rewording a question silently changes a public
  * URL fragment and breaks every inbound link to it.
  *
+ * There are no categories. A topic is one file directly in
+ * `content/common-questions/`, its id is the slug, and the hub lists topics in
+ * `order`. Javad's direction, 2026-09-02: three fixed buckets looked like a
+ * structure that could not grow; a flat list grows by adding a file.
+ *
  * Everything here throws at build rather than degrading. A knowledge base is a
  * graph, and a graph with silently broken edges rots without anyone noticing.
  */
@@ -47,9 +52,8 @@ export type Question = {
 export type Cluster = {
   title: string;
   url: string;
-  /** Route param for `[...path].astro`, e.g. `systems/custom-software`. */
-  path: string;
-  category: 'systems' | 'topics' | 'business';
+  /** The file id and the route param for `[slug].astro`, e.g. `custom-software`. */
+  slug: string;
   order: number;
   caption: string;
   seoTitle: string;
@@ -57,12 +61,6 @@ export type Cluster = {
   quote: string;
   lede: string;
   questions: Question[];
-};
-
-export const CATEGORY_LABELS: Record<Cluster['category'], string> = {
-  systems: 'Business Systems',
-  topics: 'Topics',
-  business: 'By Business',
 };
 
 /** Split a Markdown body into paragraph and list blocks. */
@@ -195,11 +193,19 @@ export async function clusters(): Promise<Cluster[]> {
         throw new Error(`[common-questions] ${file}: duplicate anchor "${duplicate}"`);
       }
 
+      const slug = entry.id;
+      const url = `/common-questions/${slug}`;
+      if (entry.data.url && entry.data.url !== url) {
+        throw new Error(
+          `[common-questions] ${file}: frontmatter url "${entry.data.url}" does not match ` +
+            `"${url}", which is where this file builds. Rename the file or fix the url.`,
+        );
+      }
+
       return {
         title: entry.data.title,
-        url: entry.data.url!,
-        path: entry.data.url!.replace('/common-questions/', ''),
-        category: entry.data.category,
+        url,
+        slug,
         order: entry.data.order ?? 0,
         caption: entry.data.caption ?? '',
         seoTitle: entry.data.seoTitle ?? entry.data.title,
@@ -236,8 +242,8 @@ export async function clusters(): Promise<Cluster[]> {
   return cache;
 }
 
-export async function clusterByPath(path: string): Promise<Cluster | undefined> {
-  return (await clusters()).find((c) => c.path === path);
+export async function clusterBySlug(slug: string): Promise<Cluster | undefined> {
+  return (await clusters()).find((c) => c.slug === slug);
 }
 
 export async function allQuestions(): Promise<Question[]> {
@@ -246,16 +252,4 @@ export async function allQuestions(): Promise<Question[]> {
 
 export async function questionCount(): Promise<number> {
   return (await allQuestions()).length;
-}
-
-/** Clusters grouped for the hub, in category order. */
-export async function byCategory(): Promise<{ category: Cluster['category']; label: string; items: Cluster[] }[]> {
-  const all = await clusters();
-  return (['systems', 'topics', 'business'] as const)
-    .map((category) => ({
-      category,
-      label: CATEGORY_LABELS[category],
-      items: all.filter((c) => c.category === category),
-    }))
-    .filter((g) => g.items.length > 0);
 }

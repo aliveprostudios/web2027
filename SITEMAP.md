@@ -28,7 +28,7 @@ Locale: English only at launch. Architecture should stay i18n-ready
 | ~~`/resources`~~ | **UNPUBLISHED 2026-08-23.** Resources landing | `content/landing/resources.md` |
 | ~~`/resources/blog`~~ | **UNPUBLISHED 2026-08-23.** Blog index | `content/landing/blog-index.md` |
 | `/common-questions` | Common Questions hub. **Added 2026-09-01.** Its OWN top-level menu row, after Case Studies. Replaced `/resources/faqs` | `content/common-questions/**/*.md` |
-| `/common-questions/<category>/<cluster>` | 8 cluster pages holding 24 anchored questions. Categories: `systems` (3), `topics` (3), `business` (2). No category hub route: the hub does the routing and breadcrumbs skip the category | `content/common-questions/<category>/<cluster>.md` |
+| `/common-questions/<topic>` | 8 topic pages holding 24 anchored questions. Flat since 2026-09-02: no categories, no subfolders, no category routes. The hub lists topics only. Adding a topic is adding a file | `content/common-questions/*.md` |
 | ~~`/resources/brochure`~~ | **UNPUBLISHED 2026-08-23.** Digital brochure | `content/pages/brochure.md` |
 | `/contact` | Contact form | `content/pages/contact.md` |
 | `/thank-you` | Post-submit (noindex) | — |

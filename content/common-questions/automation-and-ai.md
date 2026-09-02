@@ -1,7 +1,6 @@
 ---
 title: "Automation and AI in a Real Business"
-url: "/common-questions/systems/automation-and-ai"
-category: systems
+url: "/common-questions/automation-and-ai"
 order: 2
 caption: "What to automate, in what order, and where AI genuinely helps."
 seoTitle: "Automation and AI in a Real Business"
@@ -12,22 +11,22 @@ questions:
     services:
       - /infrastructure/intelligent-systems-integration
     related:
-      - /common-questions/systems/automation-and-ai#what-to-automate-first
-      - /common-questions/topics/marketing-and-leads#marketing-automation
+      - /common-questions/automation-and-ai#what-to-automate-first
+      - /common-questions/marketing-and-leads#marketing-automation
   - anchor: what-to-automate-first
     services:
       - /infrastructure/intelligent-systems-integration
       - /infrastructure/solution-architecture-design
     related:
-      - /common-questions/systems/data-and-dashboards#replace-spreadsheets
-      - /common-questions/business/manufacturing#quoting-spreadsheets
+      - /common-questions/data-and-dashboards#replace-spreadsheets
+      - /common-questions/manufacturing#quoting-spreadsheets
   - anchor: ai-repetitive-work
     services:
       - /infrastructure/intelligent-systems-integration
       - /execution/ai-generated-production
     related:
-      - /common-questions/systems/data-and-dashboards#connect-systems
-      - /common-questions/topics/seo-and-ai-search#get-cited-by-ai
+      - /common-questions/data-and-dashboards#connect-systems
+      - /common-questions/seo-and-ai-search#get-cited-by-ai
 ---
 
 Automation is sold as hours saved. The hours are real, but they are rarely the reason it matters. Consistency, traceability and the ability to grow without adding headcount are what change a business.

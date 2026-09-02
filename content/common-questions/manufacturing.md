@@ -1,7 +1,6 @@
 ---
 title: "Questions from Manufacturers"
-url: "/common-questions/business/manufacturing"
-category: business
+url: "/common-questions/manufacturing"
 order: 7
 caption: "Marketing, quoting and differentiation, for companies that make things."
 seoTitle: "Questions from Manufacturers"
@@ -16,8 +15,8 @@ questions:
       - mcon-pipe
       - lawrence-hardware
     related:
-      - /common-questions/business/manufacturing#manufacturer-differentiation
-      - /common-questions/topics/marketing-and-leads#marketing-budget
+      - /common-questions/manufacturing#manufacturer-differentiation
+      - /common-questions/marketing-and-leads#marketing-budget
   - anchor: quoting-spreadsheets
     services:
       - /infrastructure/custom-app-development
@@ -25,8 +24,8 @@ questions:
     caseStudies:
       - gallery-specialty-hardware
     related:
-      - /common-questions/systems/data-and-dashboards#replace-spreadsheets
-      - /common-questions/systems/custom-software#cost
+      - /common-questions/data-and-dashboards#replace-spreadsheets
+      - /common-questions/custom-software#cost
   - anchor: manufacturer-differentiation
     services:
       - /foundation/brand-strategy-positioning
@@ -35,8 +34,8 @@ questions:
       - stone-lamina
       - darmaga-hardwood
     related:
-      - /common-questions/topics/brand-and-positioning#positioning-vs-logo
-      - /common-questions/business/manufacturing#manufacturer-marketing
+      - /common-questions/brand-and-positioning#positioning-vs-logo
+      - /common-questions/manufacturing#manufacturer-marketing
 ---
 
 Seven of the ten clients in our case studies make something. These are the three questions that come up most often in a first conversation with a manufacturer.

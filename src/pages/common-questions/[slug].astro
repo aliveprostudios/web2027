@@ -6,10 +6,10 @@ import VideoHero from '../../components/VideoHero.astro';
 import BookConsult from '../../components/BookConsult.astro';
 import NextStep from '../../components/NextStep.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
-import { clusters, CATEGORY_LABELS } from '../../lib/commonQuestions';
+import { clusters } from '../../lib/commonQuestions';
 
 /**
- * /common-questions/<category>/<cluster>
+ * /common-questions/<slug>
  *
  * The design language is the FAQ accordion Javad approved on 2026-09-01: the
  * pillar grid, a mono index, the question at a solid 600 weight, the glyph
@@ -32,12 +32,14 @@ import { clusters, CATEGORY_LABELS } from '../../lib/commonQuestions';
 export async function getStaticPaths() {
   const all = await clusters();
   return all.map((cluster, i) => ({
-    params: { path: cluster.path },
+    params: { slug: cluster.slug },
     props: {
       cluster,
       prev: all[i - 1] ?? null,
       next: all[i + 1] ?? null,
-      siblings: all.filter((c) => c.url !== cluster.url && c.category === cluster.category),
+      /* Every other topic, in order. There are no categories, so the "keep
+         reading" list is the whole section minus this page. */
+      siblings: all.filter((c) => c.url !== cluster.url),
     },
   }));
 }
@@ -89,9 +91,7 @@ const breadcrumbs = [
       <div class="hero__inner">
         <SiteNav active="/common-questions" />
         <div class="hero__copy">
-          <p class="hero__crumb t-eyebrow">
-            Common Questions&nbsp;&nbsp;·&nbsp;&nbsp;{CATEGORY_LABELS[cluster.category]}
-          </p>
+          <p class="hero__crumb t-eyebrow">Alive ProStudios&nbsp;&nbsp;·&nbsp;&nbsp;Common Questions</p>
           <h1 class="hero__title t-h1">
             <span class="hero__line-mask"><span class="hero__line dot">{cluster.title}</span></span>
           </h1>
@@ -204,7 +204,7 @@ const breadcrumbs = [
             <p class="cq__eyebrow t-eyebrow z-content">
               <span class="cq__num">(02)</span>&nbsp;&nbsp;Keep reading
             </p>
-            <h2 class="cq__heading t-h2 dot z-content">More on {CATEGORY_LABELS[cluster.category].toLowerCase()}</h2>
+            <h2 class="cq__heading t-h2 dot z-content">More common questions</h2>
             <ul class="cq__siblings z-content">
               {siblings.map((s) => (
                 <li>

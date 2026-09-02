@@ -129,12 +129,14 @@ const home = defineCollection({
  * lives in the body, links live here as data so `src/lib/commonQuestions.ts`
  * can check every one of them at build time. Headings and `questions` pair by
  * POSITION, so the counts must match; the parser throws when they do not.
+ *
+ * Files sit directly in `content/common-questions/`: no categories, no
+ * subfolders. The file id is the slug and the URL is `/common-questions/<slug>`.
  */
 const commonQuestions = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './content/common-questions' }),
   schema: z.object({
     ...pageFields,
-    category: z.enum(['systems', 'topics', 'business']),
     /** One Javad quote per cluster page. */
     quote: z.string(),
     questions: z

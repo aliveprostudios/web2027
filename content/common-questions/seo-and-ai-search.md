@@ -1,7 +1,6 @@
 ---
 title: "Search, AEO and AI Answers"
-url: "/common-questions/topics/seo-and-ai-search"
-category: topics
+url: "/common-questions/seo-and-ai-search"
 order: 6
 caption: "Being findable was the old job. Being quotable is the new one."
 seoTitle: "Search, AEO and AI Answers"
@@ -13,21 +12,21 @@ questions:
       - /growth/aeo-answer-engine-optimization
       - /growth/seo-search-engine-optimization
     related:
-      - /common-questions/topics/seo-and-ai-search#get-cited-by-ai
-      - /common-questions/topics/seo-and-ai-search#local-seo
+      - /common-questions/seo-and-ai-search#get-cited-by-ai
+      - /common-questions/seo-and-ai-search#local-seo
   - anchor: get-cited-by-ai
     services:
       - /growth/aeo-answer-engine-optimization
       - /growth/content-marketing
     related:
-      - /common-questions/topics/seo-and-ai-search#aeo-vs-seo
-      - /common-questions/topics/brand-and-positioning#brand-consistency
+      - /common-questions/seo-and-ai-search#aeo-vs-seo
+      - /common-questions/brand-and-positioning#brand-consistency
   - anchor: local-seo
     services:
       - /growth/seo-search-engine-optimization
     related:
-      - /common-questions/business/dental-and-medical#clinic-differentiation
-      - /common-questions/topics/marketing-and-leads#traffic-no-leads
+      - /common-questions/dental-and-medical#clinic-differentiation
+      - /common-questions/marketing-and-leads#traffic-no-leads
 ---
 
 Search is splitting into two jobs. One is the familiar competition for a place on a results page. The other is the competition to be the source an answer is assembled from, where there is no list to be fourth on.

@@ -1,5 +1,9 @@
 # Common Questions — Knowledge Base Design
 
+> **Superseded in part, 2026-09-02.** The hub, the routes and the three
+> categories were replaced by one flat list of topics; see
+> `2026-09-02-common-questions-flat-topics-design.md`. Everything else here stands.
+
 **Date:** 2026-09-01
 **Status:** BUILT and on staging, commit `3fea7f3`. Architecture and question map
 approved by Javad; four decisions changed during the build and are marked

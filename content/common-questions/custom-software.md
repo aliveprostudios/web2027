@@ -1,7 +1,6 @@
 ---
 title: "Custom Software: Build, Buy, or Neither"
-url: "/common-questions/systems/custom-software"
-category: systems
+url: "/common-questions/custom-software"
 order: 1
 caption: "Four questions worth answering before anyone writes code."
 seoTitle: "Custom Software: Build, Buy, or Neither"
@@ -12,28 +11,28 @@ questions:
     services:
       - /infrastructure/solution-architecture-design
     related:
-      - /common-questions/systems/custom-software#build-or-buy
-      - /common-questions/systems/data-and-dashboards#replace-spreadsheets
+      - /common-questions/custom-software#build-or-buy
+      - /common-questions/data-and-dashboards#replace-spreadsheets
   - anchor: build-or-buy
     services:
       - /infrastructure/solution-architecture-design
       - /infrastructure/custom-app-development
     related:
-      - /common-questions/systems/custom-software#cost
-      - /common-questions/systems/data-and-dashboards#connect-systems
+      - /common-questions/custom-software#cost
+      - /common-questions/data-and-dashboards#connect-systems
   - anchor: cost
     services:
       - /infrastructure/custom-app-development
     related:
-      - /common-questions/systems/custom-software#timeline
-      - /common-questions/business/manufacturing#quoting-spreadsheets
+      - /common-questions/custom-software#timeline
+      - /common-questions/manufacturing#quoting-spreadsheets
   - anchor: timeline
     services:
       - /infrastructure/custom-app-development
       - /infrastructure/lifecycle-support
     related:
-      - /common-questions/systems/custom-software#cost
-      - /common-questions/systems/automation-and-ai#what-to-automate-first
+      - /common-questions/custom-software#cost
+      - /common-questions/automation-and-ai#what-to-automate-first
 ---
 
 Software decisions are expensive in both directions. Building something nobody needed is the failure everyone talks about, and forcing a business through a platform that never fitted is the one nobody notices for years. These four questions come up in almost every first conversation.
@@ -66,7 +65,7 @@ The usual answer is a mix. Buy the accounting, buy the email, buy the CRM if a s
 
 ## How much does custom business software cost?
 
-A focused internal tool that replaces a few spreadsheets typically runs in the low tens of thousands. A connected system with several integrations, user roles and reporting runs higher, often into six figures. The range is wide because cost follows scope and integration count rather than screen count. Discovery is what turns a range into a number.
+It depends on your needs, your expectations and the scope. The same brief can be a focused tool that replaces a few spreadsheets or a connected system with integrations, user roles and reporting, and the two are not close in cost. The way to get a real number is a conversation about what the software has to do. Contact us and we will talk it through.
 
 Nobody can price custom software from a description, and a firm that quotes one on a first call is either guessing or protecting itself with a number large enough to cover the guess.
 

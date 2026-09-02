@@ -1,7 +1,6 @@
 ---
 title: "Marketing, Budget and Leads"
-url: "/common-questions/topics/marketing-and-leads"
-category: topics
+url: "/common-questions/marketing-and-leads"
 order: 5
 caption: "Why traffic does not convert, what to spend, and what automation really does."
 seoTitle: "Marketing, Budget and Leads"
@@ -13,22 +12,22 @@ questions:
       - /growth/lead-generation
       - /growth/sales-funnel-building
     related:
-      - /common-questions/topics/seo-and-ai-search#aeo-vs-seo
-      - /common-questions/topics/marketing-and-leads#marketing-automation
+      - /common-questions/seo-and-ai-search#aeo-vs-seo
+      - /common-questions/marketing-and-leads#marketing-automation
   - anchor: marketing-budget
     services:
       - /growth/digital-marketing
       - /growth/marketing-innovation
     related:
-      - /common-questions/topics/marketing-and-leads#traffic-no-leads
-      - /common-questions/business/manufacturing#manufacturer-marketing
+      - /common-questions/marketing-and-leads#traffic-no-leads
+      - /common-questions/manufacturing#manufacturer-marketing
   - anchor: marketing-automation
     services:
       - /growth/customer-retention-marketing
       - /infrastructure/intelligent-systems-integration
     related:
-      - /common-questions/systems/automation-and-ai#what-is-bpa
-      - /common-questions/systems/data-and-dashboards#connect-systems
+      - /common-questions/automation-and-ai#what-is-bpa
+      - /common-questions/data-and-dashboards#connect-systems
 ---
 
 Marketing questions are usually asked as budget questions and answered as channel questions. Both miss. The three below are the ones that change outcomes.
@@ -49,11 +48,11 @@ There is a third possibility worth checking before either. Some sites do generat
 
 ## How much should a business spend on marketing?
 
-A common benchmark is five to ten percent of revenue for an established business, and more for one pursuing growth or entering a new market. The benchmark is a starting point rather than an answer. What matters more is whether the spending is concentrated enough to be noticed, because a budget spread thin across six channels usually buys nothing anywhere.
+There is no single figure. The right amount depends on your needs, your expectations and what marketing has to do for you. What matters more than the amount is whether it is concentrated enough to be noticed, because a budget spread across six channels usually buys nothing anywhere. For a number that fits your situation, contact us and we will work it out with you.
 
-Percentage-of-revenue rules survive because they are easy to quote, not because they are accurate. A manufacturer with ten long-standing customers and a services firm that needs forty new clients a year face completely different problems, and no shared percentage describes both.
+Percentage-of-revenue rules are easy to quote and rarely accurate. A manufacturer with ten long-standing customers and a services firm that needs forty new clients a year face completely different problems, and no shared percentage describes both.
 
-Three questions get closer than a benchmark. How long is your sales cycle, because a nine-month cycle means this year's spending shows up in next year's revenue and has to be funded on patience. What does one customer eventually pay you, because a business with a high lifetime value can afford acquisition costs that would ruin a transactional one. And what is your current position, because establishing a brand costs more than maintaining one.
+Three questions get closer than any rule of thumb. How long is your sales cycle, because a nine-month cycle means this year's spending shows up in next year's revenue and has to be funded on patience. What does one customer eventually pay you, because a business with a high lifetime value can afford acquisition costs that would ruin a transactional one. And what is your current position, because establishing a brand costs more than maintaining one.
 
 The more common mistake is not the amount. It is the spread. A modest budget divided across search, social, print, trade shows, sponsorship and a newsletter produces a presence too thin to register anywhere. The same money concentrated on the one or two places your buyers actually decide can be genuinely effective.
 

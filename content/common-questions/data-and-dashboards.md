@@ -1,7 +1,6 @@
 ---
 title: "Spreadsheets, Integration, One Source of Truth"
-url: "/common-questions/systems/data-and-dashboards"
-category: systems
+url: "/common-questions/data-and-dashboards"
 order: 3
 caption: "When a spreadsheet stops being enough, and what replaces it."
 seoTitle: "Spreadsheets, Integration and One Source of Truth"
@@ -13,20 +12,20 @@ questions:
       - /infrastructure/solution-architecture-design
       - /infrastructure/custom-app-development
     related:
-      - /common-questions/systems/custom-software#small-business-custom-software
-      - /common-questions/business/manufacturing#quoting-spreadsheets
+      - /common-questions/custom-software#small-business-custom-software
+      - /common-questions/manufacturing#quoting-spreadsheets
   - anchor: connect-systems
     services:
       - /infrastructure/intelligent-systems-integration
     related:
-      - /common-questions/systems/custom-software#build-or-buy
-      - /common-questions/systems/data-and-dashboards#executive-dashboard
+      - /common-questions/custom-software#build-or-buy
+      - /common-questions/data-and-dashboards#executive-dashboard
   - anchor: executive-dashboard
     services:
       - /infrastructure/dashboards-analytics
     related:
-      - /common-questions/systems/data-and-dashboards#connect-systems
-      - /common-questions/topics/marketing-and-leads#marketing-budget
+      - /common-questions/data-and-dashboards#connect-systems
+      - /common-questions/marketing-and-leads#marketing-budget
 ---
 
 Most companies do not have a data problem. They have the same data in four places, in four states, and no agreement about which one is right. That is a different problem and it has a different fix.

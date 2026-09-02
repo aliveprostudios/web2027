@@ -1,7 +1,6 @@
 ---
 title: "Questions from Dental and Medical Practices"
-url: "/common-questions/business/dental-and-medical"
-category: business
+url: "/common-questions/dental-and-medical"
 order: 8
 caption: "Getting found for the treatment, and being chosen for the person."
 seoTitle: "Questions from Dental and Medical Practices"
@@ -16,16 +15,16 @@ questions:
     caseStudies:
       - vitality-dentistry
     related:
-      - /common-questions/business/dental-and-medical#clinic-differentiation
-      - /common-questions/topics/seo-and-ai-search#local-seo
+      - /common-questions/dental-and-medical#clinic-differentiation
+      - /common-questions/seo-and-ai-search#local-seo
   - anchor: clinic-differentiation
     services:
       - /foundation/brand-strategy-positioning
       - /growth/seo-search-engine-optimization
       - /growth/reputation-management
     related:
-      - /common-questions/topics/brand-and-positioning#positioning-vs-logo
-      - /common-questions/topics/seo-and-ai-search#local-seo
+      - /common-questions/brand-and-positioning#positioning-vs-logo
+      - /common-questions/seo-and-ai-search#local-seo
 ---
 
 Practices compete in one of the most crowded local categories there is, against competitors offering the same treatments with the same equipment. These two questions decide most of the outcome.
