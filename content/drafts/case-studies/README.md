@@ -14,7 +14,7 @@ reworking it himself. Moved as a pair so the draft is self-contained:
 
 To restore, move both back to `content/case-studies/` and
 `content/assets/case-studies/`, then re-add the slug wherever it was a pick:
-`content/home/page.md` (`caseStudies`, replaced by `gallery-specialty-hardware`)
+`content/home/page.md` (`caseStudies`, replaced by `gallery-specialty`)
 and `content/common-questions/manufacturing.md`
 (`manufacturer-differentiation`, replaced by `stone-lamina`). The Markdown
 figure path `/assets/case-studies/assa-abloy-door-security-solutions/body-01.jpg`

@@ -1,13 +1,13 @@
 ---
-title: "Gallery Specialty Hardware"
+title: "Gallery Specialty"
 caption: "A 380-page catalogue, hundreds of products, and sales presentations that sometimes have to exist inside 48 hours. We have been Gallery's marketing infrastructure for more than a decade."
 order: 2
-slug: "gallery-specialty-hardware"
-url: "/work/case-studies/gallery-specialty-hardware"
-seoTitle: "Gallery Specialty Hardware Case Study"
+slug: "gallery-specialty"
+url: "/work/case-studies/gallery-specialty"
+seoTitle: "Gallery Specialty Case Study"
 seoDescription: "Catalogue management, product communications and sales enablement for a Canadian architectural door hardware manufacturer, as an extension of their internal team."
 ---
-## An Extension of Gallery's Team for More Than a Decade
+## Comprehensive Branding, Marketing, Advertising and Creative Support for More Than a Decade
 
 Gallery Specialty is a Canadian door hardware manufacturer based in the Toronto area, with manufacturing and sourcing reaching well beyond it. For more than a decade we have worked as their branding, marketing, advertising and creative partner.
 
@@ -25,7 +25,7 @@ The catalogue is the largest single responsibility, running to roughly 380 pages
 
 The website functions as an online extension of that catalogue, which means both have to agree. A product detail that is right in print and wrong on the site is not a small inconsistency in this industry. It is a wrong order, a returned shipment and a distributor who checks everything twice from then on.
 
-![Gallery’s commercial product catalogue: interior spreads, the Turkey architectural door hardware brochure and the boxed 2019 catalogue set.](/assets/case-studies/gallery-specialty-hardware/body-02.jpg)
+![Gallery’s commercial product catalogue: interior spreads, the Turkey architectural door hardware brochure and the boxed 2019 catalogue set.](/assets/case-studies/gallery-specialty/body-02.jpg)
 
 ## Product Launches and Communications.
 
@@ -33,7 +33,7 @@ Gallery introduces and updates products constantly, and each one needs the commu
 
 The point is not to present a product. It is to make its value legible to the architect, builder, designer or distributor who has to decide whether it belongs in their project.
 
-![The Gallery Specialty Hardware website for architectural door hardware, a trifold brochure, 3D-rendered hardware details and a one-stop-shop building diagram.](/assets/case-studies/gallery-specialty-hardware/body-01.jpg)
+![The Gallery Specialty website for architectural door hardware, a trifold brochure, 3D-rendered hardware details and a one-stop-shop building diagram.](/assets/case-studies/gallery-specialty/body-01.jpg)
 
 ## Sales Presentations in 48 Hours.
 

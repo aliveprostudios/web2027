@@ -7,7 +7,7 @@ url: "/work/case-studies/darmaga-hardwood"
 seoTitle: "Darmaga Hardwood Case Study"
 seoDescription: "Repositioning, education-based marketing, lead generation and a connected order and invoicing system for a long-standing Ontario hardwood flooring company."
 ---
-## One Marketing System for a Family Business Since 1940
+## One Marketing System for Ontario's Oldest Hardwood Flooring Company
 
 Darmaga Hardwood Flooring was one of Ontario's long-standing flooring companies, with deep roots in Richmond Hill, Vaughan and the wider Greater Toronto Area, specializing in hardwood, engineered, laminate and hand-scraped floors. The business had been family owned since 1940 and carried four generations of accumulated craft.
 

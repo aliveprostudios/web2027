@@ -9,7 +9,7 @@ clientsHeading: "Our Clients"
 proofHeading: "Proof, One Client at a Time"
 caseStudies:
   - alfred-smart-locks
-  - gallery-specialty-hardware
+  - gallery-specialty
   - claritas
 videoUrl: "https://youtu.be/YoudIrML8lU"
 videoHeading: "Watch the Reel"

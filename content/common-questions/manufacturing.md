@@ -23,7 +23,7 @@ questions:
       - /infrastructure/custom-app-development
       - /infrastructure/solution-architecture-design
     caseStudies:
-      - gallery-specialty-hardware
+      - gallery-specialty
     related:
       - /common-questions/data-and-dashboards#replace-spreadsheets
       - /common-questions/custom-software#cost

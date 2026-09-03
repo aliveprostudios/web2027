@@ -7,7 +7,7 @@ url: "/work/case-studies/mcon-pipe"
 seoTitle: "MCON Pipe Case Study"
 seoDescription: "Website management, technical catalogues and price lists for an established precast manufacturer, delivered with the responsiveness of an internal department at a distance."
 ---
-## Their Marketing Department, Based in Another City
+## A Reliable & Experienced External Marketing Arm
 
 MCON Pipe, now operating as Omni Precast, is an established manufacturer of precast products and a leader in supplying safe, sustainable infrastructure for community development across Ontario. Their position in the market is already made.
 
