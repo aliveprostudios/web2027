@@ -245,12 +245,20 @@ body[data-theme='dark'] a { color: var(--brand-lime); }
 .aps-btn svg { transition: transform 300ms var(--ease-settle); }
 .aps-btn:hover svg { transform: translate(3px, -3px); }
 
-a.aps-btn-dark  { background: #000; color: #fff; border: 1px solid #000; }
-a.aps-btn-dark:hover  { background: #fff; color: #000; border-color: #fff; }
-a.aps-btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.55); }
-a.aps-btn-ghost:hover { background: #fff; color: #000; border-color: #fff; }
-a.aps-btn-primary { background: var(--brand-orange); color: #000; border: 1px solid var(--brand-orange); }
-a.aps-btn-primary:hover { background: #fff; color: var(--orange-ink); border-color: var(--brand-orange); }
+/* Variants are keyed on BOTH classes, never on `a`. Two reasons, and changing
+   either half reintroduces a bug that shipped once already:
+   1. The contact form's submit is a <button>, so an `a.`-scoped rule missed it
+      entirely and it fell back to the UA's grey button chrome.
+   2. `body[data-theme='dark'] a` above scores (0,1,2) and beat the old
+      `a.aps-btn-primary` at (0,1,1), repainting the label lime on orange —
+      1.47:1, well under AA. Doubling the class puts these at (0,2,0), which
+      wins without touching the dark link rule that every other link needs. */
+.aps-btn.aps-btn-dark  { background: #000; color: #fff; border: 1px solid #000; }
+.aps-btn.aps-btn-dark:hover  { background: #fff; color: #000; border-color: #fff; }
+.aps-btn.aps-btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.55); }
+.aps-btn.aps-btn-ghost:hover { background: #fff; color: #000; border-color: #fff; }
+.aps-btn.aps-btn-primary { background: var(--brand-orange); color: #000; border: 1px solid var(--brand-orange); }
+.aps-btn.aps-btn-primary:hover { background: #fff; color: var(--orange-ink); border-color: var(--brand-orange); }
 
 /* =========================================================================
    4.7 Marquee — two identical halves, translateX(-50%). Never one copy.
