@@ -54,7 +54,7 @@ Settled. Do not reopen without asking Javad.
    `content/common-questions/`. Javad's reason was scale: three fixed buckets
    looked like a structure that could not grow. Do not reintroduce grouping in
    the URL; if the list needs themes, do it on the hub as presentation only.
-   **Two hub bands since 2026-09-03, By Topic and By Business.** Javad's
+   **Two hub bands since 2026-09-02, By Topic and By Business.** Javad's
    direction: Systems is a topic, not a band, so the three systems clusters sit
    with brand, marketing and search under By Topic (6 clusters, 19 answers);
    By Business is by reader and holds the industries (2 clusters, 5 answers).
@@ -106,12 +106,26 @@ served DNS for some time: the nameservers point at Cloudflare, and the apex is a
 Custom Domain on the `aliveprostudios` Worker. Microsoft mail was never touched
 and its four records are untouched to this day (MX, two TXT, `autodiscover`).
 
-Staging builds 74 HTML routes as of 2026-09-02 (75 on 2026-09-01, before ASSA ABLOY was parked), up from 67 (Case Studies, Common Questions, the new home page and the new footer are all staging-only; production is still 54). Counts here are `find dist -name '*.html' | wc -l`, which includes `404` and `thank-you`; earlier entries saying 66 and 68 were off by one against that measure. 54 as of 2026-08-30, up from 48: Resources came back in part, adding `/resources`, `/resources/blog` and four posts. Two Resources routes are still parked, see Known gaps. `/alive-pro/our-system` was added and `/alive-pro/our-philosophy` retired on 2026-08-25.
+Staging builds 74 HTML routes and 86 redirects as of 2026-09-02 (75 on 2026-09-01, before ASSA ABLOY was parked), up from 67 (Case Studies, Common Questions, the new home page and the new footer are all staging-only; production is still 54). Counts here are `find dist -name '*.html' | wc -l`, which includes `404` and `thank-you`; earlier entries saying 66 and 68 were off by one against that measure. 54 as of 2026-08-30, up from 48: Resources came back in part, adding `/resources`, `/resources/blog` and four posts. One Resources route is still parked, see Known gaps. `/alive-pro/our-system` was added and `/alive-pro/our-philosophy` retired on 2026-08-25.
+
+**Staging is audited and ready to promote. Javad reviews and goes live 2026-09-03.**
+A full pre-launch audit ran 2026-09-02 against the built output and the served
+site, not the source: SEO, AEO, accessibility, security, responsive, content
+rules. 31 checks passed, 2 blockers were fixed and pushed the same evening, 13
+findings remain and none of them block the push. The report, with evidence and
+per-finding fixes, is the artifact
+`https://claude.ai/code/artifact/41754051-0d13-42e1-84fe-0b6f0d92a627`; the open
+findings are also in the Known gaps table below. Nothing in the audit was taken
+from reading code alone.
+
+Shipped 2026-09-02 after the audit, all on `staging`, none on production:
+`5b5eb96` javad.ca links open in a new tab, `5be6672` the two audit blockers,
+`2f1bb27` the Common Questions hub split into By Topic and By Business.
 
 ```
 alive-astro/
 ├── CLAUDE.md              ← this file
-├── SITEMAP.md             ← canonical URL map + 83 redirects
+├── SITEMAP.md             ← canonical URL map + 86 redirects
 ├── TEMPLATE-ANATOMY.md    ← how the templates decompose; READ THIS FIRST
 ├── astro.config.mjs       ← static, no adapter
 ├── wrangler.jsonc         ← Cloudflare: ./dist, drop-trailing-slash
@@ -124,8 +138,8 @@ alive-astro/
 │   │                        Lightbox
 │   ├── layouts/           ← BaseLayout, MasterPage
 │   ├── lib/               ← anatomy, nav, landing, sections, videos, gallery,
-│   │                        faqs, figures, seo, pillars
-│   ├── pages/             ← 54 routes (+ `_resources/`, faqs + brochure parked)
+│   │                        caseStudies, commonQuestions, figures, seo, pillars
+│   ├── pages/             ← 74 routes on staging (+ `_resources/brochure` parked)
 │   └── styles/            ← tokens.css, base.css
 └── content/               ← Markdown, the source of truth for all copy
     ├── common-questions/  ← 8 cluster files, 24 answers; one file per CLUSTER
@@ -169,7 +183,10 @@ where every slot's content comes from and the traps already hit.
 
 ## Non-negotiables
 
-1. **Ship the 63 redirects.** Generated into `dist/_redirects` from `SITEMAP.md`.
+1. **Ship every redirect.** 86 as of 2026-09-02, generated into `dist/_redirects`
+   from `SITEMAP.md` by `scripts/postbuild.mjs`. The number grows; do not hard-code
+   it anywhere but a dated note. Audited 2026-09-02: no duplicates, nothing
+   shadowing a real page, every target resolves.
 2. **One H1 per page**, no skipped heading levels.
 3. **JSON-LD**: Organization, Service, FAQPage, Article, BreadcrumbList.
 4. **Canonical URL per page.** The old site inherited the homepage canonical
@@ -281,6 +298,33 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
   All three look like real bugs and are not. Check `window.innerWidth` and
   `document.hidden` before debugging layout through the pane, and call
   `resize_window` to force a real viewport.
+- **A button variant scoped to `a.` silently misses every `<button>`.** The three
+  `.aps-btn-*` variants were written `a.aps-btn-primary`, so the contact form's
+  submit matched none of them and fell back to the UA's grey button chrome on
+  the page where someone decides to get in touch. Worse, the obvious repair,
+  dropping the `a`, LOWERS specificity to (0,1,0) and loses to
+  `body[data-theme='dark'] a` at (0,1,2), which repaints the label lime on
+  orange: 1.47:1 against a 4.5 bar. Both were fixed at once by keying on both
+  classes, `.aps-btn.aps-btn-primary` at (0,2,0), which matches a `<button>` AND
+  outranks the dark link rule without editing it. Never scope a component
+  variant to a tag, and never "fix" specificity downward.
+- **`getComputedStyle` mid-transition reports the START colour, not the end.**
+  Toggling `data-theme` and measuring 300ms later flagged 16 contrast failures
+  on correct markup, all of them the pre-toggle colour on the post-toggle
+  background. Settled after ~1.5s, the real count was 6. Any colour measurement
+  after a theme change needs a real settle, and a suspiciously round failure
+  count usually means the transition, not the design.
+- **A hidden browser pane cannot hold document focus, so `:focus` never
+  matches.** The skip link looked like it failed contrast AND failed to reveal
+  on focus. `document.activeElement` was the link, but `el.matches(':focus')`
+  was false and `document.hasFocus()` was false. The rule is correct and wins on
+  specificity. Check `document.hasFocus()` before believing any focus-state
+  finding from the pane. This is the same family as the 0x0 viewport trap above.
+- **`frame-ancestors 'none'` blocks same-origin iframes, so iframe-based test
+  harnesses return a null `contentDocument`.** Measuring 8 pages x 3 widths
+  through hidden iframes failed on all 24 with the same error, which reads like
+  a broken script rather than a working CSP. Drive real viewports with the
+  browser tools instead.
 - **A wildcard host does not match the bare domain.** `https://*.analytics.google.com`
   leaves `analytics.google.com` blocked, which is exactly where GA4 posts its
   events. List both forms.
@@ -339,7 +383,7 @@ npm run build
 
 ---
 
-## Known gaps at end of 2026-08-26
+## Known gaps at end of 2026-09-02
 
 | Item | Impact |
 |---|---|
@@ -347,7 +391,7 @@ npm run build
 | **Our Philosophy unpublished 2026-08-25** | `published: false` in `content/pages/our-philosophy.md`, file intact, one line flips it back. Its two strongest ideas, the positioning-discipline argument and "your brand is what your staff deliver", were folded into Why Alive Pro as prose rather than lost. `/alive-pro/our-philosophy` and the legacy `/our-philosophy` both 301 to `/alive-pro/why-alive-pro`, verified live |
 | Menu order is About, Why, System, Process, Partnership, What to Expect, Testimonials | Set by `order:` frontmatter. Sprints stays unpublished at 7. Blurbs on the `/alive-pro` landing rows are name-matched out of `content/landing/alive-pro.md`, so **a new page under `content/pages/` gets a row automatically but renders with no blurb until that file gains a matching `##` heading**. That is how Our System shipped bare for a build |
 | About Us still reads as a large company | Javad's positioning is boutique, and it is now stated on Why Alive Pro ("We are not a large agency and have never wanted to be one"). About Us still says "all under one roof" and Our System says "one team", which read as size. Javad was offered a boutique line on About Us on 2026-08-25 and it was left open, not declined |
-| **Common Questions LIVE ON STAGING 2026-09-01, `/common-questions`** | **Flattened 2026-09-02:** one list of eight topics at `/common-questions/<topic>`, categories and subfolders gone, the two cost answers rewritten with no figures. Spec: `docs/superpowers/specs/2026-09-02-common-questions-flat-topics-design.md`. Replaced `/resources/faqs`, which Javad asked to remove because its seven questions came from the Sanity export and read like it. 9 routes: a hub plus 8 cluster pages holding 24 answers, weighted 10 systems, 9 topics, 5 business. **Cluster pages, not one route per question:** at 40-70 words of direct answer plus 150-300 of detail a per-question page would be ~350 words, the thinnest route on the site against case studies at 651-968. Each question keeps an anchor, so answer engines still extract one answer. Its OWN top-level menu row after Case Studies. **Design:** the approved FAQ accordion grammar (pillar grid, mono index, 600-weight question, glyph, orange plus dot, 0fr-to-1fr panel), but the DIRECT ANSWER is always visible and only the detail collapses; that paragraph is also the FAQPage `acceptedAnswer`, so visible text and schema cannot drift. One Javad quote per cluster page, eight in total. Schema is `WebPage` + `FAQPage` per cluster, `CollectionPage` on the hub; not `Article` (competes with the blog) and not `QAPage` (that is for forums). **Industries cut from five to two:** manufacturing and dental have 8 and 1 case studies behind them; law firms, gyms and med spas had none and went to the future list. **No search volume data informed it.** The question set is judgment: real search intent, the service pages each question has to support, and the case studies that prove it. Keyword tooling is out of scope on this project (decision 10). **Round one has no video or photography question**, which leaves Execution's 8 service pages unsupported; it is item 1 on the 30-question future list in the spec. Spec: `docs/superpowers/specs/2026-09-01-common-questions-design.md`. Staging builds 75 HTML routes, up from 67; production still 54 |
+| **Common Questions LIVE ON STAGING 2026-09-01, `/common-questions`** | **Flattened 2026-09-02:** one list of eight topics at `/common-questions/<topic>`, categories and subfolders gone, the two cost answers rewritten with no figures. Spec: `docs/superpowers/specs/2026-09-02-common-questions-flat-topics-design.md`. Replaced `/resources/faqs`, which Javad asked to remove because its seven questions came from the Sanity export and read like it. 9 routes: a hub plus 8 cluster pages holding 24 answers, weighted 10 systems, 9 topics, 5 business. **Cluster pages, not one route per question:** at 40-70 words of direct answer plus 150-300 of detail a per-question page would be ~350 words, the thinnest route on the site against case studies at 651-968. Each question keeps an anchor, so answer engines still extract one answer. Its OWN top-level menu row after Case Studies. **Design:** the approved FAQ accordion grammar (pillar grid, mono index, 600-weight question, glyph, orange plus dot, 0fr-to-1fr panel), but the DIRECT ANSWER is always visible and only the detail collapses; that paragraph is also the FAQPage `acceptedAnswer`, so visible text and schema cannot drift. One Javad quote per cluster page, eight in total. Schema is `WebPage` + `FAQPage` per cluster, `CollectionPage` on the hub; not `Article` (competes with the blog) and not `QAPage` (that is for forums). **Industries cut from five to two:** manufacturing and dental have 8 and 1 case studies behind them; law firms, gyms and med spas had none and went to the future list. **No search volume data informed it.** The question set is judgment: real search intent, the service pages each question has to support, and the case studies that prove it. Keyword tooling is out of scope on this project (decision 10). **Round one has no video or photography question**, which leaves Execution's 8 service pages unsupported; it is item 1 on the 30-question future list in the spec. Spec: `docs/superpowers/specs/2026-09-01-common-questions-design.md`. **Two hub bands since 2026-09-02 (`2f1bb27`): By Topic, 6 clusters and 19 answers, and By Business, 2 clusters and 5 answers.** Javad could not find the systems and business work, because flattening had left one band called "Topics" and neither word appeared on the site. Systems is a topic, not a band. The band comes from `audience` on each cluster file, so a future `law-firms.md` lands in By Business with no code change; verified with a temporary file. **Law firms are still unwritten and should stay that way until there is a law-firm case study**, which is why they were cut in round one. Routes are unchanged and still flat. Staging builds 74 HTML routes; production still 54 |
 | **Work pages renamed 2026-08-25** | `/work/videos` is titled "Brand Marketing Videos" and `/work/portfolio` is "Projects & Campaigns", across H1, meta title, eyebrow, BreadcrumbList, gallery schema, nav sub-menu, `/work` rows and the prev/next footers. **Both routes are unchanged and that is deliberate.** Nav URLs are slugified from the display name, so both names are in `CHILD_URL_OVERRIDES` in `src/lib/landing.ts`; without them the menu would point at `/work/projects-and-campaigns` and `/work/brand-marketing-videos`, which do not exist, while the real pages stayed put. Rename either page again and that map must be updated in the same commit |
 | Video library is 24, was 26 | Maple Investment Realty and "Alive ProStudios, Branding Company Toronto" removed 2026-08-25 at Javad's request. Titles now mix two separator styles, pipes ("Bellini Modern Living \| Brand Video") and colons ("Claritas: Market Leader & Authority"); both read fine alone but the mix is visible scanning the grid. Javad has not chosen one |
 | **Google Tag Manager live 2026-08-26** | `GTM-PJLQRZC`, in `BaseLayout.astro`, on all 48 pages. The container fires GA4 `G-L9G3DSQCJQ`, Google Ads `AW-967661948`, a Meta pixel `314453825678590` and LinkedIn Insight `7456860`; all four verified sending on production. Two GTM **Custom HTML** tags log a CSP violation each: the Meta bootstrap, which still works because GTM retries through an allowed path, and a HubSpot form listener that is dead weight here since the contact form is Formspree. Converting both to native GTM templates clears the console. Consent: Javad's decision 2026-08-26 is that Canada does not require it, so no banner and no Consent Mode |
@@ -363,8 +407,19 @@ npm run build
 | Privacy policy describes a cookie banner | Javad's rewrite landed 2026-08-23 and fixed the false processors. §2 and §3 still promise a consent banner and a "Cookie settings" footer link that do not exist. **Sharper since 2026-08-26:** GTM now sets Google, Meta and LinkedIn cookies on first load, so the policy describes a control the site does not offer. Javad decided no banner is required in Canada, which makes this a copy fix rather than a consent build |
 | Cloudflare Access not yet on staging | Staging is noindexed but publicly reachable. The `*-aliveprostudios` preview URL is still enabled |
 | Cloudflare blocks AI training crawlers | Its managed robots.txt disallows GPTBot, ClaudeBot, Google-Extended, CCBot and others. Search crawlers and the AI *retrieval* bots are allowed, so citation still works. Toggle in AI Crawl Control. Worth a deliberate decision given the AEO service page |
-| Organization schema has no `sameAs` | No social profile links, which is most of how an engine resolves the entity. Waiting on Javad's LinkedIn, Instagram, YouTube, GBP URLs |
-| 35 service pages have 44-60 char meta descriptions | Under the 150-160 spec. Thin, not broken |
+| **Organization schema has no `sameAs`** | Confirmed by the 2026-09-02 audit and still the single biggest AEO lever left. `sameAs` is most of how an engine resolves "Alive ProStudios" to a corroborated entity rather than a string. Waiting on Javad's LinkedIn, Instagram, YouTube, GBP URLs. `areaServed` is missing from the same node and can be filled from facts already in this file (Canada, USA, Germany, Middle East) |
+| **Meta descriptions, both ends of the range** | Measured 2026-09-02 across all 74: none missing, all unique, but 35 sit under 120 characters (25-112, the service pages) and 13 run over 160 (162-179) and get truncated in the SERP. The over-length ones are the Common Questions clusters and the case studies, both written most recently. 26 are in the 120-160 range. Trimming and padding, not writing from scratch |
+| **Blog Article schema has no `image` or `description`** | All 4 posts. Google treats `image` as required for Article rich results, so the posts are ineligible for the enhanced SERP treatment and answer engines lose the thumbnail. Every post has diagrams to point at. Add both to the blog route's `extraSchema`; `dateModified` is also absent and is recommended, not required |
+| **Case study Article schema has no `datePublished`** | All 10, and it is a required Article property. Stone Lamina and Vitality Dentistry also lack `image`, being the two with no `hero.jpg`. Their `headline` values are client names, so several are very short (`BFL` is 3 characters) and would read better as titles in a snippet |
+| **CTA heading is white on orange at 2.92:1** | Found 2026-09-02 while verifying the button fix, pre-existing. `.cta__light` / `.cta__bold` in `BookConsult.astro`, on **70 of 74 pages**. Large text needs 3:1. Black on orange is 7.2:1 and is already the house treatment for that exact pairing on every button, so the fix is a one-line colour change. `.cqh__askLink` on the Common Questions hub is the same pairing at 13px, where the bar is 4.5:1 |
+| **Related Services "Explore Now" is 3.62:1** | Found 2026-09-02, pre-existing, on **51 pages**. `.related__explore` uses the theme-aware `--orange-ink` on a permanently dark `#111111` band, so in light theme the token resolves to its dark-ground-hostile value. Needs 4.5:1 at 16px. `--brand-orange` gives 6.48:1 and is what the 14px inner span already uses. Worth checking other always-dark sections for the same pattern |
+| **No `WebSite` entity, no `llms.txt`** | The graph carries Organization on all 74 and BreadcrumbList on 72, but no site-level `WebSite` node to anchor them, which is standard for entity resolution. `llms.txt` is absent too: optional in general, arguably less so for a studio that sells AEO |
+| **Mobile menu does not trap Tab** | Everything else about it is right, and verified after a 1500px scroll: body-level fixed overlay, scroll lock on `<html>`, Escape closes, focus moves in on open and returns to the burger on close, `pageshow` clears a stranded lock. What is missing is a Tab loop, so tabbing past the last item walks into content behind the overlay. Best practice for a full-screen overlay, not a strict AA failure. Fix with a focus cycle or `inert` on `.page-root` |
+| **`VideoObject` omits `description`** | 24 nodes on `/work/videos` carry name, embedUrl, thumbnailUrl, uploadDate and publisher. `description` is recommended by Google and missing on all of them |
+| **8 case study `og:image` values are on content-hashed paths** | Tested rather than assumed: a clean rebuild produced byte-identical URLs, so the hash is content-derived and stable, and the cards are correctly generated at 1200x630 per page. The narrow risk is that re-exporting a hero changes its URL and breaks the preview on every link already shared. These pages have never been public, so pinning them is free now and expensive later. The other 66 pages use the stable `/assets/og-image.jpg` |
+| **Blog collection glob hides subfolders** | `content/blog` globs `*.md` while services and Common Questions use `**/*.md`, so a post in a subfolder produces no route, no error and no warning. Already recorded as a trap below; the audit's view is that a trap worth documenting is worth failing loudly instead. Case study imagery has the same shape: a folder whose name does not match a slug is ignored silently |
+| **Service pages make numeric claims with no source** | Not a breach of the no-price rule, which holds: `$550` appears nowhere in the shipped output because Precision Impact Sprints is unpublished. The inconsistency is that blog posts cite their statistics (Gartner, Edelman, McKinsey, Google) while several service pages state figures with none: "revenue increases of 20 to 30% within 18 months", "between 23% and 33%", "60 to 80% of invested resources". Same claim type, two standards of proof, on the pages a prospect reads before deciding |
+| **Three checks need a live production URL** | Google Rich Results Test, the LinkedIn Post Inspector and Facebook Sharing Debugger re-scrape (any URL shared before the deploy keeps its cached preview), and a Safari pass on the headers, which was only verified in Chromium. All three are post-push, and the first is explicitly not substitutable by local reasoning |
 | Homayra's headshot is 400x500 | Displays at 260px, so it is soft on retina. Javad's is 2000x2500 |
 | Foundation and Infrastructure are alphabetical | Execution, Growth and Alive Pro were sequenced by priority 2026-08-24; the other two await Javad's order |
 | ~~**"honest" site-wide sweep**~~ **DONE 2026-08-31** | Banned in Content rules, then removed everywhere in 21 individual rewrites, not a find and replace. Each was rewritten to say the thing rather than announce it: "an honest audit" became "an audit nobody enjoys", "the honest trade" became "the trade", "the honest opinion you did not ask for" lost the adjective because the clause already proved it. `partnership.md`'s H3 "The Honest History." is now "What Was Tried Before.". The Resources intro was fixed in BOTH `content/landing/resources.md` and the hard-coded string in `src/pages/resources/index.astro`, which is duplicated and would otherwise have left the rendered page unchanged. Zero occurrences remain outside the rule itself |
