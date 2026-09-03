@@ -49,11 +49,15 @@ export type Question = {
   related: Link[];
 };
 
+export type Audience = 'topic' | 'business';
+
 export type Cluster = {
   title: string;
   url: string;
   /** The file id and the route param for `[slug].astro`, e.g. `custom-software`. */
   slug: string;
+  /** Which hub band lists this cluster. Presentation only, never in the URL. */
+  audience: Audience;
   order: number;
   caption: string;
   seoTitle: string;
@@ -206,6 +210,7 @@ export async function clusters(): Promise<Cluster[]> {
         title: entry.data.title,
         url,
         slug,
+        audience: entry.data.audience,
         order: entry.data.order ?? 0,
         caption: entry.data.caption ?? '',
         seoTitle: entry.data.seoTitle ?? entry.data.title,
@@ -244,6 +249,43 @@ export async function clusters(): Promise<Cluster[]> {
 
 export async function clusterBySlug(slug: string): Promise<Cluster | undefined> {
   return (await clusters()).find((c) => c.slug === slug);
+}
+
+export type Band = {
+  audience: Audience;
+  /** Heading and eyebrow on the hub. */
+  label: string;
+  clusters: Cluster[];
+  /** Answers across the band, so the hub never counts by hand. */
+  answers: number;
+};
+
+const BAND_LABELS: Record<Audience, string> = {
+  topic: 'By Topic',
+  business: 'By Business',
+};
+
+/**
+ * The hub's two bands, in reading order, each already counted.
+ *
+ * Empty bands are dropped rather than rendered as a heading with nothing under
+ * it, which is the same rule the templates follow everywhere else: a slot with
+ * no source is omitted. So the section reads correctly today with two bands, and
+ * would read correctly with one if every industry cluster were unpublished.
+ */
+export async function bands(): Promise<Band[]> {
+  const all = await clusters();
+  return (['topic', 'business'] as const)
+    .map((audience) => {
+      const inBand = all.filter((c) => c.audience === audience);
+      return {
+        audience,
+        label: BAND_LABELS[audience],
+        clusters: inBand,
+        answers: inBand.reduce((n, c) => n + c.questions.length, 0),
+      };
+    })
+    .filter((band) => band.clusters.length > 0);
 }
 
 export async function allQuestions(): Promise<Question[]> {

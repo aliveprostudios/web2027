@@ -2,6 +2,7 @@
 title: "Questions from Dental and Medical Practices"
 url: "/common-questions/dental-and-medical"
 order: 8
+audience: business
 caption: "Getting found for the treatment, and being chosen for the person."
 seoTitle: "Questions from Dental and Medical Practices"
 seoDescription: "How a dental practice attracts more qualified implant patients, and how a clinic or medical spa stands out in a crowded local market without competing on price."

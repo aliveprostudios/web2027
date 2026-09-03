@@ -2,6 +2,7 @@
 title: "Questions from Manufacturers"
 url: "/common-questions/manufacturing"
 order: 7
+audience: business
 caption: "Marketing, quoting and differentiation, for companies that make things."
 seoTitle: "Questions from Manufacturers"
 seoDescription: "Whether a manufacturer should invest in marketing, how to stop quoting jobs out of spreadsheets, and why manufacturers struggle to explain what makes them different."

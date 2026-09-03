@@ -6,16 +6,20 @@ import VideoHero from '../../components/VideoHero.astro';
 import BookConsult from '../../components/BookConsult.astro';
 import NextStep from '../../components/NextStep.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
-import { questionCount, clusters } from '../../lib/commonQuestions';
+import { questionCount, clusters, bands } from '../../lib/commonQuestions';
 
 /**
  * /common-questions — the hub.
  *
- * One row per topic, nothing else. Javad's direction, 2026-09-02: the three
- * category buckets looked like a structure that could not grow, so the hub
- * lists topics only and the questions live on the topic pages. A topic is one
- * Markdown file; adding one adds its row, its menu entry and every count here
- * with no code change.
+ * Two bands, By Topic and By Business, each a list of clusters. Javad's
+ * direction 2026-09-02, refined 2026-09-03: Systems is a topic rather than a
+ * band of its own, so the three systems clusters sit alongside brand, marketing
+ * and search; By Business is by reader, and grows as industries earn a page.
+ *
+ * The band comes from each file's `audience`, so adding an industry cluster
+ * lands it in the right band with no code change here. Routes are untouched and
+ * stay `/common-questions/<slug>` — the banding is presentation only, which is
+ * the one form of grouping the flat-topics decision left open.
  */
 const path = '/common-questions';
 const title = 'Common Questions';
@@ -26,7 +30,12 @@ const description =
 
 const count = await questionCount();
 const all = await clusters();
+const groups = await bands();
 const SITE = 'https://aliveprostudios.com';
+
+/** Section numbers run through the bands, so the Ask row and NextStep follow. */
+const askNum = String(groups.length + 1).padStart(2, '0');
+const nextNum = String(groups.length + 2).padStart(2, '0');
 
 const schema = [
   {
@@ -74,36 +83,38 @@ const breadcrumbs = [
     <VideoHero route={path} title="Alive ProStudios reel" />
 
     <main id="main">
-      <section class="cqh section">
-        <p class="cqh__eyebrow t-eyebrow z-content">
-          <span class="cqh__num">(01)</span>&nbsp;&nbsp;Topics&nbsp;&nbsp;
-          <span class="cqh__count">({count})</span>
-        </p>
-        <h2 class="cqh__heading t-h2 dot z-content">Topics</h2>
+      {/* One section per band. The index restarts inside each band because it
+          numbers that list, not the section as a whole. */}
+      {groups.map((band, b) => (
+        <section class="cqh cqh--band section">
+          <p class="cqh__eyebrow t-eyebrow z-content">
+            <span class="cqh__num">({String(b + 1).padStart(2, '0')})</span>&nbsp;&nbsp;{band.label}&nbsp;&nbsp;
+            <span class="cqh__count">({band.answers})</span>
+          </p>
+          <h2 class="cqh__heading t-h2 dot z-content">{band.label}</h2>
 
-        {/* One row per topic, the list the section grows by. A topic is one
-            Markdown file; this list, the menu row and every count follow it. */}
-        <ol class="cqh__topics z-content">
-          {all.map((topic, i) => (
-            <li class="cqh__topic">
-              <a class="cqh__topicLink" href={topic.url}>
-                <span class="cqh__topicIndex t-index">{String(i + 1).padStart(2, '0')}</span>
-                <span class="cqh__topicBody">
-                  <span class="cqh__topicTitle">{topic.title}</span>
-                  <span class="cqh__topicCaption">{topic.caption}</span>
-                </span>
-                <span class="cqh__topicMeta">
-                  {topic.questions.length} {topic.questions.length === 1 ? 'answer' : 'answers'}
-                </span>
-              </a>
-            </li>
-          ))}
-        </ol>
-      </section>
+          <ol class="cqh__topics z-content">
+            {band.clusters.map((topic, i) => (
+              <li class="cqh__topic">
+                <a class="cqh__topicLink" href={topic.url}>
+                  <span class="cqh__topicIndex t-index">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="cqh__topicBody">
+                    <span class="cqh__topicTitle">{topic.title}</span>
+                    <span class="cqh__topicCaption">{topic.caption}</span>
+                  </span>
+                  <span class="cqh__topicMeta">
+                    {topic.questions.length} {topic.questions.length === 1 ? 'answer' : 'answers'}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))}
 
       <section class="cqh section cqh--ask">
         <p class="cqh__eyebrow t-eyebrow z-content">
-          <span class="cqh__num">(02)</span>&nbsp;&nbsp;Not here
+          <span class="cqh__num">({askNum})</span>&nbsp;&nbsp;Not here
         </p>
         <h2 class="cqh__heading t-h2 dot z-content">Ask us the one that is missing</h2>
         <p class="cqh__ask z-content">
@@ -117,7 +128,7 @@ const breadcrumbs = [
       <BookConsult />
     </main>
 
-    <NextStep sectionNum="03" />
+    <NextStep sectionNum={nextNum} />
     <SiteFooter backLabel="Resources" backHref="/resources" nextLabel="Contact" nextHref="/contact" />
   </div>
 </BaseLayout>
@@ -194,6 +205,10 @@ const breadcrumbs = [
     white-space: nowrap;
     color: var(--pg-fg3);
   }
+
+  /* Bands stack, so every band after the first needs its own breathing room;
+     the first keeps the section-opening space from :first-of-type above. */
+  .cqh--band + .cqh--band { padding-top: 72px; }
 
   .cqh--ask { padding-top: 24px; }
   .cqh__ask {

@@ -137,6 +137,20 @@ const commonQuestions = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './content/common-questions' }),
   schema: z.object({
     ...pageFields,
+    /**
+     * Which band the hub lists this cluster under. Presentation only: it never
+     * reaches the URL, which stays `/common-questions/<slug>` for every cluster.
+     *
+     * `topic` is by subject and is the default, so a new cluster needs no
+     * decision. `business` is by reader — the cluster answers questions from one
+     * industry. Javad's direction 2026-09-02: two bands, By Topic and By
+     * Business, and Systems is a topic rather than a band of its own.
+     *
+     * Declared here rather than inferred on the hub so that adding an industry
+     * file lands it in the right band with no code change, which is the rule the
+     * rest of the site follows.
+     */
+    audience: z.enum(['topic', 'business']).default('topic'),
     /** One Javad quote per cluster page. */
     quote: z.string(),
     questions: z

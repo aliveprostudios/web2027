@@ -53,8 +53,21 @@ Settled. Do not reopen without asking Javad.
    `/common-questions/<topic>`, one Markdown file per topic directly in
    `content/common-questions/`. Javad's reason was scale: three fixed buckets
    looked like a structure that could not grow. Do not reintroduce grouping in
-   the URL or the frontmatter; if the list ever needs themes, do it on the hub
-   as presentation only.
+   the URL; if the list needs themes, do it on the hub as presentation only.
+   **Two hub bands since 2026-09-03, By Topic and By Business.** Javad's
+   direction: Systems is a topic, not a band, so the three systems clusters sit
+   with brand, marketing and search under By Topic (6 clusters, 19 answers);
+   By Business is by reader and holds the industries (2 clusters, 5 answers).
+   He could not find the systems and business work because the flattening left
+   one band labelled "Topics" and those words appeared nowhere on the site.
+   **This amends the frontmatter half of the 2026-09-02 rule.** The band comes
+   from an optional `audience: topic | business` on each cluster, defaulting to
+   `topic`. Deriving it on the hub instead would mean a hard-coded slug list,
+   so adding `law-firms.md` would land it in the wrong band silently, which
+   breaks rule 1. Verified by dropping a temporary industry file: it appeared
+   under By Business with its route and both counts, no code change. The URL
+   rule is untouched, every cluster still builds at `/common-questions/<slug>`,
+   and an empty band renders nothing rather than a bare heading.
    **In the Resources menu since 2026-09-02, URLs unchanged.** Javad's call, the
    same day it got its own row: the section is a Resources child, from a
    numbered `##` in `content/landing/resources.md`, with the display name
