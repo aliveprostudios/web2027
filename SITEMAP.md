@@ -6,7 +6,7 @@ Domain: **aliveprostudios.com**
 Locale: English only at launch. Architecture should stay i18n-ready
 (`/fr/`, `/de/`, `/es/`, `/zh/`, `/ar/` are Phase 2; English carries no prefix).
 
-**Totals, staging as of 2026-09-02:** 74 built HTML routes (the count `find dist -name '*.html' | wc -l` gives, including `404` and `thank-you`) · 28 service pages · 7 Alive Pro pages · 4 blog posts · 24 videos · 9 Common Questions routes (24 answers, two hub bands) · 11 Case Studies routes (10 clients, ASSA ABLOY parked) · **86 redirects**. Production still serves 54 routes until `main` is pushed.
+**Totals, live in production since 2026-09-03:** 74 built HTML routes (the count `find dist -name '*.html' | wc -l` gives, including `404` and `thank-you`; the sitemap carries 72, correctly excluding those two) · 28 service pages · 7 Alive Pro pages · 4 blog posts · 24 videos · 9 Common Questions routes (24 answers, two hub bands) · 11 Case Studies routes (10 clients, ASSA ABLOY parked) · **86 redirects**. `main` and `staging` are identical as of the go-live.
 
 ---
 
@@ -23,7 +23,7 @@ Locale: English only at launch. Architecture should stay i18n-ready
 | `/work/portfolio` | Image gallery. Titled **Projects & Campaigns** since 2026-08-25; the route is deliberately unchanged | not exported (excluded) |
 | `/work/videos` | Video wall. Titled **Brand Marketing Videos** since 2026-08-25; the route is deliberately unchanged | `content/work/videos.md` |
 | `/work/case-studies` | Case Studies index, 10 clients (ASSA ABLOY parked in `content/drafts/case-studies/` 2026-09-02). Its OWN top-level menu row, added after Work on 2026-09-01, despite sitting under `/work` | `content/case-studies/*.md` |
-| `/work/case-studies/<slug>` | One per client, 11 routes (a hub plus 10 clients; ASSA ABLOY parked). Imagery in `content/assets/case-studies/<slug>/`, resolved by FOLDER NAME, so the folder and the slug must be renamed together. A missing `hero.jpg` falls back to the shared video, absent `gallery-*` renders no gallery. **`gallery-specialty-hardware` became `gallery-specialty` on 2026-09-03**, before the go-live, so it needs no redirect | `content/case-studies/<slug>.md` |
+| `/work/case-studies/<slug>` | One per client, 11 routes (a hub plus 10 clients; ASSA ABLOY parked). Imagery in `content/assets/case-studies/<slug>/`, resolved by FOLDER NAME, so the folder and the slug must be renamed together. A missing `hero.jpg` falls back to the shared video, absent `gallery-*` renders no gallery. **`gallery-specialty-hardware` became `gallery-specialty` on 2026-09-03**, hours before the go-live, so it needed no redirect. Renaming any case study now costs one | `content/case-studies/<slug>.md` |
 | `/alive-pro` | Alive Pro landing | `content/landing/alive-pro.md` |
 | ~~`/resources`~~ | **UNPUBLISHED 2026-08-23.** Resources landing | `content/landing/resources.md` |
 | ~~`/resources/blog`~~ | **UNPUBLISHED 2026-08-23.** Blog index | `content/landing/blog-index.md` |
