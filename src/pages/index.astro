@@ -628,7 +628,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     pointer-events: none;
     user-select: none;
   }
-  .intro__num { display: block; margin-bottom: 18px; color: var(--orange-ink); }
+  .intro__num { display: block; margin-bottom: 18px; color: var(--brand-orange); }
   .intro__title {
     font-family: var(--font-condensed);
     font-weight: 800;
@@ -673,7 +673,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
   }
   .clients__head { padding: 0 var(--gutter); }
   .clients__eyebrow { color: var(--pg-fg); margin: 0 0 32px; }
-  .clients__num { color: var(--orange-ink); }
+  .clients__num { color: var(--brand-orange); }
   .clients__count { color: var(--pg-fg3); }
   .clients__heading { margin: 0 0 56px; }
 
@@ -758,7 +758,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     transition: transform var(--dur-move) var(--ease-settle);
   }
   .pillar:hover { transform: translateX(12px); }
-  .pillar__num { font-family: var(--font-condensed); font-weight: 800; font-size: 56px; line-height: 1; color: var(--orange-ink); }
+  .pillar__num { font-family: var(--font-condensed); font-weight: 800; font-size: 56px; line-height: 1; color: var(--brand-orange); }
   .pillar__name { font-size: 0; margin: 0 0 14px; }
   .pillar__name-link {
     display: inline-block;
@@ -771,16 +771,16 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     text-decoration: none;
     transition: color var(--dur-micro) ease;
   }
-  .pillar:hover .pillar__name-link, .pillar__name-link:hover { color: var(--orange-ink); }
+  .pillar:hover .pillar__name-link, .pillar__name-link:hover { color: var(--brand-orange); }
   .pillar__dot { display: inline-block; width: 0.14em; height: 0.14em; margin-left: 0.06em; background: var(--brand-orange); border-radius: 999px; }
-  .pillar__kicker { margin: 0 0 20px; color: var(--orange-ink); }
+  .pillar__kicker { margin: 0 0 20px; color: var(--brand-orange); }
   .pillar__body { margin: 0 0 32px; font-size: 17px; line-height: 1.6; color: var(--pg-fg2); max-width: 720px; }
   .pillar__cta { position: relative; z-index: 1; }
 
   /* ---- 5. Case study tiles --------------------------------------------- */
   .proof { background: var(--pg-band); }
   .proof__eyebrow { color: var(--pg-fg); margin: 0 0 32px; }
-  .proof__num { color: var(--orange-ink); }
+  .proof__num { color: var(--brand-orange); }
   .proof__count { color: var(--pg-fg3); }
   .proof__heading { margin: 0 0 56px; }
 
@@ -794,7 +794,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     transform: translateY(0);
     transition: transform var(--dur-move) var(--ease-settle), color var(--dur-micro) ease;
   }
-  .tile:hover { transform: translateY(-6px); color: var(--orange-ink); }
+  .tile:hover { transform: translateY(-6px); color: var(--brand-orange); }
 
   /* A fixed 4:3 frame. The Image ships width/height attributes, so the height
      is set explicitly here or the source height wins (see CLAUDE.md). A study
@@ -847,7 +847,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     align-items: center;
     gap: 12px;
     margin-top: auto;
-    color: var(--orange-ink);
+    color: var(--brand-orange);
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.16em;
@@ -869,7 +869,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
     text-decoration: none;
     transition: color var(--dur-micro) ease;
   }
-  .proof__all:hover { color: var(--orange-ink); }
+  .proof__all:hover { color: var(--brand-orange); }
   .proof__all svg { transition: transform 300ms var(--ease-settle); }
   .proof__all:hover svg { transform: translate(3px, -3px); }
 
@@ -885,7 +885,7 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
      with mixed shapes would want a fixed crop here instead. */
   .gallery { position: relative; padding: 0 var(--gutter) clamp(56px, 8vw, 96px); }
   .gallery__eyebrow { color: var(--pg-fg); margin: 0 0 32px; }
-  .gallery__num { color: var(--orange-ink); }
+  .gallery__num { color: var(--brand-orange); }
   .gallery__count { color: var(--pg-fg3); }
   .gallery__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .gallery__tile {

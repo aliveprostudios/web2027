@@ -58,24 +58,29 @@
    ========================================================================= */
 
 /* ---------------------------------------------------------------------------
-   --orange-ink — the TEXT counterpart of --brand-orange.
+   ONE ORANGE. --orange-ink is retired.
    ---------------------------------------------------------------------------
-   One accent colour, two ink values.
+   Javad's direction, 2026-09-03, and it is a brand decision with a known cost.
 
-   --brand-orange (#F76E1E) is the brand and never changes. It stays exactly as
-   specified wherever it is a SURFACE, FILL, DOT, RULE, BORDER, or large display
-   type. Against white it measures 2.92:1, which is below the 4.5:1 WCAG AA
-   floor for text under 24px, so small orange text (eyebrow labels, EXPLORE NOW,
-   mono index numbers) uses this darkened ink instead.
+   --brand-orange (#F76E1E) is now the only orange in the system, for surfaces,
+   fills, dots, rules, borders, display type AND small text. There is no
+   darkened text variant any more; the old --orange-ink (#B84A0E) was removed
+   along with all 53 of its usages.
 
-   #B84A0E preserves the brand hue (22.1 deg) and saturation exactly and only
-   drops lightness. It measures 5.22:1 on #FFFFFF and 4.74:1 on the #F4F4F4
-   quote band, so it clears AA on every light surface in the system.
+   What that costs, measured rather than estimated:
 
-   In DARK mode the relationship inverts: #F76E1E already measures 6.48:1 on
-   #111111 while #B84A0E would fail at 3.62:1. So dark mode maps --orange-ink
-   straight back to the brand orange. Components just use var(--orange-ink) for
-   text and var(--brand-orange) for everything else; the theme resolves it.
+     #F76E1E text on #FFFFFF        2.92:1   AA needs 4.5 small, 3.0 large
+     #F76E1E text on #F4F4F4        2.65:1   fails both
+     #F76E1E text on #111111        6.48:1   passes both
+     #000000 text on #F76E1E        7.20:1   passes
+     #FFFFFF text on #F76E1E        2.92:1   fails, and is the chosen button ink
+
+   So orange text clears AA in dark mode and does not in light mode. That is
+   accepted, not overlooked. Do NOT reintroduce a darkened variant to "fix" it
+   without asking: it was removed deliberately and the spec is Design System C.
+
+   The same trade applies to --brand-lime, which is now the H2 colour: 9.54:1 on
+   #111111 and 1.98:1 on #FFFFFF.
    --------------------------------------------------------------------------- */
 
 body {
@@ -85,8 +90,6 @@ body {
   --pg-fg3:  rgba(0, 0, 0, 0.55);
   --pg-line: #E6E7E8;
   --pg-band: #F4F4F4;
-
-  --orange-ink: #B84A0E;   /* small orange TEXT on light surfaces only */
 }
 
 body[data-theme='dark'] {
@@ -96,6 +99,4 @@ body[data-theme='dark'] {
   --pg-fg3:  rgba(255, 255, 255, 0.55);
   --pg-line: rgba(255, 255, 255, 0.16);
   --pg-band: #1A1A1A;
-
-  --orange-ink: var(--brand-orange);   /* already 6.48:1 on #111111 */
 }

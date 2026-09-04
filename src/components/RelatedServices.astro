@@ -53,7 +53,7 @@ const { items, num = '02', label = 'Related Services' } = Astro.props;
   .related { font-family: var(--font-sans); }
 
   .related__eyebrow { color: var(--pg-fg); margin: 0 0 40px; }
-  .related__num { color: var(--orange-ink); }
+  .related__num { color: var(--brand-orange); }
   .related__count { color: var(--pg-fg3); }
 
   .related__rows { display: flex; flex-direction: column; }
@@ -71,14 +71,15 @@ const { items, num = '02', label = 'Related Services' } = Astro.props;
     transform: translateX(0);
     transition: transform var(--dur-micro) var(--ease-settle), color var(--dur-micro) ease;
   }
-  .related__row:hover { color: var(--orange-ink); transform: translateX(12px); }
+  .related__row:hover { color: var(--brand-orange); transform: translateX(12px); }
 
   .related__name-group { display: flex; align-items: baseline; gap: 28px; min-width: 0; }
 
+  /* Index is brand orange at rest, not grey. Javad 2026-09-03. */
   .related__index {
     font-family: var(--font-mono);
     font-size: 13px;
-    color: var(--pg-fg3);
+    color: var(--brand-orange);
     width: 40px;
     flex: none;
   }
@@ -97,11 +98,13 @@ const { items, num = '02', label = 'Related Services' } = Astro.props;
     align-items: center;
     gap: 14px;
     flex: none;
-    color: var(--orange-ink);
+    color: var(--brand-orange);
     transform: translate(0, 0);
-    transition: transform var(--dur-micro) var(--ease-settle);
+    transition: transform var(--dur-micro) var(--ease-settle), color var(--dur-micro) ease;
   }
-  .related__row:hover .related__explore { transform: translate(4px, -4px); }
+  /* Explore goes LIME on hover while the row name goes orange. Javad
+     2026-09-03. Lime on white is 1.98:1, accepted as a hover-state decision. */
+  .related__row:hover .related__explore { transform: translate(4px, -4px); color: var(--brand-lime); }
   .related__explore span {
     font-size: 14px;
     font-weight: 700;

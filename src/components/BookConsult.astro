@@ -144,11 +144,12 @@ const MARQUEE = ["Let's talk", '·', 'Book a consult', '·', 'Request a quote', 
     margin-left: 12px;
     font-weight: 600;
     font-size: clamp(18px, 1.6vw, 24px);
-    color: #000;
+    /* White by direction 2026-09-03, matching the heading. 2.92:1. */
+    color: #fff;
     text-decoration: none;
     transition: color var(--dur-micro) ease;
   }
-  .cta__phone:hover { color: rgba(0, 0, 0, 0.7); }
+  .cta__phone:hover { color: rgba(255, 255, 255, 0.7); }
 
   /* The ghost pill's 13px label sits on the orange surface, where white is
      2.92:1. Black ink matches the block's existing secondary lines. The global

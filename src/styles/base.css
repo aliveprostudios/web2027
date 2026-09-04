@@ -35,7 +35,7 @@ h1, h2, h3, h4, h5, h6, p, blockquote, figure { margin: 0; }
 
 /* ---- Links (§1.2) ------------------------------------------------------ */
 a { color: var(--brand-forest); text-decoration: none; }
-a:hover { color: var(--orange-ink); }
+a:hover { color: var(--brand-orange); }
 body[data-theme='dark'] a { color: var(--brand-lime); }
 
 /* ---- Focus ring (§6): 4px orange glow, never removed ------------------- */
@@ -137,7 +137,10 @@ body[data-theme='dark'] a { color: var(--brand-lime); }
   font-size: clamp(48px, 6vw, 104px);
   line-height: 0.92;
   text-transform: uppercase;
-  color: var(--pg-fg);
+  /* Brand Lime, Javad's direction 2026-09-03, Design System C. Mode-aware only
+     in the sense that it reads very differently: 9.54:1 on #111111 and 1.98:1
+     on #FFFFFF. Accepted as a brand decision, not an oversight. */
+  color: var(--brand-lime);
 }
 
 .t-h3 {
@@ -163,7 +166,7 @@ body[data-theme='dark'] a { color: var(--brand-lime); }
   font-size: 17px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--orange-ink);
+  color: var(--brand-orange);
 }
 
 .t-eyebrow {
@@ -204,10 +207,10 @@ body[data-theme='dark'] a { color: var(--brand-lime); }
 
 /* Inline links in body copy. The global `a` rule drops the underline, which is
    right for nav and buttons and wrong inside a paragraph: WCAG 2.1 AA needs
-   more than colour to mark a link in running text. --orange-ink rather than
-   --brand-orange because this is small text, and it is theme-aware (§2). */
+   more than colour to mark a link in running text. --brand-orange since the
+   darkened ink was retired 2026-09-03; the underline carries the affordance. */
 .md a {
-  color: var(--orange-ink);
+  color: var(--brand-orange);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
@@ -254,11 +257,17 @@ body[data-theme='dark'] a { color: var(--brand-lime); }
       1.47:1, well under AA. Doubling the class puts these at (0,2,0), which
       wins without touching the dark link rule that every other link needs. */
 .aps-btn.aps-btn-dark  { background: #000; color: #fff; border: 1px solid #000; }
-.aps-btn.aps-btn-dark:hover  { background: #fff; color: #000; border-color: #fff; }
+/* Dark hovers to lime, not white. Javad 2026-09-03. Black on lime is 10.61:1. */
+.aps-btn.aps-btn-dark:hover  { background: var(--brand-lime); color: #000; border-color: var(--brand-lime); }
 .aps-btn.aps-btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.55); }
 .aps-btn.aps-btn-ghost:hover { background: #fff; color: #000; border-color: #fff; }
-.aps-btn.aps-btn-primary { background: var(--brand-orange); color: #000; border: 1px solid var(--brand-orange); }
-.aps-btn.aps-btn-primary:hover { background: #fff; color: var(--orange-ink); border-color: var(--brand-orange); }
+/* Primary ink is WHITE by direction, 2.92:1 on the orange. Black was 7.20:1 and
+   was rejected; this is the house treatment now, matching the consult block. */
+.aps-btn.aps-btn-primary { background: var(--brand-orange); color: #fff; border: 1px solid var(--brand-orange); }
+.aps-btn.aps-btn-primary:hover { background: #fff; color: var(--brand-orange); border-color: var(--brand-orange); }
+/* The accessible alternative primary: 10.61:1 both at rest and on hover. */
+.aps-btn.aps-btn-lime { background: var(--brand-lime); color: #000; border: 1px solid var(--brand-lime); }
+.aps-btn.aps-btn-lime:hover { background: #000; color: var(--brand-lime); border-color: #000; }
 
 /* =========================================================================
    4.7 Marquee — two identical halves, translateX(-50%). Never one copy.
