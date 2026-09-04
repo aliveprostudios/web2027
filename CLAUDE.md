@@ -29,9 +29,21 @@ Settled. Do not reopen without asking Javad.
    plain files. `STYLEGUIDE.md` §9 still says "Deploy target: Vercel" — that line
    is superseded.
 4. **Content came from the Sanity export** and is not re-pulled.
-5. **Design is locked.** Typography, spacing, colour, and motion values come from
-   `STYLEGUIDE.md` and the three `.dc.html` templates. If something looks wrong,
-   ask before changing it.
+5. **Design is locked, and Design System C is the standard.** Approved by Javad
+   2026-09-03. The canonical reference is
+   `content/assets/templates and styleguide/Design System C (APPROVED 2026-09-03).html`,
+   also published at
+   `https://claude.ai/code/artifact/04f3e18a-d203-4654-b865-209f8228e7ec`.
+   It merges the semantic H1-H6 mapping from the August handoff with the shipped
+   tokens and every component, and it carries a White/Black switch.
+   **It supersedes `Style Guide.dc.html` (22 August) wherever the two disagree**,
+   which they do on H1 line-height (0.88, not 0.9), H3 size, the retired
+   `aps-btn-ghost-dark` name, and the H1 nowrap rule. `STYLEGUIDE.md` and the
+   page `.dc.html` templates still stand for anything C does not cover.
+   **C is ahead of the website on purpose**: it specifies four approved changes
+   the site has not received yet, listed under "Design System C rollout" in
+   Known gaps. Build new work to C; do not treat the current CSS as the spec.
+   If something looks wrong, ask before changing it.
 6. **The hero H1 wraps.** `STYLEGUIDE.md` §1.3 and the `.dc.html` templates say
    the page title is a single line (`white-space:nowrap`). That line is
    superseded. It clipped 11 of the 55 titles at every viewport >= 761px, invisibly, because
@@ -436,6 +448,7 @@ npm run build
 | **8 case study `og:image` values are on content-hashed paths** | Tested rather than assumed: a clean rebuild produced byte-identical URLs, so the hash is content-derived and stable, and the cards are correctly generated at 1200x630 per page. The narrow risk is that re-exporting a hero changes its URL and breaks the preview on every link already shared. These pages have never been public, so pinning them is free now and expensive later. The other 66 pages use the stable `/assets/og-image.jpg` |
 | **Blog collection glob hides subfolders** | `content/blog` globs `*.md` while services and Common Questions use `**/*.md`, so a post in a subfolder produces no route, no error and no warning. Already recorded as a trap below; the audit's view is that a trap worth documenting is worth failing loudly instead. Case study imagery has the same shape: a folder whose name does not match a slug is ignored silently |
 | **Service pages make numeric claims with no source** | Not a breach of the no-price rule, which holds: `$550` appears nowhere in the shipped output because Precision Impact Sprints is unpublished. The inconsistency is that blog posts cite their statistics (Gartner, Edelman, McKinsey, Google) while several service pages state figures with none: "revenue increases of 20 to 30% within 18 months", "between 23% and 33%", "60 to 80% of invested resources". Same claim type, two standards of proof, on the pages a prospect reads before deciding |
+| **Design System C rollout, approved and NOT applied** | Javad approved Design System C on 2026-09-03 and it is now the standard, but **the website has not been changed** and he asked explicitly that it not be, yet. C is ahead of the code in six places. **(1) `--orange-ink` is retired**: 53 usages across 16 files become `--brand-orange`, and the token comes out of `tokens.css`. **(2) H2 becomes Brand Lime** `#95C83F`, currently `var(--pg-fg)` in `base.css`. **(3) Primary button ink goes white**, currently `#000`. **(4) A fourth variant `.aps-btn-lime`** is added, lime with black text, hovering to black with lime text. **(5) The dark button hovers to lime** instead of white. **(6) Related rows**: the index goes orange from grey, the name goes orange on hover, and EXPLORE NOW goes lime on hover; the CTA phone goes white. **Every one of these is a deliberate accessibility trade and the numbers are in C**: orange text on white is 2.92:1 and lime is 1.98:1, against floors of 4.5 and 3.0. Black mode is unaffected and stays compliant. Do not 'fix' these back; they are decisions. This **closes audit findings 14 and 15** as brand decisions rather than defects. |
 | **Three checks are now unblocked and still undone** | The 2026-09-03 push made these possible; none has been run. Google Rich Results Test on a live URL, which local reasoning explicitly does not substitute for. The LinkedIn Post Inspector and Facebook Sharing Debugger, to re-scrape any URL shared before the deploy, since a redeploy alone does not refresh a cached preview. And a Safari pass on the headers and CSP, which were only ever verified in Chromium |
 | Homayra's headshot is 400x500 | Displays at 260px, so it is soft on retina. Javad's is 2000x2500 |
 | Foundation and Infrastructure are alphabetical | Execution, Growth and Alive Pro were sequenced by priority 2026-08-24; the other two await Javad's order |

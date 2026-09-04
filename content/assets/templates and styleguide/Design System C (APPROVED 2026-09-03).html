@@ -1,0 +1,764 @@
+<title>Alive Pro Design System C</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root{
+    --brand-black:#000000; --brand-forest:#346632; --brand-lime:#95C83F;
+    --brand-orange:#F76E1E; --brand-mist:#E6E7E8;
+    --surface-hero-top:#333333; --surface-hero-bottom:#1A1A1A; --surface-dark:#161616;
+    --font-sans:'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-condensed:'Barlow Condensed','Barlow',system-ui,sans-serif;
+    --font-mono:'JetBrains Mono','SF Mono',Menlo,Consolas,monospace;
+    --ease-settle:cubic-bezier(.22,1,.36,1);
+    --dur-micro:220ms; --dur-move:350ms; --dur-roll:400ms; --dur-hero:900ms;
+    --focus-ring:0 0 0 4px rgba(247,110,30,.4);
+    --gutter:clamp(24px,4vw,56px);
+    --rail-color:rgba(128,128,128,.12);
+  }
+  /* Orange is one value now. No darkened text variant. */
+  body{
+    --pg-bg:#FFFFFF; --pg-fg:#000000;
+    --pg-fg2:rgba(0,0,0,.72); --pg-fg3:rgba(0,0,0,.55);
+    --pg-line:#E6E7E8; --pg-band:#F4F4F4;
+    --pass:#2E7D32; --fail:#C0350C;
+  }
+  body[data-mode='dark']{
+    --pg-bg:#111111; --pg-fg:#FFFFFF;
+    --pg-fg2:rgba(255,255,255,.78); --pg-fg3:rgba(255,255,255,.55);
+    --pg-line:rgba(255,255,255,.16); --pg-band:#1A1A1A;
+    --pass:#8BC34A; --fail:#FF8A5E;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--pg-bg);color:var(--pg-fg);font-family:var(--font-sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background-color 300ms ease,color 300ms ease}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 var(--gutter) 120px}
+
+  .switch{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;padding:14px 0;background:var(--pg-bg);border-bottom:1px solid var(--pg-line);transition:background-color 300ms ease;flex-wrap:wrap}
+  .switch__label{font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--pg-fg3)}
+  .switch__group{display:flex;border:1px solid var(--pg-line);border-radius:999px;overflow:hidden}
+  .switch__btn{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:9px 20px;border:0;background:transparent;color:var(--pg-fg3);cursor:pointer;transition:background-color var(--dur-micro) ease,color var(--dur-micro) ease}
+  .switch__btn[aria-pressed='true']{background:var(--brand-orange);color:#000;font-weight:700}
+  .switch__btn:focus-visible{outline:none;box-shadow:var(--focus-ring)}
+
+  .mast{padding:clamp(40px,6vw,76px) 0 26px;border-bottom:2px solid var(--pg-fg)}
+  .mast__logo{width:min(300px,62vw);height:auto;margin:0 0 30px;display:block}
+  .mast__eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brand-orange);margin:0 0 12px}
+  h1{font-family:var(--font-condensed);font-weight:800;font-size:clamp(40px,8vw,86px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;margin:0;text-wrap:balance}
+  .mast__sub{margin:20px 0 0;max-width:64ch;color:var(--pg-fg2);font-size:17px}
+  .mast__meta{margin:18px 0 0;font-family:var(--font-mono);font-size:11.5px;color:var(--pg-fg3);line-height:1.9}
+
+  /* contents */
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+  .toc a{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--pg-fg2);border:1px solid var(--pg-line);border-radius:999px;padding:7px 13px}
+  .toc a:hover{border-color:var(--brand-orange);color:var(--brand-orange)}
+
+  section{margin-top:78px;scroll-margin-top:70px}
+  .sec__eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--pg-fg);margin:0 0 14px}
+  .sec__eyebrow b{color:var(--brand-orange);font-weight:700}
+  /* H2 is Brand Lime, Javad's direction */
+  h2{font-family:var(--font-condensed);font-weight:800;text-transform:uppercase;font-size:clamp(30px,4.4vw,52px);line-height:.94;margin:0 0 8px;padding-bottom:16px;border-bottom:1px solid var(--pg-line);color:var(--brand-lime)}
+  h2 .dot{color:var(--brand-orange)}
+  .sec__intro{max-width:70ch;color:var(--pg-fg2);margin:20px 0 30px}
+  h3{font-weight:600;font-size:19px;margin:40px 0 14px}
+
+  code,.mono{font-family:var(--font-mono);font-size:.86em;background:var(--pg-band);padding:2px 6px;border-radius:2px}
+  pre{font-family:var(--font-mono);font-size:12.5px;line-height:1.7;background:var(--pg-band);border-left:2px solid var(--brand-orange);padding:16px 18px;overflow-x:auto;margin:0 0 18px;white-space:pre}
+  pre code{background:none;padding:0}
+
+  .lock{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+  .lock__cell{border-radius:8px;padding:32px;display:flex;align-items:center;justify-content:center;min-height:150px;border:1px solid var(--pg-line)}
+  .lock__cell--w{background:#FFF}.lock__cell--k{background:#111;border-color:rgba(255,255,255,.16)}.lock__cell--o{background:#F76E1E}
+  .lock__cell svg{width:100%;height:auto;max-width:210px}
+  .lock__cell--icon svg{max-width:78px}
+  .lock__cap{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--pg-fg3);margin-top:9px}
+
+  .sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px}
+  .sw__chip{height:92px;border-radius:6px;border:1px solid var(--pg-line)}
+  .sw__n{font-weight:600;font-size:14.5px;margin-top:10px}
+  .sw__h{font-family:var(--font-mono);font-size:11.5px;color:var(--pg-fg3);text-transform:uppercase;margin-top:2px}
+  .sw__u{font-size:13px;color:var(--pg-fg2);margin-top:6px;line-height:1.45}
+
+  .spec{border-top:1px solid var(--pg-line);padding:28px 0;display:grid;grid-template-columns:270px 1fr;gap:30px;align-items:center}
+  .spec__tag{font-size:13px;font-weight:700}
+  .spec__meta{font-family:var(--font-mono);font-size:11.5px;color:var(--pg-fg3);margin-top:6px;line-height:1.65}
+  .spec__sample{overflow:hidden;min-width:0}
+  .t-h1{font-family:var(--font-condensed);font-weight:800;font-size:clamp(30px,7.6vw,144px);line-height:.88;text-transform:uppercase}
+  .t-h2{font-family:var(--font-condensed);font-weight:800;font-size:clamp(48px,6vw,104px);line-height:.92;text-transform:uppercase;color:var(--brand-lime)}
+  .t-h3{font-family:var(--font-condensed);font-weight:800;font-size:clamp(32px,3.4vw,56px);line-height:.96;text-transform:uppercase}
+  .t-h4{font-family:var(--font-condensed);font-weight:700;font-size:clamp(24px,2.4vw,38px);line-height:1.12;text-transform:uppercase}
+  .t-h4 i{font-style:normal;color:var(--pg-fg3)}
+  .t-h5{font-weight:700;font-size:17px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand-orange)}
+  .t-h6{font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand-orange);border-bottom:1px solid var(--brand-orange);padding-bottom:10px;width:fit-content}
+  .t-p{font-size:17px;line-height:1.6;color:var(--pg-fg2)}
+  .t-light{font-family:var(--font-sans);font-weight:200;font-size:clamp(26px,3.4vw,58px);letter-spacing:-.01em;text-transform:uppercase;line-height:1.05}
+  .t-list{font-family:var(--font-sans);font-weight:200;font-size:clamp(28px,3.6vw,60px);line-height:1.1;text-decoration:none;color:var(--pg-fg);display:inline-block;transition:transform var(--dur-move) var(--ease-settle),color var(--dur-micro) ease}
+  .t-list:hover{color:var(--brand-orange);transform:translateX(12px)}
+  .t-index{font-family:var(--font-mono);font-size:13px;color:var(--pg-fg3)}
+  .odot{display:inline-block;width:.14em;height:.14em;background:var(--brand-orange);border-radius:999px;margin-left:.06em;vertical-align:baseline}
+
+  .btnrow{display:flex;flex-wrap:wrap;gap:18px;align-items:center;padding:34px;border-radius:8px;border:1px solid var(--pg-line)}
+  .btnrow--w{background:#FFF}.btnrow--k{background:#111;border-color:rgba(255,255,255,.16)}
+  .rowlabel{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--pg-fg3);margin:0 0 12px}
+  .aps-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:14px;border-radius:999px;padding:20px 40px;font-family:var(--font-sans);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;overflow:hidden;cursor:pointer;transition:background-color 300ms ease,color 300ms ease,border-color 300ms ease,transform 150ms ease}
+  .aps-btn:active{transform:translateY(2px)}
+  .aps-btn .roll{display:block;position:relative;overflow:hidden;height:1.3em}
+  .aps-btn .roll span{display:block;line-height:1.3em;transition:transform var(--dur-roll) var(--ease-settle)}
+  .aps-btn .roll span+span{position:absolute;top:100%;left:0;width:100%}
+  .aps-btn:hover .roll span{transform:translateY(-100%)}
+  .aps-btn svg{transition:transform 300ms var(--ease-settle)}
+  .aps-btn:hover svg{transform:translate(3px,-3px)}
+  .aps-btn.aps-btn-dark{background:#000;color:#fff;border:1px solid #000}
+  .aps-btn.aps-btn-dark:hover{background:var(--brand-lime);color:#000;border-color:var(--brand-lime)}
+  .aps-btn.aps-btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55)}
+  .aps-btn.aps-btn-ghost:hover{background:#fff;color:#000;border-color:#fff}
+  .aps-btn.aps-btn-primary{background:var(--brand-orange);color:#fff;border:1px solid var(--brand-orange)}
+  .aps-btn.aps-btn-primary:hover{background:#fff;color:var(--brand-orange);border-color:var(--brand-orange)}
+  .aps-btn.aps-btn-lime{background:var(--brand-lime);color:#000;border:1px solid var(--brand-lime)}
+  .aps-btn.aps-btn-lime:hover{background:#000;color:var(--brand-lime);border-color:#000}
+  /* comparison only, not a shipping variant */
+  .aps-btn.aps-btn-primary.is-blackink{color:#000}
+  .aps-btn.aps-btn-primary.is-blackink:hover{color:var(--brand-orange)}
+
+  .tw{overflow-x:auto;border:1px solid var(--pg-line);border-radius:6px}
+  table{border-collapse:collapse;width:100%;min-width:540px}
+  th,td{text-align:left;padding:11px 16px;border-bottom:1px solid var(--pg-line);font-size:14.5px;vertical-align:top}
+  th{font-family:var(--font-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--pg-fg3);font-weight:500;background:var(--pg-band)}
+  tr:last-child td{border-bottom:none}
+  td.mn{font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pass{color:var(--pass);font-weight:600}.fail{color:var(--fail);font-weight:600}
+
+  .themes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+  .theme{border-radius:8px;padding:26px;border:1px solid var(--pg-line)}
+  .theme--w{background:#fff;color:#000}.theme--k{background:#111;color:#fff;border-color:rgba(255,255,255,.16)}
+  .theme h4{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;margin:0 0 16px;opacity:.6}
+  .theme dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:7px 16px;align-items:center}
+  .theme dt{font-family:var(--font-mono);font-size:12px}
+  .theme dd{margin:0;font-family:var(--font-mono);font-size:11.5px;opacity:.66;display:flex;align-items:center;gap:9px}
+  .tk{width:15px;height:15px;border-radius:3px;border:1px solid rgba(128,128,128,.4);flex:none}
+
+  /* ---------- component demo frames ---------- */
+  .demo{border:1px solid var(--pg-line);border-radius:8px;overflow:hidden;margin:0 0 8px}
+  .demo--k{background:#111;color:#fff;border-color:rgba(255,255,255,.16)}
+  .demo--w{background:#fff;color:#000}
+  .demo--orange{background:var(--brand-orange);color:#fff}
+  .demo--surface{background:var(--surface-dark);color:#fff}
+  .demo__pad{padding:36px}
+  .caption{font-family:var(--font-mono);font-size:11px;color:var(--pg-fg3);margin:0 0 22px;line-height:1.7}
+
+  /* rails */
+  .railbox{position:relative;height:210px;background:var(--surface-dark);overflow:hidden}
+  .railbox .rail{position:absolute;top:0;bottom:0;width:1px;background:rgba(128,128,128,.25)}
+  .railbox .rail__pulse{position:absolute;left:0;width:1px;height:18%;animation:lineSweep 7s linear infinite}
+  .pulse-o{background:linear-gradient(180deg,rgba(247,110,30,0) 0%,rgba(247,110,30,.7) 50%,rgba(247,110,30,0) 100%)}
+  .pulse-g{background:linear-gradient(180deg,rgba(128,128,128,0) 0%,rgba(128,128,128,.6) 50%,rgba(128,128,128,0) 100%)}
+  @keyframes lineSweep{0%{transform:translateY(-100%)}100%{transform:translateY(2100%)}}
+
+  /* numbered rows */
+  .nrow{display:grid;grid-template-columns:120px 1fr;gap:32px;padding:30px 0;border-top:1px solid var(--pg-line);align-items:start}
+  .nrow__num{font-family:var(--font-condensed);font-weight:800;font-size:56px;line-height:1;color:var(--brand-orange)}
+  .nrow__body h4{font-family:var(--font-condensed);font-weight:800;font-size:clamp(26px,3vw,44px);line-height:.96;text-transform:uppercase;margin:0 0 12px}
+  .nrow__body p{margin:0;color:var(--pg-fg2);max-width:62ch}
+
+  /* related rows */
+  /* The demo panel is always white, so it carries its own ink rather than an
+     inline style. An inline colour would outrank the :hover rule and the row
+     would never change on hover, which is exactly how this was wrong once. */
+  .rrow{display:grid;grid-template-columns:40px 1fr auto;gap:16px 32px;align-items:center;border-top:1px solid #E6E7E8;padding:28px 0;text-decoration:none;color:#000;transition:transform var(--dur-move) var(--ease-settle)}
+  .rrow:hover{transform:translateX(8px)}
+  /* index: brand orange at rest */
+  .rrow__i{font-family:var(--font-mono);font-size:13px;color:var(--brand-orange)}
+  /* name: black at rest, brand orange on hover */
+  .rrow__n{font-weight:200;font-size:clamp(24px,3vw,48px);letter-spacing:-.01em;line-height:1.05;color:#000;transition:color var(--dur-micro) ease}
+  .rrow:hover .rrow__n{color:var(--brand-orange)}
+  /* explore: brand orange at rest, brand lime on hover */
+  .rrow__e{display:flex;align-items:center;gap:14px;color:var(--brand-orange);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;transition:color var(--dur-micro) ease}
+  .rrow:hover .rrow__e{color:var(--brand-lime)}
+
+  /* cta block */
+  .ctablk{background:var(--brand-orange);color:#fff;padding:44px}
+  .ctablk__eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 18px;color:#000}
+  .ctablk__light{font-weight:200;font-size:clamp(22px,3vw,44px);letter-spacing:-.01em;text-transform:uppercase;line-height:1.05;display:block}
+  .ctablk__bold{font-family:var(--font-condensed);font-weight:800;font-size:clamp(34px,6vw,92px);line-height:.92;text-transform:uppercase;display:block}
+  .ctablk__phone{font-weight:600;font-size:clamp(18px,1.6vw,24px);color:#fff;text-decoration:none;display:inline-block;margin-top:22px;transition:color var(--dur-micro) ease}
+  .ctablk__phone:hover{color:rgba(255,255,255,.7)}
+  /* Badge, as built: SVG text on a circular path so the letters follow the arc.
+     The SVG rotates, not a block of flat text. */
+  .badge{position:relative;display:flex;align-items:center;justify-content:center;width:clamp(150px,14vw,200px);height:clamp(150px,14vw,200px);color:#000;transform:scale(1);transition:transform 300ms var(--ease-settle);text-decoration:none}
+  .badge:hover{transform:scale(1.06)}
+  .badge__ring{position:absolute;inset:0;width:100%;height:100%;animation:spinSlow 22s linear infinite}
+  .badge__ring text{font-family:var(--font-sans);font-size:13.5px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;fill:#000}
+  .badge__core{display:flex;align-items:center;justify-content:center;width:44%;height:44%;border-radius:999px;background:#000}
+  @keyframes spinSlow{to{transform:rotate(360deg)}}
+
+  /* next step */
+  .nextblk{background:var(--surface-dark);color:#fff;padding:44px}
+  .nextblk__phone{font-size:clamp(30px,4.2vw,58px);font-weight:300;letter-spacing:.01em;line-height:1;color:var(--brand-orange);text-decoration:none}
+  .marq{border-top:1px solid rgba(255,255,255,.12);margin-top:28px;padding:16px 0;overflow:hidden;white-space:nowrap}
+  .marq__track{display:inline-flex;gap:44px;animation:marq 26s linear infinite;font-family:var(--font-condensed);font-weight:800;font-size:30px;text-transform:uppercase;color:rgba(255,255,255,.5)}
+  @keyframes marq{to{transform:translateX(-50%)}}
+
+  /* nav */
+  .navbar{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;background:var(--surface-hero-bottom);color:#fff}
+  .burger{width:44px;height:44px;display:flex;flex-direction:column;justify-content:center;gap:6px;background:none;border:none;cursor:pointer;padding:8px 7px}
+  .burger span{display:block;height:2px;background:#fff}
+  .themebtn{width:40px;height:40px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:none;color:#fff;cursor:pointer}
+
+  /* form */
+  .field{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+  .field__label{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--pg-fg3)}
+  .field input,.field textarea,.field select{font-family:var(--font-sans);font-size:16px;padding:14px 0;background:transparent;border:0;border-bottom:1px solid var(--pg-line);color:var(--pg-fg)}
+  .field input:focus,.field textarea:focus{outline:none;border-bottom-color:var(--brand-orange)}
+  .field__error{font-size:13px;color:var(--brand-orange)}
+
+  /* accordion */
+  .acc{border-top:1px solid var(--pg-line)}
+  .acc__q{display:flex;align-items:flex-start;gap:18px;width:100%;text-align:left;background:none;border:0;padding:24px 0;cursor:pointer;color:var(--pg-fg);font-family:var(--font-sans);font-size:19px;font-weight:600;line-height:1.35}
+  .acc__i{font-family:var(--font-mono);font-size:13px;color:var(--pg-fg3);flex:none;padding-top:4px}
+  .acc__glyph{margin-left:auto;flex:none;width:26px;height:26px;border-radius:999px;background:var(--brand-orange);color:#000;display:flex;align-items:center;justify-content:center;font-weight:700;transition:transform var(--dur-move) var(--ease-settle)}
+  .acc[open] .acc__glyph{transform:rotate(45deg)}
+  .acc__a{color:var(--pg-fg2);padding:0 0 24px;max-width:66ch;margin:0}
+  .acc__d{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--dur-move) var(--ease-settle)}
+  .acc[open] .acc__d{grid-template-rows:1fr}
+  .acc__d>div{overflow:hidden}
+
+  /* misc component bits */
+  .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px}
+  .tile{border:1px solid var(--pg-line);border-radius:8px;padding:22px}
+  .tile h5{margin:0 0 8px;font-size:15px;font-weight:600}
+  .tile p{margin:0;font-size:13.5px;color:var(--pg-fg2);line-height:1.5}
+  .stat{font-family:var(--font-condensed);font-weight:800;font-size:clamp(52px,8vw,110px);line-height:.9;color:var(--brand-orange)}
+  .statlbl{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--pg-fg3);margin-top:6px}
+  .quoteblk{background:var(--pg-band);padding:40px;border-radius:8px}
+  .quoteblk p{font-weight:200;font-size:clamp(20px,2.4vw,34px);line-height:1.3;margin:0 0 18px}
+  .quoteblk cite{font-style:normal;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--pg-fg3)}
+  .lane{overflow:hidden;white-space:nowrap;border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);padding:18px 0}
+  .lane__track{display:inline-flex;gap:52px;animation:marq 30s linear infinite;font-family:var(--font-condensed);font-weight:800;font-size:22px;text-transform:uppercase;color:var(--pg-fg3)}
+  .vtile{position:relative;border-radius:8px;overflow:hidden;background:var(--surface-video);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
+  .vtile__play{width:64px;height:64px;border-radius:999px;background:var(--brand-orange);color:#000;display:flex;align-items:center;justify-content:center;font-size:20px}
+
+  .note{border-left:3px solid var(--brand-orange);padding:4px 0 4px 18px;margin:26px 0 0;color:var(--pg-fg2);font-size:15px;max-width:74ch}
+  .warn{border-left:3px solid var(--fail);padding:14px 0 14px 18px;margin:26px 0 0;color:var(--pg-fg2);font-size:15px;max-width:76ch}
+  .hint{font-size:13.5px;color:var(--pg-fg3);margin:12px 0 0;max-width:74ch}
+
+  footer{margin-top:86px;border-top:1px solid var(--pg-line);padding-top:20px;font-family:var(--font-mono);font-size:11px;color:var(--pg-fg3);line-height:1.9}
+  a{color:var(--brand-orange)}
+  a:focus-visible,.aps-btn:focus-visible,button:focus-visible,summary:focus-visible{outline:none;box-shadow:var(--focus-ring)}
+
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}}
+  @media (max-width:760px){
+    .spec{grid-template-columns:1fr;gap:10px}
+    .nrow{grid-template-columns:56px 1fr;gap:16px}
+    .nrow__num{font-size:34px}
+    .rrow{grid-template-columns:32px 1fr;gap:10px 14px}
+    .rrow__e{grid-column:2}
+    .rrow:hover{transform:none}
+    .demo__pad,.ctablk,.nextblk{padding:24px}
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="switch">
+    <span class="switch__label">Mode</span>
+    <div class="switch__group" role="group" aria-label="Colour mode">
+      <button type="button" class="switch__btn" data-mode-btn="light" aria-pressed="true">White</button>
+      <button type="button" class="switch__btn" data-mode-btn="dark" aria-pressed="false">Black</button>
+    </div>
+    <span class="switch__label" style="margin-left:auto">Every section follows this switch</span>
+  </div>
+
+  <header class="mast">
+    <div class="mast__logo" data-logo-mast><svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 374.6 139.56"> <path d="M30.87,61.98c-17.17,9.18-23.64,30.54-14.46,47.71,7.72,14.44,24.15,21.67,39.27,17.67,5.84-1.54,2.83-2.2-.49-2.44-4.21-.3-8.41-1.63-12.19-4.11-11.14-7.32-14.23-22.28-6.91-33.42,7.32-11.14,22.28-14.23,33.42-6.92,5.77,3.79,9.38,9.64,10.5,15.94.76,4.28,2.15,4.53,2.58,0,.65-6.68-.6-13.61-4-19.98-9.19-17.17-30.55-23.64-47.72-14.46Z" fill="#95c83f"></path> <path d="M67.03,30.47c-11.99-5.88-25.29-7.11-37.51-4.35,0,0-2.95-5.91-5.6-11.15-2.65-5.24-2.97-1.79-2.93.69.03,2.09.41,31.33.53,40.44.02,1.69,1.56,1.65,2.35,1.17,12.36-7.55,28.61-8.8,42.59-1.93,15.72,7.72,23.99,23.44,22.11,38.98-.32,2.68-.02,5.2.82,3.72.55-.97,1.06-1.95,1.53-2.94,11.48-23.89,1.24-52.28-23.9-64.63Z" fill="#346632"></path> <path d="M106.45,94.89c.64.36-1.6,5.09-2.72,7.21-9.07,17.17-26.16,25.11-42.22,20.75-.32-.08-.62-.17-.94-.28-.84-.25-1.68-.54-2.51-.86-.97-.37-1.92-.79-2.87-1.26-.54-.27-1.06-.54-1.59-.85-1.3-.72-2.59-1.53-3.87-2.43-1.97-1.36-8.51-6.02-9.22-14.87,0-8.2,5.23-15.22,12.65-18.13,2.98,8.55,8.44,15.8,15.85,19.94,1.2.66,2.41,1.22,3.62,1.69.17.07.34.13.5.19,2.41.87,4.85,1.37,7.28,1.51,7.55.44,15.47-2.14,21.1-8.15,3.54-3.78,4.29-4.81,4.93-4.45Z" fill="#f76e1e"></path> <path d="M165.03,77.33c.33,0,.67.07,1.05-.02l-1.05.02ZM164.73,77.34c.05,0,.1,0,.15-.02h-.15v.02Z" fill="#80be42"></path> <path d="M281.63,71.32c-2.64-2.71-4.21-7.15-4.64-12.61h31.34l-.02-1.97c-.1-8.56-2.28-13.55-5.83-17.79-3.53-4.24-8.78-6.33-15.76-6.24-.12,0-.23,0-.35.02v-.02l-28.3-.02-14.89,34.3-15.79-34.28h-31.01v10.35l.35,33.81-6.38.07h-.37l-4.28.07-.7-65.37-20.33.19.09,6.78,6.75-.09.61,58.62-5.39.07c-.38.09-.73.02-1.06.02h-.14c-.05.02-.1.02-.16.02-.12.02-.73-.03-.85-.03-2.59.02-3.44-3.93-3.5-8.84l.07-20.66c-.1-10.16-6.75-15.17-19.9-15.03-3.57.03-7.11.52-10.59,1.48v8.7l.03-.28c2.59-2.04,5.39-3.06,8.44-3.1,5.57-.07,8.38,2.77,8.44,8.49l-.21,4.61-2.3.03c-9.1.09-15.74,1.48-19.93,4.21-4.21,2.7-6.28,6.91-6.21,12.65.03,4.21,1.53,7.67,4.47,10.4,2.92,2.71,6.61,3.91,11.08,3.86,2.63-.03,5.2-.49,7.69-1.67,2.5-1.18,4.94-2.96,7.32-5.29,2.37,4.47,5.31,6.98,10.04,6.96h50.86l-.02-7.01-.7-36.7v-.02l6.52-.02,19.99,43.75,6.8-.07,19.13-44.16,7.67-.02c-.16.16-.33.33-.49.5-4.44,4.78-6.24,9.57-6.16,17.19.09,8.47,2.7,15.03,7.83,19.67,5.11,4.66,12.23,6.94,21.34,6.84.99-.02,1.97-.03,2.9-.12v-8.37c-.73.09-1.46.12-2.17.12-4.91.05-8.68-1.29-11.34-4ZM279.66,43.06c1.64-2.37,3.9-3.57,6.84-3.6,2.66-.03,4.68,1.04,6,3.17,1.36,2.14,2.44,3.97,2.49,8.28l.02,1.62-17.86.03c.28-4.71.9-7.13,2.52-9.5ZM143.22,74.4c-1.37.64-2.73.97-4.04.99-2.02.02-3.69-.7-5.04-2.16-1.36-1.44-2.04-3.25-2.05-5.41-.03-3.01,1.08-5.27,3.3-6.8,2.26-1.51,5.64-2.3,10.12-2.35h1.83l.12,12.89c-1.43,1.25-2.85,2.21-4.24,2.84Z" fill="#95c83f"></path> <circle cx="203.01" cy="18.86" r="7.22" fill="#95c83f"></circle> <circle cx="304.75" cy="94.61" r="3.64" fill="#316b35"></circle> <path d="M143.06,95.58c-2.05-1.62-4.95-2.44-8.68-2.44h-15.2v3.5h3.5v27.98h-3.5v3.5h14.3v-3.5h-3.8v-10.87h1.8c4.8,0,8.45-.96,10.94-2.89,2.49-1.92,3.74-4.74,3.74-8.46,0-2.93-1.03-5.21-3.09-6.83ZM136.96,108.31c-1.36,1.3-3.41,1.95-6.14,1.95h-1.15v-13.62h2.31c2.35,0,4.1.48,5.27,1.45,1.16.97,1.75,2.42,1.75,4.36,0,2.6-.68,4.55-2.04,5.85Z" fill="#f76e1e"></path> <path d="M164.62,101.58c-3.51,0-6.26,1.83-8.25,5.48v-4.89h-7.02v22.45h-3.5v3.5h14.02v-3.5h-3.5v-14.2c1.66-2.24,3.6-3.36,5.81-3.36v2.38h4.09v-7.56c-.53-.21-1.09-.31-1.65-.31Z" fill="#f76e1e"></path> <path d="M192.19,105.21c-2.4-2.42-5.69-3.63-9.86-3.63s-7.49,1.21-9.89,3.63c-2.4,2.42-3.61,5.73-3.61,9.94s1.2,7.52,3.61,9.94c2.4,2.42,5.7,3.63,9.89,3.63s7.46-1.21,9.86-3.63c2.4-2.42,3.61-5.73,3.61-9.94s-1.2-7.52-3.61-9.94ZM186.7,122.43c-1.12,1.86-2.57,2.79-4.36,2.79s-3.27-.93-4.38-2.79c-1.11-1.86-1.66-4.29-1.66-7.28s.55-5.42,1.66-7.28c1.11-1.86,2.57-2.79,4.38-2.79s3.24.93,4.36,2.79c1.12,1.86,1.67,4.29,1.67,7.28s-.56,5.42-1.67,7.28Z" fill="#f76e1e"></path> <path d="M219.41,112.79c-1.29-1.58-3.64-2.47-7.05-4.42l-2.36-1.37c-1.87-1.07-3.15-2.01-3.83-2.81-.68-.79-1.02-1.74-1.02-2.84,0-1.36.47-2.5,1.4-3.45.94-.95,2.08-1.42,3.42-1.42.88,0,1.79.15,2.72.46.27.09.54.19.82.31h.01c.41.18.82.38,1.23.6l4.9,2.36v-5.63c-1.67-.49-3.35-.85-5.04-1.09-1.69-.23-3.4-.36-5.12-.36-3.28,0-5.95.91-8.04,2.73-2.07,1.82-3.12,4.16-3.12,7.03,0,2.08.67,3.93,2.01,5.55,1.34,1.64,3.6,2.46,6.76,4.21l2.34,1.27c1.94,1.08,3.25,2.06,3.95,2.95.68.91,1.02,2.1,1.02,3.57,0,1.55-.54,2.79-1.61,3.74-1.07.96-2.48,1.43-4.23,1.43-.9,0-1.86-.18-2.9-.54-1.03-.37-2.13-.9-3.3-1.61v-.06l-4.09-1.97v6.14c1.86.45,3.62.8,5.28,1.04,1.66.24,3.22.36,4.69.36,3.95,0,7.12-.96,9.5-2.87,2.38-1.92,3.57-4.47,3.57-7.67,0-2.19-.65-4.08-1.94-5.67Z" fill="#346632"></path> <path d="M238.26,105.67v-3.5h-6.45v-9.03h-7.02v9.03h.04v3.5h-.04v14.39c0,2.88.72,5.04,2.17,6.49,1.44,1.44,3.6,2.16,6.48,2.16,1.51,0,2.99-.27,4.43-.81v-3.64c-.9.33-1.71.49-2.44.49-1.2,0-2.1-.38-2.71-1.14s-.91-1.89-.91-3.4v-14.56h6.45Z" fill="#346632"></path> <path d="M264.42,124.63v-22.45h-10.52v3.5h3.5v14.23c-1.07,1.27-2.12,2.23-3.15,2.87-1.04.64-2.05.96-3.06.96s-1.79-.33-2.3-1c-.52-.67-.78-1.67-.78-3.01v-17.54h-10.51v3.5h3.49v14.86c0,2.55.66,4.55,1.97,6.01,1.32,1.45,3.14,2.17,5.46,2.17,1.9,0,3.6-.46,5.07-1.37,1.48-.91,2.74-2.28,3.8-4.11v4.89h10.52v-3.5h-3.5Z" fill="#346632"></path> <path d="M295.15,124.63v-31.48h-10.51v3.5h3.5v5.53l.09,2.62c-1.1-1.07-2.29-1.87-3.57-2.41-1.28-.53-2.64-.8-4.09-.8-3.34,0-6.01,1.29-8.01,3.86-2,2.57-3,6.02-3,10.34,0,3.96.89,7.1,2.65,9.43,1.76,2.33,4.14,3.5,7.14,3.5,1.95,0,3.66-.46,5.13-1.37,1.47-.91,2.69-2.28,3.66-4.11v4.89h10.52v-3.5h-3.5ZM288.13,119.9c-.87,1.18-1.8,2.07-2.8,2.67-1,.6-2.06.9-3.19.9-1.7,0-2.97-.7-3.83-2.11-.86-1.41-1.29-3.52-1.29-6.32s.51-5,1.53-6.69c1.02-1.69,2.38-2.53,4.09-2.53.85,0,1.73.21,2.64.61.91.41,1.86,1.03,2.86,1.87v11.6Z" fill="#346632"></path> <path d="M308.33,124.63v-22.45h-7.02v3.5h0v18.95h-2.91v3.5h13.42v-3.5h-3.5Z" fill="#346632"></path> <path d="M336.86,105.21c-2.41-2.42-5.69-3.63-9.87-3.63s-7.49,1.21-9.89,3.63c-2.4,2.42-3.61,5.73-3.61,9.94s1.2,7.52,3.61,9.94c2.4,2.42,5.7,3.63,9.89,3.63s7.46-1.21,9.87-3.63c2.4-2.42,3.6-5.73,3.6-9.94s-1.2-7.52-3.6-9.94ZM331.37,122.43c-1.12,1.86-2.57,2.79-4.36,2.79s-3.27-.93-4.37-2.79c-1.11-1.86-1.66-4.29-1.66-7.28s.55-5.42,1.66-7.28c1.11-1.86,2.56-2.79,4.37-2.79s3.25.93,4.36,2.79c1.12,1.86,1.68,4.29,1.68,7.28s-.56,5.42-1.68,7.28Z" fill="#346632"></path> <path d="M362.94,116.26c-1.09-1.12-2.96-2.19-5.62-3.21l-2.12-.83c-1.92-.74-3.21-1.39-3.87-1.94-.66-.55-.99-1.25-.99-2.1,0-.9.36-1.64,1.07-2.22.72-.58,1.64-.88,2.77-.88.74,0,1.48.12,2.23.37.74.24,1.49.61,2.23,1.1v2.49h4.07v-6.12c-1.34-.45-2.71-.77-4.1-1-1.39-.22-2.82-.33-4.27-.33-3.31,0-5.92.69-7.85,2.08-1.92,1.38-2.89,3.27-2.89,5.65,0,3.34,2.49,5.99,7.47,7.96l2.13.85c2.91,1.15,4.37,2.47,4.37,3.94,0,1.04-.37,1.82-1.11,2.35-.74.53-1.85.79-3.34.79-.82,0-1.7-.17-2.66-.5-.95-.33-1.98-.83-3.06-1.49v-2.46h-4.09v6.12c1.45.6,3.04,1.05,4.76,1.36,1.71.3,3.57.46,5.55.46,3.19,0,5.82-.77,7.87-2.3,2.05-1.54,3.07-3.5,3.07-5.9,0-1.71-.54-3.13-1.62-4.25Z" fill="#346632"></path> </svg></div>
+    <p class="mast__eyebrow">Design system · version C · read from the shipped code</p>
+    <h1>Website<br>Design System</h1>
+    <p class="mast__sub">The semantic type reference, the full component set, and every token, switchable between white and black mode. One orange: <code>#F76E1E</code>, everywhere.</p>
+    <p class="mast__meta">
+      aliveprostudios.com · live 3 September 2026 · 74 routes<br>
+      Merges <b>Style Guide.dc.html</b> (22 Aug) with the shipped <code>tokens.css</code> and <code>base.css</code>
+    </p>
+    <nav class="toc" aria-label="Contents">
+      <a href="#logo">01 Identity</a><a href="#type">02 Type</a><a href="#colour">03 Colour</a>
+      <a href="#tokens">04 Tokens</a><a href="#buttons">05 Buttons</a><a href="#rails">06 Rails</a>
+      <a href="#rows">07 Numbered rows</a><a href="#related">08 Related</a><a href="#cta">09 CTA</a>
+      <a href="#next">10 Next Step</a><a href="#nav">11 Nav &amp; menu</a><a href="#forms">12 Forms</a>
+      <a href="#accordion">13 Accordion</a><a href="#video">14 Video</a><a href="#misc">15 Cards &amp; more</a>
+      <a href="#motion">16 Motion</a><a href="#responsive">17 Mobile</a>
+    </nav>
+  </header>
+
+  <!-- ============================================ 01 LOGO -->
+  <section id="logo">
+    <p class="sec__eyebrow"><b>(01)</b>&nbsp;&nbsp;Identity</p>
+    <h2>The mark<span class="dot">.</span></h2>
+    <p class="sec__intro">Shown on both grounds regardless of the switch, because the point of a lockup sheet is the comparison.</p>
+    <div class="lock">
+      <div><div class="lock__cell lock__cell--w"><svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 374.6 139.56"> <path d="M30.87,61.98c-17.17,9.18-23.64,30.54-14.46,47.71,7.72,14.44,24.15,21.67,39.27,17.67,5.84-1.54,2.83-2.2-.49-2.44-4.21-.3-8.41-1.63-12.19-4.11-11.14-7.32-14.23-22.28-6.91-33.42,7.32-11.14,22.28-14.23,33.42-6.92,5.77,3.79,9.38,9.64,10.5,15.94.76,4.28,2.15,4.53,2.58,0,.65-6.68-.6-13.61-4-19.98-9.19-17.17-30.55-23.64-47.72-14.46Z" fill="#95c83f"></path> <path d="M67.03,30.47c-11.99-5.88-25.29-7.11-37.51-4.35,0,0-2.95-5.91-5.6-11.15-2.65-5.24-2.97-1.79-2.93.69.03,2.09.41,31.33.53,40.44.02,1.69,1.56,1.65,2.35,1.17,12.36-7.55,28.61-8.8,42.59-1.93,15.72,7.72,23.99,23.44,22.11,38.98-.32,2.68-.02,5.2.82,3.72.55-.97,1.06-1.95,1.53-2.94,11.48-23.89,1.24-52.28-23.9-64.63Z" fill="#346632"></path> <path d="M106.45,94.89c.64.36-1.6,5.09-2.72,7.21-9.07,17.17-26.16,25.11-42.22,20.75-.32-.08-.62-.17-.94-.28-.84-.25-1.68-.54-2.51-.86-.97-.37-1.92-.79-2.87-1.26-.54-.27-1.06-.54-1.59-.85-1.3-.72-2.59-1.53-3.87-2.43-1.97-1.36-8.51-6.02-9.22-14.87,0-8.2,5.23-15.22,12.65-18.13,2.98,8.55,8.44,15.8,15.85,19.94,1.2.66,2.41,1.22,3.62,1.69.17.07.34.13.5.19,2.41.87,4.85,1.37,7.28,1.51,7.55.44,15.47-2.14,21.1-8.15,3.54-3.78,4.29-4.81,4.93-4.45Z" fill="#f76e1e"></path> <path d="M165.03,77.33c.33,0,.67.07,1.05-.02l-1.05.02ZM164.73,77.34c.05,0,.1,0,.15-.02h-.15v.02Z" fill="#80be42"></path> <path d="M281.63,71.32c-2.64-2.71-4.21-7.15-4.64-12.61h31.34l-.02-1.97c-.1-8.56-2.28-13.55-5.83-17.79-3.53-4.24-8.78-6.33-15.76-6.24-.12,0-.23,0-.35.02v-.02l-28.3-.02-14.89,34.3-15.79-34.28h-31.01v10.35l.35,33.81-6.38.07h-.37l-4.28.07-.7-65.37-20.33.19.09,6.78,6.75-.09.61,58.62-5.39.07c-.38.09-.73.02-1.06.02h-.14c-.05.02-.1.02-.16.02-.12.02-.73-.03-.85-.03-2.59.02-3.44-3.93-3.5-8.84l.07-20.66c-.1-10.16-6.75-15.17-19.9-15.03-3.57.03-7.11.52-10.59,1.48v8.7l.03-.28c2.59-2.04,5.39-3.06,8.44-3.1,5.57-.07,8.38,2.77,8.44,8.49l-.21,4.61-2.3.03c-9.1.09-15.74,1.48-19.93,4.21-4.21,2.7-6.28,6.91-6.21,12.65.03,4.21,1.53,7.67,4.47,10.4,2.92,2.71,6.61,3.91,11.08,3.86,2.63-.03,5.2-.49,7.69-1.67,2.5-1.18,4.94-2.96,7.32-5.29,2.37,4.47,5.31,6.98,10.04,6.96h50.86l-.02-7.01-.7-36.7v-.02l6.52-.02,19.99,43.75,6.8-.07,19.13-44.16,7.67-.02c-.16.16-.33.33-.49.5-4.44,4.78-6.24,9.57-6.16,17.19.09,8.47,2.7,15.03,7.83,19.67,5.11,4.66,12.23,6.94,21.34,6.84.99-.02,1.97-.03,2.9-.12v-8.37c-.73.09-1.46.12-2.17.12-4.91.05-8.68-1.29-11.34-4ZM279.66,43.06c1.64-2.37,3.9-3.57,6.84-3.6,2.66-.03,4.68,1.04,6,3.17,1.36,2.14,2.44,3.97,2.49,8.28l.02,1.62-17.86.03c.28-4.71.9-7.13,2.52-9.5ZM143.22,74.4c-1.37.64-2.73.97-4.04.99-2.02.02-3.69-.7-5.04-2.16-1.36-1.44-2.04-3.25-2.05-5.41-.03-3.01,1.08-5.27,3.3-6.8,2.26-1.51,5.64-2.3,10.12-2.35h1.83l.12,12.89c-1.43,1.25-2.85,2.21-4.24,2.84Z" fill="#95c83f"></path> <circle cx="203.01" cy="18.86" r="7.22" fill="#95c83f"></circle> <circle cx="304.75" cy="94.61" r="3.64" fill="#316b35"></circle> <path d="M143.06,95.58c-2.05-1.62-4.95-2.44-8.68-2.44h-15.2v3.5h3.5v27.98h-3.5v3.5h14.3v-3.5h-3.8v-10.87h1.8c4.8,0,8.45-.96,10.94-2.89,2.49-1.92,3.74-4.74,3.74-8.46,0-2.93-1.03-5.21-3.09-6.83ZM136.96,108.31c-1.36,1.3-3.41,1.95-6.14,1.95h-1.15v-13.62h2.31c2.35,0,4.1.48,5.27,1.45,1.16.97,1.75,2.42,1.75,4.36,0,2.6-.68,4.55-2.04,5.85Z" fill="#f76e1e"></path> <path d="M164.62,101.58c-3.51,0-6.26,1.83-8.25,5.48v-4.89h-7.02v22.45h-3.5v3.5h14.02v-3.5h-3.5v-14.2c1.66-2.24,3.6-3.36,5.81-3.36v2.38h4.09v-7.56c-.53-.21-1.09-.31-1.65-.31Z" fill="#f76e1e"></path> <path d="M192.19,105.21c-2.4-2.42-5.69-3.63-9.86-3.63s-7.49,1.21-9.89,3.63c-2.4,2.42-3.61,5.73-3.61,9.94s1.2,7.52,3.61,9.94c2.4,2.42,5.7,3.63,9.89,3.63s7.46-1.21,9.86-3.63c2.4-2.42,3.61-5.73,3.61-9.94s-1.2-7.52-3.61-9.94ZM186.7,122.43c-1.12,1.86-2.57,2.79-4.36,2.79s-3.27-.93-4.38-2.79c-1.11-1.86-1.66-4.29-1.66-7.28s.55-5.42,1.66-7.28c1.11-1.86,2.57-2.79,4.38-2.79s3.24.93,4.36,2.79c1.12,1.86,1.67,4.29,1.67,7.28s-.56,5.42-1.67,7.28Z" fill="#f76e1e"></path> <path d="M219.41,112.79c-1.29-1.58-3.64-2.47-7.05-4.42l-2.36-1.37c-1.87-1.07-3.15-2.01-3.83-2.81-.68-.79-1.02-1.74-1.02-2.84,0-1.36.47-2.5,1.4-3.45.94-.95,2.08-1.42,3.42-1.42.88,0,1.79.15,2.72.46.27.09.54.19.82.31h.01c.41.18.82.38,1.23.6l4.9,2.36v-5.63c-1.67-.49-3.35-.85-5.04-1.09-1.69-.23-3.4-.36-5.12-.36-3.28,0-5.95.91-8.04,2.73-2.07,1.82-3.12,4.16-3.12,7.03,0,2.08.67,3.93,2.01,5.55,1.34,1.64,3.6,2.46,6.76,4.21l2.34,1.27c1.94,1.08,3.25,2.06,3.95,2.95.68.91,1.02,2.1,1.02,3.57,0,1.55-.54,2.79-1.61,3.74-1.07.96-2.48,1.43-4.23,1.43-.9,0-1.86-.18-2.9-.54-1.03-.37-2.13-.9-3.3-1.61v-.06l-4.09-1.97v6.14c1.86.45,3.62.8,5.28,1.04,1.66.24,3.22.36,4.69.36,3.95,0,7.12-.96,9.5-2.87,2.38-1.92,3.57-4.47,3.57-7.67,0-2.19-.65-4.08-1.94-5.67Z" fill="#346632"></path> <path d="M238.26,105.67v-3.5h-6.45v-9.03h-7.02v9.03h.04v3.5h-.04v14.39c0,2.88.72,5.04,2.17,6.49,1.44,1.44,3.6,2.16,6.48,2.16,1.51,0,2.99-.27,4.43-.81v-3.64c-.9.33-1.71.49-2.44.49-1.2,0-2.1-.38-2.71-1.14s-.91-1.89-.91-3.4v-14.56h6.45Z" fill="#346632"></path> <path d="M264.42,124.63v-22.45h-10.52v3.5h3.5v14.23c-1.07,1.27-2.12,2.23-3.15,2.87-1.04.64-2.05.96-3.06.96s-1.79-.33-2.3-1c-.52-.67-.78-1.67-.78-3.01v-17.54h-10.51v3.5h3.49v14.86c0,2.55.66,4.55,1.97,6.01,1.32,1.45,3.14,2.17,5.46,2.17,1.9,0,3.6-.46,5.07-1.37,1.48-.91,2.74-2.28,3.8-4.11v4.89h10.52v-3.5h-3.5Z" fill="#346632"></path> <path d="M295.15,124.63v-31.48h-10.51v3.5h3.5v5.53l.09,2.62c-1.1-1.07-2.29-1.87-3.57-2.41-1.28-.53-2.64-.8-4.09-.8-3.34,0-6.01,1.29-8.01,3.86-2,2.57-3,6.02-3,10.34,0,3.96.89,7.1,2.65,9.43,1.76,2.33,4.14,3.5,7.14,3.5,1.95,0,3.66-.46,5.13-1.37,1.47-.91,2.69-2.28,3.66-4.11v4.89h10.52v-3.5h-3.5ZM288.13,119.9c-.87,1.18-1.8,2.07-2.8,2.67-1,.6-2.06.9-3.19.9-1.7,0-2.97-.7-3.83-2.11-.86-1.41-1.29-3.52-1.29-6.32s.51-5,1.53-6.69c1.02-1.69,2.38-2.53,4.09-2.53.85,0,1.73.21,2.64.61.91.41,1.86,1.03,2.86,1.87v11.6Z" fill="#346632"></path> <path d="M308.33,124.63v-22.45h-7.02v3.5h0v18.95h-2.91v3.5h13.42v-3.5h-3.5Z" fill="#346632"></path> <path d="M336.86,105.21c-2.41-2.42-5.69-3.63-9.87-3.63s-7.49,1.21-9.89,3.63c-2.4,2.42-3.61,5.73-3.61,9.94s1.2,7.52,3.61,9.94c2.4,2.42,5.7,3.63,9.89,3.63s7.46-1.21,9.87-3.63c2.4-2.42,3.6-5.73,3.6-9.94s-1.2-7.52-3.6-9.94ZM331.37,122.43c-1.12,1.86-2.57,2.79-4.36,2.79s-3.27-.93-4.37-2.79c-1.11-1.86-1.66-4.29-1.66-7.28s.55-5.42,1.66-7.28c1.11-1.86,2.56-2.79,4.37-2.79s3.25.93,4.36,2.79c1.12,1.86,1.68,4.29,1.68,7.28s-.56,5.42-1.68,7.28Z" fill="#346632"></path> <path d="M362.94,116.26c-1.09-1.12-2.96-2.19-5.62-3.21l-2.12-.83c-1.92-.74-3.21-1.39-3.87-1.94-.66-.55-.99-1.25-.99-2.1,0-.9.36-1.64,1.07-2.22.72-.58,1.64-.88,2.77-.88.74,0,1.48.12,2.23.37.74.24,1.49.61,2.23,1.1v2.49h4.07v-6.12c-1.34-.45-2.71-.77-4.1-1-1.39-.22-2.82-.33-4.27-.33-3.31,0-5.92.69-7.85,2.08-1.92,1.38-2.89,3.27-2.89,5.65,0,3.34,2.49,5.99,7.47,7.96l2.13.85c2.91,1.15,4.37,2.47,4.37,3.94,0,1.04-.37,1.82-1.11,2.35-.74.53-1.85.79-3.34.79-.82,0-1.7-.17-2.66-.5-.95-.33-1.98-.83-3.06-1.49v-2.46h-4.09v6.12c1.45.6,3.04,1.05,4.76,1.36,1.71.3,3.57.46,5.55.46,3.19,0,5.82-.77,7.87-2.3,2.05-1.54,3.07-3.5,3.07-5.9,0-1.71-.54-3.13-1.62-4.25Z" fill="#346632"></path> </svg></div><div class="lock__cap">Wordmark · colour on white</div></div>
+      <div><div class="lock__cell lock__cell--k"><svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 374.6 139.56"> <path d="M30.87,61.98c-17.17,9.18-23.64,30.54-14.46,47.71,7.72,14.44,24.15,21.67,39.27,17.67,5.84-1.54,2.83-2.2-.49-2.44-4.21-.3-8.41-1.63-12.19-4.11-11.14-7.32-14.23-22.28-6.91-33.42,7.32-11.14,22.28-14.23,33.42-6.92,5.77,3.79,9.38,9.64,10.5,15.94.76,4.28,2.15,4.53,2.58,0,.65-6.68-.6-13.61-4-19.98-9.19-17.17-30.55-23.64-47.72-14.46Z" fill="#fff"></path> <path d="M67.03,30.47c-11.99-5.88-25.29-7.11-37.51-4.35,0,0-2.95-5.91-5.6-11.15-2.65-5.24-2.97-1.79-2.93.69.03,2.09.41,31.33.53,40.44.02,1.69,1.56,1.65,2.35,1.17,12.36-7.55,28.61-8.8,42.59-1.93,15.72,7.72,23.99,23.44,22.11,38.98-.32,2.68-.02,5.2.82,3.72.55-.97,1.06-1.95,1.53-2.94,11.48-23.89,1.24-52.28-23.9-64.63Z" fill="#fff"></path> <path d="M106.45,94.89c.64.36-1.6,5.09-2.72,7.21-9.07,17.17-26.16,25.11-42.22,20.75-.32-.08-.62-.17-.94-.28-.84-.25-1.68-.54-2.51-.86-.97-.37-1.92-.79-2.87-1.26-.54-.27-1.06-.54-1.59-.85-1.3-.72-2.59-1.53-3.87-2.43-1.97-1.36-8.51-6.02-9.22-14.87,0-8.2,5.23-15.22,12.65-18.13,2.98,8.55,8.44,15.8,15.85,19.94,1.2.66,2.41,1.22,3.62,1.69.17.07.34.13.5.19,2.41.87,4.85,1.37,7.28,1.51,7.55.44,15.47-2.14,21.1-8.15,3.54-3.78,4.29-4.81,4.93-4.45Z" fill="#fff"></path> <path d="M165.03,77.33c.33,0,.67.07,1.05-.02l-1.05.02ZM164.73,77.34c.05,0,.1,0,.15-.02h-.15v.02Z" fill="#fff"></path> <path d="M281.63,71.32c-2.64-2.71-4.21-7.15-4.64-12.61h31.34l-.02-1.97c-.1-8.56-2.28-13.55-5.83-17.79-3.53-4.24-8.78-6.33-15.76-6.24-.12,0-.23,0-.35.02v-.02l-28.3-.02-14.89,34.3-15.79-34.28h-31.01v10.35l.35,33.81-6.38.07h-.37l-4.28.07-.7-65.37-20.33.19.09,6.78,6.75-.09.61,58.62-5.39.07c-.38.09-.73.02-1.06.02h-.14c-.05.02-.1.02-.16.02-.12.02-.73-.03-.85-.03-2.59.02-3.44-3.93-3.5-8.84l.07-20.66c-.1-10.16-6.75-15.17-19.9-15.03-3.57.03-7.11.52-10.59,1.48v8.7l.03-.28c2.59-2.04,5.39-3.06,8.44-3.1,5.57-.07,8.38,2.77,8.44,8.49l-.21,4.61-2.3.03c-9.1.09-15.74,1.48-19.93,4.21-4.21,2.7-6.28,6.91-6.21,12.65.03,4.21,1.53,7.67,4.47,10.4,2.92,2.71,6.61,3.91,11.08,3.86,2.63-.03,5.2-.49,7.69-1.67,2.5-1.18,4.94-2.96,7.32-5.29,2.37,4.47,5.31,6.98,10.04,6.96h50.86l-.02-7.01-.7-36.7v-.02l6.52-.02,19.99,43.75,6.8-.07,19.13-44.16,7.67-.02c-.16.16-.33.33-.49.5-4.44,4.78-6.24,9.57-6.16,17.19.09,8.47,2.7,15.03,7.83,19.67,5.11,4.66,12.23,6.94,21.34,6.84.99-.02,1.97-.03,2.9-.12v-8.37c-.73.09-1.46.12-2.17.12-4.91.05-8.68-1.29-11.34-4ZM279.66,43.06c1.64-2.37,3.9-3.57,6.84-3.6,2.66-.03,4.68,1.04,6,3.17,1.36,2.14,2.44,3.97,2.49,8.28l.02,1.62-17.86.03c.28-4.71.9-7.13,2.52-9.5ZM143.22,74.4c-1.37.64-2.73.97-4.04.99-2.02.02-3.69-.7-5.04-2.16-1.36-1.44-2.04-3.25-2.05-5.41-.03-3.01,1.08-5.27,3.3-6.8,2.26-1.51,5.64-2.3,10.12-2.35h1.83l.12,12.89c-1.43,1.25-2.85,2.21-4.24,2.84Z" fill="#fff"></path> <circle cx="203.01" cy="18.86" r="7.22" fill="#fff"></circle> <circle cx="304.75" cy="94.61" r="3.64" fill="#fff"></circle> <path d="M143.06,95.58c-2.05-1.62-4.95-2.44-8.68-2.44h-15.2v3.5h3.5v27.98h-3.5v3.5h14.3v-3.5h-3.8v-10.87h1.8c4.8,0,8.45-.96,10.94-2.89,2.49-1.92,3.74-4.74,3.74-8.46,0-2.93-1.03-5.21-3.09-6.83ZM136.96,108.31c-1.36,1.3-3.41,1.95-6.14,1.95h-1.15v-13.62h2.31c2.35,0,4.1.48,5.27,1.45,1.16.97,1.75,2.42,1.75,4.36,0,2.6-.68,4.55-2.04,5.85Z" fill="#fff"></path> <path d="M164.62,101.58c-3.51,0-6.26,1.83-8.25,5.48v-4.89h-7.02v22.45h-3.5v3.5h14.02v-3.5h-3.5v-14.2c1.66-2.24,3.6-3.36,5.81-3.36v2.38h4.09v-7.56c-.53-.21-1.09-.31-1.65-.31Z" fill="#fff"></path> <path d="M192.19,105.21c-2.4-2.42-5.69-3.63-9.86-3.63s-7.49,1.21-9.89,3.63c-2.4,2.42-3.61,5.73-3.61,9.94s1.2,7.52,3.61,9.94c2.4,2.42,5.7,3.63,9.89,3.63s7.46-1.21,9.86-3.63c2.4-2.42,3.61-5.73,3.61-9.94s-1.2-7.52-3.61-9.94ZM186.7,122.43c-1.12,1.86-2.57,2.79-4.36,2.79s-3.27-.93-4.38-2.79c-1.11-1.86-1.66-4.29-1.66-7.28s.55-5.42,1.66-7.28c1.11-1.86,2.57-2.79,4.38-2.79s3.24.93,4.36,2.79c1.12,1.86,1.67,4.29,1.67,7.28s-.56,5.42-1.67,7.28Z" fill="#fff"></path> <path d="M219.41,112.79c-1.29-1.58-3.64-2.47-7.05-4.42l-2.36-1.37c-1.87-1.07-3.15-2.01-3.83-2.81-.68-.79-1.02-1.74-1.02-2.84,0-1.36.47-2.5,1.4-3.45.94-.95,2.08-1.42,3.42-1.42.88,0,1.79.15,2.72.46.27.09.54.19.82.31h.01c.41.18.82.38,1.23.6l4.9,2.36v-5.63c-1.67-.49-3.35-.85-5.04-1.09-1.69-.23-3.4-.36-5.12-.36-3.28,0-5.95.91-8.04,2.73-2.07,1.82-3.12,4.16-3.12,7.03,0,2.08.67,3.93,2.01,5.55,1.34,1.64,3.6,2.46,6.76,4.21l2.34,1.27c1.94,1.08,3.25,2.06,3.95,2.95.68.91,1.02,2.1,1.02,3.57,0,1.55-.54,2.79-1.61,3.74-1.07.96-2.48,1.43-4.23,1.43-.9,0-1.86-.18-2.9-.54-1.03-.37-2.13-.9-3.3-1.61v-.06l-4.09-1.97v6.14c1.86.45,3.62.8,5.28,1.04,1.66.24,3.22.36,4.69.36,3.95,0,7.12-.96,9.5-2.87,2.38-1.92,3.57-4.47,3.57-7.67,0-2.19-.65-4.08-1.94-5.67Z" fill="#fff"></path> <path d="M238.26,105.67v-3.5h-6.45v-9.03h-7.02v9.03h.04v3.5h-.04v14.39c0,2.88.72,5.04,2.17,6.49,1.44,1.44,3.6,2.16,6.48,2.16,1.51,0,2.99-.27,4.43-.81v-3.64c-.9.33-1.71.49-2.44.49-1.2,0-2.1-.38-2.71-1.14s-.91-1.89-.91-3.4v-14.56h6.45Z" fill="#fff"></path> <path d="M264.42,124.63v-22.45h-10.52v3.5h3.5v14.23c-1.07,1.27-2.12,2.23-3.15,2.87-1.04.64-2.05.96-3.06.96s-1.79-.33-2.3-1c-.52-.67-.78-1.67-.78-3.01v-17.54h-10.51v3.5h3.49v14.86c0,2.55.66,4.55,1.97,6.01,1.32,1.45,3.14,2.17,5.46,2.17,1.9,0,3.6-.46,5.07-1.37,1.48-.91,2.74-2.28,3.8-4.11v4.89h10.52v-3.5h-3.5Z" fill="#fff"></path> <path d="M295.15,124.63v-31.48h-10.51v3.5h3.5v5.53l.09,2.62c-1.1-1.07-2.29-1.87-3.57-2.41-1.28-.53-2.64-.8-4.09-.8-3.34,0-6.01,1.29-8.01,3.86-2,2.57-3,6.02-3,10.34,0,3.96.89,7.1,2.65,9.43,1.76,2.33,4.14,3.5,7.14,3.5,1.95,0,3.66-.46,5.13-1.37,1.47-.91,2.69-2.28,3.66-4.11v4.89h10.52v-3.5h-3.5ZM288.13,119.9c-.87,1.18-1.8,2.07-2.8,2.67-1,.6-2.06.9-3.19.9-1.7,0-2.97-.7-3.83-2.11-.86-1.41-1.29-3.52-1.29-6.32s.51-5,1.53-6.69c1.02-1.69,2.38-2.53,4.09-2.53.85,0,1.73.21,2.64.61.91.41,1.86,1.03,2.86,1.87v11.6Z" fill="#fff"></path> <path d="M308.33,124.63v-22.45h-7.02v3.5h0v18.95h-2.91v3.5h13.42v-3.5h-3.5Z" fill="#fff"></path> <path d="M336.86,105.21c-2.41-2.42-5.69-3.63-9.87-3.63s-7.49,1.21-9.89,3.63c-2.4,2.42-3.61,5.73-3.61,9.94s1.2,7.52,3.61,9.94c2.4,2.42,5.7,3.63,9.89,3.63s7.46-1.21,9.87-3.63c2.4-2.42,3.6-5.73,3.6-9.94s-1.2-7.52-3.6-9.94ZM331.37,122.43c-1.12,1.86-2.57,2.79-4.36,2.79s-3.27-.93-4.37-2.79c-1.11-1.86-1.66-4.29-1.66-7.28s.55-5.42,1.66-7.28c1.11-1.86,2.56-2.79,4.37-2.79s3.25.93,4.36,2.79c1.12,1.86,1.68,4.29,1.68,7.28s-.56,5.42-1.68,7.28Z" fill="#fff"></path> <path d="M362.94,116.26c-1.09-1.12-2.96-2.19-5.62-3.21l-2.12-.83c-1.92-.74-3.21-1.39-3.87-1.94-.66-.55-.99-1.25-.99-2.1,0-.9.36-1.64,1.07-2.22.72-.58,1.64-.88,2.77-.88.74,0,1.48.12,2.23.37.74.24,1.49.61,2.23,1.1v2.49h4.07v-6.12c-1.34-.45-2.71-.77-4.1-1-1.39-.22-2.82-.33-4.27-.33-3.31,0-5.92.69-7.85,2.08-1.92,1.38-2.89,3.27-2.89,5.65,0,3.34,2.49,5.99,7.47,7.96l2.13.85c2.91,1.15,4.37,2.47,4.37,3.94,0,1.04-.37,1.82-1.11,2.35-.74.53-1.85.79-3.34.79-.82,0-1.7-.17-2.66-.5-.95-.33-1.98-.83-3.06-1.49v-2.46h-4.09v6.12c1.45.6,3.04,1.05,4.76,1.36,1.71.3,3.57.46,5.55.46,3.19,0,5.82-.77,7.87-2.3,2.05-1.54,3.07-3.5,3.07-5.9,0-1.71-.54-3.13-1.62-4.25Z" fill="#fff"></path> </svg></div><div class="lock__cap">Wordmark · white on black</div></div>
+    </div>
+    <h3>Icon mark</h3>
+    <div class="lock">
+      <div><div class="lock__cell lock__cell--w lock__cell--icon"><svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"> <path d="M186.04,258.33c-74.17,38.68-102.94,130.17-64.26,204.34,32.53,62.37,102.77,94.19,167.92,77.67,25.14-6.37,12.27-9.33-2-10.51-18.07-1.49-36.04-7.37-52.19-18.22-47.54-31.93-60.16-96.36-28.21-143.87,31.93-47.52,96.36-60.14,143.87-28.22,24.62,16.56,39.87,41.83,44.41,68.96,3.08,18.43,9.01,19.56,11.1.12,3.07-28.66-1.99-58.52-16.3-86-38.7-74.17-130.18-102.94-204.35-64.26Z" fill="#95c83f"></path> <path d="M342.76,124.56c-51.24-25.81-108.31-31.65-160.95-20.37,0,0-12.42-25.51-23.56-48.14-11.14-22.63-12.67-7.83-12.64,2.83.03,8.99.38,134.62.49,173.75.02,7.27,6.64,7.16,10.04,5.12,53.44-31.9,123.31-36.52,183.07-6.39,67.18,33.86,102,101.75,93.27,168.45-1.51,11.52-.3,22.33,3.38,16,2.4-4.14,4.64-8.33,6.72-12.55,50.37-102.12,7.68-224.52-99.81-278.71Z" fill="#346632"></path> <path d="M509.24,403.09c2.73,1.58-7.08,21.78-12.03,30.85-39.72,73.37-113.5,106.73-182.3,87.25-1.38-.37-2.68-.75-4.03-1.26-3.6-1.11-7.18-2.39-10.74-3.83-4.13-1.63-8.22-3.49-12.27-5.54-2.3-1.18-4.54-2.38-6.77-3.7-5.54-3.15-11.08-6.7-16.53-10.6-8.42-5.95-36.3-26.23-38.95-64.28.37-35.24,23.14-65.16,55.14-77.34,12.44,36.86,35.57,68.27,67.21,86.38,5.11,2.88,10.29,5.33,15.49,7.41.72.3,1.44.59,2.16.83,10.3,3.86,20.79,6.1,31.23,6.81,32.43,2.22,66.57-8.5,91.02-34.08,15.39-16.1,18.63-20.47,21.36-18.88Z" fill="#f76e1e"></path> </svg></div><div class="lock__cap">Icon · colour on white</div></div>
+      <div><div class="lock__cell lock__cell--k lock__cell--icon"><svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"> <path d="M186.04,258.33c-74.17,38.68-102.94,130.17-64.26,204.34,32.53,62.37,102.77,94.19,167.92,77.67,25.14-6.37,12.27-9.33-2-10.51-18.07-1.49-36.04-7.37-52.19-18.22-47.54-31.93-60.16-96.36-28.21-143.87,31.93-47.52,96.36-60.14,143.87-28.22,24.62,16.56,39.87,41.83,44.41,68.96,3.08,18.43,9.01,19.56,11.1.12,3.07-28.66-1.99-58.52-16.3-86-38.7-74.17-130.18-102.94-204.35-64.26Z" fill="#fff"></path> <path d="M342.76,124.56c-51.24-25.81-108.31-31.65-160.95-20.37,0,0-12.42-25.51-23.56-48.14-11.14-22.63-12.67-7.83-12.64,2.83.03,8.99.38,134.62.49,173.75.02,7.27,6.64,7.16,10.04,5.12,53.44-31.9,123.31-36.52,183.07-6.39,67.18,33.86,102,101.75,93.27,168.45-1.51,11.52-.3,22.33,3.38,16,2.4-4.14,4.64-8.33,6.72-12.55,50.37-102.12,7.68-224.52-99.81-278.71Z" fill="#fff"></path> <path d="M509.24,403.09c2.73,1.58-7.08,21.78-12.03,30.85-39.72,73.37-113.5,106.73-182.3,87.25-1.38-.37-2.68-.75-4.03-1.26-3.6-1.11-7.18-2.39-10.74-3.83-4.13-1.63-8.22-3.49-12.27-5.54-2.3-1.18-4.54-2.38-6.77-3.7-5.54-3.15-11.08-6.7-16.53-10.6-8.42-5.95-36.3-26.23-38.95-64.28.37-35.24,23.14-65.16,55.14-77.34,12.44,36.86,35.57,68.27,67.21,86.38,5.11,2.88,10.29,5.33,15.49,7.41.72.3,1.44.59,2.16.83,10.3,3.86,20.79,6.1,31.23,6.81,32.43,2.22,66.57-8.5,91.02-34.08,15.39-16.1,18.63-20.47,21.36-18.88Z" fill="#fff"></path> </svg></div><div class="lock__cap">Icon · white on black</div></div>
+      <div><div class="lock__cell lock__cell--o lock__cell--icon"><svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"> <rect x="-4.33" y=".18" width="604.33" height="599.82" fill="#f76e1e"></rect> <path d="M186.04,258.96c-74.17,38.68-102.94,130.17-64.26,204.34,32.53,62.37,102.77,94.19,167.92,77.67,25.14-6.37,12.27-9.33-2-10.51-18.07-1.49-36.04-7.37-52.19-18.22-47.54-31.93-60.16-96.36-28.21-143.87,31.93-47.52,96.36-60.14,143.87-28.22,24.62,16.56,39.87,41.83,44.41,68.96,3.08,18.43,9.01,19.56,11.1.12,3.07-28.66-1.99-58.52-16.3-86-38.7-74.17-130.18-102.94-204.35-64.26Z" fill="#fff"></path> <path d="M342.76,125.2c-51.24-25.81-108.31-31.65-160.95-20.37,0,0-12.42-25.51-23.56-48.14-11.14-22.63-12.67-7.83-12.64,2.83.03,8.99.38,134.62.49,173.75.02,7.27,6.64,7.16,10.04,5.12,53.44-31.9,123.31-36.52,183.07-6.39,67.18,33.86,102,101.75,93.27,168.45-1.51,11.52-.3,22.33,3.38,16,2.4-4.14,4.64-8.33,6.72-12.55,50.37-102.12,7.68-224.52-99.81-278.71Z" fill="#fff"></path> <path d="M509.24,403.72c2.73,1.58-7.08,21.78-12.03,30.85-39.72,73.37-113.5,106.73-182.3,87.25-1.38-.37-2.68-.75-4.03-1.26-3.6-1.11-7.18-2.39-10.74-3.83-4.13-1.63-8.22-3.49-12.27-5.54-2.3-1.18-4.54-2.38-6.77-3.7-5.54-3.15-11.08-6.7-16.53-10.6-8.42-5.95-36.3-26.23-38.95-64.28.37-35.24,23.14-65.16,55.14-77.34,12.44,36.86,35.57,68.27,67.21,86.38,5.11,2.88,10.29,5.33,15.49,7.41.72.3,1.44.59,2.16.83,10.3,3.86,20.79,6.1,31.23,6.81,32.43,2.22,66.57-8.5,91.02-34.08,15.39-16.1,18.63-20.47,21.36-18.88Z" fill="#fff"></path> </svg></div><div class="lock__cap">Icon · on brand orange</div></div>
+    </div>
+    <p class="hint">Files in <code>public/assets/</code>: <code>logo-full.svg</code>, <code>logo-full-white.svg</code>, <code>icon.svg</code>, <code>icon-white.svg</code>, <code>icon-orange.svg</code>.</p>
+  </section>
+
+  <!-- ============================================ 02 TYPE -->
+  <section id="type">
+    <p class="sec__eyebrow"><b>(02)</b>&nbsp;&nbsp;Typography · Barlow 200 against Barlow Condensed 800</p>
+    <h2>Semantic type scale<span class="dot">.</span></h2>
+    <p class="sec__intro">Extreme weight contrast: extra-light against extra-bold condensed, no middle-weight display type. Every style maps to a standard tag, so the visual system and the document outline are one decision. One H1 per page; levels never skip.</p>
+
+    <div class="spec"><div><div class="spec__tag">H1 · Page title</div><div class="spec__meta">Barlow Condensed 800<br>clamp(30px, 7.6vw, 144px)<br>line-height 0.88 · uppercase<br>from Markdown frontmatter</div></div><div class="spec__sample"><div class="t-h1">Fragmented marketing<span class="odot"></span></div></div></div>
+
+    <div class="spec"><div><div class="spec__tag">H2 · Section heading</div><div class="spec__meta">Barlow Condensed 800<br>clamp(48px, 6vw, 104px)<br>line-height 0.92 · uppercase<br><b style="color:var(--brand-lime)">Brand Lime #95C83F</b></div></div><div class="spec__sample"><div class="t-h2">By topic<span class="dot" style="color:var(--brand-orange)">.</span></div></div></div>
+
+    <div class="spec"><div><div class="spec__tag">H3 · Subsection / pillar</div><div class="spec__meta">Barlow Condensed 800<br>clamp(32px, 3.4vw, 56px)<br>line-height 0.96 · uppercase</div></div><div class="spec__sample"><div class="t-h3">What we do<span class="odot"></span></div></div></div>
+
+    <div class="spec"><div><div class="spec__tag">H4 · Statement / lede</div><div class="spec__meta">Barlow Condensed 700<br>clamp(24px, 2.4vw, 38px)<br>line-height 1.12 · uppercase<br>two-tone fg / fg3</div></div><div class="spec__sample"><div class="t-h4">Brand transformation is not. <i>Everything else is a cost.</i></div></div></div>
+
+    <div class="spec"><div><div class="spec__tag">H5 · Kicker / pillar subheader</div><div class="spec__meta">Barlow 700 · 17px<br>letter-spacing 0.14em<br>uppercase · brand orange</div></div><div class="spec__sample"><div class="t-h5">Foundation</div></div></div>
+
+    <div class="spec"><div><div class="spec__tag">H6 · Breadcrumb / eyebrow</div><div class="spec__meta">Barlow 600 · 12px<br>letter-spacing 0.14em · uppercase<br>1px orange rule under<br>generated from the route</div></div><div class="spec__sample"><div class="t-h6">Resources&nbsp;&nbsp;·&nbsp;&nbsp;Common Questions</div></div></div>
+
+    <div class="spec"><div><div class="spec__tag">p · Body copy</div><div class="spec__meta">Barlow 400 · 17px<br>line-height 1.6 · fg2<br>min 16px on mobile</div></div><div class="spec__sample"><p class="t-p">Body copy carries the argument. Canadian English throughout: colour, behaviour, centre, catalogue, honour. No em dashes anywhere.</p></div></div>
+
+    <div class="spec"><div><div class="spec__tag">.display-light · decorative</div><div class="spec__meta">Barlow 200<br>clamp(26px, 3.4vw, 58px)<br>never a heading tag</div></div><div class="spec__sample"><div class="t-light">We are here to help</div></div></div>
+
+    <div class="spec"><div><div class="spec__tag">.list-display · index rows</div><div class="spec__meta">Barlow 200<br>clamp(28px, 3.6vw, 60px)<br>hover: orange + translateX(12px)</div></div><div class="spec__sample"><a href="#type" class="t-list">Brand strategy</a></div></div>
+
+    <div class="spec"><div><div class="spec__tag">.index · mono numbers</div><div class="spec__meta">JetBrains Mono 400 · 11–13px · fg3<br>numbers only, never body text</div></div><div class="spec__sample"><div class="t-index">(01)&nbsp;&nbsp;&nbsp;02&nbsp;&nbsp;&nbsp;03&nbsp;&nbsp;&nbsp;04</div></div></div>
+
+    <div class="spec"><div><div class="spec__tag">Orange dot device</div><div class="spec__meta">0.14em circle<br>headline-ending only<br>one per screen zone</div></div><div class="spec__sample"><div class="t-h3">Let's talk<span class="odot"></span></div></div></div>
+
+    <p class="note"><b>Two specs drifted from the August guide and the build is correct.</b> H1 line-height is 0.88, not 0.9. H3 is clamp(32px, 3.4vw, 56px), not clamp(40px, 4.4vw, 72px). The August guide also fixes the H1 to one line with <code>white-space:nowrap</code>; superseded, because it invisibly clipped 11 of 55 titles above 761px. The H1 wraps.</p>
+  </section>
+
+  <!-- ============================================ 03 COLOUR -->
+  <section id="colour">
+    <p class="sec__eyebrow"><b>(03)</b>&nbsp;&nbsp;Colour</p>
+    <h2>Brand palette<span class="dot">.</span></h2>
+    <p class="sec__intro">Fixed. These never mode-switch. <code>--brand-orange</code> is the accent and carries the identity, and it is now the only orange in the system: the darkened text variant has been removed.</p>
+    <div class="sw">
+      <div><div class="sw__chip" style="background:#F76E1E"></div><div class="sw__n">Brand Orange</div><div class="sw__h">#F76E1E</div><div class="sw__u">The accent, and all orange text. CTAs, dots, fills, rules, indices, hover.</div></div>
+      <div><div class="sw__chip" style="background:#95C83F"></div><div class="sw__n">Brand Lime</div><div class="sw__h">#95C83F</div><div class="sw__u">H2 section headings. Energy accents, eyebrows on dark, links in black mode.</div></div>
+      <div><div class="sw__chip" style="background:#346632"></div><div class="sw__n">Brand Forest</div><div class="sw__h">#346632</div><div class="sw__u">Link colour on light surfaces.</div></div>
+      <div><div class="sw__chip" style="background:#000000"></div><div class="sw__n">Brand Black</div><div class="sw__h">#000000</div><div class="sw__u">Type, the dark button, the footer.</div></div>
+      <div><div class="sw__chip" style="background:#E6E7E8"></div><div class="sw__n">Brand Mist</div><div class="sw__h">#E6E7E8</div><div class="sw__u">Rules and dividers on light.</div></div>
+    </div>
+
+    <h3>Dark surfaces · a grey family, not forest</h3>
+    <div class="sw">
+      <div><div class="sw__chip" style="background:#333333"></div><div class="sw__n">Hero Grey Top</div><div class="sw__h">#333333</div></div>
+      <div><div class="sw__chip" style="background:#1A1A1A"></div><div class="sw__n">Hero Grey Bottom</div><div class="sw__h">#1A1A1A</div></div>
+      <div><div class="sw__chip" style="background:#161616"></div><div class="sw__n">Surface Dark</div><div class="sw__h">#161616</div></div>
+    </div>
+
+    <h3>What the single-orange decision measures</h3>
+    <p class="sec__intro" style="margin-top:0">One orange is a brand decision, and these are its numbers. Recorded here so nobody has to rediscover them.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Pairing</th><th>Ratio</th><th>Small text 4.5</th><th>Large text 3.0</th></tr></thead>
+      <tbody>
+        <tr><td class="mn">#F76E1E on #FFFFFF</td><td class="mn">2.92:1</td><td class="fail">fails</td><td class="fail">fails</td></tr>
+        <tr><td class="mn">#F76E1E on #F4F4F4</td><td class="mn">2.65:1</td><td class="fail">fails</td><td class="fail">fails</td></tr>
+        <tr><td class="mn">#F76E1E on #111111</td><td class="mn">6.48:1</td><td class="pass">passes</td><td class="pass">passes</td></tr>
+        <tr><td class="mn">#000000 on #F76E1E</td><td class="mn">7.20:1</td><td class="pass">passes</td><td class="pass">passes</td></tr>
+        <tr><td class="mn">#FFFFFF on #F76E1E</td><td class="mn">2.92:1</td><td class="fail">fails</td><td class="fail">fails</td></tr>
+        <tr><td class="mn">#95C83F on #FFFFFF</td><td class="mn">1.98:1</td><td class="fail">fails</td><td class="fail">fails</td></tr>
+        <tr><td class="mn">#95C83F on #111111</td><td class="mn">9.54:1</td><td class="pass">passes</td><td class="pass">passes</td></tr>
+      </tbody>
+    </table></div>
+    <div class="warn"><b>Read this before signing off the palette.</b> Orange text and lime headings both clear AA comfortably on black and both fail it on white. In black mode this system is fully accessible. In white mode, orange labels sit at 2.92:1 and lime H2s at 1.98:1 against a 4.5 and 3.0 requirement. Switch this page to White and judge the two for yourself; if either reads badly, the fix is a per-mode value rather than a different brand colour.</div>
+  </section>
+
+  <!-- ============================================ 04 TOKENS -->
+  <section id="tokens">
+    <p class="sec__eyebrow"><b>(04)</b>&nbsp;&nbsp;Colour</p>
+    <h2>Mode tokens<span class="dot">.</span></h2>
+    <p class="sec__intro">Content sections style against these only. The hero, the orange CTA block, Next Step and the black footer are mode-invariant and ignore them. Set on <code>body</code>, never <code>:root</code>.</p>
+    <div class="themes">
+      <div class="theme theme--w"><h4>body · white (default)</h4><dl>
+        <dt>--pg-bg</dt><dd><span class="tk" style="background:#FFFFFF"></span>#FFFFFF</dd>
+        <dt>--pg-fg</dt><dd><span class="tk" style="background:#000000"></span>#000000</dd>
+        <dt>--pg-fg2</dt><dd><span class="tk" style="background:rgba(0,0,0,.72)"></span>rgba(0,0,0,.72)</dd>
+        <dt>--pg-fg3</dt><dd><span class="tk" style="background:rgba(0,0,0,.55)"></span>rgba(0,0,0,.55)</dd>
+        <dt>--pg-line</dt><dd><span class="tk" style="background:#E6E7E8"></span>#E6E7E8</dd>
+        <dt>--pg-band</dt><dd><span class="tk" style="background:#F4F4F4"></span>#F4F4F4</dd>
+      </dl></div>
+      <div class="theme theme--k"><h4>body[data-theme='dark'] · black</h4><dl>
+        <dt>--pg-bg</dt><dd><span class="tk" style="background:#111111"></span>#111111</dd>
+        <dt>--pg-fg</dt><dd><span class="tk" style="background:#FFFFFF"></span>#FFFFFF</dd>
+        <dt>--pg-fg2</dt><dd><span class="tk" style="background:rgba(255,255,255,.78)"></span>rgba(255,255,255,.78)</dd>
+        <dt>--pg-fg3</dt><dd><span class="tk" style="background:rgba(255,255,255,.55)"></span>rgba(255,255,255,.55)</dd>
+        <dt>--pg-line</dt><dd><span class="tk" style="background:rgba(255,255,255,.16)"></span>rgba(255,255,255,.16)</dd>
+        <dt>--pg-band</dt><dd><span class="tk" style="background:#1A1A1A"></span>#1A1A1A</dd>
+      </dl></div>
+    </div>
+    <p class="hint">Reading these off <code>document.documentElement</code> returns empty and makes a correct page look like it has lost its tokens. <code>--orange-ink</code> is retired; use <code>--brand-orange</code>.</p>
+  </section>
+
+  <!-- ============================================ 05 BUTTONS -->
+  <section id="buttons">
+    <p class="sec__eyebrow"><b>(05)</b>&nbsp;&nbsp;Components</p>
+    <h2>Buttons<span class="dot">.</span></h2>
+    <p class="sec__intro">Three variants on one base. The base owns the pill, the 13px uppercase label and the roll-up hover; the variant owns colour and border only. Hover any of them.</p>
+    <p class="rowlabel">On white</p>
+    <div class="btnrow btnrow--w">
+      <a href="#buttons" class="aps-btn aps-btn-primary"><span class="roll"><span>Book a consult</span><span>Book a consult</span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+      <a href="#buttons" class="aps-btn aps-btn-dark"><span class="roll"><span>Explore our work</span><span>Explore our work</span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+      <a href="#buttons" class="aps-btn aps-btn-lime"><span class="roll"><span>Get the guide</span><span>Get the guide</span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+      <button type="button" class="aps-btn aps-btn-primary"><span class="roll"><span>Submit</span><span>Submit</span></span></button>
+    </div>
+    <p class="rowlabel" style="margin-top:28px">On black</p>
+    <div class="btnrow btnrow--k">
+      <a href="#buttons" class="aps-btn aps-btn-primary"><span class="roll"><span>Book a consult</span><span>Book a consult</span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+      <a href="#buttons" class="aps-btn aps-btn-ghost"><span class="roll"><span>Request a quote</span><span>Request a quote</span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+      <a href="#buttons" class="aps-btn aps-btn-lime"><span class="roll"><span>Get the guide</span><span>Get the guide</span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+    </div>
+    <div class="tw" style="margin-top:26px"><table>
+      <thead><tr><th>Class</th><th>Rest</th><th>Hover</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td class="mn">.aps-btn-primary</td><td class="mn">#F76E1E · #fff text</td><td class="mn">#fff · orange text</td><td>Home, 404, thank-you, contact submit</td></tr>
+        <tr><td class="mn">.aps-btn-lime</td><td class="mn">#95C83F · #000 text</td><td class="mn">#000 · lime text</td><td>Alternative primary. Passes AA on both grounds</td></tr>
+        <tr><td class="mn">.aps-btn-dark</td><td class="mn">#000 · #fff text</td><td class="mn">#95C83F · #000</td><td>Light sections needing weight</td></tr>
+        <tr><td class="mn">.aps-btn-ghost</td><td class="mn">transparent · #fff text</td><td class="mn">#fff · #000</td><td>Dark surfaces and hero bands</td></tr>
+      </tbody>
+    </table></div>
+    <h3>The label colour on orange</h3>
+    <p class="sec__intro" style="margin-top:0">Both at real size, so the choice is made by eye rather than by number. The ratio is under each.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+      <div>
+        <div class="btnrow btnrow--w" style="justify-content:center">
+          <a href="#buttons" class="aps-btn aps-btn-primary"><span class="roll"><span>Book a consult</span><span>Book a consult</span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+        </div>
+        <div class="lock__cap">White ink · <span class="fail">2.92:1</span> · below the 4.5 floor · current spec</div>
+      </div>
+      <div>
+        <div class="btnrow btnrow--w" style="justify-content:center">
+          <a href="#buttons" class="aps-btn aps-btn-primary is-blackink"><span class="roll"><span>Book a consult</span><span>Book a consult</span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+        </div>
+        <div class="lock__cap">Black ink · <span class="pass">7.20:1</span> · passes · what the site ships today</div>
+      </div>
+    </div>
+    <div class="warn">White on orange is the same pairing already flagged on the consult block, where it sits at 2.92:1 across 70 pages. Specifying it on buttons too makes it the house treatment rather than an exception. The lime button beside it reaches 10.61:1 and is the accessible alternative if you want a second primary that carries brand colour.</div>
+
+    <h3>Markup, and why the label is written twice</h3>
+    <pre><code>&lt;a href="/contact" class="aps-btn aps-btn-primary"&gt;
+  &lt;span class="roll"&gt;
+    &lt;span&gt;Book a consult&lt;/span&gt;
+    &lt;span&gt;Book a consult&lt;/span&gt;
+  &lt;/span&gt;
+  &lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2" aria-hidden="true"&gt;
+    &lt;path d="M7 17L17 7M9 7h8v8"&gt;&lt;/path&gt;
+  &lt;/svg&gt;
+&lt;/a&gt;</code></pre>
+    <p class="hint">The second copy sits at <code>top:100%</code>; hover moves both up 100%, so one exits as the other arrives. One copy gives you a button that empties on hover.</p>
+    <h3>Keyed on both classes, never a tag</h3>
+    <pre><code>/* correct */  .aps-btn.aps-btn-primary   /* (0,2,0) */
+/* wrong   */  a.aps-btn-primary          /* (0,1,1) · misses &lt;button&gt; */
+/* worse   */  .aps-btn-primary           /* (0,1,0) · loses to the dark link rule */</code></pre>
+    <p class="hint">The August guide still names <code>aps-btn-ghost-dark</code>. That variant no longer exists.</p>
+  </section>
+
+  <!-- ============================================ 06 RAILS -->
+  <section id="rails">
+    <p class="sec__eyebrow"><b>(06)</b>&nbsp;&nbsp;Structure</p>
+    <h2>Background rails<span class="dot">.</span></h2>
+    <p class="sec__intro">Five vertical hairlines at the gutter and quarter points, running the full height of a section, with a pulse that sweeps down one line at a time. It is on all 74 pages and it is what makes the grid visible without drawing a grid.</p>
+    <div class="demo">
+      <div class="railbox">
+        <div class="rail" style="left:8%"><div class="rail__pulse pulse-o" style="animation-delay:0s"></div></div>
+        <div class="rail" style="left:31%"><div class="rail__pulse pulse-g" style="animation-delay:2.5s"></div></div>
+        <div class="rail" style="left:54%"><div class="rail__pulse pulse-o" style="animation-delay:5s"></div></div>
+        <div class="rail" style="left:77%"><div class="rail__pulse pulse-g" style="animation-delay:1.2s"></div></div>
+        <div class="rail" style="right:8%"><div class="rail__pulse pulse-o" style="animation-delay:3.8s"></div></div>
+      </div>
+    </div>
+    <p class="caption">Rail 1px · <code>--rail-color rgba(128,128,128,.12)</code> · pulse height 18% · <code>lineSweep</code> 9s linear infinite · alternating orange and grey pulses at staggered delays</p>
+    <div class="tw"><table>
+      <thead><tr><th>Token</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td class="mn">--rail-color</td><td class="mn">rgba(128, 128, 128, 0.12)</td></tr>
+        <tr><td class="mn">--rail-pulse-orange</td><td class="mn">rgba(247, 110, 30, 0.5)</td></tr>
+        <tr><td class="mn">--rail-pulse-grey</td><td class="mn">rgba(128, 128, 128, 0.5)</td></tr>
+        <tr><td class="mn">z-index</td><td class="mn">--z-rails: 5, under content at 6</td></tr>
+      </tbody>
+    </table></div>
+    <p class="hint">Component: <code>BgRails.astro</code>. Sits inside <code>.page-root</code>, behind <code>.z-content</code>.</p>
+  </section>
+
+  <!-- ============================================ 07 NUMBERED ROWS -->
+  <section id="rows">
+    <p class="sec__eyebrow"><b>(07)</b>&nbsp;&nbsp;Structure</p>
+    <h2>Numbered section rows<span class="dot">.</span></h2>
+    <p class="sec__intro">The site's main structural device: a mono eyebrow with a bracketed index, then rows carrying a large condensed number beside the heading. Numbering is information, not decoration, so it is used only where the order is real.</p>
+    <div class="demo demo--w"><div class="demo__pad" style="color:#000">
+      <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 26px"><span style="color:#F76E1E">(02)</span>&nbsp;&nbsp;What we did&nbsp;&nbsp;<span style="opacity:.5">(4)</span></p>
+      <div class="nrow" style="border-color:#E6E7E8"><div class="nrow__num">03</div><div class="nrow__body"><h4>Rolling it out across the company.</h4><p style="color:rgba(0,0,0,.72)">The system then had to hold everywhere. We scaled the visual language across presentations, offline and online assets, and video production.</p></div></div>
+      <div class="nrow" style="border-color:#E6E7E8"><div class="nrow__num">04</div><div class="nrow__body"><h4>The results.</h4><p style="color:rgba(0,0,0,.72)">The work replaced the legacy training materials outright.</p></div></div>
+    </div></div>
+    <p class="caption">Eyebrow: JetBrains Mono 11px · 0.16em · index in brand orange · count in fg3<br>Number: Barlow Condensed 800 · 56px · brand orange · column <code>--col-num</code> 120px<br>Heading: Barlow Condensed 800 · clamp(26px, 3vw, 44px) · uppercase</p>
+  </section>
+
+  <!-- ============================================ 08 RELATED -->
+  <section id="related">
+    <p class="sec__eyebrow"><b>(08)</b>&nbsp;&nbsp;Components</p>
+    <h2>Related services rows<span class="dot">.</span></h2>
+    <p class="sec__intro">Index rows in Barlow 200 at display size, with a mono index and an EXPLORE NOW affordance. On 51 pages. Hover a row.</p>
+    <div class="demo demo--w"><div class="demo__pad" style="color:#000">
+      <a href="#related" class="rrow"><span class="rrow__i">01</span><span class="rrow__n">Brand strategy &amp; positioning</span><span class="rrow__e">Explore now <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></span></a>
+      <a href="#related" class="rrow"><span class="rrow__i">02</span><span class="rrow__n">Rebranding</span><span class="rrow__e">Explore now <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></span></a>
+    </div></div>
+    <p class="caption">Row: 3-column grid 40px / 1fr / auto · 1px top rule · 28px padding · hover translateX(8px)<br>Index: JetBrains Mono 13px · <b style="color:var(--brand-orange)">brand orange</b> at rest<br>Name: Barlow 200 · clamp(28px, 3.6vw, 60px) · -0.01em · black at rest, <b style="color:var(--brand-orange)">brand orange</b> on hover<br>Explore: 13px · 700 · 0.16em · uppercase · <b style="color:var(--brand-orange)">brand orange</b> at rest, <b style="color:var(--brand-lime)">brand lime</b> on hover</p>
+    <p class="hint">Component: <code>RelatedServices.astro</code>. The list comes from the content collection, never a hard-coded array.</p>
+  </section>
+
+  <!-- ============================================ 09 CTA -->
+  <section id="cta">
+    <p class="sec__eyebrow"><b>(09)</b>&nbsp;&nbsp;Components</p>
+    <h2>The consult block<span class="dot">.</span></h2>
+    <p class="sec__intro">A full-bleed orange band with a two-tone heading, the phone number and a slowly rotating badge. Mode-invariant: it is orange in both white and black mode. On 70 of 74 pages.</p>
+    <div class="demo"><div class="ctablk">
+      <p class="ctablk__eyebrow">(03)&nbsp;&nbsp;Book a consult</p>
+      <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:space-between">
+        <div>
+          <span class="ctablk__light">Fragmented marketing</span>
+          <span class="ctablk__bold">Costs more than<br>you think<span style="display:inline-block;width:.14em;height:.14em;background:#fff;border-radius:999px;margin-left:.06em"></span></span>
+          <a href="#cta" class="ctablk__phone">905-553-3044</a>
+        </div>
+        <a href="#cta" class="badge" aria-label="Book a consult"><svg viewBox="0 0 200 200" class="badge__ring" aria-hidden="true"><defs><path id="sgCtaCircle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"></path></defs><text><textPath href="#sgCtaCircle">Book a consult · 29 years of brand marketing · </textPath></text></svg><span class="badge__core"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></span></a>
+      </div>
+    </div></div>
+    <p class="caption">Band: <code>--brand-orange</code> · padding 96px top · mode-invariant<br>Light line: Barlow 200 · clamp(26px, 3.4vw, 58px) · Bold line: Barlow Condensed 800 · clamp(44px, 7vw, 124px) · lh 0.92 · <b>white</b><br>Phone: Barlow 600 · clamp(18px, 1.6vw, 24px) · <b>white</b>, fading to 70% on hover<br>Badge: clamp(180px, 16vw, 240px) · SVG text on a circular path, the ring spins 22s linear, the core holds still · scales 1.06 on hover<br>Eyebrow and badge stay black, so the band keeps both inks rather than going flat</p>
+    <div class="warn"><b>White on orange is now the decision, not a defect.</b> The heading and the phone are white here by direction, matching the buttons. It measures <span class="fail">2.92:1</span> against a 3.0 floor for the heading and 4.5 for the phone, so this band does not meet AA on its text. It is recorded rather than hidden: the eyebrow and the badge stay black, which keeps a passing element in the band, and the earlier audit finding on this heading is closed as a brand decision rather than an open issue.</div>
+  </section>
+
+  <!-- ============================================ 10 NEXT STEP -->
+  <section id="next">
+    <p class="sec__eyebrow"><b>(10)</b>&nbsp;&nbsp;Components</p>
+    <h2>Next step<span class="dot">.</span></h2>
+    <p class="sec__intro">The dark closing band above the footer: a heading, the phone number large and orange, both marks, and a seamless marquee. No email and no city line, by direction.</p>
+    <div class="demo"><div class="nextblk">
+      <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 22px;color:rgba(255,255,255,.55)">(04)&nbsp;&nbsp;Next step</p>
+      <div style="font-family:var(--font-condensed);font-weight:800;font-size:clamp(30px,5vw,68px);line-height:.94;text-transform:uppercase;margin-bottom:26px">Ready to transform<br>your brand<span style="display:inline-block;width:.14em;height:.14em;background:#F76E1E;border-radius:999px;margin-left:.06em"></span></div>
+      <a href="#next" class="nextblk__phone">905-553-3044</a>
+      <div class="marq"><div class="marq__track"><span>Brand</span><span>Marketing</span><span>Systems</span><span>Growth</span><span>Brand</span><span>Marketing</span><span>Systems</span><span>Growth</span></div></div>
+    </div></div>
+    <p class="caption">Band: <code>--surface-dark #161616</code> · padding 128px top<br>Phone: Barlow 300 · clamp(36px, 4.2vw, 64px) · brand orange<br>Marquee: two identical halves, translateX(-50%), 26s linear. Never one copy, or it gaps.</p>
+  </section>
+
+  <!-- ============================================ 11 NAV -->
+  <section id="nav">
+    <p class="sec__eyebrow"><b>(11)</b>&nbsp;&nbsp;Components</p>
+    <h2>Nav and menu<span class="dot">.</span></h2>
+    <p class="sec__intro">A minimal bar over the hero: mark, an established-since label, the mode toggle and a burger. There is no desktop dropdown; every viewport uses the same full-screen overlay.</p>
+    <div class="demo"><div class="navbar">
+      <div style="font-family:var(--font-condensed);font-weight:800;font-size:20px;text-transform:uppercase">Alive Pro</div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.16em">EST. 1997</span>
+        <button class="themebtn" aria-label="Toggle light and dark mode">☀</button>
+        <button class="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div></div>
+    <p class="caption">Bar: 28px <code>--gutter</code> padding · Burger: 44px square, three 2px bars, 6px gap · Theme button: 40px circle, 1px border rgba(255,255,255,.35)</p>
+    <h3>Overlay rules</h3>
+    <ul style="max-width:74ch;color:var(--pg-fg2);line-height:1.75">
+      <li>The overlay is a direct child of <code>&lt;body&gt;</code>, never nested in <code>&lt;header&gt;</code>. A scrolled header's backdrop-filter becomes the containing block and collapses it.</li>
+      <li>Visibility is the <code>hidden</code> attribute, not opacity. <code>.menu[hidden]{display:none}</code>.</li>
+      <li>Scroll lock is <code>html.is-menu-open</code>. Never <code>body</code>.</li>
+      <li>Escape closes. Focus moves to the first item on open and returns to the burger on close.</li>
+      <li>A <code>pageshow</code> handler clears a stranded lock.</li>
+      <li>Sub-menus are an accordion, one section open at a time.</li>
+    </ul>
+    <p class="hint">Open: <code>aria-expanded</code> flips on the burger, which also carries <code>aria-controls="site-menu"</code>. Tab is not yet trapped inside the overlay; that is a known gap.</p>
+  </section>
+
+  <!-- ============================================ 12 FORMS -->
+  <section id="forms">
+    <p class="sec__eyebrow"><b>(12)</b>&nbsp;&nbsp;Components</p>
+    <h2>Form fields<span class="dot">.</span></h2>
+    <p class="sec__intro">Underline fields, uppercase labels, inline errors. Every field is wrapped in its <code>&lt;label&gt;</code>, so the label and control are associated without an <code>id</code>.</p>
+    <div class="demo demo--w"><div class="demo__pad" style="color:#000">
+      <label class="field"><span class="field__label">Full name *</span><input type="text" placeholder="Your name" style="border-bottom-color:#E6E7E8;color:#000"></label>
+      <label class="field"><span class="field__label">Email address *</span><input type="email" placeholder="you@company.com" style="border-bottom-color:#E6E7E8;color:#000"><span class="field__error">Enter a valid email address</span></label>
+      <label class="field"><span class="field__label">Message *</span><textarea rows="3" placeholder="Tell us about your brand" style="border-bottom-color:#E6E7E8;color:#000"></textarea></label>
+      <button type="button" class="aps-btn aps-btn-primary"><span class="roll"><span>Submit</span><span>Submit</span></span></button>
+    </div></div>
+    <p class="caption">Label: Barlow 600 · 12px · 0.14em · uppercase · fg3<br>Input: 16px, transparent, 1px bottom rule, focus turns the rule brand orange<br>Error: 13px brand orange, reserved height so the layout does not jump<br>Two-up rows collapse to one column under 760px</p>
+    <pre><code>&lt;label class="field"&gt;
+  &lt;span class="field__label"&gt;Full Name *&lt;/span&gt;
+  &lt;input type="text" name="name" required autocomplete="name"&gt;
+  &lt;span class="field__error" data-error&gt;&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+    <p class="hint">A honeypot <code>_gotcha</code> field sits in an <code>aria-hidden</code> wrapper at <code>tabindex="-1"</code>. The form posts to Formspree; reCAPTCHA must stay off or AJAX submissions 403.</p>
+  </section>
+
+  <!-- ============================================ 13 ACCORDION -->
+  <section id="accordion">
+    <p class="sec__eyebrow"><b>(13)</b>&nbsp;&nbsp;Components</p>
+    <h2>Question accordion<span class="dot">.</span></h2>
+    <p class="sec__intro">Used on the Common Questions cluster pages. The direct answer is <em>always visible</em> and only the detail collapses, because that paragraph is also the FAQPage <code>acceptedAnswer</code> and visible text must not drift from structured data. Try one.</p>
+    <div class="demo demo--w"><div class="demo__pad" style="color:#000">
+      <details class="acc" open style="border-color:#E6E7E8">
+        <summary class="acc__q" style="color:#000;list-style:none"><span class="acc__i">01</span><span>Does a small business need custom software?</span><span class="acc__glyph">+</span></summary>
+        <p class="acc__a" style="color:rgba(0,0,0,.72);padding-top:6px">Usually not at first. Most businesses are better served by configuring something that already exists, and the answer is often to buy the platform.</p>
+        <div class="acc__d"><div><p class="acc__a" style="color:rgba(0,0,0,.72)">Detail lives here and collapses. The paragraph above never does.</p></div></div>
+      </details>
+      <details class="acc" style="border-color:#E6E7E8">
+        <summary class="acc__q" style="color:#000;list-style:none"><span class="acc__i">02</span><span>Should we build or use an off-the-shelf platform?</span><span class="acc__glyph">+</span></summary>
+        <p class="acc__a" style="color:rgba(0,0,0,.72);padding-top:6px">Buy first, build only where the process is genuinely yours.</p>
+        <div class="acc__d"><div><p class="acc__a" style="color:rgba(0,0,0,.72)">Detail lives here and collapses.</p></div></div>
+      </details>
+    </div></div>
+    <p class="caption">Index: mono 13px fg3 · Question: Barlow 600 · 19px<br>Glyph: 26px orange circle, black plus, rotates 45° on open<br>Panel: <code>grid-template-rows 0fr → 1fr</code>, the only height animation that does not need a fixed pixel value</p>
+  </section>
+
+  <!-- ============================================ 14 VIDEO -->
+  <section id="video">
+    <p class="sec__eyebrow"><b>(14)</b>&nbsp;&nbsp;Components</p>
+    <h2>Video and lightbox<span class="dot">.</span></h2>
+    <p class="sec__intro">Three treatments: the looping hero behind a section, a click-to-play inline player, and a lightbox for gallery images.</p>
+    <div class="tiles" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))">
+      <div><div class="vtile"><div class="vtile__play">▶</div></div><div class="lock__cap">Click-to-play poster</div></div>
+      <div><div class="vtile" style="background:linear-gradient(180deg,#333,#1A1A1A)"><span style="font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,.5)">LOOPING HERO · MUTED</span></div><div class="lock__cap">Video hero backing</div></div>
+    </div>
+    <p class="caption" style="margin-top:18px">Never hardcode an aspect ratio. Each source's real aspect is fetched from the provider and applied, or the video letterboxes inside its own iframe.<br>Poster loads before the player so nothing flashes black. Vimeo carries <code>dnt=1</code>; YouTube uses <code>youtube-nocookie.com</code>.<br>The runtime-injected iframe carries no Astro scope attribute, so its rule must be <code>:global()</code> through a static parent or the player collapses to 150px.</p>
+    <p class="hint">Components: <code>VideoHero.astro</code>, <code>InlineVideo.astro</code>, <code>Lightbox.astro</code>. Gallery tiles need an explicit <code>height:auto</code> beside the aspect ratio, or Astro's height attribute wins and the tile renders at source height.</p>
+  </section>
+
+  <!-- ============================================ 15 MISC -->
+  <section id="misc">
+    <p class="sec__eyebrow"><b>(15)</b>&nbsp;&nbsp;Components</p>
+    <h2>Cards, stats, lanes, quote<span class="dot">.</span></h2>
+
+    <h3>Cards</h3>
+    <div class="tiles">
+      <div class="tile"><h5>Who we are</h5><p>A boutique brand transformation studio in Toronto.</p></div>
+      <div class="tile"><h5>What we do</h5><p>We turn fragmented marketing into one connected system.</p></div>
+      <div class="tile"><h5>How we help</h5><p>We start with a diagnosis, not a proposal.</p></div>
+    </div>
+
+    <h3>Stat</h3>
+    <div><div class="stat">29</div><div class="statlbl">Years</div></div>
+    <p class="caption">Barlow Condensed 800 · clamp(52px, 8vw, 110px) · brand orange. Each page owns a distinct figure so no number is claimed twice.</p>
+
+    <h3>Client logo lane</h3>
+    <div class="lane"><div class="lane__track"><span>Alfred</span><span>Gallery Specialty</span><span>MCON Pipe</span><span>Claritas</span><span>BFL</span><span>Alfred</span><span>Gallery Specialty</span><span>MCON Pipe</span><span>Claritas</span><span>BFL</span></div></div>
+    <p class="caption">Two scroll-driven lanes running opposite directions. Same two-identical-halves rule as the marquee.</p>
+
+    <h3>Founder quote</h3>
+    <div class="quoteblk">
+      <p>Patients do not compare clinics. They compare how it felt to be in one.</p>
+      <cite>Javad Ahmadi · Brand Transformation Architect</cite>
+    </div>
+    <p class="caption">Band <code>--pg-band</code> · Barlow 200 · clamp(20px, 2.4vw, 34px) · attribution 13px 0.14em uppercase fg3. One quote per page.</p>
+  </section>
+
+  <!-- ============================================ 16 MOTION -->
+  <section id="motion">
+    <p class="sec__eyebrow"><b>(16)</b>&nbsp;&nbsp;Motion, layout, rules</p>
+    <h2>Motion and layout<span class="dot">.</span></h2>
+    <p class="sec__intro">One easing for the whole site: fast start, soft settle, never springy.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Token</th><th>Value</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td class="mn">--ease-settle</td><td class="mn">cubic-bezier(.22, 1, .36, 1)</td><td>The only easing</td></tr>
+        <tr><td class="mn">--dur-micro</td><td class="mn">220ms</td><td>Colour and hover</td></tr>
+        <tr><td class="mn">--dur-move</td><td class="mn">350ms</td><td>Transform settling</td></tr>
+        <tr><td class="mn">--dur-roll</td><td class="mn">400ms</td><td>Button label roll</td></tr>
+        <tr><td class="mn">--dur-hero</td><td class="mn">900ms</td><td>Hero line reveals</td></tr>
+        <tr><td class="mn">--gutter</td><td class="mn">clamp(24px, 4vw, 56px)</td><td>Everything aligns to it</td></tr>
+        <tr><td class="mn">--col-label / --col-num</td><td class="mn">220px / 120px</td><td>Eyebrow and number columns</td></tr>
+        <tr><td class="mn">--z-video / rails / content</td><td class="mn">1 / 5 / 6</td><td>Inside a section</td></tr>
+        <tr><td class="mn">--z-nav / menu</td><td class="mn">30 / 100</td><td>Chrome and overlay</td></tr>
+        <tr><td class="mn">--focus-ring</td><td class="mn">0 0 0 4px rgba(247,110,30,.4)</td><td>Never removed</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Standing rules</h3>
+    <ul style="max-width:74ch;color:var(--pg-fg2);line-height:1.75">
+      <li>One H1 per page. Heading levels never skip.</li>
+      <li>Tap targets 44px or larger.</li>
+      <li>Scroll locks go on <code>&lt;html&gt;</code>, never <code>&lt;body&gt;</code>.</li>
+      <li>Fixed overlays live outside <code>.page-root</code>; it and <code>.hero</code> both clip fixed descendants.</li>
+      <li>All animation is CSS. A global reduced-motion block kills it site-wide, so no component needs its own guard.</li>
+      <li>Canadian English. No em dashes anywhere.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================ 17 RESPONSIVE -->
+  <section id="responsive">
+    <p class="sec__eyebrow"><b>(17)</b>&nbsp;&nbsp;Responsive</p>
+    <h2>Mobile<span class="dot">.</span></h2>
+    <p class="sec__intro">There is no separate mobile style guide, and there should not be one. The type scale is fluid, so every <code>clamp()</code> in this document already contains its own mobile value: the first number is the phone, the third is the desktop. Read the same table twice.</p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Style</th><th>At 375px</th><th>At 1440px</th></tr></thead>
+      <tbody>
+        <tr><td>H1</td><td class="mn">30px</td><td class="mn">109px</td></tr>
+        <tr><td>H2</td><td class="mn">48px</td><td class="mn">86px</td></tr>
+        <tr><td>H3</td><td class="mn">32px</td><td class="mn">49px</td></tr>
+        <tr><td>H4</td><td class="mn">24px</td><td class="mn">35px</td></tr>
+        <tr><td>Body</td><td class="mn">16px min</td><td class="mn">17px</td></tr>
+        <tr><td>Gutter</td><td class="mn">24px</td><td class="mn">56px</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>The one breakpoint: 760px</h3>
+    <p class="sec__intro" style="margin-top:0">Everything else is fluid. Only these things actually switch:</p>
+    <div class="tw"><table>
+      <thead><tr><th>Element</th><th>Below 760px</th></tr></thead>
+      <tbody>
+        <tr><td>Two-up form rows</td><td>Collapse to one column</td></tr>
+        <tr><td>Numbered rows</td><td>Number column 120px to 56px, number 56px to 34px</td></tr>
+        <tr><td>Related rows</td><td>Three columns to two; EXPLORE NOW wraps under the name</td></tr>
+        <tr><td>Hover transforms</td><td>Removed. There is no hover on touch, and a stuck transform reads as a bug</td></tr>
+        <tr><td>Hero caption</td><td>Hidden</td></tr>
+        <tr><td>Gallery grid</td><td>Three columns to two, tiles at 50vw</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Rules that only bite on mobile</h3>
+    <ul style="max-width:74ch;color:var(--pg-fg2);line-height:1.75">
+      <li>Body copy never goes below 16px. iOS zooms a focused input under 16px, which throws the layout.</li>
+      <li>Tap targets 44px minimum, including the burger and the mode toggle.</li>
+      <li>No horizontal scroll at any width. Wide content gets its own <code>overflow-x:auto</code> container rather than widening the page.</li>
+      <li>Test at 375, 768 and 1440 in a real viewport. An emulated one will not catch a stuck hover state.</li>
+      <li>The full-screen menu is the navigation at every width, so there is no separate mobile nav to specify.</li>
+    </ul>
+    <p class="note">This page follows the same rules. Open it on a phone and the specimens resize with it; the guide is the demonstration.</p>
+  </section>
+
+  <footer>
+    Version C · merges the semantic type reference from <b>Style Guide.dc.html</b> (22 August 2026) with the tokens and components read from <b>src/styles/</b> on 3 September 2026.<br>
+    Contrast figures are computed from the hex values. <b>--orange-ink is retired in this specification;</b> brand orange <code>#F76E1E</code> is the only orange, and H2 is Brand Lime. The website still ships the old values and has not been changed.
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var body = document.body;
+    var btns = document.querySelectorAll('[data-mode-btn]');
+    var mast = document.querySelector('[data-logo-mast]');
+    var LIGHT = "<svg  xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 374.6 139.56\"> <path d=\"M30.87,61.98c-17.17,9.18-23.64,30.54-14.46,47.71,7.72,14.44,24.15,21.67,39.27,17.67,5.84-1.54,2.83-2.2-.49-2.44-4.21-.3-8.41-1.63-12.19-4.11-11.14-7.32-14.23-22.28-6.91-33.42,7.32-11.14,22.28-14.23,33.42-6.92,5.77,3.79,9.38,9.64,10.5,15.94.76,4.28,2.15,4.53,2.58,0,.65-6.68-.6-13.61-4-19.98-9.19-17.17-30.55-23.64-47.72-14.46Z\" fill=\"#95c83f\"></path> <path d=\"M67.03,30.47c-11.99-5.88-25.29-7.11-37.51-4.35,0,0-2.95-5.91-5.6-11.15-2.65-5.24-2.97-1.79-2.93.69.03,2.09.41,31.33.53,40.44.02,1.69,1.56,1.65,2.35,1.17,12.36-7.55,28.61-8.8,42.59-1.93,15.72,7.72,23.99,23.44,22.11,38.98-.32,2.68-.02,5.2.82,3.72.55-.97,1.06-1.95,1.53-2.94,11.48-23.89,1.24-52.28-23.9-64.63Z\" fill=\"#346632\"></path> <path d=\"M106.45,94.89c.64.36-1.6,5.09-2.72,7.21-9.07,17.17-26.16,25.11-42.22,20.75-.32-.08-.62-.17-.94-.28-.84-.25-1.68-.54-2.51-.86-.97-.37-1.92-.79-2.87-1.26-.54-.27-1.06-.54-1.59-.85-1.3-.72-2.59-1.53-3.87-2.43-1.97-1.36-8.51-6.02-9.22-14.87,0-8.2,5.23-15.22,12.65-18.13,2.98,8.55,8.44,15.8,15.85,19.94,1.2.66,2.41,1.22,3.62,1.69.17.07.34.13.5.19,2.41.87,4.85,1.37,7.28,1.51,7.55.44,15.47-2.14,21.1-8.15,3.54-3.78,4.29-4.81,4.93-4.45Z\" fill=\"#f76e1e\"></path> <path d=\"M165.03,77.33c.33,0,.67.07,1.05-.02l-1.05.02ZM164.73,77.34c.05,0,.1,0,.15-.02h-.15v.02Z\" fill=\"#80be42\"></path> <path d=\"M281.63,71.32c-2.64-2.71-4.21-7.15-4.64-12.61h31.34l-.02-1.97c-.1-8.56-2.28-13.55-5.83-17.79-3.53-4.24-8.78-6.33-15.76-6.24-.12,0-.23,0-.35.02v-.02l-28.3-.02-14.89,34.3-15.79-34.28h-31.01v10.35l.35,33.81-6.38.07h-.37l-4.28.07-.7-65.37-20.33.19.09,6.78,6.75-.09.61,58.62-5.39.07c-.38.09-.73.02-1.06.02h-.14c-.05.02-.1.02-.16.02-.12.02-.73-.03-.85-.03-2.59.02-3.44-3.93-3.5-8.84l.07-20.66c-.1-10.16-6.75-15.17-19.9-15.03-3.57.03-7.11.52-10.59,1.48v8.7l.03-.28c2.59-2.04,5.39-3.06,8.44-3.1,5.57-.07,8.38,2.77,8.44,8.49l-.21,4.61-2.3.03c-9.1.09-15.74,1.48-19.93,4.21-4.21,2.7-6.28,6.91-6.21,12.65.03,4.21,1.53,7.67,4.47,10.4,2.92,2.71,6.61,3.91,11.08,3.86,2.63-.03,5.2-.49,7.69-1.67,2.5-1.18,4.94-2.96,7.32-5.29,2.37,4.47,5.31,6.98,10.04,6.96h50.86l-.02-7.01-.7-36.7v-.02l6.52-.02,19.99,43.75,6.8-.07,19.13-44.16,7.67-.02c-.16.16-.33.33-.49.5-4.44,4.78-6.24,9.57-6.16,17.19.09,8.47,2.7,15.03,7.83,19.67,5.11,4.66,12.23,6.94,21.34,6.84.99-.02,1.97-.03,2.9-.12v-8.37c-.73.09-1.46.12-2.17.12-4.91.05-8.68-1.29-11.34-4ZM279.66,43.06c1.64-2.37,3.9-3.57,6.84-3.6,2.66-.03,4.68,1.04,6,3.17,1.36,2.14,2.44,3.97,2.49,8.28l.02,1.62-17.86.03c.28-4.71.9-7.13,2.52-9.5ZM143.22,74.4c-1.37.64-2.73.97-4.04.99-2.02.02-3.69-.7-5.04-2.16-1.36-1.44-2.04-3.25-2.05-5.41-.03-3.01,1.08-5.27,3.3-6.8,2.26-1.51,5.64-2.3,10.12-2.35h1.83l.12,12.89c-1.43,1.25-2.85,2.21-4.24,2.84Z\" fill=\"#95c83f\"></path> <circle cx=\"203.01\" cy=\"18.86\" r=\"7.22\" fill=\"#95c83f\"></circle> <circle cx=\"304.75\" cy=\"94.61\" r=\"3.64\" fill=\"#316b35\"></circle> <path d=\"M143.06,95.58c-2.05-1.62-4.95-2.44-8.68-2.44h-15.2v3.5h3.5v27.98h-3.5v3.5h14.3v-3.5h-3.8v-10.87h1.8c4.8,0,8.45-.96,10.94-2.89,2.49-1.92,3.74-4.74,3.74-8.46,0-2.93-1.03-5.21-3.09-6.83ZM136.96,108.31c-1.36,1.3-3.41,1.95-6.14,1.95h-1.15v-13.62h2.31c2.35,0,4.1.48,5.27,1.45,1.16.97,1.75,2.42,1.75,4.36,0,2.6-.68,4.55-2.04,5.85Z\" fill=\"#f76e1e\"></path> <path d=\"M164.62,101.58c-3.51,0-6.26,1.83-8.25,5.48v-4.89h-7.02v22.45h-3.5v3.5h14.02v-3.5h-3.5v-14.2c1.66-2.24,3.6-3.36,5.81-3.36v2.38h4.09v-7.56c-.53-.21-1.09-.31-1.65-.31Z\" fill=\"#f76e1e\"></path> <path d=\"M192.19,105.21c-2.4-2.42-5.69-3.63-9.86-3.63s-7.49,1.21-9.89,3.63c-2.4,2.42-3.61,5.73-3.61,9.94s1.2,7.52,3.61,9.94c2.4,2.42,5.7,3.63,9.89,3.63s7.46-1.21,9.86-3.63c2.4-2.42,3.61-5.73,3.61-9.94s-1.2-7.52-3.61-9.94ZM186.7,122.43c-1.12,1.86-2.57,2.79-4.36,2.79s-3.27-.93-4.38-2.79c-1.11-1.86-1.66-4.29-1.66-7.28s.55-5.42,1.66-7.28c1.11-1.86,2.57-2.79,4.38-2.79s3.24.93,4.36,2.79c1.12,1.86,1.67,4.29,1.67,7.28s-.56,5.42-1.67,7.28Z\" fill=\"#f76e1e\"></path> <path d=\"M219.41,112.79c-1.29-1.58-3.64-2.47-7.05-4.42l-2.36-1.37c-1.87-1.07-3.15-2.01-3.83-2.81-.68-.79-1.02-1.74-1.02-2.84,0-1.36.47-2.5,1.4-3.45.94-.95,2.08-1.42,3.42-1.42.88,0,1.79.15,2.72.46.27.09.54.19.82.31h.01c.41.18.82.38,1.23.6l4.9,2.36v-5.63c-1.67-.49-3.35-.85-5.04-1.09-1.69-.23-3.4-.36-5.12-.36-3.28,0-5.95.91-8.04,2.73-2.07,1.82-3.12,4.16-3.12,7.03,0,2.08.67,3.93,2.01,5.55,1.34,1.64,3.6,2.46,6.76,4.21l2.34,1.27c1.94,1.08,3.25,2.06,3.95,2.95.68.91,1.02,2.1,1.02,3.57,0,1.55-.54,2.79-1.61,3.74-1.07.96-2.48,1.43-4.23,1.43-.9,0-1.86-.18-2.9-.54-1.03-.37-2.13-.9-3.3-1.61v-.06l-4.09-1.97v6.14c1.86.45,3.62.8,5.28,1.04,1.66.24,3.22.36,4.69.36,3.95,0,7.12-.96,9.5-2.87,2.38-1.92,3.57-4.47,3.57-7.67,0-2.19-.65-4.08-1.94-5.67Z\" fill=\"#346632\"></path> <path d=\"M238.26,105.67v-3.5h-6.45v-9.03h-7.02v9.03h.04v3.5h-.04v14.39c0,2.88.72,5.04,2.17,6.49,1.44,1.44,3.6,2.16,6.48,2.16,1.51,0,2.99-.27,4.43-.81v-3.64c-.9.33-1.71.49-2.44.49-1.2,0-2.1-.38-2.71-1.14s-.91-1.89-.91-3.4v-14.56h6.45Z\" fill=\"#346632\"></path> <path d=\"M264.42,124.63v-22.45h-10.52v3.5h3.5v14.23c-1.07,1.27-2.12,2.23-3.15,2.87-1.04.64-2.05.96-3.06.96s-1.79-.33-2.3-1c-.52-.67-.78-1.67-.78-3.01v-17.54h-10.51v3.5h3.49v14.86c0,2.55.66,4.55,1.97,6.01,1.32,1.45,3.14,2.17,5.46,2.17,1.9,0,3.6-.46,5.07-1.37,1.48-.91,2.74-2.28,3.8-4.11v4.89h10.52v-3.5h-3.5Z\" fill=\"#346632\"></path> <path d=\"M295.15,124.63v-31.48h-10.51v3.5h3.5v5.53l.09,2.62c-1.1-1.07-2.29-1.87-3.57-2.41-1.28-.53-2.64-.8-4.09-.8-3.34,0-6.01,1.29-8.01,3.86-2,2.57-3,6.02-3,10.34,0,3.96.89,7.1,2.65,9.43,1.76,2.33,4.14,3.5,7.14,3.5,1.95,0,3.66-.46,5.13-1.37,1.47-.91,2.69-2.28,3.66-4.11v4.89h10.52v-3.5h-3.5ZM288.13,119.9c-.87,1.18-1.8,2.07-2.8,2.67-1,.6-2.06.9-3.19.9-1.7,0-2.97-.7-3.83-2.11-.86-1.41-1.29-3.52-1.29-6.32s.51-5,1.53-6.69c1.02-1.69,2.38-2.53,4.09-2.53.85,0,1.73.21,2.64.61.91.41,1.86,1.03,2.86,1.87v11.6Z\" fill=\"#346632\"></path> <path d=\"M308.33,124.63v-22.45h-7.02v3.5h0v18.95h-2.91v3.5h13.42v-3.5h-3.5Z\" fill=\"#346632\"></path> <path d=\"M336.86,105.21c-2.41-2.42-5.69-3.63-9.87-3.63s-7.49,1.21-9.89,3.63c-2.4,2.42-3.61,5.73-3.61,9.94s1.2,7.52,3.61,9.94c2.4,2.42,5.7,3.63,9.89,3.63s7.46-1.21,9.87-3.63c2.4-2.42,3.6-5.73,3.6-9.94s-1.2-7.52-3.6-9.94ZM331.37,122.43c-1.12,1.86-2.57,2.79-4.36,2.79s-3.27-.93-4.37-2.79c-1.11-1.86-1.66-4.29-1.66-7.28s.55-5.42,1.66-7.28c1.11-1.86,2.56-2.79,4.37-2.79s3.25.93,4.36,2.79c1.12,1.86,1.68,4.29,1.68,7.28s-.56,5.42-1.68,7.28Z\" fill=\"#346632\"></path> <path d=\"M362.94,116.26c-1.09-1.12-2.96-2.19-5.62-3.21l-2.12-.83c-1.92-.74-3.21-1.39-3.87-1.94-.66-.55-.99-1.25-.99-2.1,0-.9.36-1.64,1.07-2.22.72-.58,1.64-.88,2.77-.88.74,0,1.48.12,2.23.37.74.24,1.49.61,2.23,1.1v2.49h4.07v-6.12c-1.34-.45-2.71-.77-4.1-1-1.39-.22-2.82-.33-4.27-.33-3.31,0-5.92.69-7.85,2.08-1.92,1.38-2.89,3.27-2.89,5.65,0,3.34,2.49,5.99,7.47,7.96l2.13.85c2.91,1.15,4.37,2.47,4.37,3.94,0,1.04-.37,1.82-1.11,2.35-.74.53-1.85.79-3.34.79-.82,0-1.7-.17-2.66-.5-.95-.33-1.98-.83-3.06-1.49v-2.46h-4.09v6.12c1.45.6,3.04,1.05,4.76,1.36,1.71.3,3.57.46,5.55.46,3.19,0,5.82-.77,7.87-2.3,2.05-1.54,3.07-3.5,3.07-5.9,0-1.71-.54-3.13-1.62-4.25Z\" fill=\"#346632\"></path> </svg>";
+    var DARK  = "<svg  xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 374.6 139.56\"> <path d=\"M30.87,61.98c-17.17,9.18-23.64,30.54-14.46,47.71,7.72,14.44,24.15,21.67,39.27,17.67,5.84-1.54,2.83-2.2-.49-2.44-4.21-.3-8.41-1.63-12.19-4.11-11.14-7.32-14.23-22.28-6.91-33.42,7.32-11.14,22.28-14.23,33.42-6.92,5.77,3.79,9.38,9.64,10.5,15.94.76,4.28,2.15,4.53,2.58,0,.65-6.68-.6-13.61-4-19.98-9.19-17.17-30.55-23.64-47.72-14.46Z\" fill=\"#fff\"></path> <path d=\"M67.03,30.47c-11.99-5.88-25.29-7.11-37.51-4.35,0,0-2.95-5.91-5.6-11.15-2.65-5.24-2.97-1.79-2.93.69.03,2.09.41,31.33.53,40.44.02,1.69,1.56,1.65,2.35,1.17,12.36-7.55,28.61-8.8,42.59-1.93,15.72,7.72,23.99,23.44,22.11,38.98-.32,2.68-.02,5.2.82,3.72.55-.97,1.06-1.95,1.53-2.94,11.48-23.89,1.24-52.28-23.9-64.63Z\" fill=\"#fff\"></path> <path d=\"M106.45,94.89c.64.36-1.6,5.09-2.72,7.21-9.07,17.17-26.16,25.11-42.22,20.75-.32-.08-.62-.17-.94-.28-.84-.25-1.68-.54-2.51-.86-.97-.37-1.92-.79-2.87-1.26-.54-.27-1.06-.54-1.59-.85-1.3-.72-2.59-1.53-3.87-2.43-1.97-1.36-8.51-6.02-9.22-14.87,0-8.2,5.23-15.22,12.65-18.13,2.98,8.55,8.44,15.8,15.85,19.94,1.2.66,2.41,1.22,3.62,1.69.17.07.34.13.5.19,2.41.87,4.85,1.37,7.28,1.51,7.55.44,15.47-2.14,21.1-8.15,3.54-3.78,4.29-4.81,4.93-4.45Z\" fill=\"#fff\"></path> <path d=\"M165.03,77.33c.33,0,.67.07,1.05-.02l-1.05.02ZM164.73,77.34c.05,0,.1,0,.15-.02h-.15v.02Z\" fill=\"#fff\"></path> <path d=\"M281.63,71.32c-2.64-2.71-4.21-7.15-4.64-12.61h31.34l-.02-1.97c-.1-8.56-2.28-13.55-5.83-17.79-3.53-4.24-8.78-6.33-15.76-6.24-.12,0-.23,0-.35.02v-.02l-28.3-.02-14.89,34.3-15.79-34.28h-31.01v10.35l.35,33.81-6.38.07h-.37l-4.28.07-.7-65.37-20.33.19.09,6.78,6.75-.09.61,58.62-5.39.07c-.38.09-.73.02-1.06.02h-.14c-.05.02-.1.02-.16.02-.12.02-.73-.03-.85-.03-2.59.02-3.44-3.93-3.5-8.84l.07-20.66c-.1-10.16-6.75-15.17-19.9-15.03-3.57.03-7.11.52-10.59,1.48v8.7l.03-.28c2.59-2.04,5.39-3.06,8.44-3.1,5.57-.07,8.38,2.77,8.44,8.49l-.21,4.61-2.3.03c-9.1.09-15.74,1.48-19.93,4.21-4.21,2.7-6.28,6.91-6.21,12.65.03,4.21,1.53,7.67,4.47,10.4,2.92,2.71,6.61,3.91,11.08,3.86,2.63-.03,5.2-.49,7.69-1.67,2.5-1.18,4.94-2.96,7.32-5.29,2.37,4.47,5.31,6.98,10.04,6.96h50.86l-.02-7.01-.7-36.7v-.02l6.52-.02,19.99,43.75,6.8-.07,19.13-44.16,7.67-.02c-.16.16-.33.33-.49.5-4.44,4.78-6.24,9.57-6.16,17.19.09,8.47,2.7,15.03,7.83,19.67,5.11,4.66,12.23,6.94,21.34,6.84.99-.02,1.97-.03,2.9-.12v-8.37c-.73.09-1.46.12-2.17.12-4.91.05-8.68-1.29-11.34-4ZM279.66,43.06c1.64-2.37,3.9-3.57,6.84-3.6,2.66-.03,4.68,1.04,6,3.17,1.36,2.14,2.44,3.97,2.49,8.28l.02,1.62-17.86.03c.28-4.71.9-7.13,2.52-9.5ZM143.22,74.4c-1.37.64-2.73.97-4.04.99-2.02.02-3.69-.7-5.04-2.16-1.36-1.44-2.04-3.25-2.05-5.41-.03-3.01,1.08-5.27,3.3-6.8,2.26-1.51,5.64-2.3,10.12-2.35h1.83l.12,12.89c-1.43,1.25-2.85,2.21-4.24,2.84Z\" fill=\"#fff\"></path> <circle cx=\"203.01\" cy=\"18.86\" r=\"7.22\" fill=\"#fff\"></circle> <circle cx=\"304.75\" cy=\"94.61\" r=\"3.64\" fill=\"#fff\"></circle> <path d=\"M143.06,95.58c-2.05-1.62-4.95-2.44-8.68-2.44h-15.2v3.5h3.5v27.98h-3.5v3.5h14.3v-3.5h-3.8v-10.87h1.8c4.8,0,8.45-.96,10.94-2.89,2.49-1.92,3.74-4.74,3.74-8.46,0-2.93-1.03-5.21-3.09-6.83ZM136.96,108.31c-1.36,1.3-3.41,1.95-6.14,1.95h-1.15v-13.62h2.31c2.35,0,4.1.48,5.27,1.45,1.16.97,1.75,2.42,1.75,4.36,0,2.6-.68,4.55-2.04,5.85Z\" fill=\"#fff\"></path> <path d=\"M164.62,101.58c-3.51,0-6.26,1.83-8.25,5.48v-4.89h-7.02v22.45h-3.5v3.5h14.02v-3.5h-3.5v-14.2c1.66-2.24,3.6-3.36,5.81-3.36v2.38h4.09v-7.56c-.53-.21-1.09-.31-1.65-.31Z\" fill=\"#fff\"></path> <path d=\"M192.19,105.21c-2.4-2.42-5.69-3.63-9.86-3.63s-7.49,1.21-9.89,3.63c-2.4,2.42-3.61,5.73-3.61,9.94s1.2,7.52,3.61,9.94c2.4,2.42,5.7,3.63,9.89,3.63s7.46-1.21,9.86-3.63c2.4-2.42,3.61-5.73,3.61-9.94s-1.2-7.52-3.61-9.94ZM186.7,122.43c-1.12,1.86-2.57,2.79-4.36,2.79s-3.27-.93-4.38-2.79c-1.11-1.86-1.66-4.29-1.66-7.28s.55-5.42,1.66-7.28c1.11-1.86,2.57-2.79,4.38-2.79s3.24.93,4.36,2.79c1.12,1.86,1.67,4.29,1.67,7.28s-.56,5.42-1.67,7.28Z\" fill=\"#fff\"></path> <path d=\"M219.41,112.79c-1.29-1.58-3.64-2.47-7.05-4.42l-2.36-1.37c-1.87-1.07-3.15-2.01-3.83-2.81-.68-.79-1.02-1.74-1.02-2.84,0-1.36.47-2.5,1.4-3.45.94-.95,2.08-1.42,3.42-1.42.88,0,1.79.15,2.72.46.27.09.54.19.82.31h.01c.41.18.82.38,1.23.6l4.9,2.36v-5.63c-1.67-.49-3.35-.85-5.04-1.09-1.69-.23-3.4-.36-5.12-.36-3.28,0-5.95.91-8.04,2.73-2.07,1.82-3.12,4.16-3.12,7.03,0,2.08.67,3.93,2.01,5.55,1.34,1.64,3.6,2.46,6.76,4.21l2.34,1.27c1.94,1.08,3.25,2.06,3.95,2.95.68.91,1.02,2.1,1.02,3.57,0,1.55-.54,2.79-1.61,3.74-1.07.96-2.48,1.43-4.23,1.43-.9,0-1.86-.18-2.9-.54-1.03-.37-2.13-.9-3.3-1.61v-.06l-4.09-1.97v6.14c1.86.45,3.62.8,5.28,1.04,1.66.24,3.22.36,4.69.36,3.95,0,7.12-.96,9.5-2.87,2.38-1.92,3.57-4.47,3.57-7.67,0-2.19-.65-4.08-1.94-5.67Z\" fill=\"#fff\"></path> <path d=\"M238.26,105.67v-3.5h-6.45v-9.03h-7.02v9.03h.04v3.5h-.04v14.39c0,2.88.72,5.04,2.17,6.49,1.44,1.44,3.6,2.16,6.48,2.16,1.51,0,2.99-.27,4.43-.81v-3.64c-.9.33-1.71.49-2.44.49-1.2,0-2.1-.38-2.71-1.14s-.91-1.89-.91-3.4v-14.56h6.45Z\" fill=\"#fff\"></path> <path d=\"M264.42,124.63v-22.45h-10.52v3.5h3.5v14.23c-1.07,1.27-2.12,2.23-3.15,2.87-1.04.64-2.05.96-3.06.96s-1.79-.33-2.3-1c-.52-.67-.78-1.67-.78-3.01v-17.54h-10.51v3.5h3.49v14.86c0,2.55.66,4.55,1.97,6.01,1.32,1.45,3.14,2.17,5.46,2.17,1.9,0,3.6-.46,5.07-1.37,1.48-.91,2.74-2.28,3.8-4.11v4.89h10.52v-3.5h-3.5Z\" fill=\"#fff\"></path> <path d=\"M295.15,124.63v-31.48h-10.51v3.5h3.5v5.53l.09,2.62c-1.1-1.07-2.29-1.87-3.57-2.41-1.28-.53-2.64-.8-4.09-.8-3.34,0-6.01,1.29-8.01,3.86-2,2.57-3,6.02-3,10.34,0,3.96.89,7.1,2.65,9.43,1.76,2.33,4.14,3.5,7.14,3.5,1.95,0,3.66-.46,5.13-1.37,1.47-.91,2.69-2.28,3.66-4.11v4.89h10.52v-3.5h-3.5ZM288.13,119.9c-.87,1.18-1.8,2.07-2.8,2.67-1,.6-2.06.9-3.19.9-1.7,0-2.97-.7-3.83-2.11-.86-1.41-1.29-3.52-1.29-6.32s.51-5,1.53-6.69c1.02-1.69,2.38-2.53,4.09-2.53.85,0,1.73.21,2.64.61.91.41,1.86,1.03,2.86,1.87v11.6Z\" fill=\"#fff\"></path> <path d=\"M308.33,124.63v-22.45h-7.02v3.5h0v18.95h-2.91v3.5h13.42v-3.5h-3.5Z\" fill=\"#fff\"></path> <path d=\"M336.86,105.21c-2.41-2.42-5.69-3.63-9.87-3.63s-7.49,1.21-9.89,3.63c-2.4,2.42-3.61,5.73-3.61,9.94s1.2,7.52,3.61,9.94c2.4,2.42,5.7,3.63,9.89,3.63s7.46-1.21,9.87-3.63c2.4-2.42,3.6-5.73,3.6-9.94s-1.2-7.52-3.6-9.94ZM331.37,122.43c-1.12,1.86-2.57,2.79-4.36,2.79s-3.27-.93-4.37-2.79c-1.11-1.86-1.66-4.29-1.66-7.28s.55-5.42,1.66-7.28c1.11-1.86,2.56-2.79,4.37-2.79s3.25.93,4.36,2.79c1.12,1.86,1.68,4.29,1.68,7.28s-.56,5.42-1.68,7.28Z\" fill=\"#fff\"></path> <path d=\"M362.94,116.26c-1.09-1.12-2.96-2.19-5.62-3.21l-2.12-.83c-1.92-.74-3.21-1.39-3.87-1.94-.66-.55-.99-1.25-.99-2.1,0-.9.36-1.64,1.07-2.22.72-.58,1.64-.88,2.77-.88.74,0,1.48.12,2.23.37.74.24,1.49.61,2.23,1.1v2.49h4.07v-6.12c-1.34-.45-2.71-.77-4.1-1-1.39-.22-2.82-.33-4.27-.33-3.31,0-5.92.69-7.85,2.08-1.92,1.38-2.89,3.27-2.89,5.65,0,3.34,2.49,5.99,7.47,7.96l2.13.85c2.91,1.15,4.37,2.47,4.37,3.94,0,1.04-.37,1.82-1.11,2.35-.74.53-1.85.79-3.34.79-.82,0-1.7-.17-2.66-.5-.95-.33-1.98-.83-3.06-1.49v-2.46h-4.09v6.12c1.45.6,3.04,1.05,4.76,1.36,1.71.3,3.57.46,5.55.46,3.19,0,5.82-.77,7.87-2.3,2.05-1.54,3.07-3.5,3.07-5.9,0-1.71-.54-3.13-1.62-4.25Z\" fill=\"#fff\"></path> </svg>";
+    function set(mode) {
+      body.setAttribute('data-mode', mode);
+      mast.innerHTML = mode === 'dark' ? DARK : LIGHT;
+      btns.forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-mode-btn') === mode));
+      });
+      try { localStorage.setItem('aps-sg-mode', mode); } catch (e) {}
+    }
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () { set(b.getAttribute('data-mode-btn')); });
+    });
+    var saved = null;
+    try { saved = localStorage.getItem('aps-sg-mode'); } catch (e) {}
+    set(saved === 'dark' || saved === 'light' ? saved
+        : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  })();
+</script>
