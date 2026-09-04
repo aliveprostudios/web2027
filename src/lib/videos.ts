@@ -100,14 +100,38 @@ export function sectionForRoute(pathname: string): string {
  * Falls back to `## Default`, then to anything at all, so a page never loses
  * its video because a section was renamed or emptied.
  */
-export function videoForRoute(pathname: string): HeroVideo | null {
-  const pool =
-    SECTIONS.get(sectionForRoute(pathname)) ??
-    SECTIONS.get(DEFAULT_SECTION) ??
-    HERO_VIDEOS;
+/**
+ * Hero loops are Vimeo only. Javad's direction 2026-09-03.
+ *
+ * A hero video is decoration: it must autoplay, loop, and show no provider
+ * chrome at all. Vimeo's `background=1` gives exactly that. YouTube cannot:
+ * `controls=0`, `modestbranding`, `fs=0` and `iv_load_policy=3` are the ceiling
+ * of what its public embed params allow, and iOS Safari still surfaces the
+ * native player UI over the frame, which is the title bar, channel name,
+ * transport controls and "More videos" Javad photographed on a phone.
+ *
+ * So YouTube entries are filtered out of the hero pool rather than trusted to
+ * behave. They stay valid everywhere else: `/work/videos` still lists them, and
+ * a pinned `videoId` still honours whatever it names.
+ */
+const isChromeFree = (v: HeroVideo) => v.provider === 'vimeo';
 
-  if (pool.length === 0) return null;
-  return pool[hash(pathname) % pool.length]!;
+export function videoForRoute(pathname: string): HeroVideo | null {
+  const section = sectionForRoute(pathname);
+  const pool = (SECTIONS.get(section) ?? []).filter(isChromeFree);
+  const fallback = (SECTIONS.get(DEFAULT_SECTION) ?? []).filter(isChromeFree);
+
+  // A section whose every entry is YouTube would otherwise render no hero at
+  // all, silently. Fall back to Default, and fail loudly if that is empty too.
+  const chosen = pool.length > 0 ? pool : fallback;
+  if (chosen.length === 0) {
+    throw new Error(
+      `[hero-videos] "${section}" has no Vimeo entry and neither does "${DEFAULT_SECTION}". ` +
+        'Hero loops must be Vimeo: YouTube cannot be made chrome-free. ' +
+        'Add a Vimeo URL to content/work/hero-videos.md.',
+    );
+  }
+  return chosen[hash(pathname) % chosen.length]!;
 }
 
 /** Background-embed URL: autoplay, muted, looping, no controls, no chrome. */

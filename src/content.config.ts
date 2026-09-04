@@ -95,6 +95,15 @@ const home = defineCollection({
   loader: glob({ pattern: '*.md', base: './content/home' }),
   schema: z.object({
     title: z.string(),
+    /**
+     * Explicit line breaks for the hero H1, one entry per rendered line.
+     * The design reveals the title line by line behind its own mask, so where
+     * the breaks fall is a design decision, not something to leave to the
+     * wrapping algorithm. Omit it and the title renders as a single line that
+     * wraps on its own. The orange dot device is appended to the LAST line only,
+     * so no entry should carry a trailing full stop or the page shows two dots.
+     */
+    heroLines: z.array(z.string()).optional(),
     caption: z.string().optional(),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),

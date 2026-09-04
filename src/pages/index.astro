@@ -140,6 +140,9 @@ const lanes = [logos.filter((_, i) => i % 2 === 0), logos.filter((_, i) => i % 2
 );
 
 const title = page.data.title;
+/* Explicit breaks when the content declares them, otherwise the whole title as
+   one line. Either way the dot is added by CSS, never typed into the copy. */
+const heroLines = page.data.heroLines?.length ? page.data.heroLines : [title];
 const caption = page.data.caption ?? '';
 const captionParts = caption ? splitSentences(caption) : [];
 const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
@@ -170,10 +173,19 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
         <SiteNav active="/" />
 
         <div class="hero__copy">
+          {/* One mask per line so each reveals on its own, staggered. The dot
+              device lands on the last line only. */}
           <h1 class="hero__title t-h1" data-hero-title>
-            <span class="hero__line-mask">
-              <span class="hero__line dot">{title}</span>
-            </span>
+            {heroLines.map((line, i) => (
+              <span class="hero__line-mask">
+                <span
+                  class:list={['hero__line', i === heroLines.length - 1 && 'dot']}
+                  style={`animation-delay:${150 + i * 90}ms`}
+                >
+                  {line}
+                </span>
+              </span>
+            ))}
           </h1>
 
           {

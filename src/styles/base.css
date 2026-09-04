@@ -7,7 +7,17 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+/* iOS rubber-band scrolling paints the overscroll area with the ROOT element's
+   background, and falls back to <body> when the root is transparent. The body is
+   white in light mode, so scrolling past the black footer revealed a white band
+   below it on every page. Painting the root black matches the footer at the
+   bottom and the hero gradient at the top, in both themes, because both of those
+   bands are theme-invariant. There is no gap in the document itself: the footer's
+   bottom edge already equals scrollHeight exactly. */
+html {
+  -webkit-text-size-adjust: 100%;
+  background: #000;
+}
 
 /* Scroll lock while the menu overlay is open. This has to sit on the ROOT
    element: <html> is the scroll container, so `body { overflow: hidden }` does

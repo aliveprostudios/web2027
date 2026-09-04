@@ -1,5 +1,10 @@
 ---
-title: "Fragmented Marketing is Expensive."
+title: "Fragmented Marketing is Expensive"
+# One entry per rendered line. No trailing full stop: the orange dot supplies it.
+heroLines:
+  - "Fragmented"
+  - "Marketing"
+  - "is Expensive"
 caption: "Brand transformation is not."
 seoTitle: "Brand Transformation Agency in Toronto"
 seoDescription: "Boutique brand transformation agency in Toronto. Since 1997, Alive ProStudios has turned fragmented marketing into one connected growth system."
