@@ -113,7 +113,7 @@ Settled. Do not reopen without asking Javad.
 
 ## Current state
 
-**LIVE at https://aliveprostudios.com. 74 routes, 86 redirects.**
+**LIVE at https://aliveprostudios.com. 74 routes, 91 redirects shipped as 182 rules.**
 
 **The full rebuild went to production on 2026-09-03**, Javad's approval, a
 fast-forward of `main` to `staging` at `0848638`, 30 commits. Production had been
@@ -142,7 +142,7 @@ hostname and protocol variants, deep paths, query strings, and one legacy WordPr
 redirect chaining correctly from `www` through to `/foundation/brand-voice`. Neither
 change is expressible in this repo, see the trap below and `SITEMAP.md`.
 
-Production and staging both build 74 HTML routes and 86 redirects as of 2026-09-03, when `main` was fast-forwarded to `staging`. Counts here are `find dist -name '*.html' | wc -l`, which includes `404` and `thank-you`; the sitemap carries 72, correctly excluding those two. The history: 48 at the 2026-08-24 launch, 54 on 2026-08-30 when Resources came back in part, then 67 and 74 on staging as Case Studies, Common Questions and the new home page landed. One Resources route is still parked, see Known gaps.
+Production and staging both build 74 HTML routes and 91 redirects (182 rules, each with a trailing-slash twin) as of 2026-09-06. Counts here are `find dist -name '*.html' | wc -l`, which includes `404` and `thank-you`; the sitemap carries 72, correctly excluding those two. The history: 48 at the 2026-08-24 launch, 54 on 2026-08-30 when Resources came back in part, then 67 and 74 on staging as Case Studies, Common Questions and the new home page landed. One Resources route is still parked, see Known gaps.
 
 **The audit that preceded the go-live.**
 A full pre-launch audit ran 2026-09-02 against the built output and the served
@@ -164,7 +164,7 @@ All of it is now on production.
 ```
 alive-astro/
 ├── CLAUDE.md              ← this file
-├── SITEMAP.md             ← canonical URL map + 86 redirects
+├── SITEMAP.md             ← canonical URL map + 91 redirects (182 rules)
 ├── TEMPLATE-ANATOMY.md    ← how the templates decompose; READ THIS FIRST
 ├── astro.config.mjs       ← static, no adapter
 ├── wrangler.jsonc         ← Cloudflare: ./dist, drop-trailing-slash
@@ -386,6 +386,18 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
 - **A wildcard host does not match the bare domain.** `https://*.analytics.google.com`
   leaves `analytics.google.com` blocked, which is exactly where GA4 posts its
   events. List both forms.
+- **A `_redirects` rule matches the path EXACTLY, so the trailing-slash form 404s.**
+  WordPress published every URL with a trailing slash, which is the form Google
+  indexed and the form old inbound links use. `html_handling: "drop-trailing-slash"`
+  in `wrangler.jsonc` normalises only paths that resolve to a built ASSET, and a
+  redirect SOURCE never does. So `/about-us` returned 301 while `/about-us/`
+  returned 404, on **all 86 rules**, silently, from launch until 2026-09-06: the
+  old URLs carrying the SEO equity were exactly the ones failing. Search Console
+  had been reporting it as 17 "Not found (404)" pages the whole time. The
+  2026-09-02 audit DID sample trailing slashes and passed them, because it sampled
+  SERVICE pages, where the asset handler does normalise. `postbuild.mjs` now emits
+  a slash twin for every rule. **Test a redirect in both forms, and test every
+  rule rather than a sample.**
 - **`Astro.url.pathname` carries the `.html` extension at build time.** This site
   builds with `build: { format: 'file' }`, so during SSG the pathname is
   `/contact.html`, `/work/videos.html`, `/index.html`, NOT the canonical route.
