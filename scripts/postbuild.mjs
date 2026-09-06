@@ -241,6 +241,25 @@ if (redirects.length === 0) {
   throw new Error('postbuild: no redirects parsed from SITEMAP.md — refusing to ship an empty _redirects');
 }
 
+// A row that LOOKS like a redirect but does not parse is dropped in silence,
+// which is how `| `/services` | `/alive-pro/our-system` | **302** |` shipped as
+// nothing on 2026-09-06: the bold markers around the status code meant the row
+// never matched, the build said nothing, and the URL kept 404ing. Any line
+// starting with a backticked path in a table row must parse or fail loudly.
+const malformed = [];
+for (const line of table.split('\n')) {
+  if (!/^\|\s*`\//.test(line)) continue;
+  if (!/^\|\s*`([^`]+)`\s*\|\s*`([^`]+)`\s*\|\s*(\d{3})\s*\|/.test(line)) {
+    malformed.push(line.trim());
+  }
+}
+if (malformed.length > 0) {
+  throw new Error(
+    'postbuild: redirect rows in SITEMAP.md that do not parse (status code must be bare digits):\n  ' +
+      malformed.join('\n  '),
+  );
+}
+
 // A duplicate `from` is silently harmless in _redirects (first match wins) and
 // silently wrong in SITEMAP.md, where it means two rows disagree about a URL or
 // one was added twice. Caught by hand during the 2026-09-02 audit and again on

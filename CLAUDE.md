@@ -113,7 +113,7 @@ Settled. Do not reopen without asking Javad.
 
 ## Current state
 
-**LIVE at https://aliveprostudios.com. 74 routes, 91 redirects shipped as 182 rules.**
+**LIVE at https://aliveprostudios.com. 74 routes, 93 redirects shipped as 186 rules.**
 
 **The full rebuild went to production on 2026-09-03**, Javad's approval, a
 fast-forward of `main` to `staging` at `0848638`, 30 commits. Production had been
@@ -142,7 +142,7 @@ hostname and protocol variants, deep paths, query strings, and one legacy WordPr
 redirect chaining correctly from `www` through to `/foundation/brand-voice`. Neither
 change is expressible in this repo, see the trap below and `SITEMAP.md`.
 
-Production and staging both build 74 HTML routes and 91 redirects (182 rules, each with a trailing-slash twin) as of 2026-09-06. Counts here are `find dist -name '*.html' | wc -l`, which includes `404` and `thank-you`; the sitemap carries 72, correctly excluding those two. The history: 48 at the 2026-08-24 launch, 54 on 2026-08-30 when Resources came back in part, then 67 and 74 on staging as Case Studies, Common Questions and the new home page landed. One Resources route is still parked, see Known gaps.
+Production and staging both build 74 HTML routes and 93 redirects (186 rules, each with a trailing-slash twin) as of 2026-09-06. Counts here are `find dist -name '*.html' | wc -l`, which includes `404` and `thank-you`; the sitemap carries 72, correctly excluding those two. The history: 48 at the 2026-08-24 launch, 54 on 2026-08-30 when Resources came back in part, then 67 and 74 on staging as Case Studies, Common Questions and the new home page landed. One Resources route is still parked, see Known gaps.
 
 **The audit that preceded the go-live.**
 A full pre-launch audit ran 2026-09-02 against the built output and the served
@@ -164,7 +164,7 @@ All of it is now on production.
 ```
 alive-astro/
 ├── CLAUDE.md              ← this file
-├── SITEMAP.md             ← canonical URL map + 91 redirects (182 rules)
+├── SITEMAP.md             ← canonical URL map + 93 redirects (186 rules)
 ├── TEMPLATE-ANATOMY.md    ← how the templates decompose; READ THIS FIRST
 ├── astro.config.mjs       ← static, no adapter
 ├── wrangler.jsonc         ← Cloudflare: ./dist, drop-trailing-slash
