@@ -104,7 +104,28 @@ for (const video of videos) {
   try {
     const data = await oembed(video);
     if (!data.width || !data.height) throw new Error('no dimensions in oEmbed payload');
-    meta[key] = { width: data.width, height: data.height, title: data.title ?? '' };
+
+    /**
+     * Real publication date, for the VideoObject `uploadDate` on /work/videos.
+     *
+     * Vimeo's oEmbed carries `upload_date` as "2020-10-07 19:08:13"; the time
+     * has no stated zone, so only the date half is kept, which schema.org
+     * accepts. YouTube's oEmbed carries no date at all, so those entries get
+     * none and the page omits the property rather than inventing one.
+     *
+     * This response was already being fetched and the field discarded, which is
+     * why all 24 VideoObjects shipped a hardcoded `2026-01-01`. Found by the
+     * 2026-09-05 audit (finding E2): Vimeo dates the Bellini video to 2020.
+     */
+    const rawDate = typeof data.upload_date === 'string' ? data.upload_date.slice(0, 10) : '';
+    const uploadDate = /^\d{4}-\d{2}-\d{2}$/.test(rawDate) ? rawDate : null;
+
+    meta[key] = {
+      width: data.width,
+      height: data.height,
+      title: data.title ?? '',
+      ...(uploadDate ? { uploadDate } : {}),
+    };
 
     const file = `${video.provider}-${video.id}.jpg`;
     const destination = `${posterDir}${file}`;

@@ -151,7 +151,13 @@ export function embedUrl(video: HeroVideo): string {
 
 import videoMeta from '../../content/work/video-meta.json';
 
-type Dimensions = { width: number; height: number; title?: string; poster?: string };
+type Dimensions = {
+  width: number;
+  height: number;
+  title?: string;
+  poster?: string;
+  uploadDate?: string;
+};
 const META = videoMeta as Record<string, Dimensions>;
 
 /** The frame every hero video is fitted into (STYLEGUIDE.md §4.1). */
@@ -178,6 +184,20 @@ export function posterName(video: HeroVideo): string | null {
 /** Provider title for the video, used as accessible label text. */
 export function titleOf(video: HeroVideo): string | null {
   return META[`${video.provider}:${video.id}`]?.title ?? null;
+}
+
+/**
+ * Real publication date as `YYYY-MM-DD`, or null when the provider does not
+ * publish one. Vimeo's oEmbed carries it; YouTube's does not, so the seven
+ * YouTube entries return null and `/work/videos` omits `uploadDate` for them.
+ *
+ * Omitting is deliberate. Google treats `uploadDate` as required for video rich
+ * results, so a missing one costs those entries the enhanced treatment, but a
+ * WRONG one is a false claim about when the work was published. Until the 2026-09-05
+ * audit every video asserted a hardcoded `2026-01-01`.
+ */
+export function uploadDateOf(video: HeroVideo): string | null {
+  return META[`${video.provider}:${video.id}`]?.uploadDate ?? null;
 }
 
 export function aspectOf(video: HeroVideo): number {

@@ -10,7 +10,7 @@ import BookConsult from '../../components/BookConsult.astro';
 import RelatedServices from '../../components/RelatedServices.astro';
 import NextStep from '../../components/NextStep.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
-import { VIDEO_LIBRARY, videoTags, watchUrl } from '../../lib/videos';
+import { VIDEO_LIBRARY, videoTags, watchUrl, uploadDateOf } from '../../lib/videos';
 
 /**
  * Video wall, built on the Gallery Page Template (STYLEGUIDE.md §9) with video
@@ -56,7 +56,10 @@ const schema = [
     name: video.title,
     embedUrl: video.embed,
     ...(video.posterImage ? { thumbnailUrl: `https://aliveprostudios.com${video.posterImage.src}` } : {}),
-    uploadDate: '2026-01-01',
+    // Real Vimeo publication date. Omitted for the YouTube entries, whose
+    // oEmbed carries none: a missing property costs the rich result, a wrong
+    // one is a false claim. See uploadDateOf() in lib/videos.ts.
+    ...(uploadDateOf(video) ? { uploadDate: uploadDateOf(video) } : {}),
     publisher: { '@id': 'https://aliveprostudios.com/#organization' },
   })),
 ];

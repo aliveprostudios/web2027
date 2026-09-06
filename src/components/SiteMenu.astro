@@ -257,8 +257,65 @@ const isActive = (url: string) => active === url || (url !== '/' && active.start
     el.addEventListener('click', () => setMenu(false)),
   );
 
+  /**
+   * Focus containment for the open overlay.
+   *
+   * Everything else about this menu was already right: it is a body-level fixed
+   * overlay, the scroll lock is on <html>, Escape closes, focus moves in on open
+   * and returns to the burger on close. What was missing was a Tab loop, so
+   * tabbing past the last item walked straight into the page behind the overlay
+   * and reached the skip link. Found by the 2026-09-05 audit (finding S7).
+   *
+   * A cycle rather than `inert` on `.page-root`, because the overlay and the
+   * skip link both live OUTSIDE `.page-root` (fixed descendants get clipped
+   * inside it), so marking that subtree inert would not have contained either.
+   *
+   * Zero-size elements are excluded, which is what keeps the collapsed accordion
+   * panels out of the loop; they stay in the DOM at `0fr` rather than hidden.
+   */
+  const FOCUSABLE =
+    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function menuFocusables(): HTMLElement[] {
+    if (!menu) return [];
+    return [...menu.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((el) => {
+      const rect = el.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    });
+  }
+
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && menu && !menu.hidden) setMenu(false);
+    if (!menu || menu.hidden) return;
+
+    if (event.key === 'Escape') {
+      setMenu(false);
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const items = menuFocusables();
+    if (items.length === 0) return;
+
+    const first = items[0]!;
+    const last = items[items.length - 1]!;
+    const active = document.activeElement;
+
+    // Focus is outside the overlay already: pull it back rather than letting
+    // this Tab land somewhere behind it.
+    if (!(active instanceof Node) || !menu.contains(active)) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+      return;
+    }
+
+    if (event.shiftKey && active === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
   });
 
   // Never strand the user in a locked state: if the overlay is somehow hidden

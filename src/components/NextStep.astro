@@ -10,6 +10,26 @@ interface Props {
 const { sectionNum = '03' } = Astro.props;
 
 const MARQUEE = ['Impossible to ignore', '·', 'One team', '·', 'One system', '·'];
+
+/**
+ * On /contact this block used to link to /contact, so the page's closing call to
+ * action reloaded the page the visitor was already on. Found by the 2026-09-05
+ * audit (finding S5). There it jumps to the form instead, which is what "start
+ * the conversation" means once you are already here.
+ *
+ * `Astro.url.pathname` is NOT the canonical route here. This site builds with
+ * `build: { format: 'file' }`, so at build time the pathname carries the file
+ * extension: `/contact.html`, `/work/videos.html`, `/index.html`. Comparing it to
+ * '/contact' therefore never matches and the self-link comes back, silently and
+ * with no error, which is exactly what the first attempt at this fix did. Strip
+ * the extension and the index segment before comparing, never the slash alone.
+ */
+const here =
+  Astro.url.pathname
+    .replace(/\.html$/, '')
+    .replace(/\/index$/, '')
+    .replace(/\/+$/, '') || '/';
+const href = here === '/contact' ? '#contact-form' : '/contact';
 ---
 
 <section class="next" aria-labelledby="next-heading">
@@ -20,7 +40,7 @@ const MARQUEE = ['Impossible to ignore', '·', 'One team', '·', 'One system', '
     <span class="next__bold dot dot--pulse">your brand</span>
   </h2>
 
-  <a href="/contact" class="next__link z-content">
+  <a {href} class="next__link z-content">
     <span>Start the conversation</span>
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M7 17L17 7M9 7h8v8"></path>

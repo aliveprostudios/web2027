@@ -114,12 +114,35 @@ const breadcrumbs = [
         </div>
 
         <form
+          id="contact-form"
+          tabindex="-1"
           class="form z-content"
           data-contact-form
           data-inbox={FORM_INBOX}
           data-endpoint={FORM_ENDPOINT || undefined}
+          {...(FORM_ENDPOINT ? { action: FORM_ENDPOINT, method: 'post' } : {})}
           novalidate
         >
+          {/*
+            `action` and `method` are the no-JavaScript fallback, added after the
+            2026-09-05 audit (finding S11). The submit handler calls
+            preventDefault() as its first statement, so the normal AJAX path is
+            untouched; these only matter when the handler never runs.
+
+            Without them the browser defaulted to a GET against /contact, which
+            put the visitor's name, email and message into the URL as a query
+            string and re-rendered an apparently empty form. A silently lost
+            lead, with personal data in a link that then lands in history and
+            server logs, on the one page where the whole site is trying to get
+            someone to make contact.
+
+            `form-action` in the CSP is derived from this same endpoint by
+            scripts/postbuild.mjs, otherwise the browser would block the POST.
+          */}
+          {FORM_ENDPOINT && (
+            <input type="hidden" name="_next" value={new URL('/thank-you', Astro.site).href} />
+          )}
+
           {/* Honeypot. Real people never fill this in; bots fill everything. */}
           <div class="form__trap" aria-hidden="true">
             <label>
@@ -177,7 +200,7 @@ const breadcrumbs = [
           <span class="field__error" data-error-consent></span>
 
           <button type="submit" class="aps-btn aps-btn-primary form__submit">
-            <span class="roll"><span>Submit</span><span>Submit</span></span>
+            <span class="roll"><span>Submit</span><span aria-hidden="true">Submit</span></span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M7 17L17 7M9 7h8v8"></path>
             </svg>

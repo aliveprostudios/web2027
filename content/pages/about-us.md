@@ -4,7 +4,7 @@ caption: ""
 slug: "about-us"
 seoTitle: "About Us"
 closing: false
-seoDescription: "Founded in 1997, Alive ProStudios has been transforming brands for over 27 years. Based in Toronto, serving visionary businesses worldwide."
+seoDescription: "Founded in 1997, Alive ProStudios has been transforming brands for 29 years. Based in Toronto, serving visionary businesses worldwide."
 order: 1
 ---
 ## Alive ProStudios Inc.
@@ -62,7 +62,7 @@ Over his career, Javad has worked with more than 400 clients across healthcare, 
 
 **Co-Founder & Operations Director**
 
-Homayra joined Alive ProStudios in 1998 and has been the operational backbone of the company for over 27 years. As Co-Founder and Operations Director, she oversees the day-to-day management of the business, ensuring that every project is delivered on time, on budget, and to the highest standard.
+Homayra joined Alive ProStudios in 1998 and has been the operational backbone of the company for 28 years. As Co-Founder and Operations Director, she oversees the day-to-day management of the business, ensuring that every project is delivered on time, on budget, and to the highest standard.
 
 A senior developer by background, Homayra brings deep technical expertise to the team. She manages the operational infrastructure that allows Alive Pro to deliver complex, multidisciplinary projects with the efficiency and reliability that clients have come to depend on. From project coordination and workflow management to quality assurance and technical development, Homayra ensures that the strategic vision translates into flawless execution.
 

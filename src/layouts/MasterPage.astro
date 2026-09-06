@@ -28,6 +28,22 @@ import type { RelatedItem } from '../components/RelatedServices.astro';
  */
 interface Props {
   title: string;
+  /**
+   * Search-result title, when it should differ from the H1.
+   *
+   * This prop exists because `title` drives BOTH the visible H1 and the
+   * `<title>` tag, so a route cannot simply pass `seoTitle` into `title`
+   * without rewriting the heading on the page. Every content collection has
+   * carried an optional `seoTitle` since launch and NOTHING read it outside
+   * Home and Common Questions, so editing that field on a service, page, blog
+   * post or case study changed nothing at all. Found by the 2026-09-05 audit
+   * (finding S10). The visible consequence was that all ten case studies
+   * shipped a `<title>` of the bare client name, "Stone Lamina", while
+   * `seoTitle: "Stone Lamina Case Study"` sat unread in the file.
+   *
+   * Falls back to `title`, so a page without one is unchanged.
+   */
+  seoTitle?: string | undefined;
   description?: string | undefined;
   path: string;
   anatomy: Anatomy;
@@ -93,6 +109,7 @@ interface Props {
 
 const {
   title,
+  seoTitle,
   description,
   path,
   anatomy,
@@ -156,7 +173,7 @@ const hasH2Above = Boolean(anatomy.h2) || anatomy.rows.some((row) => row.section
 const itemTag = hasH2Above ? 'h3' : 'h2';
 ---
 
-<BaseLayout {title} {description} {path} {schema} {breadcrumbs} {ogImageOverride}>
+<BaseLayout title={seoTitle ?? title} {description} {path} {schema} {breadcrumbs} {ogImageOverride}>
   <div class="page-root">
     <BgRails />
 

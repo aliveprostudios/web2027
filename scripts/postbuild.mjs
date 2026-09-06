@@ -83,8 +83,18 @@ for (const page of pages) {
 }
 
 const connectSrc = ["'self'", ...[...formOrigins].sort()].join(' ');
+
+// The same origins also belong in `form-action`, because the form now carries a
+// real `action` and `method="post"` as a no-JavaScript fallback. `connect-src`
+// governs the fetch() path only; a NATIVE form POST is governed by
+// `form-action`, and with `'self'` alone the browser blocks the fallback
+// silently, which would make it worse than useless. Derived from the same set
+// so the two can never disagree.
+const formAction = ["'self'", ...[...formOrigins].sort()].join(' ');
 if (formOrigins.size > 0) {
-  console.log(`postbuild: contact form endpoint allowed in connect-src (${[...formOrigins].join(', ')})`);
+  console.log(
+    `postbuild: contact form endpoint allowed in connect-src and form-action (${[...formOrigins].join(', ')})`,
+  );
 }
 
 // Google Tag Manager, added 2026-08-25. The container fires GA4, Google Ads
@@ -173,7 +183,7 @@ const csp = [
   `connect-src ${connectSrc} ${MARKETING.connect.join(' ')}`,
   "object-src 'none'",
   "base-uri 'self'",
-  "form-action 'self'",
+  `form-action ${formAction}`,
   "frame-ancestors 'none'",
   'upgrade-insecure-requests',
 ].join('; ');
