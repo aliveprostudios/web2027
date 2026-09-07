@@ -116,7 +116,19 @@ export type Block =
    * through to the paragraph branch and prints as a literal URL, which is ugly
    * on purpose rather than silently dropped.
    */
-  | { kind: 'video'; url: string };
+  | { kind: 'video'; url: string }
+  /**
+   * A row's call to action: a chunk that is nothing but ONE site-absolute
+   * Markdown link, alone on its own line.
+   *
+   * Mirrors the standalone-image and standalone-video rules above. A link that
+   * sits INSIDE a sentence stays an inline `<a>`, because `inline()` already
+   * handles it; only a link that is the entire paragraph becomes a button.
+   *
+   * Site-absolute only, the same rule `inline()` enforces, so a row button can
+   * never point off-origin.
+   */
+  | { kind: 'cta'; href: string; label: string };
 
 /**
  * A slot-4 entry, either a section head or an item inside one.
@@ -165,6 +177,7 @@ type Raw =
   | { type: 'break'; numbered: boolean }
   | { type: 'image'; src: string; alt: string; variant: 'full' | 'portrait' | 'aside' }
   | { type: 'video'; url: string }
+  | { type: 'cta'; href: string; label: string }
   | { type: 'heading'; text: string }
   | { type: 'quote'; text: string }
   | { type: 'list'; items: string[] }
@@ -214,6 +227,13 @@ function tokenize(body: string): Raw[] {
       /^(https:\/\/(?:www\.)?(?:vimeo\.com\/[^\s)]+|youtu\.be\/[^\s)]+|youtube\.com\/watch\?[^\s)]+))$/,
     );
     if (video) return { type: 'video', url: video[1]! };
+
+    // A paragraph that is nothing but one site-absolute link: `[Label](/path)`.
+    // Becomes the row's button. Anchored at both ends, so a paragraph that
+    // merely STARTS with a link falls through and stays body copy with an
+    // inline anchor, which is what every existing page relies on.
+    const cta = chunk.match(/^\[([^\]]+)\]\((\/(?!\/)[^)\s]*)\)$/);
+    if (cta) return { type: 'cta', href: cta[2]!, label: cta[1]!.trim() };
 
     const heading = chunk.match(/^#{2,6}\s+(.*)$/);
     if (heading) return { type: 'heading', text: heading[1]!.trim() };
@@ -412,6 +432,11 @@ export function parseAnatomy(
 
     if (token.type === 'video') {
       push({ kind: 'video', url: token.url });
+      continue;
+    }
+
+    if (token.type === 'cta') {
+      push({ kind: 'cta', href: token.href, label: token.label });
       continue;
     }
 

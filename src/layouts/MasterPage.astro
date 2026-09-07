@@ -12,6 +12,7 @@ import Lightbox from '../components/Lightbox.astro';
 import BookConsult from '../components/BookConsult.astro';
 import RelatedServices from '../components/RelatedServices.astro';
 import NextStep from '../components/NextStep.astro';
+import CtaButton from '../components/CtaButton.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { splitSentences, type Anatomy } from '../lib/anatomy';
 import type { RelatedItem } from '../components/RelatedServices.astro';
@@ -272,6 +273,8 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
                           />
                         )}
                       </figure>
+                    ) : block.kind === 'cta' ? (
+                      <CtaButton href={block.href} label={block.label} />
                     ) : (
                       <ul>
                         {block.items.map((item) => (
@@ -388,6 +391,8 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
                                 />
                               )}
                             </figure>
+                          ) : block.kind === 'cta' ? (
+                            <CtaButton href={block.href} label={block.label} />
                           ) : block.kind === 'p' ? (
                             <p set:html={block.html} />
                           ) : (

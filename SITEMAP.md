@@ -15,6 +15,7 @@ Locale: English only at launch. Architecture should stay i18n-ready
 | URL | Purpose | Content |
 |---|---|---|
 | `/` | Homepage | `content/home/page.md` + `content/home/intro.md` |
+| `/services` | **Added 2026-09-07.** The first menu row, above the four pillars. Titled **What We Do**; the URL is `/services` by Javad's explicit exception, so label and URL are separate decisions here as they are for Case Studies and the two Work pages. Derived from `/alive-pro/our-system` and since edited down. Carries `url:` in frontmatter, which keeps it out of the Alive Pro sub-menu and gives it a standalone route. **This is the page the `/services` 302 was reserving**; that redirect row is now deleted | `content/pages/services.md` |
 | `/foundation` | Category landing | `content/landing/foundation.md` |
 | `/execution` | Category landing | `content/landing/execution.md` |
 | `/growth` | Category landing | `content/landing/growth.md` |
@@ -318,15 +319,17 @@ build before being written here.
 | `/portfolio/lh-4` | `/work/portfolio` | 301 |
 | `/blog/digital-advertising` | `/resources/blog` | 301 |
 | `/services/marketing/marketing-system` | `/alive-pro/our-system` | 301 |
-| `/services` | `/alive-pro/our-system` | 302 |
 
-**`/services` is a 302 on purpose.** Javad is building a real services landing
-page at that URL in the week of 2026-09-07. A 301 would be a permanent redirect
-to a page that is about to exist, and browsers cache a 301 hard, so returning
-visitors would keep being bounced off the new page after it shipped. Same
-reasoning as `/precision-impact-sprints` and `/sprints` above: the 302 is the
-marker that the destination is temporary. **Delete this row when the page
-ships**, do not repoint it.
+**`/services` was a 302 and the row is now GONE, 2026-09-07.** It was holding
+the URL for a real services page, deliberately temporary so no browser would
+cache a permanent bounce off a page that was about to exist. That page shipped
+on 2026-09-07, titled "What We Do", so the row was deleted rather than
+repointed, exactly as this note said to do. **A `_redirects` rule matches before
+a built asset**, so leaving it in place would have sent every visitor to
+`/alive-pro/our-system` and made the new page unreachable at its own URL, with
+nothing in the build to warn about it. The 302-as-a-marker reasoning still
+stands for `/precision-impact-sprints` and `/sprints` above, which are still
+parked.
 
 `/services/marketing/marketing-system` is a 301 because that page is not coming
 back: its content is now the Brand-to-Revenue Performance System, which

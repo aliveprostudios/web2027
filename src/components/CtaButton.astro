@@ -1,0 +1,64 @@
+---
+/**
+ * A row's call to action, rendered from a standalone site-absolute link in the
+ * Markdown (the `cta` block in `src/lib/anatomy.ts`).
+ *
+ * Its own component because MasterPage renders blocks in TWO places, slot 3's
+ * intro and slot 4's rows, and the label has to roll identically in both. The
+ * duplicated span is the site's rolling-label device from `.aps-btn .roll`, so
+ * the second copy is `aria-hidden` and a screen reader hears the label once.
+ *
+ * `.aps-btn-primary` is the one variant that is theme-invariant: orange ground
+ * with white ink in both themes, hovering to white on orange. The dark variant
+ * would disappear into the page ground in dark mode, which is where these rows
+ * sit.
+ */
+interface Props {
+  href: string;
+  label: string;
+}
+
+const { href, label } = Astro.props;
+---
+
+<a class="aps-btn aps-btn-primary row__cta" {href}>
+  <span class="roll">
+    <span>{label}</span>
+    <span aria-hidden="true">{label}</span>
+  </span>
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M7 17L17 7M9 7h8v8" />
+  </svg>
+</a>
+
+<style>
+  /* Spacing lives HERE, not in MasterPage. Astro scopes a component's CSS with
+     a data attribute that only its OWN elements carry, so a `.row__cta` rule
+     written in MasterPage compiled to `.row__cta[data-astro-cid-<master>]` and
+     matched nothing: this button is built by this component and carries this
+     component's cid. Measured, not assumed — the gap above the button was 0px.
+
+     `.aps-btn` is `inline-flex`, and a vertical margin on an inline-level box
+     does not grow the line box, so `margin-top` alone would not have opened the
+     gap even once the selector matched. `flex` plus `width: fit-content` makes
+     it a block-level box at its natural pill width, which is what lets the
+     margin apply while leaving the internal layout `.aps-btn` sets untouched.
+
+     `.md p` carries no bottom margin (only `.md p + p` does), so all of the
+     separation from the paragraph above has to come from this rule. */
+  .row__cta {
+    display: flex;
+    width: fit-content;
+    margin-top: 32px;
+  }
+</style>

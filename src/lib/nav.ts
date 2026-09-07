@@ -110,9 +110,10 @@ export async function aliveProPages(): Promise<NavChild[]> {
 }
 
 /**
- * The 9 primary menu rows (§4.2). Foundation, Execution, Growth, Infrastructure,
- * Work, Case Studies, Alive Pro and Resources expand into accordions; Contact is
- * a direct link. Case Studies was added after Work on 2026-09-01.
+ * The 10 primary menu rows (§4.2). Foundation, Execution, Growth,
+ * Infrastructure, Work, Case Studies, Alive Pro and Resources expand into
+ * accordions; What We Do and Contact are direct links. Case Studies was added
+ * after Work on 2026-09-01; What We Do was added at the top on 2026-09-07.
  */
 /**
  * An accordion row is a toggle, not a link (STYLEGUIDE.md §4.2), which left
@@ -161,6 +162,17 @@ export async function navItems(): Promise<NavItem[]> {
   );
 
   const rows: Omit<NavItem, 'num'>[] = [
+    // First row, above the four pillars. Javad's request 2026-09-07: the menu
+    // opened on Foundation, which is a pillar name rather than an answer to the
+    // question a first-time visitor is actually asking.
+    //
+    // A direct link, not an accordion: it has no children, so `withOverview`
+    // leaves it alone and SiteMenu renders it the way it renders Contact.
+    //
+    // Labelled "What We Do" but served at /services, Javad's exception of
+    // 2026-09-07. Label and URL are decided separately here, as they are for
+    // Case Studies and the two renamed Work pages.
+    { label: 'What We Do', url: '/services', children: [] },
     ...sectionItems,
     { label: 'Work', url: '/work', children: await workPages() },
     { label: 'Case Studies', url: '/work/case-studies', children: await caseStudyPages() },

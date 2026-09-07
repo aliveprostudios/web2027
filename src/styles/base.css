@@ -227,6 +227,15 @@ body[data-theme='dark'] a { color: var(--brand-lime); }
 }
 .md a:hover { text-decoration-thickness: 2px; }
 
+/* A BUTTON inside body copy is not a body link. The rule above is right for a
+   link in running text and wrong for a pill: `.aps-btn` drops the underline at
+   (0,1,0) and loses to `.md a` at (0,2,1), so a button placed in prose came out
+   underlined. Fixed upward, keyed on both classes at (0,2,0), rather than by
+   weakening the rule above, which every inline link in the site's body copy
+   needs for WCAG 2.1 AA. The `:hover` rule only sets thickness, so with no line
+   to thicken it renders nothing and needs no counterpart here. */
+.md .aps-btn { text-decoration: none; }
+
 /* =========================================================================
    4.3 Pill buttons — rolling label
    ========================================================================= */

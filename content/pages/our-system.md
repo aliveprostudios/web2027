@@ -18,7 +18,7 @@ The system removes the seams. Four domains, operated by one team, drawing on one
 
 ---
 
-## The Four Domains
+## The Four Pillars
 
 They are not steps and they do not take turns. All four run in parallel for as long as we work together. What changes over time is the weight each one carries.
 

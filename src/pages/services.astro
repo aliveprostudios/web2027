@@ -1,0 +1,60 @@
+---
+import { getEntry } from 'astro:content';
+import MasterPage from '../layouts/MasterPage.astro';
+import { parseAnatomy } from '../lib/anatomy';
+import { relatedAlivePro } from '../lib/nav';
+
+/**
+ * /services — the first row in the menu, above the four pillars.
+ *
+ * Titled "What We Do" but served at /services. Javad's explicit exception,
+ * 2026-09-07: the H1 answers the visitor's question, the URL keeps the word
+ * people search for and the one the old site already had inbound links to.
+ * Menu label and URL are separate decisions here, as they are for Case Studies
+ * and the two Work pages.
+ *
+ * This is the real page the `/services` 302 in SITEMAP.md was holding the URL
+ * for. That row is deleted rather than repointed, exactly as its note said to
+ * do once the page shipped: a redirect matches before a built asset, so leaving
+ * it would have bounced every visitor off the page it was reserved for.
+ *
+ * Derived from `/alive-pro/our-system`, added 2026-09-07 at Javad's request.
+ *
+ * It is a STANDALONE route rather than an entry in `alive-pro/[slug].astro`
+ * because its content file carries `url:`, and that route deliberately builds
+ * only the entries WITHOUT one (contact, brand-pulse, brochure and the privacy
+ * policy work the same way). Carrying `url:` is also what keeps this page out
+ * of the Alive Pro sub-menu, the Alive Pro landing rows and Related Services,
+ * all three of which read from `aliveProPages()`.
+ *
+ * Slot 4 keeps the full-bleed default so the system diagram renders as the
+ * poster it is, exactly as on Our System.
+ */
+const entry = await getEntry('pages', 'services');
+if (!entry) throw new Error('content/pages/services.md is missing');
+
+const path = '/services';
+const caption = entry.data.caption?.trim() || undefined;
+const anatomy = parseAnatomy(entry.body ?? '', caption, { closing: entry.data.closing });
+const related = await relatedAlivePro(path);
+---
+
+<MasterPage
+  title={entry.data.title}
+  seoTitle={entry.data.seoTitle}
+  description={entry.data.seoDescription}
+  {path}
+  {anatomy}
+  {caption}
+  {related}
+  videoId={entry.data.videoId}
+  crumb="What We Do"
+  relatedLabel="More on Alive Pro"
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: entry.data.title, url: path },
+  ]}
+  footerLabel="All Services"
+  footerHref="/foundation"
+  schemaType="AboutPage"
+/>
