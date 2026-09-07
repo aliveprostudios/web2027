@@ -30,6 +30,7 @@
 
 
 - [ ] **Four analytics measurement gaps** - Alive ProStudios site, measured 2026-09-06, scheduled for week of 2026-09-07
+  - **See `ANALYTICS.md` in the repo root for the full audit**: every account ID, all ten open items ranked, and a "read this first" section for the Google Ads work starting October 2026. The two highest-value fixes are GTM trigger changes that restore conversion tracking outright.
   - All four were measured against production, not read off code. What IS working: GTM `GTM-PJLQRZC` loads, GA4 `G-L9G3DSQCJQ` sends `page_view` and `scroll`, Google Ads `AW-967661948`, Meta `314453825678590` and LinkedIn `7456860` all genuinely transmit, and `/thank-you` fires `page_view` with the correct URL and title.
 
   - **1. Staging pollutes production analytics.** `staging-aliveprostudios.javad-ade.workers.dev` serves the IDENTICAL container `GTM-PJLQRZC`, so every visit to staging records a GA4 session, a Google Ads page view feeding remarketing audiences, and Meta + LinkedIn pixel fires. Internal traffic is in the numbers and the ad platforms are retargeting the team. Fix in the repo, not the container: `scripts/postbuild.mjs` already detects staging (`STAGING=1`, or a branch that is not `main`), so `BaseLayout.astro` can omit the GTM snippet on the same condition. A GA4 hostname filter is the weaker fallback, because it cleans GA4 only and leaves Ads, Meta and LinkedIn still firing.
