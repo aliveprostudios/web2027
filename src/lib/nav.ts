@@ -19,6 +19,16 @@ export type NavItem = {
   label: string;
   url: string;
   children: NavChild[];
+  /**
+   * Set ONLY on the four service pillars, so the menu can mark them as a tier
+   * above Work, Case Studies, Alive Pro, Resources and Contact. Javad's request
+   * 2026-09-07: the pillars were blending into the rest of the list.
+   *
+   * Derived from `SECTIONS`, never from a hard-coded list of names, so a fifth
+   * pillar would number and total itself with no code change here (rule 1).
+   * `of` is the count, so the label reads "Pillar 2 of 4".
+   */
+  pillar?: { n: number; of: number };
 };
 
 /** The 8 Alive Pro pages carry no `url:`; everything else does. */
@@ -142,10 +152,11 @@ const UNPUBLISHED = new Set<string>([]);
 
 export async function navItems(): Promise<NavItem[]> {
   const sectionItems: Omit<NavItem, 'num'>[] = await Promise.all(
-    SECTIONS.map(async (section) => ({
+    SECTIONS.map(async (section, i) => ({
       label: sectionLabel(section),
       url: `/${section}`,
       children: await servicesInSection(section),
+      pillar: { n: i + 1, of: SECTIONS.length },
     })),
   );
 
