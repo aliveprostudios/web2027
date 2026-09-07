@@ -144,32 +144,52 @@ recorded nothing.
 
 **Fix:** match on `tel:` alone, so it survives any future formatting change.
 
-### 3. GA4 reads Search Console from the empty property
+### 3. GA4 read Search Console from the empty property — FIXED 2026-09-07
 
-```
-GA4 → Admin → Product links → Search Console links
-  https://www.aliveprostudios.com/   URL-prefix   linked 2023-10-19 by System
-```
+From October 2023 until 2026-09-07, GA4 was linked to
+`https://www.aliveprostudios.com/` — a property with **0 indexed pages and 7
+clicks** — instead of the apex, which has 55 indexed and 23 clicks. Every
+organic-search report inside GA4 drew on an empty property for nearly three
+years.
 
-That property has **0 indexed pages and 7 clicks**. The real one is the apex,
-with 55 indexed and 23 clicks. Every organic-search report inside GA4 has been
-drawing on an empty property since October 2023.
+Now linked to `https://aliveprostudios.com/` (URL-prefix) against stream
+**Alive Web 2026** `2121857355`. Relinked by `aliveprostudios@gmail.com`.
 
-**Fix:** unlink and relink to `https://aliveprostudios.com/`, or create a Domain
-property and link that.
+Search Console data in GA4 is **not retroactive** — expect the organic reports to
+begin populating from the relink date forward, not to backfill.
 
-### 4. The internal traffic filter excludes nothing
+### 4. The internal traffic filter had nothing to filter on
+
+Two separate problems, and the second was the real one.
 
 ```
 GA4 → Admin → Data filters
-  Internal Traffic   Exclude   state: TESTING
+  Internal Traffic   Exclude   state: TESTING     ← still Testing
+
+GA4 → Data streams → Alive Web 2026 → Configure tag settings
+     → Define internal traffic
+  "No rules yet."                                 ← FIXED 2026-09-07
 ```
 
-"Testing" evaluates the rule and does not remove the data. Internal and staging
-traffic is in every report.
+The filter excludes events where `traffic_type = internal`. **No rule existed to
+ever set that parameter**, so activating the filter would have excluded exactly
+zero events while appearing to work. Checking the definition before activating is
+what caught this.
 
-**Fix:** confirm the definition covers your IP and the staging hostname, then set
-state to **Active**.
+A rule now exists: **"Alive Pro office"**, `traffic_type = internal`, matching
+`184.146.149.60/32`, created 2026-09-07.
+
+**The filter is deliberately still in Testing.** Google's own warning on
+activation reads: *"Filter changes are by nature destructive and irreversible.
+They are also not retroactive. You should only enable this if you have already
+successfully tested your filter."* The rule is hours old and has never matched
+anything. Leave it in Testing until the exclusion is confirmed, then activate.
+
+**Two caveats on that IP.** It is Javad's public IP as measured on 2026-09-07 and
+is very likely **dynamic** — if the ISP changes it, the rule silently stops
+matching and internal traffic returns to the reports. And **an IP rule cannot
+catch the staging site**, because that is a hostname problem, not an address one.
+Staging needs the repo fix in finding 5.
 
 ### 5. Staging fires the production container
 
@@ -313,6 +333,14 @@ deliberate.
 Renames changed no IDs; tracking was re-verified afterwards and all four
 platforms still fire.
 
+### 2026-09-07
+
+| Change | Where | Detail |
+|---|---|---|
+| Relinked Search Console | GA4 | Unlinked `https://www.aliveprostudios.com/`, linked `https://aliveprostudios.com/` to stream `2121857355`. Closes finding 3 |
+| Created internal traffic rule | GA4 | "Alive Pro office", `traffic_type = internal`, `184.146.149.60/32`. There were **no rules at all** before this |
+| Internal traffic filter | GA4 | **Left in Testing on purpose.** Activation is destructive and irreversible per Google's own warning, and the new rule is untested |
+
 **Deliberately NOT done:**
 
 - Google's proposed Conversion Linker change was opened, read and **left
@@ -335,8 +363,8 @@ Ordered by value. Items 1 and 2 restore conversion tracking outright.
 |---|---|---|---|
 | 1 | Repoint the two thank-you triggers to `/thank-you` | GTM | **Yes** |
 | 2 | Change call tracking to match `tel:` | GTM | **Yes** |
-| 3 | Relink Search Console to the apex property | GA4 | No |
-| 4 | Set the Internal Traffic filter to Active | GA4 | Yes, for audiences |
+| ~~3~~ | ~~Relink Search Console to the apex property~~ **DONE 2026-09-07** | GA4 | — |
+| 4 | Activate the Internal Traffic filter **after confirming the new rule actually excludes** | GA4 | Yes, for audiences |
 | 5 | Stop staging firing production tags | Repo | Yes, for audiences |
 | 6 | Delete dead tags, convert Meta to native template | GTM | No |
 | 7 | Push `generate_lead` with the referring page | Repo | No |
