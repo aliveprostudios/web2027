@@ -109,15 +109,27 @@ Settled. Do not reopen without asking Javad.
    Do not give any page its own four- or five-part model, and do not reintroduce
    the name "Brand Transformation System".
 
+12. **`/services` is titled "What We Do".** Javad's explicit exception,
+   2026-09-07, asked for in those words. The H1, the menu label and the `<title>`
+   all say What We Do because that answers the question a first-time visitor is
+   actually asking; the URL says `/services` because that is the word people
+   search and the path the old site already had inbound links to. **Menu label
+   and URL are separate decisions on this site**, as they already are for Case
+   Studies, `/work/portfolio` and `/work/videos`. Do not "fix" the mismatch by
+   renaming either half. The page ALSO overlaps `/alive-pro/our-system`: all four
+   pillar paragraphs and the diagram are word for word the same on two indexable
+   URLs, which is a real duplicate-content problem and is in Known gaps, not a
+   thing to solve by deleting one of them without asking.
+
 ---
 
 ## Current state
 
-**LIVE at https://aliveprostudios.com. 74 routes, 93 redirects shipped as 186 rules.**
+**LIVE at https://aliveprostudios.com. 75 routes, 92 redirects shipped as 184 rules.**
 
-**Last shipped 2026-09-07.** `main` and `staging` identical. Ten commits across
-2026-09-06 and 2026-09-07, all verified against the live domain rather than the
-build log.
+**Last shipped 2026-09-07 at `a926e03`.** `main` and `staging` identical. Eleven
+commits across 2026-09-06 and 2026-09-07, all verified against the live domain
+rather than the build log.
 
 **The full rebuild went to production on 2026-09-03**, Javad's approval, a
 fast-forward of `main` to `staging` at `0848638`, 30 commits. Production had been
@@ -165,6 +177,26 @@ Alive GTM 2026**. IDs are unchanged. Two menu changes shipped at Javad's request
 the four pillars are now bold with a "PILLAR N OF 4" tag, and the location and
 email line was removed from the overlay footer.
 
+**2026-09-07, later the same day: `/services` shipped, `a926e03`.** A new
+top-level page titled **What We Do**, the first row in the menu above Foundation,
+derived from `/alive-pro/our-system` and then cut down at Javad's direction: the
+400+ stat, the whole Brand Core section, the quote and the closing statement are
+gone, leaving the system intro and the four pillars. **Titled one thing and
+served at another**, see decision 12. The push DELETED the `/services` 302, the
+first time the redirect count has ever gone down, because a `_redirects` rule
+matches before a built asset and leaving it would have bounced every visitor off
+the page at the URL it was reserving, silently. `SITEMAP.md` had said to delete
+that row once the page shipped, and it was right. Also shipped: a `cta` block in
+`anatomy.ts` so a standalone site-absolute link in Markdown renders as a row
+button (used for the four pillar buttons, and no existing content has one, so no
+other page changed), and **"The Four Domains" became "The Four Pillars" on BOTH
+this page and `/alive-pro/our-system`**, matching the menu's "Pillar N of 4".
+Verified live: `/services` 200 after four polls returning 302, 73 sitemap URLs
+all on the live host, production still indexable, four security headers, and
+redirects resolving in both slash forms. **Two things this push knowingly left
+open, both in Known gaps: the YouTube hero, and nine remaining "domains" on Our
+System.**
+
 **`www` and plain HTTP were both broken until 2026-09-06.** Only the apex was ever
 bound to the Worker, so `www.aliveprostudios.com` returned Cloudflare **522** on
 every path, and `http://` served the site unencrypted with no redirect. Both were
@@ -175,7 +207,7 @@ hostname and protocol variants, deep paths, query strings, and one legacy WordPr
 redirect chaining correctly from `www` through to `/foundation/brand-voice`. Neither
 change is expressible in this repo, see the trap below and `SITEMAP.md`.
 
-Production and staging both build 74 HTML routes and 93 redirects (186 rules, each with a trailing-slash twin) as of 2026-09-06. Counts here are `find dist -name '*.html' | wc -l`, which includes `404` and `thank-you`; the sitemap carries 72, correctly excluding those two. The history: 48 at the 2026-08-24 launch, 54 on 2026-08-30 when Resources came back in part, then 67 and 74 on staging as Case Studies, Common Questions and the new home page landed. One Resources route is still parked, see Known gaps.
+Production and staging both build 75 HTML routes and 92 redirects (184 rules, each with a trailing-slash twin) as of 2026-09-07. Counts here are `find dist -name '*.html' | wc -l`, which includes `404` and `thank-you`; the sitemap carries 73, correctly excluding those two. The history: 48 at the 2026-08-24 launch, 54 on 2026-08-30 when Resources came back in part, then 67 and 74 on staging as Case Studies, Common Questions and the new home page landed, and 75 on 2026-09-07 with `/services`. **Redirects went DOWN on 2026-09-07, 93 to 92**, which is the only time that has happened: `/services` was a real page taking over a URL a 302 was reserving, so the rule had to be deleted rather than repointed. One Resources route is still parked, see Known gaps.
 
 **The audit that preceded the go-live.**
 A full pre-launch audit ran 2026-09-02 against the built output and the served
@@ -197,7 +229,7 @@ All of it is now on production.
 ```
 alive-astro/
 ├── CLAUDE.md              ← this file
-├── SITEMAP.md             ← canonical URL map + 93 redirects (186 rules)
+├── SITEMAP.md             ← canonical URL map + 92 redirects (184 rules)
 ├── ANALYTICS.md           ← GA4/GSC/GTM/Ads: every ID, what is broken, READ BEFORE ADS
 ├── TEMPLATE-ANATOMY.md    ← how the templates decompose; READ THIS FIRST
 ├── astro.config.mjs       ← static, no adapter
@@ -212,7 +244,7 @@ alive-astro/
 │   ├── layouts/           ← BaseLayout, MasterPage
 │   ├── lib/               ← anatomy, nav, landing, sections, videos, gallery,
 │   │                        caseStudies, commonQuestions, figures, seo, pillars
-│   ├── pages/             ← 74 routes on staging (+ `_resources/brochure` parked)
+│   ├── pages/             ← 75 routes, live (+ `_resources/brochure` parked)
 │   └── styles/            ← tokens.css, base.css
 └── content/               ← Markdown, the source of truth for all copy
     ├── common-questions/  ← 8 cluster files, 24 answers; one file per CLUSTER
@@ -470,6 +502,28 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
   for months, and `_redirects` can never fix a hostname because it matches paths only.
   After any hostname or migration change, test all four protocol and hostname
   variants, not just the one in the address bar.
+- **A scoped style in a PARENT cannot reach a CHILD component's element, and a
+  component with no `<style>` block carries no cid at all.** `CtaButton.astro`
+  had no styles, so Astro gave it no `data-astro-cid-*`; the `.row__cta` rule
+  written in `MasterPage.astro` compiled to `.row__cta[data-astro-cid-<master>]`
+  and matched nothing. Measured, not assumed: `marginTop: 0px`, `cidAttrs: []`,
+  and a visual gap of exactly **0px** between the paragraph and the button, which
+  is what Javad reported. Two things hid it. The rule LOOKED applied because the
+  button was styled correctly by the global `.aps-btn` classes, and even once the
+  selector matched it still would not have worked, because `.aps-btn` is
+  `inline-flex` and **a vertical margin on an inline-level box does not grow the
+  line box**. The fix is `display: flex` + `width: fit-content` in the child's
+  own scoped block. Related to the `InlineVideo` trap above but not the same one:
+  there the node was built at runtime, here it exists at build time and simply
+  belongs to a different component.
+- **`.md a` at (0,2,1) beats `.aps-btn` at (0,1,0), so a button in body copy
+  comes out underlined.** `.md a` deliberately underlines every inline link in
+  running text, which WCAG 2.1 AA needs, and `.aps-btn` sets
+  `text-decoration: none` with one class fewer. A pill placed inside `.md` picked
+  up the underline. Nearly invisible at desktop scale and obvious at 375px, which
+  is the wrong way round for catching it. Fixed UPWARD with `.md .aps-btn` at
+  (0,2,0), never by weakening `.md a`. Same family as the `a.aps-btn-primary`
+  trap above, and the same rule applies: raise the winner, never lower the loser.
 
 ---
 
@@ -576,6 +630,9 @@ npm run build
 | **Menu marks the four pillars, 2026-09-07** | Javad's request: Foundation, Execution, Growth and Infrastructure were blending into Work, Case Studies, Alive Pro, Resources and Contact, and they are the service architecture. They now render at `font-weight: 700` against the other rows' 200, each with a small mono "Pillar N of 4" tag beside the label. **URLs are untouched**; this is display only. The flag comes from an optional `pillar` field on `NavItem` derived from `SECTIONS`, never a hard-coded name list, so a fifth pillar would number and total itself with no code change (rule 1). Label size went 22px to 18px and the number-to-label gap 16px to 10px to buy the width. **This is a deliberate departure from Design System C**, made at Javad's direction on 2026-09-07 with the design-system question explicitly waived: "These are improvements I have to make." Do not revert it as drift. The tag and the row number share ONE declaration block, at Javad's request 2026-09-07 so they read as a single system: mono, 11px, 0.06em tracking, uppercase, `rgba(0,0,0,0.75)`. Change one and the other moves with it. **The caps come from CSS, not the markup**, so the DOM keeps "Pillar 1 of 4" in sentence case and a screen reader reads words rather than shouted capitals. One known behaviour: at 320px FOUNDATION and INFRASTRUCTURE wrap their tag to a second line, which is the designed fallback rather than a defect. Measured, not guessed: matching the tag to the number's 11px caps widened it, which cost one more wrapped row at that width, and 17px labels do not rescue it either because fourteen tracked uppercase characters are wider than the column. At 375px and above nothing wraps, and nothing overflows at any width |
 | **No uptime monitoring on any hostname** | The real finding underneath the 2026-09-06 `www` fix. `www.aliveprostudios.com` returned 522 to every visitor for an unknown period, probably since the migration, and nothing surfaced it: not the build, not the deploy, not the 2026-09-02 pre-launch audit, which checked the 72 sitemap URLs on the apex and never tried another hostname. It took an outside audit to find it. Nothing watches the four protocol and hostname variants today, so the next hostname or DNS change fails the same silent way. A single external check on `https://aliveprostudios.com`, `https://www.aliveprostudios.com`, `http://aliveprostudios.com` and `http://www.aliveprostudios.com` would have caught it in minutes. Not built |
 | `/brand-pulse` | No route yet. `/thank-you` was built 2026-08-23, noindex and out of the sitemap |
+| **`/services` hero is YouTube, a knowing exception to the Vimeo-only rule** | Javad pinned `youtu.be/fch5EecRUSE` on 2026-09-07 and shipped it after the consequence was put to him twice. `videoId` overrides the section pick and is honoured whatever the provider, which is the sanctioned escape hatch, so nothing is broken. What it costs: **YouTube cannot be made chrome-free**, and iOS Safari lays the native player UI over the frame. That is the exact complaint Javad photographed on his phone on 2026-09-03, the reason every other hero on the site is Vimeo. On desktop Chromium the transport controls appear on load and fade after a few seconds; on iOS they do not. `controls=0`, `modestbranding`, `fs=0` and `iv_load_policy=3` are already set and are the ceiling of the public params. **The only real fix is a Vimeo upload of that footage**; do not attempt to solve it with more YouTube parameters, and do not silently revert the pin |
+| **`/services` and `/alive-pro/our-system` duplicate each other** | Shipped 2026-09-07, both live and both in the sitemap. All four pillar paragraphs, the section intro and the system diagram are word for word identical across the two URLs. `/services` is the shorter of the two: the 400+ stat, the Brand Core section, the quote and the closing statement were cut from it. Google will pick one and it may not be the one Javad wants. Three ways out, all his call: give `/services` its own copy, point its canonical at Our System, or move Our System's content to `/services` and 301 the old URL. **Doing nothing is also a choice**, it just means the two compete. See decision 12: the overlap is recorded, not sanctioned |
+| **Our System says "Pillars" in the heading and "domains" nine more times** | The heading became "The Four Pillars" on 2026-09-07 at Javad's request, matching the menu's "Pillar N of 4" and the same rename on `/services`. The body was deliberately left alone because he asked for the heading only, so the page now contradicts itself in nine places: the hero caption ("Four domains, one core, one team accountable for the whole"), the meta description, the system intro, the 400+ stat line, the Foundation row, the Brand Core paragraph, Where You Enter, the closing statement, and **Javad's own attributed quote**. This is live and visible now. The quote needs his explicit sign-off separately from the rest, since changing a word inside quotation marks attributed to him is not a copy edit. `/services` has the same problem once, in its Foundation row |
 
 ---
 
