@@ -88,10 +88,6 @@ const isActive = (url: string) => active === url || (url !== '/' && active.start
     }
   </nav>
 
-  <div class="menu__foot">
-    <span>Toronto, Canada</span>
-    <a href="mailto:info@aliveprostudios.com">info@aliveprostudios.com</a>
-  </div>
 </div>
 
 <style>
@@ -271,21 +267,6 @@ const isActive = (url: string) => active === url || (url !== '/' && active.start
   .menu__sublink.is-active { color: #000; }
   .menu__sublink svg { flex: none; opacity: 0.7; }
 
-  .menu__foot {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 24px;
-    justify-content: space-between;
-    padding: 16px var(--gutter) 28px;
-    flex: none;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.75);
-  }
-  .menu__foot a { color: rgba(0, 0, 0, 0.75); }
-  .menu__foot a:hover { color: #000; }
 </style>
 
 <script>

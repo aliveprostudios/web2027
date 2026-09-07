@@ -243,9 +243,16 @@ carrying the referring page.
 
 ### 9. `tel:` and `mailto:` are invisible to GA4
 
-All 74 pages carry both. GA4 enhanced measurement's outbound-click tracking
-covers `http`/`https` destinations only, so neither is counted. The Google Ads
-tags that attempt it are broken (finding 2).
+`tel:` is on all 74 pages. **`mailto:` is on only 2 since 2026-09-07** — Javad
+removed the menu footer, which was the only email link on the other 72; it now
+appears on `/contact` and `/privacy-policy` alone. Email is still reachable from
+everywhere, because all 74 pages link to `/contact`.
+
+GA4 enhanced measurement's outbound-click tracking covers `http`/`https`
+destinations only, so neither `tel:` nor `mailto:` is counted. The Google Ads
+tags that attempt it are broken (finding 2). Note that the `Just Links (email
+tracking @info)` trigger now has far less to fire on, so if email clicks matter,
+that is worth revisiting alongside the trigger fixes.
 
 ---
 
