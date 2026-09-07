@@ -181,13 +181,23 @@ const isActive = (url: string) => active === url || (url !== '/' && active.start
     min-width: 0;
   }
 
-  .menu__num {
+  /* One treatment for both pieces of row metadata: the sequence number and the
+     pillar tag. Javad's request 2026-09-07 — they should read as a single
+     system rather than two sizes. Declared together on purpose, so changing one
+     cannot silently leave the other behind. The sans faces carry the labels;
+     mono carries the counting. */
+  .menu__num,
+  .menu__pillar {
     font-family: var(--font-mono);
     font-size: 11px;
+    line-height: 1.1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: rgba(0, 0, 0, 0.75);
-    width: 24px;
     flex: none;
   }
+
+  .menu__num { width: 24px; }
 
   /* 18px, down from 22px on 2026-09-07 to make room for the pillar tag beside
      the label. Measured rather than guessed: at 19px both FOUNDATION and
@@ -221,15 +231,10 @@ const isActive = (url: string) => active === url || (url !== '/' && active.start
      metadata rather than content: the sans faces carry the labels, mono carries
      the counting. Black on the orange ground is the house pairing at 7.2:1, so
      it stays legible at this size. */
-  .menu__pillar {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    line-height: 1.1;
-    color: rgba(0, 0, 0, 0.85);
-    white-space: nowrap;
-    flex: none;
-  }
+  /* Caps come from CSS, not from the markup, so the DOM keeps "Pillar 1 of 4"
+     in sentence case and a screen reader reads it as words rather than
+     spelling out shouted capitals. */
+  .menu__pillar { white-space: nowrap; }
 
   .menu__glyph {
     font-family: var(--font-sans);
