@@ -115,6 +115,10 @@ Settled. Do not reopen without asking Javad.
 
 **LIVE at https://aliveprostudios.com. 74 routes, 93 redirects shipped as 186 rules.**
 
+**Last shipped 2026-09-07.** `main` and `staging` identical. Ten commits across
+2026-09-06 and 2026-09-07, all verified against the live domain rather than the
+build log.
+
 **The full rebuild went to production on 2026-09-03**, Javad's approval, a
 fast-forward of `main` to `staging` at `0848638`, 30 commits. Production had been
 serving the launch-day 54-route build since 2026-08-24; that gap is now closed and
@@ -140,6 +144,26 @@ URL ended in a slash**, which is the form WordPress published and Google indexed
 production. Search Console's 17 "Not found (404)" pages were the visible symptom.
 GA4 conversion tracking was switched on for the first time. Analytics findings
 that are NOT yet fixed are in Known gaps and `TASKS.md`.
+
+**2026-09-07 in one paragraph.** The measurement stack was audited end to end and
+the results written to **`ANALYTICS.md`, which is now the source of truth for GA4,
+Search Console, Tag Manager, Google Ads, Meta and LinkedIn. Read it before touching
+any of them.** The finding that matters: **pageviews are captured, conversions are
+not, and had not been for over a year.** Three Google Ads conversion tags and the
+GA4 conversion all fire on triggers matching `/thank-you/` with a trailing slash,
+and Astro serves `/thank-you` without one; call tracking matches
+`tel:905-553-3044` while the site writes `tel:+19055533044`. Same class of bug as
+the redirect trap, and just as silent. Fixed on the day: the GA4 `Form_Thank_You`
+key event now fires and is verified in Realtime, and GA4's Search Console link was
+moved off the empty `www` property, which it had been reading since October 2023,
+onto the apex. An internal traffic rule was created where **none existed at all**,
+so the "Internal Traffic" filter had never had anything to match; it is
+deliberately still in Testing, because Google warns that activation is destructive
+and irreversible. The GA4 account, property, stream and GTM container were renamed
+to carry the year: **Alive ProStudios 2026 / Alive GA 2026 / Alive Web 2026 /
+Alive GTM 2026**. IDs are unchanged. Two menu changes shipped at Javad's request:
+the four pillars are now bold with a "PILLAR N OF 4" tag, and the location and
+email line was removed from the overlay footer.
 
 **`www` and plain HTTP were both broken until 2026-09-06.** Only the apex was ever
 bound to the Worker, so `www.aliveprostudios.com` returned Cloudflare **522** on

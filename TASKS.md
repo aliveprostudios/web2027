@@ -2,6 +2,21 @@
 
 ## Active
 
+- [ ] **Fix the dead Google Ads conversion triggers in GTM** - Alive ProStudios site, raised 2026-09-07. **DO THIS BEFORE ANY AD SPEND.**
+  - Javad is building campaigns from October 2026. **Every Google Ads conversion tag in the container is currently dead**, so launching before this is fixed means paying for clicks with no conversion data, which also starves Smart Bidding of the signal it needs.
+  - **Two trigger edits, roughly ten minutes, then publish the container.** Full detail and evidence in `ANALYTICS.md` findings 1 and 2.
+  - **Trigger `Window Loaded (thank you page)` and `Page View Thank you contact`:** both match `https://aliveprostudios.com/thank-you/` with a TRAILING SLASH. Astro serves `/thank-you` without one, so they have never fired on this site. Change the filter to `Page URL contains /thank-you` — no domain, no trailing slash. This revives **GA4 Conversion (Dec 2023)**, **Web form 2023** and **G Ad Conversion Sept 2025 (Contact Form Submission)**.
+  - **Trigger `Just Links (call tracking)`:** matches `tel:905-553-3044`; the site writes `tel:+19055533044`. Change it to match `tel:` alone so it survives future formatting changes. The phone number is the largest element in the closing block on all 74 pages.
+  - While the container is open for publishing anyway, rename the two Google tags to carry the year (`GoAnalytics 4 | Jan 2023` and `Alive ProStudios 2023`), and delete the dead HubSpot tag and trigger plus the Sprint trigger. Bundle it into one version rather than publishing twice.
+  - **The GA4 side is already covered** by the `Form_Thank_You` event created 2026-09-07, so GA4 conversions are being counted today. This task is about Google Ads.
+
+- [ ] **Activate the GA4 internal traffic filter once the new rule is proven** - Alive ProStudios site, raised 2026-09-07
+  - A rule now exists (`Alive Pro office`, `184.146.149.60/32`) where **none existed at all**, which is why the filter had never excluded anything despite sitting in Testing.
+  - **Left in Testing deliberately.** Google's warning: *"Filter changes are by nature destructive and irreversible. They are also not retroactive. You should only enable this if you have already successfully tested your filter."* The rule is hours old.
+  - Confirm it is actually catching Javad's visits, then set it to Active.
+  - **Two caveats.** The IP is very likely dynamic; if the ISP changes it the rule silently stops matching. And an IP rule cannot catch staging, which is a hostname problem needing the repo fix below.
+
+
 - [ ] **Build the /services landing page** - Alive ProStudios site, Javad's plan for the week of 2026-09-07
   - Javad's call 2026-09-06: he wants a real landing page at `https://aliveprostudios.com/services`. There is no content and no page today.
   - **`/services` currently returns a 302** to `/alive-pro/our-system`, deliberately, not a 301. A 301 is permanent and browsers cache it hard, so returning visitors would keep being bounced off the new page after it shipped. Same reasoning as the existing `/precision-impact-sprints` and `/sprints` chains.
@@ -30,6 +45,7 @@
 
 
 - [ ] **Four analytics measurement gaps** - Alive ProStudios site, measured 2026-09-06, scheduled for week of 2026-09-07
+  - **UPDATED 2026-09-07.** Gap 2 is partly solved and the Search Console relink is DONE. What remains here is the staging leak (gap 1), the lack of dataLayer context (gap 2's second half), and untracked `tel:`/`mailto:` clicks (gap 3). Note `mailto:` now appears on only 2 of 74 pages after the menu footer was removed.
   - **See `ANALYTICS.md` in the repo root for the full audit**: every account ID, all ten open items ranked, and a "read this first" section for the Google Ads work starting October 2026. The two highest-value fixes are GTM trigger changes that restore conversion tracking outright.
   - All four were measured against production, not read off code. What IS working: GTM `GTM-PJLQRZC` loads, GA4 `G-L9G3DSQCJQ` sends `page_view` and `scroll`, Google Ads `AW-967661948`, Meta `314453825678590` and LinkedIn `7456860` all genuinely transmit, and `/thank-you` fires `page_view` with the correct URL and title.
 
