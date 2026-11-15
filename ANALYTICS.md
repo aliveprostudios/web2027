@@ -362,14 +362,88 @@ platforms still fire.
 
 ---
 
+## Re-audited 2026-11-15
+
+Every item below was read in the console named or measured on the live page on
+2026-11-15. **Nothing was changed in any account**; the proposed changes wait on
+Javad.
+
+**The container has not been published since 2026-08-26 (version 29)**, so every
+GTM finding above is still live: both thank-you triggers still require
+`https://aliveprostudios.com/thank-you/`, and call tracking still requires
+`tel:905-553-3044` while every page writes `tel:+19055533044`. Google Ads
+conversions are still zero. GA4's own `Form_Thank_You` key event is unaffected
+(it is defined in GA4, not GTM) and shows stream data in the last 28 days.
+
+| Area | State on 2026-11-15 |
+|---|---|
+| GTM container quality | **Excellent** (was "Urgent" on 2026-09-06). 0 pending changes. 15 tags, 8 triggers |
+| GTM Google tags | **Two tags load `G-L9G3DSQCJQ`**: `Google Analytics GA4 Configuration 2023` (All Pages, `send_page_view` true) and `Google Tag \| GA4 \| Page View (Dec 2023)` (Initialization, via the constant `{{GA4 Measurement ID Variable}}`). **Measured: one `page_view` per load**, so no double counting, but one is redundant |
+| GTM access | Account administrators: `aliveprostudios@gmail.com` and **`brandmaster126@gmail.com`**, who published versions 11 to 25 (2023 and 2025). Confirm still wanted |
+| GTM dead containers | Now named "Alive OLD" (`GTM-KRVGH63H`) and "Old before 2022" (`GTM-P2NFJT`); still present |
+| GA4 event data retention | **2 months** (Google's default). Explorations cannot look back further. 14 months is the free maximum |
+| GA4 internal traffic | Filter still **Testing**. Rule "Alive Pro office" still matches `184.146.149.60`; the office connection measured **`174.88.122.37`** on 2026-11-15, via `aliveprostudios.com/cdn-cgi/trace`. **The IP changed, as predicted**, so the rule matches nothing |
+| GA4 enhanced measurement | All seven on |
+| GA4 unwanted referrals | `aliveprostudios.com` only. Correct |
+| GA4 Google signals | On; granular location and device on; user-provided data collection on (acknowledged 2025-07-26) but nothing sends any. The "URGENT" badge is Google's prompt to turn on automatic detection, not a fault |
+| GA4 key events | `Form_Thank_You` active in the last 28 days. `close_convert_lead`, `qualify_lead`, `purchase` still "No stream data detected" |
+| GA4 links | Search Console: apex `https://aliveprostudios.com/`, linked 2026-09-07. Correct. Google Ads 477-278-3263: enabled |
+| GA4 access | Admins: `aliveprostudios@gmail.com`, `homayra@aliveprostudios.com`. Editor: `aliveproppcseo@gmail.com`. Property-level: `brandmaster126@gmail.com`, `tobrandmasters@gmail.com`. Three Google Ads accounts have access (155-665-1479, 477-278-3263, 764-437-0121); only 477-278-3263 is linked. Confirm each |
+| GA4 traffic, last 7 days | 80 users, 84 sessions, 68 direct, 4 organic. US 36 (Ashburn 15, Bothell 5: data centres), China 10. Bots still dominate |
+| GSC | Verified owner; users `brandmaster126` and Javad; no manual actions; no security issues; HTTPS 61 / non-HTTPS 0; robots.txt valid; 4.21K crawl requests in 90 days (279 on 2026-09-06); Core Web Vitals "not enough usage data". **Still no Domain property.** Search, 3 months: 23 clicks, 1.23K impressions, average position 19.9 |
+| Live page | All four platforms transmit (GA4, Google Ads, Meta, LinkedIn). dataLayer still only `gtm.js`, `gtm.dom`, `gtm.load` |
+| Staging | **Still serves `GTM-PJLQRZC`**, so every staging visit, including all verification traffic, lands in all four platforms |
+| CSP errors | **Not re-checked**: the browser tool cannot read CSP reports. The two Custom HTML tags that caused them are unchanged |
+
+## Changed on 2026-11-15
+
+Approved by Javad the same day ("Yes, apply them"), after the re-audit above.
+
+| Change | Where | Detail |
+|---|---|---|
+| **Fixed both thank-you triggers** | GTM | `Page View Thank you contact` and `Window Loaded (thank you page)` now match `Page URL contains https://aliveprostudios.com/thank-you` (no trailing slash). Keeping the domain means staging can never fake a conversion. **Closes open item 1** |
+| **Fixed call tracking** | GTM | `Just Links (call tracking)` now matches `Click URL contains tel:`, so any phone formatting works. **Closes open item 2** |
+| Removed the duplicate GA4 Google tag | GTM | Deleted `Google Analytics GA4 Configuration 2023`. Kept the Initialization one, renamed **`GA4 \| Google Tag \| G-L9G3DSQCJQ`**; it sets no parameters, so `send_page_view` stays true |
+| Removed dead tags and triggers | GTM | Deleted `Custom HTML HubSpot form`, `GA4 Event Tag form Submission 2025`, `G Ad Conversion Sept 2025 (Sprint Form Submission)`, `HubSpot Event Trigger`, `Sprint Form Trigger`. Variables untouched: the HubSpot user-provided-data variable may feed Ads enhanced conversions. Part of open item 6; the Meta pixel is still Custom HTML |
+| **Published version 30** | GTM | "2026-11-15 Fix conversion triggers and call tracking, remove dead tags", 6:15 p.m. EST. 11 tags, 6 triggers. Google served version 30 on the next fetch, with no `hsFormCallback`, no `thank-you/` pattern and no `905-553-3044` left in it |
+| Event data retention | GA4 | 2 months → **14 months**. Takes effect within 24 hours; not retroactive |
+| Internal traffic rule | GA4 | "Alive Pro office" now matches **`174.88.122.37/32`** as well as `184.146.149.60/32`. The browser's own address was read from `aliveprostudios.com/cdn-cgi/trace` (IPv4, no IPv6). **The filter is still Testing**; activate only after confirming it marks visits as internal |
+| Key events | GA4 | Unmarked `close_convert_lead` and `qualify_lead`, which never received data. `purchase` cannot be unmarked (Google locks it) and stays, harmlessly empty. `Form_Thank_You` unchanged |
+
+**Verified in Tag Assistant before publishing:** `/thank-you` fired `Web form 2023`,
+`G Ad Conversion Sept 2025 (Contact Form Submission)` and `GA4 Conversion (Dec
+2023)` once each; a `tel:` click fired `Call Tracking 2023`; `/contact` fired
+none of the conversion tags. The renamed GA4 tag fired once per page. After
+publishing: one `page_view` per load, one GA4 ID, no conversion hit on an
+ordinary page.
+
+**`GA4 Conversion (Dec 2023)` sends `generate_lead`, not `Form_Thank_You`**, so it
+does not double-count leads; `generate_lead` is not a key event. Checked before
+the trigger fix made it fire.
+
+**Two test conversions are Claude's: 2026-11-15, about 18:13 EST.** One form
+conversion (the `/thank-you` load in Preview: both Google Ads form conversions,
+plus GA4 `generate_lead` and `Form_Thank_You`) and one call conversion (a
+`tel:` click). Discount them in Google Ads and GA4.
+
+**Not done, still Javad's:** the access review (`brandmaster126`,
+`tobrandmasters`, `aliveproppcseo`, the two unlinked Ads accounts), deleting the
+dead containers and the `www` GA4 property, the Search Console Domain property,
+the user-provided-data decision, and inspecting the Google Ads account's own
+conversion actions. Not done, repo: stopping staging from loading GTM (item 5)
+and pushing `generate_lead` with the page context (item 7).
+
 ## Open items
 
-Ordered by value. Items 1 and 2 restore conversion tracking outright.
+Ordered by value. **Items 1 and 2 were closed on 2026-11-15** (GTM version 30);
+item 4 is half done (the IP is current, the filter still Testing); item 6 is
+half done (dead tags gone, the Meta pixel still Custom HTML). Items 5, 7, 8, 9
+and 10 are still open.
 
 | # | Fix | Where | Blocking Ads? |
 |---|---|---|---|
-| 1 | Repoint the two thank-you triggers to `/thank-you` | GTM | **Yes** |
-| 2 | Change call tracking to match `tel:` | GTM | **Yes** |
+| ~~1~~ | ~~Repoint the two thank-you triggers to `/thank-you`~~ **DONE 2026-11-15**, GTM v30 | GTM | — |
+| ~~2~~ | ~~Change call tracking to match `tel:`~~ **DONE 2026-11-15**, GTM v30 | GTM | — |
 | ~~3~~ | ~~Relink Search Console to the apex property~~ **DONE 2026-09-07** | GA4 | — |
 | 4 | Activate the Internal Traffic filter **after confirming the new rule actually excludes** | GA4 | Yes, for audiences |
 | 5 | Stop staging firing production tags | Repo | Yes, for audiences |
