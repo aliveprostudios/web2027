@@ -10,6 +10,8 @@ Locale: English only at launch. Architecture should stay i18n-ready
 
 **Counts moved on 2026-09-07:** routes 74 → 75 and sitemap 72 → 73 with the new `/services`; redirects 93 → 92 because that page took over a URL a 302 was holding, and the redirect had to be deleted rather than repointed. Both verified on the live domain after the deploy.
 
+**On staging since 2026-11-15, not yet in production:** redirects 92 → 198, shipped as 384 rules. That is 94 new one-to-one rows (188 rules with their slash twins) and the site's first 12 wildcard rows, which get no twin. They cover the old WordPress addresses the 2026-11-15 audit found still returning 404; see "Old WordPress addresses, 2026-11-15" at the end of this file and `docs/audits/2026-11-15/redirect-map.md`. The production totals above stay true until `main` is pushed.
+
 ---
 
 ## Top level
@@ -352,3 +354,162 @@ back: its content is now the Brand-to-Revenue Performance System, which
   old homepage was assembled from page-builder blocks. It was **deleted on
   2026-09-01** along with `home-intro.md` when the new home page shipped; the
   copy now lives as real prose in `content/home/`.
+
+---
+
+## Old WordPress addresses, 2026-11-15
+
+Found by the 2026-11-15 audit. The 2026-09 tables were built from the WordPress export and from Search Console, which together missed most of what the old site had published over eleven years. Codex collected 546 addresses from the Internet Archive and 487 returned 404; these rows cover every one that was Alive ProStudios content. Theme demo pages (`/redmond/*` and similar), test pages, date archives and system paths were left as 404 on purpose. Each destination was checked to exist in the build before being written here.
+
+### Old service pages
+
+| From | To | Code |
+|---|---|---|
+| `/services/branding/brand-architecture` | `/foundation/brand-strategy-positioning` | 301 |
+| `/services/branding/our-brand-architecture` | `/foundation/brand-strategy-positioning` | 301 |
+| `/services/branding/creative-strategy-art-direction` | `/foundation/brand-strategy-positioning` | 301 |
+| `/services/branding/corporate-identity-design` | `/foundation/brand-name-identity` | 301 |
+| `/services/branding/name-development-process` | `/foundation/brand-name-identity` | 301 |
+| `/services/branding/content-and-message-development` | `/foundation/brand-voice` | 301 |
+| `/services/branding/re-branding-process` | `/foundation/rebranding` | 301 |
+| `/services/branding/integrated-branding-services` | `/foundation` | 301 |
+| `/services/branding/packaging-design-services` | `/execution/communication-design` | 301 |
+| `/services/branding/trade-show-design-services` | `/execution/sales-marketing-collateral` | 301 |
+| `/services/branding/ui-design-services` | `/execution/web-solutions` | 301 |
+| `/services/marketing/lead-generation` | `/growth/lead-generation` | 301 |
+| `/services/marketing/marketing-consulting` | `/growth` | 301 |
+| `/services/motion-media/video-production-services` | `/execution/video-production` | 301 |
+| `/services/motion-media/corporate-video-production` | `/execution/video-production` | 301 |
+| `/services/motion-media/training-video-production` | `/execution/video-production` | 301 |
+| `/services/motion-media/tv-infomercial-production-services` | `/execution/video-production` | 301 |
+| `/services/motion-media/post-production-services` | `/execution/video-production` | 301 |
+| `/services/motion-media/photography` | `/execution/photography` | 301 |
+| `/services/online-media/custom-web-design-services` | `/execution/web-solutions` | 301 |
+| `/services/online-media/custom-web-applications` | `/infrastructure/custom-app-development` | 301 |
+| `/services/online-media/seo-services` | `/growth/seo-search-engine-optimization` | 301 |
+| `/services/online-media/social-media-marketing` | `/growth/social-media-management` | 301 |
+| `/services/print-media/print-design-services` | `/execution/sales-marketing-collateral` | 301 |
+| `/services/print-media/specialty-printing-services` | `/execution/sales-marketing-collateral` | 301 |
+
+### Old top-level service pages
+
+| From | To | Code |
+|---|---|---|
+| `/lead-generation` | `/growth/lead-generation` | 301 |
+| `/photography` | `/execution/photography` | 301 |
+| `/brand-identity` | `/foundation/brand-name-identity` | 301 |
+| `/visual-identity` | `/foundation/brand-name-identity` | 301 |
+| `/verbal-identity` | `/foundation/brand-voice` | 301 |
+| `/brand-voice-tone` | `/foundation/brand-voice` | 301 |
+| `/brand-experience-2` | `/foundation` | 301 |
+| `/strategic-brand-consulting` | `/foundation/brand-strategy-positioning` | 301 |
+| `/rebranding-services` | `/foundation/rebranding` | 301 |
+| `/rebranding-services-2` | `/foundation/rebranding` | 301 |
+| `/digital-advertising` | `/growth/digital-marketing` | 301 |
+| `/digital-marketing-2` | `/growth/digital-marketing` | 301 |
+| `/integrated-marketing` | `/growth` | 301 |
+| `/strategic-marketing-plan` | `/growth` | 301 |
+| `/cro-conversion-sales-optimization` | `/growth/sales-funnel-building` | 301 |
+| `/social-media-marketing` | `/growth/social-media-management` | 301 |
+| `/sales-marketing-tools` | `/execution/sales-marketing-collateral` | 301 |
+| `/design-creative-problem-solving` | `/execution/communication-design` | 301 |
+| `/video-motion` | `/execution/video-production` | 301 |
+| `/web-ecommerce` | `/execution/web-solutions` | 301 |
+| `/3d-modeling` | `/work/portfolio` | 301 |
+| `/brand-marketing` | `/services` | 301 |
+| `/our-services` | `/services` | 301 |
+| `/what-we-do` | `/services` | 301 |
+| `/branding-company-toronto` | `/` | 301 |
+
+### Old company pages
+
+| From | To | Code |
+|---|---|---|
+| `/about-us/company` | `/alive-pro/about-us` | 301 |
+| `/about-us/achievements` | `/alive-pro/about-us` | 301 |
+| `/about-us/the-winning-team` | `/alive-pro/about-us` | 301 |
+| `/about-us/our-process` | `/alive-pro/our-process` | 301 |
+| `/about-us/our-philosophy` | `/alive-pro/why-alive-pro` | 301 |
+| `/about-us/our-clients` | `/work/case-studies` | 301 |
+| `/about-us/contact-us` | `/contact` | 301 |
+| `/about-us/request-form` | `/contact` | 301 |
+| `/index.php/about-us/company` | `/alive-pro/about-us` | 301 |
+| `/about-me` | `/alive-pro/about-us` | 301 |
+| `/about-us2` | `/alive-pro/about-us` | 301 |
+| `/our-team` | `/alive-pro/about-us` | 301 |
+| `/javad-7` | `/alive-pro/about-us` | 301 |
+| `/our-structured-process` | `/alive-pro/our-process` | 301 |
+| `/our-4-philosophy-pillars` | `/alive-pro/why-alive-pro` | 301 |
+| `/why-alive-prostudios` | `/alive-pro/why-alive-pro` | 301 |
+| `/whyalivepro/why-alive-pro` | `/alive-pro/why-alive-pro` | 301 |
+| `/whyalivepro/serious-about-growing` | `/alive-pro/why-alive-pro` | 301 |
+| `/whyalivepro/videos` | `/work/videos` | 301 |
+| `/results/expectations` | `/alive-pro/what-to-expect` | 301 |
+| `/results/testimonials` | `/alive-pro/testimonials` | 301 |
+| `/faq-page` | `/common-questions` | 301 |
+
+### Clients and work
+
+| From | To | Code |
+|---|---|---|
+| `/lawrence-hardware` | `/work/case-studies/lawrence-hardware` | 301 |
+| `/vitality-dentistry` | `/work/case-studies/vitality-dentistry` | 301 |
+| `/alfred-locks-international` | `/work/case-studies/alfred-smart-locks` | 301 |
+| `/our-clients` | `/work/case-studies` | 301 |
+| `/recent-projects` | `/work` | 301 |
+| `/mulberrys-oven` | `/work/portfolio` | 301 |
+| `/demo-reel` | `/work/videos` | 301 |
+| `/html/showcase/videos/infomercials/1.html` | `/work/videos` | 301 |
+
+### Enquiry routes
+
+| From | To | Code |
+|---|---|---|
+| `/get-in-touch` | `/contact` | 301 |
+| `/start-a-project` | `/contact` | 301 |
+| `/getting-started` | `/contact` | 301 |
+
+### Old blog posts
+
+| From | To | Code |
+|---|---|---|
+| `/7-ways-influencer-marketing-levels-up-your-branding-2` | `/resources/blog` | 301 |
+| `/a-guide-to-developing-a-successful-brand-architecture` | `/resources/blog` | 301 |
+| `/top-5-misconceptions-about-branding` | `/resources/blog` | 301 |
+| `/blog` | `/resources/blog` | 301 |
+| `/branding-blog` | `/resources/blog` | 301 |
+
+### Tag and category pages
+
+| From | To | Code |
+|---|---|---|
+| `/tag/alive-prostudios` | `/alive-pro` | 301 |
+| `/tag/branding` | `/foundation` | 301 |
+| `/tag/digital-advertising` | `/growth/digital-marketing` | 301 |
+| `/tag/marketing-company` | `/growth` | 301 |
+| `/category/branding-marketing` | `/services` | 301 |
+
+### Other
+
+| From | To | Code |
+|---|---|---|
+| `/index.php` | `/` | 301 |
+
+### Wildcards (keep this table LAST)
+
+Cloudflare uses the first rule that matches, so every one-to-one row above must come before these, and the narrower `/blog/...` rows must stay above `/blog/*`. `postbuild.mjs` gives wildcard rows no trailing-slash twin.
+
+| From | To | Code |
+|---|---|---|
+| `/blog/portfolio-item/*` | `/work/portfolio` | 301 |
+| `/blog/portfolio-category/*` | `/work/portfolio` | 301 |
+| `/blog/portfolio-tag/*` | `/work/portfolio` | 301 |
+| `/blog/*` | `/resources/blog` | 301 |
+| `/branding-blog/*` | `/resources/blog` | 301 |
+| `/portfolio/*` | `/work/portfolio` | 301 |
+| `/portfolio-item/*` | `/work/portfolio` | 301 |
+| `/portfolio-category/*` | `/work/portfolio` | 301 |
+| `/portfolio-tag/*` | `/work/portfolio` | 301 |
+| `/getting-started/*` | `/contact` | 301 |
+| `/services/*` | `/services` | 301 |
+| `/about-us/*` | `/alive-pro/about-us` | 301 |
