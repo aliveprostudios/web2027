@@ -6,7 +6,7 @@ Domain: **aliveprostudios.com**
 Locale: English only at launch. Architecture should stay i18n-ready
 (`/fr/`, `/de/`, `/es/`, `/zh/`, `/ar/` are Phase 2; English carries no prefix).
 
-**Totals, live in production since 2026-09-03:** 75 built HTML routes (the count `find dist -name '*.html' | wc -l` gives, including `404` and `thank-you`; the sitemap carries 73, correctly excluding those two) · 28 service pages · 7 Alive Pro pages · 4 blog posts · 24 videos · 9 Common Questions routes (24 answers, two hub bands) · 11 Case Studies routes (10 clients, ASSA ABLOY parked) · **250 redirects**, shipped as **491 rules** (each one-to-one row emitted bare and with a trailing slash, the 9 wildcards once). `main` and `staging` are identical as of 2026-11-15 at `e4284cc`.
+**Totals, live in production since 2026-09-03:** 75 built HTML routes (the count `find dist -name '*.html' | wc -l` gives, including `404` and `thank-you`; the sitemap carries 73, correctly excluding those two) · 28 service pages · 7 Alive Pro pages · 4 blog posts · 24 videos · 9 Common Questions routes (24 answers, two hub bands) · 11 Case Studies routes (10 clients, ASSA ABLOY parked) · **250 redirects**, shipped as **491 rules** (each one-to-one row emitted bare and with a trailing slash, the 9 wildcards once). `main` and `staging` are identical as of 2026-11-15 at `6ff84fe`.
 
 **Counts moved on 2026-09-07:** routes 74 → 75 and sitemap 72 → 73 with the new `/services`; redirects 93 → 92 because that page took over a URL a 302 was holding, and the redirect had to be deleted rather than repointed. Both verified on the live domain after the deploy.
 
