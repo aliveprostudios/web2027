@@ -4,7 +4,7 @@ Drafted 2026-11-15 from the site audit and the independent Codex audit. **Approv
 
 ## Where the addresses came from
 
-- **Internet Archive**, collected by Codex: 546 addresses the archive recorded as live pages on the old site between 2015 and 2026. 487 of them return 404 today (472 distinct paths once query strings are dropped, since `_redirects` ignores the query string).
+- **Internet Archive**, collected by Codex: 546 addresses the archive recorded as live pages on the old site between 2015 and 2026. 487 of them returned 404 (472 distinct paths once query strings are dropped, since `_redirects` ignores the query string).
 - **Google Search Console**, "Not found (404)" report, 8 November 2026: 28 addresses, 2 of them not in the archive (`/rebranding-services-2/`, `/digital-marketing-2/`).
 - Together: **474 distinct dead paths.**
 
@@ -12,33 +12,33 @@ Drafted 2026-11-15 from the site audit and the independent Codex audit. **Approv
 
 | Outcome | Paths |
 |---|---|
-| One-to-one redirect (new rows below) | 94 |
-| Caught by a wildcard (new rows below) | 315 |
+| One-to-one redirect | 149 |
+| Caught by a wildcard | 260 |
 | Left as 404 on purpose | 65 |
 | Unaccounted for | 0 |
 
-## Rules the draft follows
+## Rules the map follows
 
 - **Closest current page, never the home page by default.** The home page is used only where the old page was itself about the home page (`/index.php`, `/branding-company-toronto`).
 - **Existing decisions are reused.** Old blog posts go to `/resources/blog` because no post was migrated, the same as the six old posts already redirected there. Tags and categories go to the matching section, as the existing tag rules do. Old philosophy pages go to Why Alive Pro, as `/our-philosophy` already does.
 - **Theme demos, test pages and system paths stay 404.** They were never Alive ProStudios content, and redirecting them would tell Google they were.
-- **Every destination is a live page** in today's sitemap, no source duplicates an existing rule, and no wildcard sits over a live page. Checked by script, not by eye.
+- **Every destination is a live page** in today's sitemap, no source duplicates a rule that existed before today, and no wildcard sits over a live page. Checked by script, not by eye.
 
-## How to apply it
+## Cloudflare and wildcard order
 
-Paste the block below at the **end** of `SITEMAP.md`. `postbuild.mjs` already supports wildcards: it reads every redirect table in the file in order, adds the trailing-slash twin to each one-to-one row, and skips the twin for wildcard rows. Cloudflare uses the first rule that matches, so **the wildcard table must stay last**, and within it the narrower `/blog/portfolio-item/*` rows must stay above `/blog/*`.
+**Cloudflare does not honour file order between overlapping wildcards.** Measured on staging 2026-11-15: `/blog/*` won over a narrower `/blog/portfolio-item/*` listed above it, while `wrangler dev` honoured the order and passed. Exact rows do beat wildcards on Cloudflare. So no wildcard may overlap another one, and an address that needs a different destination from a broader wildcard gets an exact row. Test redirects on staging, not only in the local preview. The first staging push had three narrower `/blog/portfolio-*` wildcards above `/blog/*`; the 55 addresses they were meant to catch went to the blog index instead of the portfolio. They are now exact rows.
 
-After the push, verify on staging before production: every one-to-one row in both slash forms, two sample addresses per wildcard, and five of the left-as-404 addresses still returning 404.
+## Rule count
 
-Rule count after applying: 92 existing + 94 new one-to-one = 186 rows, 372 with slash twins, plus 12 wildcards. Cloudflare allows 2,000 static and 100 dynamic rules.
+92 existing + 149 new one-to-one = 241 rows, 482 rules with slash twins, plus 9 wildcards: **250 rows, 491 rules.** Cloudflare allows 2,000 static and 100 dynamic rules.
 
 ---
 
-<!-- BEGIN block to paste at the end of SITEMAP.md -->
+<!-- BEGIN block as applied at the end of SITEMAP.md -->
 
 ## Old WordPress addresses, 2026-11-15
 
-Found by the 2026-11-15 audit. The 2026-09 tables were built from the WordPress export and from Search Console, which together missed most of what the old site had published over eleven years. Codex collected 546 addresses from the Internet Archive and 487 returned 404; these rows cover every one that was Alive ProStudios content. Theme demo pages (`/redmond/*` and similar), test pages, date archives and system paths were left as 404 on purpose. Each destination was checked to exist in the build before being written here.
+Found by the 2026-11-15 audit. The 2026-09 tables were built from the WordPress export and from Search Console, which together missed most of what the old site had published over eleven years. Codex collected 546 addresses from the Internet Archive and 487 returned 404; these rows cover every one that was Alive ProStudios content. Theme demo pages (`/redmond/*` and similar), test pages, date archives and system paths were left as 404 on purpose. Each destination was checked to exist in the build before being written here. Full reasoning: `docs/audits/2026-11-15/redirect-map.md`.
 
 ### Old service pages
 
@@ -174,15 +174,74 @@ Found by the 2026-11-15 audit. The 2026-09 tables were built from the WordPress 
 |---|---|---|
 | `/index.php` | `/` | 301 |
 
-### Wildcards (keep this table LAST)
+### Old theme portfolio items under /blog
 
-Cloudflare uses the first rule that matches, so every one-to-one row above must come before these, and the narrower `/blog/...` rows must stay above `/blog/*`. `postbuild.mjs` gives wildcard rows no trailing-slash twin.
+Exact rows, not a wildcard: see the Cloudflare note under Wildcards.
 
 | From | To | Code |
 |---|---|---|
-| `/blog/portfolio-item/*` | `/work/portfolio` | 301 |
-| `/blog/portfolio-category/*` | `/work/portfolio` | 301 |
-| `/blog/portfolio-tag/*` | `/work/portfolio` | 301 |
+| `/blog/portfolio-category/all` | `/work/portfolio` | 301 |
+| `/blog/portfolio-category/b2b` | `/work/portfolio` | 301 |
+| `/blog/portfolio-category/b2c` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/10` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/11` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/13` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/14` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/15` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/16` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/17` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/18` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/19` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/2` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/20` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/22` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/23` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/24` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/24-2` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/26` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/27` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/28` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/29` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/3` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/31` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/32` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/33` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/34` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/4` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/5` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/6` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/6140` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/7` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/8` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/9` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c1` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c10` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c11` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c12` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c13` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c14` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c15` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c17` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c18` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c19` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c2` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c3` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c4` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c5` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c6` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c7` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c8` | `/work/portfolio` | 301 |
+| `/blog/portfolio-item/c9` | `/work/portfolio` | 301 |
+| `/blog/portfolio-tag/b2b` | `/work/portfolio` | 301 |
+| `/blog/portfolio-tag/b2c` | `/work/portfolio` | 301 |
+
+### Wildcards (keep this table LAST)
+
+**Cloudflare does not honour file order between overlapping wildcards.** Measured on staging 2026-11-15: `/blog/*` won over a narrower `/blog/portfolio-item/*` listed above it, while `wrangler dev` honoured the order and passed. Exact rows do beat wildcards on Cloudflare. So no wildcard may overlap another one, and an address that needs a different destination from a broader wildcard gets an exact row. Test redirects on staging, not only in the local preview. `postbuild.mjs` gives wildcard rows no trailing-slash twin.
+
+| From | To | Code |
+|---|---|---|
 | `/blog/*` | `/resources/blog` | 301 |
 | `/branding-blog/*` | `/resources/blog` | 301 |
 | `/portfolio/*` | `/work/portfolio` | 301 |
@@ -226,7 +285,6 @@ Cloudflare uses the first rule that matches, so every one-to-one row above must 
 | `/tag/marketing-company` | `/growth` | Matches /tag/marketing |
 | `/category/branding-marketing` | `/services` | Spans both /category/branding and /category/marketing |
 | `/index.php` | `/` | WordPress's address for the home page |
-| `/blog/portfolio-item/*` | `/work/portfolio` | Portfolio items the old theme kept under /blog |
 | `/blog/*` | `/resources/blog` | Old posts, tags, authors and archives; no post was migrated |
 | `/branding-blog/*` | `/resources/blog` | The 2018 blog, its posts, tags and calendar |
 | `/portfolio/*` | `/work/portfolio` | /portfolio and /portfolio/3d already go there |
@@ -240,9 +298,6 @@ Cloudflare uses the first rule that matches, so every one-to-one row above must 
 
 | Wildcard | Dead paths it catches |
 |---|---|
-| `/blog/portfolio-item/*` | 50 |
-| `/blog/portfolio-category/*` | 3 |
-| `/blog/portfolio-tag/*` | 2 |
 | `/blog/*` | 23 |
 | `/branding-blog/*` | 23 |
 | `/portfolio/*` | 144 |
