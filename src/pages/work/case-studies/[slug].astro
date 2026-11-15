@@ -4,6 +4,7 @@ import { getImage } from 'astro:assets';
 import MasterPage from '../../../layouts/MasterPage.astro';
 import { parseAnatomy } from '../../../lib/anatomy';
 import { assetsFor } from '../../../lib/caseStudies';
+import { schemaDateTime } from '../../../lib/seo';
 
 /**
  * A case study.
@@ -70,13 +71,25 @@ const related = entries
     url: `/work/case-studies/${e.id}`,
   }));
 
+// The Article image is the hero share card. A client with no hero photo
+// (Stone Lamina, Vitality Dentistry) uses its first body photograph, so every
+// case study's Article carries an image (2026-11-15 audit, finding 09). The
+// share card itself is unchanged for those two: it stays the site-wide one.
+const firstBody = assets.body[0];
+const schemaImage =
+  share ??
+  (firstBody
+    ? await getImage({ src: firstBody.src, width: Math.min(1200, firstBody.src.width), format: 'jpeg' })
+    : null);
+
 /** One Article per URL. The page entity stays a WebPage (CLAUDE.md). */
 const article = {
   '@type': 'Article',
   '@id': `https://aliveprostudios.com${path}#article`,
   headline: entry.data.title,
   ...(entry.data.seoDescription ? { description: entry.data.seoDescription } : {}),
-  ...(share ? { image: new URL(share.src, 'https://aliveprostudios.com').href } : {}),
+  ...(schemaImage ? { image: new URL(schemaImage.src, 'https://aliveprostudios.com').href } : {}),
+  ...(entry.data.datePublished ? { datePublished: schemaDateTime(entry.data.datePublished) } : {}),
   mainEntityOfPage: { '@id': `https://aliveprostudios.com${path}#page` },
   publisher: { '@id': 'https://aliveprostudios.com/#organization' },
   author: { '@id': 'https://aliveprostudios.com/#organization' },

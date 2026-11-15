@@ -11,6 +11,7 @@ import RelatedServices from '../../components/RelatedServices.astro';
 import NextStep from '../../components/NextStep.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import { VIDEO_LIBRARY, videoTags, watchUrl, uploadDateOf } from '../../lib/videos';
+import { schemaDateTime } from '../../lib/seo';
 
 /**
  * Video wall, built on the Gallery Page Template (STYLEGUIDE.md §9) with video
@@ -56,10 +57,11 @@ const schema = [
     name: video.title,
     embedUrl: video.embed,
     ...(video.posterImage ? { thumbnailUrl: `https://aliveprostudios.com${video.posterImage.src}` } : {}),
-    // Real Vimeo publication date. Omitted for the YouTube entries, whose
-    // oEmbed carries none: a missing property costs the rich result, a wrong
-    // one is a false claim. See uploadDateOf() in lib/videos.ts.
-    ...(uploadDateOf(video) ? { uploadDate: uploadDateOf(video) } : {}),
+    // Real publication date from the provider: Vimeo's oEmbed, or for YouTube
+    // the watch page, whose oEmbed carries none (all seven filled 2026-11-15).
+    // schemaDateTime adds the time and offset Google requires; a date still
+    // missing is omitted rather than guessed. See uploadDateOf() in lib/videos.ts.
+    ...(uploadDateOf(video) ? { uploadDate: schemaDateTime(uploadDateOf(video)!) } : {}),
     publisher: { '@id': 'https://aliveprostudios.com/#organization' },
   })),
 ];

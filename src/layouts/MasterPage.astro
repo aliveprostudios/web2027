@@ -157,10 +157,17 @@ const schema = [
         '@id': `https://aliveprostudios.com${path}#page`,
         name: title,
         ...(description ? { description } : {}),
-        isPartOf: { '@id': 'https://aliveprostudios.com/#organization' },
+        isPartOf: { '@id': 'https://aliveprostudios.com/#website' },
       },
   ...extraSchema,
 ];
+
+// A page whose schema carries an Article (blog posts, case studies) tells social
+// platforms it is an article. Derived from the schema, so no route has to
+// remember a second prop. Before 2026-11-15 every page said `website`.
+const ogType = extraSchema.some((node) => (node as { '@type'?: unknown })['@type'] === 'Article')
+  ? 'article'
+  : 'website';
 
 /**
  * Heading level for a slot 4 ITEM.
@@ -174,7 +181,7 @@ const hasH2Above = Boolean(anatomy.h2) || anatomy.rows.some((row) => row.section
 const itemTag = hasH2Above ? 'h3' : 'h2';
 ---
 
-<BaseLayout title={seoTitle ?? title} {description} {path} {schema} {breadcrumbs} {ogImageOverride}>
+<BaseLayout title={seoTitle ?? title} {description} {path} {schema} {breadcrumbs} {ogImageOverride} {ogType}>
   <div class="page-root">
     <BgRails />
 

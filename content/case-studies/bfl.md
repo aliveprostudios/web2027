@@ -6,6 +6,7 @@ slug: "bfl"
 url: "/work/case-studies/bfl"
 seoTitle: "BFL Case Study"
 seoDescription: "Brand identity, product naming, technical literature, photography and video for an award-winning B2B shade manufacturer selling through a dealer network."
+datePublished: "2026-09-03"
 ---
 ## Building the BFL Brand From the Early Years
 

@@ -81,6 +81,12 @@ const caseStudies = defineCollection({
     ...pageFields,
     /** Client name for the index row and Related, when the H1 is a headline. */
     client: z.string().optional(),
+    /**
+     * ISO date the case study went public on this site, for Article
+     * `datePublished`. The first ten went live in production on 2026-09-03.
+     * Use the real publication date, never the year the client work began.
+     */
+    datePublished: z.string().optional(),
   }),
 });
 

@@ -6,6 +6,7 @@ slug: "mcon-pipe"
 url: "/work/case-studies/mcon-pipe"
 seoTitle: "MCON Pipe Case Study"
 seoDescription: "Website management, technical catalogues and price lists for an established precast manufacturer, delivered with the responsiveness of an internal department at a distance."
+datePublished: "2026-09-03"
 ---
 ## A Reliable & Experienced External Marketing Arm
 

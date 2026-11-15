@@ -6,6 +6,7 @@ slug: "alfred-smart-locks"
 url: "/work/case-studies/alfred-smart-locks"
 seoTitle: "Alfred Smart Locks Case Study"
 seoDescription: "Twelve years of packaging, 3D product visualization, e-commerce and B2B web management for a smart lock brand, replacing physical photography entirely."
+datePublished: "2026-09-03"
 ---
 ## Twelve Years as Their Marketing Department
 

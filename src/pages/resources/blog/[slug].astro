@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import MasterPage from '../../../layouts/MasterPage.astro';
 import { parseAnatomy } from '../../../lib/anatomy';
+import { schemaDateTime } from '../../../lib/seo';
 
 /** The blog posts. Article schema, and Related = the other posts. */
 export async function getStaticPaths() {
@@ -28,12 +29,29 @@ const related = posts
 // MasterPage call below therefore passes "WebPage" and hands this in as
 // extraSchema. (A comment between the component's attributes broke
 // `astro check` with a bogus "unterminated string literal", hence it lives here.)
+//
+// 2026-11-15 audit: `datePublished` carries a time and Toronto offset (Google
+// rejected the bare date), `description` and `image` were added, and the
+// author links to the founder entity on the Organization when it is Javad.
+// `image` is the share image the post already uses: the posts' diagrams are
+// SVGs, and the build inlines any under 4KB as a data URI with no URL to cite.
+// `dateModified` is deliberately absent: no source records real edit dates,
+// and a guessed one is a false claim.
+const SITE = 'https://aliveprostudios.com';
+const author =
+  entry.data.author === 'Javad Ahmadi'
+    ? { '@type': 'Person', '@id': `${SITE}/#javad-ahmadi`, name: 'Javad Ahmadi', url: 'https://javad.ca/' }
+    : entry.data.author
+      ? { '@type': 'Person', name: entry.data.author }
+      : null;
 const article = {
   '@type': 'Article',
   '@id': `https://aliveprostudios.com${path}#article`,
   headline: entry.data.title,
-  ...(entry.data.date ? { datePublished: entry.data.date } : {}),
-  ...(entry.data.author ? { author: { '@type': 'Person', name: entry.data.author } } : {}),
+  ...(entry.data.seoDescription ? { description: entry.data.seoDescription } : {}),
+  image: `${SITE}/assets/og-image.jpg`,
+  ...(entry.data.date ? { datePublished: schemaDateTime(entry.data.date) } : {}),
+  ...(author ? { author } : {}),
   mainEntityOfPage: { '@id': `https://aliveprostudios.com${path}#page` },
   publisher: { '@id': 'https://aliveprostudios.com/#organization' },
   ...(entry.data.categories?.length ? { articleSection: entry.data.categories[0] } : {}),

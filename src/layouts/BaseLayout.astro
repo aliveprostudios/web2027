@@ -1,4 +1,5 @@
 ---
+import { getEntry } from 'astro:content';
 import '../styles/tokens.css';
 import '../styles/base.css';
 import SiteMenu from '../components/SiteMenu.astro';
@@ -28,6 +29,9 @@ interface Props {
    * unpredictably.
    */
   ogImageOverride?: { url: string; width: number; height: number; alt: string } | undefined;
+  /** `article` for a page whose main entity is an Article (blog posts, case
+   *  studies). Everything else is a `website`. */
+  ogType?: 'website' | 'article';
 }
 
 const {
@@ -38,7 +42,12 @@ const {
   breadcrumbs = [],
   noindex = false,
   ogImageOverride,
+  ogType = 'website',
 } = Astro.props;
+
+// The company description is the home page's own meta description, read from
+// the content collection rather than copied here, so the two cannot drift.
+const home = await getEntry('home', 'page');
 
 const SITE = 'https://aliveprostudios.com';
 const canonical = new URL(path, SITE).href;
@@ -63,13 +72,40 @@ const ogImageWidth = ogImageOverride?.width ?? 1200;
 const ogImageHeight = ogImageOverride?.height ?? 630;
 const ogImageAlt = ogImageOverride?.alt ?? 'Alive ProStudios: clarity, consistency, growth.';
 
+/**
+ * The company, on every page.
+ *
+ * `description`, `image`, `areaServed` and `founder` were added 2026-11-15
+ * (audit finding 04): they are how an answer engine tells this "Alive
+ * ProStudios" apart from a string. `sameAs` is still missing on purpose: it
+ * needs the official profile URLs from Javad, and a guessed profile is worse
+ * than none. Add it here when they arrive. Street address is optional and
+ * deliberately absent unless Javad wants it public.
+ */
 const organization = {
   '@type': 'Organization',
   '@id': `${SITE}/#organization`,
   name: 'Alive ProStudios Inc.',
   url: SITE,
   logo: `${SITE}/assets/logo-full.svg`,
+  image: `${SITE}/assets/og-image.jpg`,
+  ...(home?.data.seoDescription ? { description: home.data.seoDescription } : {}),
   foundingDate: '1997',
+  founder: [
+    {
+      '@type': 'Person',
+      '@id': `${SITE}/#javad-ahmadi`,
+      name: 'Javad Ahmadi',
+      jobTitle: 'Founder and Brand Transformation Architect',
+      url: 'https://javad.ca/',
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE}/#homayra-ahmadi`,
+      name: 'Homayra Ahmadi',
+      jobTitle: 'Co-Founder and Operations Director',
+    },
+  ],
   email: 'info@aliveprostudios.com',
   telephone: '+1-905-553-3044',
   address: {
@@ -78,6 +114,23 @@ const organization = {
     addressRegion: 'ON',
     addressCountry: 'CA',
   },
+  // The four markets in CLAUDE.md. The Service nodes list CA, US, DE.
+  areaServed: ['CA', 'US', 'DE', { '@type': 'Place', name: 'Middle East' }],
+};
+
+/**
+ * The site itself. Every page entity points here with `isPartOf`, and the site
+ * points at the company with `publisher`. Before 2026-11-15 pages pointed
+ * `isPartOf` straight at the Organization, which says a web page is part of a
+ * company (audit finding 05, and the Codex audit).
+ */
+const website = {
+  '@type': 'WebSite',
+  '@id': `${SITE}/#website`,
+  url: SITE,
+  name: 'Alive ProStudios',
+  inLanguage: 'en-CA',
+  publisher: { '@id': `${SITE}/#organization` },
 };
 
 const breadcrumbList =
@@ -93,7 +146,7 @@ const breadcrumbList =
       }
     : null;
 
-const graph = [organization, breadcrumbList, ...schema].filter(Boolean);
+const graph = [organization, website, breadcrumbList, ...schema].filter(Boolean);
 const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
 ---
 
@@ -129,7 +182,7 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
 
     <link rel="icon" type="image/svg+xml" href="/assets/icon.svg" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Alive ProStudios" />
     <meta property="og:title" content={pageTitle} />
     {description && <meta property="og:description" content={description} />}

@@ -6,6 +6,7 @@ slug: "vitality-dentistry"
 url: "/work/case-studies/vitality-dentistry"
 seoTitle: "Vitality Dentistry Case Study"
 seoDescription: "Brand positioning, patient education and more than 100 videos for a Unionville implant and digital dentistry practice, and the category expertise that came out of it."
+datePublished: "2026-09-03"
 ---
 ## Positioning an Implant Practice Above Price Since 1998
 

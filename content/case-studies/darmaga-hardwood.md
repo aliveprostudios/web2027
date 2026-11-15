@@ -6,6 +6,7 @@ slug: "darmaga-hardwood"
 url: "/work/case-studies/darmaga-hardwood"
 seoTitle: "Darmaga Hardwood Case Study"
 seoDescription: "Repositioning, education-based marketing, lead generation and a connected order and invoicing system for a long-standing Ontario hardwood flooring company."
+datePublished: "2026-09-03"
 ---
 ## One Marketing System for Ontario's Oldest Hardwood Flooring Company
 
