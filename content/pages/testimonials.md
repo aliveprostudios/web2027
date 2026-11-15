@@ -11,6 +11,48 @@ closing: false
 
 ***
 
+### Andy Douse, MBA
+
+**Category Sales Manager — Specialty | Lawrence Hardware**
+
+“Alive ProStudios has been a trusted brand marketing partner for Gallery Specialty and Lawrence Hardware since 2008 under the previous ownership. Since joining Gallery Specialty and Lawrence Hardware in 2014 I have worked closely with Javad and Homayra, and their team have supported us across various areas of branding, marketing, advertising, sales support, and website management.
+
+Their ability to understand our highly technical products and produce them into clear, professional, and effective marketing materials has been extremely valuable and efficient. In our industry, accuracy, presentation, and continuity matter, and Alive ProStudios has consistently delivered all these metrics.
+
+Even under pressure, facing tight deadlines, the quality of their work has remained strong. Their ability to combine accuracy, creativity, technical understanding, and professional execution has made them a dependable partner for both Gallery Specialty and Lawrence Hardware. In our business, urgent projects and time-sensitive requests are common, and Alive ProStudios has consistently responded with efficiency, care, and exceptional quality.
+
+A major part of our work with Alive ProStudios has involved the management of two extensive product catalogues for Gallery Specialty and Lawrence Hardware. These catalogues require ongoing support across design, layout, product photography, digital versions, product sheets, product updates, SKU management, and price adjustments. The same information must also remain consistent across our websites, sales materials, and online product listings.
+
+Managing this level of product information across both print and digital platforms requires accuracy, organization, technical understanding, and expediency. Alive ProStudios has consistently delivered this work with exceptional precision, efficiency, and professionalism.
+
+Javad and Homayra have built a team that is creative, responsive, and reliable. They understand our brands, our products, and the standards required in our industry. Their work has helped us maintain a strong, consistent, and professional brand presence for many years.
+
+We highly recommend Alive ProStudios to any company looking for an experienced, trustworthy, and results-driven brand marketing partner.”
+
+### Mike Gloven
+
+**President | Heartbeat Communication**
+
+“Working with Javad, Homayra, and Alive ProStudios since 1995 has been one of the best business decisions I have made. Over the years, they have consistently demonstrated a rare combination of creativity, professionalism, dedication, and trust.
+
+Their vision is truly second to none. They have the ability to take an idea, understand the business behind it, and transform it into thoughtful, polished, and impactful work. Their concepts are always fresh, innovative, and aligned with the needs of the brand.
+
+What makes Alive ProStudios stand out is their ability to evolve. The marketing, design, and digital industries have changed dramatically over the years, yet Javad and Homayra have continued to stay ahead of the curve. They bring new ideas, strong creative direction, and a deep understanding of how brands need to present themselves in an ever-changing market.
+
+Alive ProStudios is not just a creative agency. They are a dedicated, highly talented, and dependable brand marketing partner. Their commitment to quality, integrity, and long-term client relationships is the reason I continue to trust and recommend them after all these years.
+
+I highly recommend Alive ProStudios to any business looking for a talented team with experience, vision, and the ability to deliver meaningful, high-quality results.”
+
+### David Turk
+
+**President & CEO | GHT Limited**
+
+“Alive Pro has been a trusted marketing partner since 2007. What sets them apart is their ability to understand a vision, shape it strategically, and translate it into meaningful creative and business results.
+
+Javad and his team excel at seeing the big picture, guiding their focus, and clarifying complex ideas. They are innovative, creative problem solvers, and reliable partners who understand both strategic and visual aspects of brand communication.
+
+Their work is carefully crafted, refined, and consistently aligned with the broader business goals. I highly recommend Alive Pro to any leader or organization seeking a brand partner with foresight, insight, and strong execution skills.”
+
 ### Imran Bashir
 
 **President | HeavenFresh Canada**
