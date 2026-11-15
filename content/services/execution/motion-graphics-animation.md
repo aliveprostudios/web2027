@@ -5,7 +5,7 @@ slug: "motion-graphics-animation"
 category: "execution"
 url: "/execution/motion-graphics-animation"
 seoTitle: "Motion Graphics & Animation"
-seoDescription: "Animated content that captures and holds attention."
+seoDescription: "Motion graphics and animation for ideas too complex for static visuals and too abstract for live action, made to explain clearly and hold attention."
 order: 6
 ---
 ## Motion That Communicates

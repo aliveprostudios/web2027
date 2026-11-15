@@ -5,7 +5,7 @@ slug: "solution-architecture-design"
 category: "infrastructure"
 url: "/infrastructure/solution-architecture-design"
 seoTitle: "Solution Architecture & Design"
-seoDescription: "Technical blueprints for scalable digital systems."
+seoDescription: "Solution architecture and design: a technical blueprint that answers what problem you are solving before anyone chooses tools, platforms or features."
 ---
 ## The Blueprint
 

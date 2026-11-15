@@ -5,7 +5,7 @@ slug: "aeo-answer-engine-optimization"
 category: "growth"
 url: "/growth/aeo-answer-engine-optimization"
 seoTitle: "AEO (Answer Engine Optimization)"
-seoDescription: "Optimize for AI-powered search and answer engines."
+seoDescription: "Answer Engine Optimization (AEO): structure your content so ChatGPT, Gemini, Perplexity and Copilot can recognize, trust and cite your brand in AI answers."
 order: 11
 ---
 ## Be the Answer, Not Just a Result

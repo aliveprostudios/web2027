@@ -5,7 +5,7 @@ slug: "marketing-innovation"
 category: "growth"
 url: "/growth/marketing-innovation"
 seoTitle: "Marketing Innovation"
-seoDescription: "Emerging tactics that keep you ahead of the market."
+seoDescription: "Marketing innovation: testing emerging channels, tools and AI-driven tactics so your marketing keeps pace with a landscape that never stands still."
 order: 7
 ---
 ## Stay Ahead, Not Behind

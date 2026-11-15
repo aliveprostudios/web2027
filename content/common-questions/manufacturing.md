@@ -5,7 +5,7 @@ order: 7
 audience: business
 caption: "Marketing, quoting and differentiation, for companies that make things."
 seoTitle: "Questions from Manufacturers"
-seoDescription: "Whether a manufacturer should invest in marketing, how to stop quoting jobs out of spreadsheets, and why manufacturers struggle to explain what makes them different."
+seoDescription: "Whether a manufacturer should invest in marketing, how to stop quoting jobs out of spreadsheets, and why it is hard to explain what makes them different."
 quote: "Manufacturers are rarely undifferentiated. They are usually just undescribed."
 questions:
   - anchor: manufacturer-marketing

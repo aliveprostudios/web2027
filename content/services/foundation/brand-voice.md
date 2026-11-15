@@ -5,7 +5,7 @@ slug: "brand-voice"
 category: "foundation"
 url: "/foundation/brand-voice"
 seoTitle: "Brand Voice"
-seoDescription: "Establish a consistent voice across every touchpoint."
+seoDescription: "Brand voice development so your website, sales materials and social posts sound like one company, consistent in tone and message at every touchpoint."
 ---
 ## The Words That Sell
 

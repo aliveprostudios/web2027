@@ -5,7 +5,7 @@ slug: "ai-generated-production"
 category: "execution"
 url: "/execution/ai-generated-production"
 seoTitle: "AI-Generated Production"
-seoDescription: "Leverage AI to scale creative production intelligently."
+seoDescription: "AI-generated product photography and creative production: one product shown in many settings without separate shoots, locations or lighting setups."
 order: 8
 ---
 ## Any Product. Any Environment. No Shoot Required.

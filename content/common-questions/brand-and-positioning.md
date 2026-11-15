@@ -4,7 +4,7 @@ url: "/common-questions/brand-and-positioning"
 order: 4
 caption: "What positioning actually is, when to rebrand, and why brands drift."
 seoTitle: "Brand, Positioning and Consistency"
-seoDescription: "What brand positioning is and how it differs from a logo, when a business genuinely needs to rebrand, and why a brand ends up looking different everywhere it appears."
+seoDescription: "What brand positioning is and how it differs from a logo, when a business needs to rebrand, and why a brand ends up looking different everywhere."
 quote: "Your brand is not what you say it is. It is what your staff deliver when nobody senior is watching."
 questions:
   - anchor: positioning-vs-logo

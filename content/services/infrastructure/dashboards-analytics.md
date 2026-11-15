@@ -5,7 +5,7 @@ slug: "dashboards-analytics"
 category: "infrastructure"
 url: "/infrastructure/dashboards-analytics"
 seoTitle: "Dashboards & Analytics"
-seoDescription: "Real-time visibility into what matters most."
+seoDescription: "Custom dashboards and analytics built around your KPIs and workflows: executive and operational views, marketing and sales analytics and custom reporting."
 ---
 ## Decisions at a Glance
 

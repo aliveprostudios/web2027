@@ -5,7 +5,7 @@ slug: "communication-design"
 category: "execution"
 url: "/execution/communication-design"
 seoTitle: "Communication Design"
-seoDescription: "Design that communicates with clarity and impact."
+seoDescription: "Communication design for print, web, packaging and brand identity, built on strategy so every visual serves a business goal and stays consistent."
 order: 4
 ---
 ## Strategy Made Visual

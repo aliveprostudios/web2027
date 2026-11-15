@@ -5,7 +5,7 @@ slug: "lifecycle-support"
 category: "infrastructure"
 url: "/infrastructure/lifecycle-support"
 seoTitle: "LifeCycle Support"
-seoDescription: "Ongoing technical support through every phase."
+seoDescription: "LifeCycle Support keeps your systems performing, evolving and aligned with your business after launch, with ongoing technical support through every phase."
 ---
 ## Beyond the Launch
 

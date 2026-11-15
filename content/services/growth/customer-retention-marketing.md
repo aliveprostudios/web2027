@@ -5,7 +5,7 @@ slug: "customer-retention-marketing"
 category: "growth"
 url: "/growth/customer-retention-marketing"
 seoTitle: "Customer Retention Marketing"
-seoDescription: "Keep your best clients engaged and coming back."
+seoDescription: "Customer retention marketing that keeps existing clients engaged, the easiest path to repeat revenue and referrals, instead of spending only on new ones."
 order: 6
 ---
 ## Keep the Customers You’ve Already Won

@@ -5,7 +5,7 @@ slug: "intelligent-systems-integration"
 category: "infrastructure"
 url: "/infrastructure/intelligent-systems-integration"
 seoTitle: "Intelligent Systems Integration"
-seoDescription: "Connect your tools and platforms into a unified ecosystem."
+seoDescription: "Systems integration that connects the many disconnected tools a mid-sized business runs on into one ecosystem, so work stops being re-keyed by hand."
 ---
 ## Connected by Design
 

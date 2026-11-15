@@ -5,7 +5,7 @@ order: 5
 slug: "lawrence-hardware"
 url: "/work/case-studies/lawrence-hardware"
 seoTitle: "Lawrence Hardware Case Study"
-seoDescription: "Fourteen years of catalogue management, product data, 3D visualization and sales enablement for a Canadian architectural door hardware manufacturer founded over 140 years ago."
+seoDescription: "Lawrence Hardware: fourteen years of catalogues, product data, 3D visualization and sales enablement for a door hardware maker founded over 140 years ago."
 datePublished: "2026-09-03"
 ---
 ## Fourteen Years Managing a 140-Year-Old Brand

@@ -5,7 +5,7 @@ slug: "sales-marketing-collateral"
 category: "execution"
 url: "/execution/sales-marketing-collateral"
 seoTitle: "Sales & Marketing Collateral"
-seoDescription: "Materials that support your sales process at every stage."
+seoDescription: "Sales and marketing collateral, from brochures and catalogues to presentations and product sheets, that your sales team can walk into any room with."
 order: 2
 ---
 ## The Tools That Close Deals

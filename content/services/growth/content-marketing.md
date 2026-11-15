@@ -5,7 +5,7 @@ slug: "content-marketing"
 category: "growth"
 url: "/growth/content-marketing"
 seoTitle: "Content Marketing"
-seoDescription: "Strategic content that builds authority and trust."
+seoDescription: "Content marketing with strategy behind it: articles, video and social content that tell your brand's story and build authority instead of adding to the noise."
 order: 4
 ---
 ## Content With Intent

@@ -4,7 +4,7 @@ navLabel: "Testimonials"
 caption: ""
 slug: "testimonials"
 seoTitle: "Testimonials"
-seoDescription: "Do not take our word for it. Hear from the businesses we have transformed."
+seoDescription: "Client testimonials for Alive ProStudios from Lawrence Hardware, GHT Limited, HeavenFresh, Sunbelt Logistics, Holophone and Bio Skin Care Clinics."
 order: 8
 closing: false
 ---

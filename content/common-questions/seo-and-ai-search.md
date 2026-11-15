@@ -4,7 +4,7 @@ url: "/common-questions/seo-and-ai-search"
 order: 6
 caption: "Being findable was the old job. Being quotable is the new one."
 seoTitle: "Search, AEO and AI Answers"
-seoDescription: "What Answer Engine Optimization is and how it differs from SEO, how a business gets mentioned in ChatGPT and other AI answers, and whether local SEO matters to a national company."
+seoDescription: "What AEO is and how it differs from SEO, how a business gets mentioned in ChatGPT and other AI answers, and whether local SEO matters to a national company."
 quote: "Search used to be about being findable. It is becoming about being quotable. Those are not the same piece of writing."
 questions:
   - anchor: aeo-vs-seo

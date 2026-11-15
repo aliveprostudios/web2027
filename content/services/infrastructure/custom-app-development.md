@@ -5,7 +5,7 @@ slug: "custom-app-development"
 category: "infrastructure"
 url: "/infrastructure/custom-app-development"
 seoTitle: "Custom App Development"
-seoDescription: "Purpose-built applications for your business needs."
+seoDescription: "Custom web-based business applications built around your workflows, from CRM and order processing to client portals, so software fits how you work."
 ---
 ## Built to Fit
 

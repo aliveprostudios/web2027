@@ -5,7 +5,7 @@ slug: "brand-strategy-positioning"
 category: "foundation"
 url: "/foundation/brand-strategy-positioning"
 seoTitle: "Brand Strategy & Positioning"
-seoDescription: "Define where your brand stands and why it matters."
+seoDescription: "Brand strategy and positioning for businesses whose marketing problem is really a strategy problem. Define where you stand, for whom, and why it matters."
 ---
 ## The Foundation
 

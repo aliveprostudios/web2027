@@ -5,7 +5,7 @@ slug: "sales-funnel-building"
 category: "growth"
 url: "/growth/sales-funnel-building"
 seoTitle: "Sales Funnel Building"
-seoDescription: "Structured funnels that convert prospects into clients."
+seoDescription: "Sales funnel building that maps where leads go after they click, then turns website visits, downloads and ad responses into booked conversations."
 order: 3
 ---
 ## From Stranger to Customer

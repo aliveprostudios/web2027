@@ -5,7 +5,7 @@ order: 2
 slug: "gallery-specialty"
 url: "/work/case-studies/gallery-specialty"
 seoTitle: "Gallery Specialty Case Study"
-seoDescription: "Catalogue management, product communications and sales enablement for a Canadian architectural door hardware manufacturer, as an extension of their internal team."
+seoDescription: "Gallery Specialty: catalogue management, product communications and sales enablement for a Canadian door hardware maker, as an extension of its team."
 datePublished: "2026-09-03"
 ---
 ## Comprehensive Branding, Marketing, Advertising and Creative Support for More Than a Decade

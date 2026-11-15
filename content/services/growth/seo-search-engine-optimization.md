@@ -5,7 +5,7 @@ slug: "seo-search-engine-optimization"
 category: "growth"
 url: "/growth/seo-search-engine-optimization"
 seoTitle: "SEO (Search Engine Optimization)"
-seoDescription: "Organic visibility that compounds over time."
+seoDescription: "SEO for businesses that need to be found when their ideal customer searches: technical, content and local search work that compounds over time."
 order: 10
 ---
 ## Own the Search Results

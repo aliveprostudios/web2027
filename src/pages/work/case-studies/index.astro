@@ -19,8 +19,8 @@ const path = '/work/case-studies';
 const title = 'Case Studies';
 const description =
   'How Alive ProStudios works with manufacturers, specialists and market ' +
-  'leaders, told one client at a time. Several of these relationships have run ' +
-  'for more than two decades.';
+  'leaders, one client at a time. Several relationships have run for over two ' +
+  'decades.';
 
 const studies = (await getCollection('caseStudies')).sort(
   (a, b) => (a.data.order ?? Number.MAX_SAFE_INTEGER) - (b.data.order ?? Number.MAX_SAFE_INTEGER),

@@ -4,7 +4,7 @@ url: "/common-questions/custom-software"
 order: 1
 caption: "Four questions worth answering before anyone writes code."
 seoTitle: "Custom Software: Build, Buy, or Neither"
-seoDescription: "Whether a small business needs custom software, how to decide between building and buying, what it costs, and how long it takes. Answered without assuming the answer is build."
+seoDescription: "Whether a small business needs custom software, how to choose between building and buying, and how long it takes. Answered without assuming build."
 quote: "The most valuable thing we can tell a client is that they do not need what they came to buy. It costs us the project, and it is the reason they call us again in three years."
 questions:
   - anchor: small-business-custom-software

@@ -5,7 +5,7 @@ slug: "photography"
 category: "execution"
 url: "/execution/photography"
 seoTitle: "Photography"
-seoDescription: "Authentic imagery that elevates your brand presence."
+seoDescription: "Custom brand photography: product, architectural and environmental images planned around your brand, your goals and the channels where they will appear."
 order: 7
 ---
 ## Images That Elevate

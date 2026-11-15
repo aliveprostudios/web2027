@@ -5,7 +5,7 @@ slug: "rebranding"
 category: "foundation"
 url: "/foundation/rebranding"
 seoTitle: "Rebranding"
-seoDescription: "Transform your brand for the next chapter of growth."
+seoDescription: "Rebranding as one synchronized system, from strategy and positioning to identity, voice and website, for businesses whose brand has not kept pace."
 ---
 ## Reinvention With Precision
 

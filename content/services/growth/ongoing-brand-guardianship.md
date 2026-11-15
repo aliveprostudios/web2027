@@ -5,7 +5,7 @@ slug: "ongoing-brand-guardianship"
 category: "growth"
 url: "/growth/ongoing-brand-guardianship"
 seoTitle: "Ongoing Brand Guardianship"
-seoDescription: "Continuous brand management and quality assurance."
+seoDescription: "Ongoing brand guardianship that keeps every new asset, campaign and touchpoint consistent. Building a brand takes years; diluting it takes months."
 order: 8
 ---
 ## Protect What You’ve Built

@@ -5,7 +5,7 @@ slug: "social-media-branding"
 category: "execution"
 url: "/execution/social-media-branding"
 seoTitle: "Social Media Branding"
-seoDescription: "Consistent brand presence across every platform."
+seoDescription: "Social media branding that makes your Instagram, LinkedIn and Facebook look and sound like the same company, with one visual system and one voice."
 order: 3
 ---
 ## Your Brand, Everywhere It Matters

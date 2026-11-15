@@ -5,7 +5,7 @@ slug: "web-solutions"
 category: "execution"
 url: "/execution/web-solutions"
 seoTitle: "Web Solutions"
-seoDescription: "Websites engineered for performance and conversion."
+seoDescription: "Website design and development built on strategy: brand experience sites, eCommerce, micro websites and landing pages made to turn visitors into customers."
 order: 1
 ---
 ## Your Revenue Engine

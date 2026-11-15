@@ -2,6 +2,7 @@
 title: "Execution — category landing"
 caption: ""
 url: "/execution"
+seoDescription: "Execution services from Alive ProStudios: design, web, collateral, video, motion graphics, photography, AI-generated production and social media branding."
 source: "rendered from live site 2026-08-22"
 ---
 

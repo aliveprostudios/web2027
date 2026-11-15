@@ -5,7 +5,7 @@ slug: "social-media-management"
 category: "growth"
 url: "/growth/social-media-management"
 seoTitle: "Social Media Management"
-seoDescription: "Managed social presence that builds community."
+seoDescription: "Social media management with a system behind it: planning, publishing, community and reporting, so your accounts build an audience on purpose."
 order: 5
 ---
 ## Reach, Engage, Convert

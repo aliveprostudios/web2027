@@ -5,7 +5,7 @@ order: 4
 slug: "claritas"
 url: "/work/case-studies/claritas"
 seoTitle: "Claritas Case Study"
-seoDescription: "How Alive ProStudios turned a 70-page sales training document into a single unified visual system for a US leader in audience optimization and identity resolution."
+seoDescription: "Claritas case study: a 70-page sales training document became one visual system for a US leader in audience optimization and identity resolution."
 datePublished: "2026-09-03"
 ---
 ## System-Wide Intelligent Visual Framework for Enterprise-Level Application Architecture

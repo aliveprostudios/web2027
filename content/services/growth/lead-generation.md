@@ -5,7 +5,7 @@ slug: "lead-generation"
 category: "growth"
 url: "/growth/lead-generation"
 seoTitle: "Lead Generation"
-seoDescription: "Systematic approaches to filling your pipeline."
+seoDescription: "Lead generation as the result of brand, website, content and follow-up working together, so your pipeline fills with qualified prospects, not just traffic."
 order: 2
 ---
 ## Leads That Actually Convert

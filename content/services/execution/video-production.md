@@ -5,7 +5,7 @@ slug: "video-production"
 category: "execution"
 url: "/execution/video-production"
 seoTitle: "Video Production"
-seoDescription: "Professional video that tells your brand story."
+seoDescription: "Brand, corporate and product video production from Alive ProStudios in Toronto, planned around strategy so each video is made to perform, not just exist."
 order: 5
 ---
 ## Stories That Sell

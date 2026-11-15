@@ -6,6 +6,7 @@ import VideoHero from '../../components/VideoHero.astro';
 import BookConsult from '../../components/BookConsult.astro';
 import NextStep from '../../components/NextStep.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
+import { getEntry } from 'astro:content';
 import { parseLanding } from '../../lib/landing';
 import { servicesInSection } from '../../lib/nav';
 import { SECTIONS, sectionLabel, stageIndex, breadcrumb, isSection } from '../../lib/sections';
@@ -43,10 +44,15 @@ const rows = services.map((service, i) => ({
   blurb: blurbs.get(service.title.toLowerCase()) ?? '',
 }));
 
-// The intro paragraph is written for the page, not for a search result, so it
-// is clamped to whole sentences that fit. See src/lib/seo.ts.
+// A landing file's own `seoDescription` wins when it has one: the meta
+// description is search copy, and rewriting it must never change the visible
+// intro (added 2026-11-15 for /execution, whose intro is 95 characters).
+// Otherwise the intro paragraph, which is written for the page, not for a
+// search result, is clamped to whole sentences that fit. See src/lib/seo.ts.
+const landingEntry = await getEntry('landing', section);
 const description = clampDescription(
-  landing?.intro ||
+  landingEntry?.data.seoDescription ||
+    landing?.intro ||
     `${label} services from Alive ProStudios, a Toronto brand transformation studio.`,
 );
 

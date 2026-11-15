@@ -5,7 +5,7 @@ slug: "digital-marketing"
 category: "growth"
 url: "/growth/digital-marketing"
 seoTitle: "Digital Marketing"
-seoDescription: "Targeted campaigns that drive measurable results."
+seoDescription: "Digital marketing strategy and campaigns across Google and Bing search, Meta, LinkedIn, Instagram and TikTok, built around your sales funnel."
 order: 1
 ---
 ## Precision Over Guesswork

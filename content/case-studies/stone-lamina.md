@@ -5,7 +5,7 @@ order: 11
 slug: "stone-lamina"
 url: "/work/case-studies/stone-lamina"
 seoTitle: "Stone Lamina Case Study"
-seoDescription: "Brand identity, technical catalogue, website, photography and 3D visualization for an engineered stone cladding manufacturer introducing a product with no established category."
+seoDescription: "Stone Lamina: brand identity, catalogue, website, photography and 3D visualization for an engineered stone cladding maker introducing a new product category."
 datePublished: "2026-09-03"
 ---
 ## Building a Category for a New Kind of Stone Cladding

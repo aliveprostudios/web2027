@@ -5,7 +5,7 @@ slug: "brand-name-identity"
 category: "foundation"
 url: "/foundation/brand-name-identity"
 seoTitle: "Brand Name & Identity"
-seoDescription: "Build the visual and verbal identity that commands attention."
+seoDescription: "Brand naming and visual identity: the first word your market hears and the first thing it sees, designed as one system before a conversation begins."
 ---
 ## First Impressions, Engineered
 

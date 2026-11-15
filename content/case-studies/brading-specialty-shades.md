@@ -5,7 +5,7 @@ order: 3
 slug: "brading-specialty-shades"
 url: "/work/case-studies/brading-specialty-shades"
 seoTitle: "Brading Specialty Shades Case Study"
-seoDescription: "Twenty-nine years of branding, cinematic production and digital work for a custom shading company whose installations include the Aga Khan Museum and the OLG Theatre."
+seoDescription: "Brading Specialty Shades: twenty-nine years of branding, film and digital work for a custom shading company, from the Aga Khan Museum to the OLG Theatre."
 datePublished: "2026-09-03"
 ---
 ## Twenty-Nine Years of Keeping a Brand Current

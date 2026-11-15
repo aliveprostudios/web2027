@@ -2,6 +2,7 @@
 title: "Privacy Policy"
 caption: ""
 url: "/privacy-policy"
+seoDescription: "How Alive ProStudios Inc. collects and uses information, the cookies and analytics on this site, the service providers we use, and your rights and choices."
 updated: "2026-08-23"
 ---
 
