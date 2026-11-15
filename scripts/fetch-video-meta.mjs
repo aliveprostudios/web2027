@@ -78,6 +78,31 @@ async function oembed(video) {
   return response.json();
 }
 
+/**
+ * YouTube's upload date, from the public watch page.
+ *
+ * YouTube's oEmbed carries no date, so until 2026-11-15 the seven YouTube
+ * entries shipped with no `uploadDate`, and Search Console listed exactly
+ * those seven as the site's only invalid video items. The watch page states
+ * the date in its own markup (`itemprop="uploadDate"`) as a full timestamp
+ * with an offset, e.g. `2015-10-23T15:14:07-07:00`, which Google accepts as
+ * is. Returns null when the page does not carry it, and the entry then omits
+ * the property rather than guessing.
+ */
+async function youtubeUploadDate(id) {
+  const response = await fetch(`https://www.youtube.com/watch?v=${id}`, {
+    headers: { 'Accept-Language': 'en-CA,en;q=0.9' },
+    signal: AbortSignal.timeout(20000),
+  });
+  if (!response.ok) return null;
+  const html = await response.text();
+  const found =
+    html.match(/<meta itemprop="(?:uploadDate|datePublished)" content="([^"]+)"/) ??
+    html.match(/"(?:uploadDate|publishDate)":"([^"]+)"/);
+  const value = found?.[1] ?? '';
+  return /^\d{4}-\d{2}-\d{2}(T[\d:]+[+-]\d{2}:\d{2})?$/.test(value) ? value : null;
+}
+
 /** YouTube oEmbed returns a 480px thumb; the /vi/ paths give a real poster. */
 async function posterUrl(video, data) {
   if (video.provider === 'vimeo') return data.thumbnail_url ?? null;
@@ -118,7 +143,12 @@ for (const video of videos) {
      * 2026-09-05 audit (finding E2): Vimeo dates the Bellini video to 2020.
      */
     const rawDate = typeof data.upload_date === 'string' ? data.upload_date.slice(0, 10) : '';
-    const uploadDate = /^\d{4}-\d{2}-\d{2}$/.test(rawDate) ? rawDate : null;
+    const uploadDate =
+      video.provider === 'youtube'
+        ? await youtubeUploadDate(video.id)
+        : /^\d{4}-\d{2}-\d{2}$/.test(rawDate)
+          ? rawDate
+          : null;
 
     meta[key] = {
       width: data.width,
