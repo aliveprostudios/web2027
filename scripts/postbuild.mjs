@@ -355,6 +355,37 @@ writeFileSync(join(dist, 'llms.txt'), llms);
 return { pages: sitemapPaths.length, sections: sections.length };
 })();
 
+/* --------------------------------------------------------- sitemap lastmod */
+
+// `<lastmod>` only where the page itself declares a real date: its Article's
+// `dateModified`, else `datePublished` (blog posts and case studies). Read from
+// the built page's own JSON-LD, so the sitemap can never disagree with the
+// page. Every other URL gets none: a build timestamp on every URL tells a
+// crawler that everything changed on every deploy, which teaches it to ignore
+// the field. Added 2026-11-15 (audit finding 12).
+const lastmodCount = (() => {
+  const SITE = 'https://aliveprostudios.com';
+  const file = join(dist, 'sitemap-0.xml');
+  let count = 0;
+  const xml = readFileSync(file, 'utf8').replace(/<url><loc>([^<]+)<\/loc>(?!<lastmod>)/g, (whole, loc) => {
+    const path = loc.replace(SITE, '').replace(/\/$/, '') || '/';
+    const html = readFileSync(join(dist, path === '/' ? 'index.html' : `${path}.html`), 'utf8');
+    for (const [, raw] of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      const json = JSON.parse(raw);
+      const nodes = Array.isArray(json['@graph']) ? json['@graph'] : [json];
+      const article = nodes.find((n) => n['@type'] === 'Article');
+      const date = article?.dateModified ?? article?.datePublished;
+      if (date) {
+        count++;
+        return `${whole}<lastmod>${date}</lastmod>`;
+      }
+    }
+    return whole;
+  });
+  writeFileSync(file, xml);
+  return count;
+})();
+
 /* ----------------------------------------------------------------- redirects */
 
 const sitemap = readFileSync(join(root, 'SITEMAP.md'), 'utf8');
@@ -453,3 +484,4 @@ console.log(
     `and _redirects (${redirects.length} rules, ${expanded.length} with slash twins) written to dist/`,
 );
 console.log(`postbuild: llms.txt (${llmsSummary.pages} pages, ${llmsSummary.sections} sections) written to dist/`);
+console.log(`postbuild: sitemap lastmod set on ${lastmodCount} URLs (pages that declare a real date)`);

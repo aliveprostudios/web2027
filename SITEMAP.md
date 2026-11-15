@@ -218,6 +218,8 @@ preserves more of the signal. Adjust any row whose mapping reads wrong.
 registered and keeps polling it, so it redirects to the real one rather than
 starting to 404 on cutover. Its child sitemaps (`post-sitemap.xml` and the rest)
 are only ever discovered through that index, so redirecting the index is enough.
+`/sitemap.xml` was added 2026-11-15: it is the address most tools and crawlers
+try first, and it returned 404 (audit finding 12).
 
 | From | To | Code |
 |---|---|---|
@@ -306,6 +308,7 @@ are only ever discovered through that index, so redirecting the index is enough.
 | `/author/admin` | `/alive-pro/about-us` | 301 |
 | `/locations.kml` | `/contact` | 301 |
 | `/sitemap_index.xml` | `/sitemap-index.xml` | 301 |
+| `/sitemap.xml` | `/sitemap-index.xml` | 301 |
 | `/alive-template` | `/` | 301 |
 
 ### Reported as 404 by Search Console, added 2026-09-06
