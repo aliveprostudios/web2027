@@ -125,11 +125,27 @@ Settled. Do not reopen without asking Javad.
 
 ## Current state
 
-**LIVE at https://aliveprostudios.com. 75 routes, 92 redirects shipped as 184 rules.**
+**LIVE at https://aliveprostudios.com. 75 routes, 250 redirects shipped as 491 rules.**
 
-**Last shipped 2026-09-07 at `a926e03`.** `main` and `staging` identical. Eleven
-commits across 2026-09-06 and 2026-09-07, all verified against the live domain
-rather than the build log.
+**Last shipped 2026-11-15 at `e4284cc`.** `main` and `staging` identical. Two
+commits that redirect the old WordPress addresses still returning 404, verified
+against the live domain rather than the build log (see 2026-11-15 below).
+
+**2026-11-15 in one paragraph.** A site-wide SEO and AEO audit, cross-checked by an
+independent Codex audit, found the old site's migration was far less complete than
+the September tables suggested: 487 of 546 addresses the Internet Archive recorded on
+the old site returned 404. Search Console had shown only 21 of them. 149 one-to-one
+rows and the site's first 9 wildcards now cover every one that was Alive ProStudios
+content; 65 theme demo, test and system paths stay 404 on purpose. Redirects went
+92 → 250. Verified on production: 1,081 of 1,082 checks, every dead address, every
+new row in both slash forms, every existing rule, all 73 pages; the exception is the
+documented Sprints 302. The full audit is the artifact
+`https://claude.ai/artifact/NzAZRh1174eZMQ4PEgVPDQ`; its other findings were
+reported, not fixed, and wait on Javad. The map and its reasoning are in
+`docs/audits/2026-11-15/redirect-map.md`.
+
+Previously: last shipped 2026-09-07 at `a926e03`, eleven commits across 2026-09-06
+and 2026-09-07.
 
 **The full rebuild went to production on 2026-09-03**, Javad's approval, a
 fast-forward of `main` to `staging` at `0848638`, 30 commits. Production had been
@@ -207,7 +223,7 @@ hostname and protocol variants, deep paths, query strings, and one legacy WordPr
 redirect chaining correctly from `www` through to `/foundation/brand-voice`. Neither
 change is expressible in this repo, see the trap below and `SITEMAP.md`.
 
-Production and staging both build 75 HTML routes and 92 redirects (184 rules, each with a trailing-slash twin) as of 2026-09-07. Counts here are `find dist -name '*.html' | wc -l`, which includes `404` and `thank-you`; the sitemap carries 73, correctly excluding those two. The history: 48 at the 2026-08-24 launch, 54 on 2026-08-30 when Resources came back in part, then 67 and 74 on staging as Case Studies, Common Questions and the new home page landed, and 75 on 2026-09-07 with `/services`. **Redirects went DOWN on 2026-09-07, 93 to 92**, which is the only time that has happened: `/services` was a real page taking over a URL a 302 was reserving, so the rule had to be deleted rather than repointed. One Resources route is still parked, see Known gaps.
+Production and staging both build 75 HTML routes and 250 redirects (491 rules: each one-to-one row with a trailing-slash twin, plus 9 wildcards that get none) as of 2026-11-15. Counts here are `find dist -name '*.html' | wc -l`, which includes `404` and `thank-you`; the sitemap carries 73, correctly excluding those two. The history: 48 at the 2026-08-24 launch, 54 on 2026-08-30 when Resources came back in part, then 67 and 74 on staging as Case Studies, Common Questions and the new home page landed, and 75 on 2026-09-07 with `/services`. **Redirects went DOWN on 2026-09-07, 93 to 92**, the only time that has happened, and then 92 to 250 on 2026-11-15 when the old WordPress addresses were mapped: `/services` was a real page taking over a URL a 302 was reserving, so the rule had to be deleted rather than repointed. One Resources route is still parked, see Known gaps.
 
 **The audit that preceded the go-live.**
 A full pre-launch audit ran 2026-09-02 against the built output and the served
@@ -229,7 +245,7 @@ All of it is now on production.
 ```
 alive-astro/
 ├── CLAUDE.md              ← this file
-├── SITEMAP.md             ← canonical URL map + 92 redirects (184 rules)
+├── SITEMAP.md             ← canonical URL map + 250 redirects (491 rules)
 ├── ANALYTICS.md           ← GA4/GSC/GTM/Ads: every ID, what is broken, READ BEFORE ADS
 ├── TEMPLATE-ANATOMY.md    ← how the templates decompose; READ THIS FIRST
 ├── astro.config.mjs       ← static, no adapter
@@ -479,6 +495,17 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
   SERVICE pages, where the asset handler does normalise. `postbuild.mjs` now emits
   a slash twin for every rule. **Test a redirect in both forms, and test every
   rule rather than a sample.**
+- **Cloudflare ignores file order between overlapping `_redirects` wildcards, and
+  `wrangler dev` does not.** On 2026-11-15 three narrow wildcards
+  (`/blog/portfolio-item/*` and two siblings) sat above `/blog/*` with a different
+  destination. The local wrangler preview honoured the order and passed every check;
+  staging sent all 55 of those addresses to the blog index instead, because
+  `/blog/*` won. Exact rows DO beat wildcards on Cloudflare: the existing
+  `/portfolio-category/photography` rule keeps its own destination under
+  `/portfolio-category/*`. So no wildcard may overlap another one; give an address
+  that needs a different destination an exact row. **Verify redirects on staging,
+  not only in the local preview**, which is the same lesson as the trailing-slash
+  trap above, one layer further out.
 - **`Astro.url.pathname` carries the `.html` extension at build time.** This site
   builds with `build: { format: 'file' }`, so during SSG the pathname is
   `/contact.html`, `/work/videos.html`, `/index.html`, NOT the canonical route.
