@@ -226,6 +226,135 @@ Sitemap: https://aliveprostudios.com/sitemap-index.xml
 
 writeFileSync(join(dist, 'robots.txt'), robots);
 
+/* ---------------------------------------------------------------- llms.txt */
+
+// A map of the site for AI answer engines (https://llmstxt.org). GENERATED, so
+// it can never drift from the site: the page list is the built sitemap, every
+// title and description is the page's own <title> and meta description,
+// verbatim, and the order is the menu's order as rendered on the home page.
+// Nothing here is hand-written copy. Adding a page adds its line; renaming a
+// page or reordering the menu reorders this file with no edit to this script.
+//
+// Grouping is by URL: a page belongs to the section whose landing page its path
+// sits under (/growth/lead-generation under /growth). A landing page with no
+// children (/services, /contact) is listed under "Main pages". Pages that are
+// not in the menu (blog posts, Common Questions topics) still appear, after
+// their section's menu entries. /privacy-policy goes under "Optional", which is
+// the llms.txt convention for links an engine may skip.
+//
+// Wrapped in its own scope: this file is one long top-level script, and names
+// like `pages` and `line` are already taken further down.
+
+const llmsSummary = (() => {
+const SITE = 'https://aliveprostudios.com';
+const TITLE_SUFFIX = / \| Alive ProStudios$/;
+
+const decode = (s) =>
+  s
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&#x27;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ');
+
+/** `/growth/lead-generation` -> dist/growth/lead-generation.html (build.format 'file'). */
+const htmlFor = (path) => join(dist, path === '/' ? 'index.html' : `${path}.html`);
+
+function readPage(path) {
+  const html = readFileSync(htmlFor(path), 'utf8');
+  const title = decode(html.match(/<title>([^<]*)<\/title>/)?.[1] ?? '').replace(TITLE_SUFFIX, '').trim();
+  const description = decode(html.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? '').trim();
+  if (!title) throw new Error(`llms.txt: ${path} has no <title>`);
+  return { path, title, description };
+}
+
+const sitemapPaths = [
+  ...readFileSync(join(dist, 'sitemap-0.xml'), 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g),
+].map(([, loc]) => loc.replace(SITE, '').replace(/\/$/, '') || '/');
+
+const homeHtml = readFileSync(htmlFor('/'), 'utf8');
+const menuOrder = [
+  ...homeHtml.matchAll(/<a href="(\/[^"#]*)" class="menu__(?:home|link|sublink)"/g),
+].map(([, href]) => href);
+const rank = (p) => {
+  const i = menuOrder.indexOf(p);
+  return i === -1 ? Number.MAX_SAFE_INTEGER : i;
+};
+
+const pages = sitemapPaths
+  .map(readPage)
+  .sort((a, b) => rank(a.path) - rank(b.path) || a.path.localeCompare(b.path));
+
+// A section is any depth-1 page that other pages sit under.
+const isSection = (p) =>
+  p !== '/' && p.split('/').length === 2 && sitemapPaths.some((q) => q.startsWith(`${p}/`));
+const sectionOf = (p) => {
+  const top = `/${p.split('/')[1]}`;
+  return isSection(top) ? top : null;
+};
+
+const OPTIONAL = new Set(['/privacy-policy']);
+const main = pages.filter((p) => !OPTIONAL.has(p.path) && !sectionOf(p.path));
+const sections = pages.filter((p) => isSection(p.path));
+const optional = pages.filter((p) => OPTIONAL.has(p.path));
+
+const line = (p) => `- [${p.title}](${SITE}${p.path === '/' ? '/' : p.path})${p.description ? `: ${p.description}` : ''}`;
+
+// Facts for the header come from the Organization node the site already emits.
+const orgNode = (() => {
+  for (const [, raw] of homeHtml.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    const json = JSON.parse(raw);
+    const nodes = Array.isArray(json['@graph']) ? json['@graph'] : [json];
+    const org = nodes.find((n) => n['@type'] === 'Organization' && n.name);
+    if (org) return org;
+  }
+  return null;
+})();
+if (!orgNode) throw new Error('llms.txt: no Organization node in the home page JSON-LD');
+
+const home = pages.find((p) => p.path === '/');
+const addr = orgNode.address ?? {};
+const facts = [
+  addr.addressLocality && `Location: ${[addr.addressLocality, addr.addressRegion, addr.addressCountry].filter(Boolean).join(', ')}`,
+  orgNode.foundingDate && `Founded: ${orgNode.foundingDate}`,
+  orgNode.telephone && `Phone: ${orgNode.telephone}`,
+  orgNode.email && `Email: ${orgNode.email}`,
+].filter(Boolean);
+
+const llms = [
+  `# ${orgNode.name.replace(/ Inc\.?$/, '')}`,
+  '',
+  `> ${home.description}`,
+  '',
+  ...facts.map((f) => `- ${f}`),
+  '',
+  '## Main pages',
+  '',
+  ...main.map(line),
+  ...sections.flatMap((s) => [
+    '',
+    `## ${s.title}`,
+    '',
+    ...pages.filter((p) => sectionOf(p.path) === s.path).map(line),
+  ]),
+  '',
+  '## Optional',
+  '',
+  ...optional.map(line),
+  `- [Sitemap](${SITE}/sitemap-index.xml): Every indexable URL on the site.`,
+  '',
+].join('\n');
+
+const listed = main.length + optional.length + sections.reduce((n, s) => n + pages.filter((p) => sectionOf(p.path) === s.path).length, 0);
+if (listed !== sitemapPaths.length) {
+  throw new Error(`llms.txt lists ${listed} pages but the sitemap has ${sitemapPaths.length}`);
+}
+
+writeFileSync(join(dist, 'llms.txt'), llms);
+return { pages: sitemapPaths.length, sections: sections.length };
+})();
+
 /* ----------------------------------------------------------------- redirects */
 
 const sitemap = readFileSync(join(root, 'SITEMAP.md'), 'utf8');
@@ -323,3 +452,4 @@ console.log(
   `postbuild: _headers (${hashes.size} CSP script hashes${isStaging ? ', staging noindex' : ''}) ` +
     `and _redirects (${redirects.length} rules, ${expanded.length} with slash twins) written to dist/`,
 );
+console.log(`postbuild: llms.txt (${llmsSummary.pages} pages, ${llmsSummary.sections} sections) written to dist/`);
