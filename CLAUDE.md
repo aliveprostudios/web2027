@@ -293,6 +293,7 @@ alive-astro/
 ├── CLAUDE.md              ← this file
 ├── SITEMAP.md             ← canonical URL map + 251 redirects (493 rules)
 ├── ANALYTICS.md           ← GA4/GSC/GTM/Ads: every ID, what is broken, READ BEFORE ADS
+├── docs/audits/AUDIT-RUNBOOK.md ← repeatable SEO/AEO/analytics audit; "run the audit runbook"
 ├── TEMPLATE-ANATOMY.md    ← how the templates decompose; READ THIS FIRST
 ├── astro.config.mjs       ← static, no adapter
 ├── wrangler.jsonc         ← Cloudflare: ./dist, drop-trailing-slash

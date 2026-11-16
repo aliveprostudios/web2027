@@ -16,6 +16,7 @@ CMS: every word on the site is Markdown in `content/`, edited in this repository
 | [`ANALYTICS.md`](ANALYTICS.md) | GA4, Search Console, Tag Manager, Google Ads, Meta and LinkedIn: every ID, what works, what was changed and when. Read before touching any of them. |
 | [`TASKS.md`](TASKS.md) | Open work, with what is waiting on whom. |
 | [`docs/audits/`](docs/audits/) | Dated audits, the redirect map, and copy drafts awaiting approval. |
+| [`docs/audits/AUDIT-RUNBOOK.md`](docs/audits/AUDIT-RUNBOOK.md) | The repeatable SEO, AEO and analytics audit. Say "run the audit runbook" to start one. |
 
 ## Commands
 
