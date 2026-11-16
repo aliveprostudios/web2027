@@ -86,6 +86,7 @@ property**, which requires a DNS TXT record.
 | Google Ads | `AW-967661948` · account **477-278-3263** ("Alive ProStudios 2023") | Linked to GA4, Enabled, personalised advertising on, linked 2023-01-27 |
 | Meta pixel | `314453825678590` | Firing. Bootstrap tag violates CSP but retries through an allowed path |
 | LinkedIn Insight | `7456860` | Firing |
+| YouTube | Company `@AliveProstudios` linked to Ads **477-278-3263**; Javad's `@javadahmadi` linked to **477-278-3263 and 414-705-0543** | Checked 2026-11-16. Confirm whether 414-705-0543 is still in use; unlink if not |
 
 ---
 

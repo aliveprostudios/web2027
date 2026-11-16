@@ -127,10 +127,26 @@ Settled. Do not reopen without asking Javad.
 
 **LIVE at https://aliveprostudios.com. 75 routes, 251 redirects shipped as 493 rules.**
 
-**Last shipped 2026-11-16 at `6ca8680`** (46 meta descriptions, verified live 46 of
-46). Before that, on 2026-11-15: the old WordPress redirects, three new
+**Last shipped 2026-11-16 at `f758c74`**: both YouTube channels added to the schema's
+`sameAs`, verified live on all 73 pages. Earlier that day `6ca8680` shipped 46 meta
+descriptions, verified live 46 of 46. On 2026-11-15: the old WordPress redirects, three new
 testimonials, a generated `llms.txt` and the audit's schema fixes. All verified
 against the live domain rather than the build log (see 2026-11-15 below).
+
+**YouTube, 2026-11-16.** Two channels serve the site: **Alive ProStudios Inc.
+(`@AliveProstudios`, channel `UC2RgIaQIMgQ_BziD8v7xsFw`)** owns 7 of its YouTube
+videos, and **Javad's own `@javadahmadi`** owns 3, including the home reel and the
+`/services` hero. Check `oEmbed author_name` before assuming which. Both were brought
+up to date that day with Javad's approval: new descriptions in the site's own
+wording, direct links in place of old WordPress addresses (two of which had
+404'd), `info@` as the company contact, upload defaults without the stale "25
+years" or the "save time and money" claim, and audience set to not made for
+kids. Record: `docs/audits/2026-11-16/youtube-drafts.md`. An empty look-alike
+channel, `@aliveprostudios9936`, also exists; deleting it is Javad's call.
+**LinkedIn:** the profile Javad named, `linkedin.com/in/aliveprostudios`, is a
+PERSONAL-profile address (`/in/`); a company page lives at `/company/`. It was not
+reviewed, because Chrome is not signed in to LinkedIn and the only shortcut was a
+Google button that would also join LinkedIn. Do not click it.
 
 **Where things stand at the end of 2026-11-16.** Everything from the 2026-11-15
 audit that was code or data is fixed and live. Tag Manager version 30 (published

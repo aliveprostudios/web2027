@@ -88,6 +88,17 @@
 
 ## Waiting On
 
+- [ ] **LinkedIn: sign in so the profile can be reviewed, and send the company page URL** - raised 2026-11-16
+  - `linkedin.com/in/aliveprostudios` is a personal-profile address. If it is the company's only LinkedIn presence, it is the wrong kind of account: LinkedIn does not allow businesses to run personal profiles, and engines read it as a person. The `/company/` URL is what goes into the website's `sameAs` and the company YouTube channel's links.
+
+- [ ] **YouTube decisions** - raised 2026-11-16
+  - Delete the empty look-alike channel "Alive ProStudios" (`@aliveprostudios9936`)? Irreversible.
+  - Unlink Google Ads account 414-705-0543 from `@javadahmadi` if it is no longer used.
+  - Review who has access to the company channel: Studio → Settings → Permissions → Manage permissions (needs Javad's passkey).
+  - Optional: a 150 px logo as a subscribe watermark on both channels.
+  - The 10 YouTube videos' own descriptions are short, dated and mostly links; rewriting them would also give the website its missing video descriptions.
+
+
 ## Someday
 
 ## Done

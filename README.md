@@ -42,6 +42,23 @@ A push deploys automatically. Changes go to `staging` first, are verified there,
 then `main` is fast-forwarded to `staging`. Staging is kept out of search
 engines by an `X-Robots-Tag: noindex` header and a disallow-all `robots.txt`.
 
+## Official profiles
+
+Only these are listed in the site's structured data (`sameAs` in
+`src/layouts/BaseLayout.astro`). Add a profile there only once it is confirmed
+official; a guessed one is worse than none.
+
+| Profile | URL | Status |
+|---|---|---|
+| YouTube, company | https://www.youtube.com/@AliveProstudios | In `sameAs` since 2026-11-16. Owns 7 of the site's videos |
+| YouTube, Javad | https://www.youtube.com/@javadahmadi | In `sameAs` (founder entry) since 2026-11-16. Owns 3 of the site's videos |
+| LinkedIn, company page | still to come | The `/company/` URL is needed; `linkedin.com/in/aliveprostudios` is a personal-profile address |
+| Instagram, Google Business Profile | still to come | |
+
+Two look-alikes exist and are **not** official: the empty YouTube channel
+`@aliveprostudios9936`, and the old `www` properties in GA4 and Search Console
+(see `ANALYTICS.md`).
+
 ## Content rules, in brief
 
 Canadian English. No em dashes. Never the words "honest" or "honestly". Never a
