@@ -6,6 +6,7 @@
   - One plain line per video in `docs/audits/2026-11-15/copy-drafts.md`. Google's only remaining note on every video on `/work/videos` is "Missing field description". No source exists: Vimeo descriptions are empty and YouTube's are dated links, so this needs Javad.
 
 - [ ] **Send the official profile URLs for `sameAs`** - Alive ProStudios site, raised 2026-09-02, still open 2026-11-15
+  - **YouTube DONE 2026-11-16**: both channels are now in the schema. Still needed: the LinkedIn COMPANY page (the YouTube channel's old LinkedIn link was a personal-profile address and was removed), Instagram and Google Business Profile. Add the LinkedIn company page to the company YouTube channel's links too.
   - LinkedIn, Instagram, YouTube, Google Business Profile. The biggest AEO lever left. Add to the Organization node in `src/layouts/BaseLayout.astro`. No page links an official profile, so none can be taken from the site.
 
 - [ ] **Review who has access to GA4, GTM and Search Console** - Alive ProStudios site, raised 2026-11-15

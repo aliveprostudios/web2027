@@ -77,10 +77,11 @@ const ogImageAlt = ogImageOverride?.alt ?? 'Alive ProStudios: clarity, consisten
  *
  * `description`, `image`, `areaServed` and `founder` were added 2026-11-15
  * (audit finding 04): they are how an answer engine tells this "Alive
- * ProStudios" apart from a string. `sameAs` is still missing on purpose: it
- * needs the official profile URLs from Javad, and a guessed profile is worse
- * than none. Add it here when they arrive. Street address is optional and
- * deliberately absent unless Javad wants it public.
+ * ProStudios" apart from a string. `sameAs` lists only profiles verified as
+ * official: the YouTube channel was added 2026-11-16, confirmed because it
+ * owns 7 of the site's videos. LinkedIn, Instagram and Google Business Profile
+ * are still to come from Javad; a guessed profile is worse than none. Street
+ * address is optional and deliberately absent unless Javad wants it public.
  */
 const organization = {
   '@type': 'Organization',
@@ -90,6 +91,7 @@ const organization = {
   logo: `${SITE}/assets/logo-full.svg`,
   image: `${SITE}/assets/og-image.jpg`,
   ...(home?.data.seoDescription ? { description: home.data.seoDescription } : {}),
+  sameAs: ['https://www.youtube.com/@AliveProstudios'],
   foundingDate: '1997',
   founder: [
     {
@@ -98,6 +100,8 @@ const organization = {
       name: 'Javad Ahmadi',
       jobTitle: 'Founder and Brand Transformation Architect',
       url: 'https://javad.ca/',
+      // His own channel; it owns 3 of the site's videos (2026-11-16).
+      sameAs: ['https://www.youtube.com/@javadahmadi'],
     },
     {
       '@type': 'Person',
