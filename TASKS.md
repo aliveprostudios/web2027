@@ -2,36 +2,32 @@
 
 ## Active
 
-- [ ] **Fix the dead Google Ads conversion triggers in GTM** - Alive ProStudios site, raised 2026-09-07. **DO THIS BEFORE ANY AD SPEND.**
-  - Javad is building campaigns from October 2026. **Every Google Ads conversion tag in the container is currently dead**, so launching before this is fixed means paying for clicks with no conversion data, which also starves Smart Bidding of the signal it needs.
-  - **Two trigger edits, roughly ten minutes, then publish the container.** Full detail and evidence in `ANALYTICS.md` findings 1 and 2.
-  - **Trigger `Window Loaded (thank you page)` and `Page View Thank you contact`:** both match `https://aliveprostudios.com/thank-you/` with a TRAILING SLASH. Astro serves `/thank-you` without one, so they have never fired on this site. Change the filter to `Page URL contains /thank-you` — no domain, no trailing slash. This revives **GA4 Conversion (Dec 2023)**, **Web form 2023** and **G Ad Conversion Sept 2025 (Contact Form Submission)**.
-  - **Trigger `Just Links (call tracking)`:** matches `tel:905-553-3044`; the site writes `tel:+19055533044`. Change it to match `tel:` alone so it survives future formatting changes. The phone number is the largest element in the closing block on all 74 pages.
-  - While the container is open for publishing anyway, rename the two Google tags to carry the year (`GoAnalytics 4 | Jan 2023` and `Alive ProStudios 2023`), and delete the dead HubSpot tag and trigger plus the Sprint trigger. Bundle it into one version rather than publishing twice.
-  - **The GA4 side is already covered** by the `Form_Thank_You` event created 2026-09-07, so GA4 conversions are being counted today. This task is about Google Ads.
+- [ ] **Write the 24 video descriptions** - Alive ProStudios site, raised 2026-11-15
+  - One plain line per video in `docs/audits/2026-11-15/copy-drafts.md`. Google's only remaining note on every video on `/work/videos` is "Missing field description". No source exists: Vimeo descriptions are empty and YouTube's are dated links, so this needs Javad.
+
+- [ ] **Send the official profile URLs for `sameAs`** - Alive ProStudios site, raised 2026-09-02, still open 2026-11-15
+  - LinkedIn, Instagram, YouTube, Google Business Profile. The biggest AEO lever left. Add to the Organization node in `src/layouts/BaseLayout.astro`. No page links an official profile, so none can be taken from the site.
+
+- [ ] **Review who has access to GA4, GTM and Search Console** - Alive ProStudios site, raised 2026-11-15
+  - GTM administrator `brandmaster126@gmail.com` (published 15 of 30 versions); GA4 editor `aliveproppcseo@gmail.com`, property users `brandmaster126` and `tobrandmasters`, and Google Ads accounts 155-665-1479 and 764-437-0121 that are not linked; Search Console user `brandmaster126`. Remove anyone who has moved on.
+
+- [ ] **Stop staging from loading the production GTM container** - Alive ProStudios site, raised 2026-09-06, still open 2026-11-15
+  - Repo change: omit the GTM snippet in `BaseLayout.astro` when `postbuild.mjs` would detect staging. Every staging visit, including verification traffic, lands in GA4, Ads, Meta and LinkedIn.
+
+- [ ] **Source or remove the $8.9 billion figure on AI-Generated Production** - Alive ProStudios site, raised 2026-11-16
+  - `content/services/execution/ai-generated-production.md` cites a market size with no source; same concern as the unsourced service-page percentages in CLAUDE.md Known gaps.
 
 - [ ] **Activate the GA4 internal traffic filter once the new rule is proven** - Alive ProStudios site, raised 2026-09-07
+  - **UPDATED 2026-11-15:** the IP changed, as predicted. The rule now matches `174.88.122.37/32` as well as `184.146.149.60/32`. Still Testing; confirm it marks Javad's visits, then activate.
   - A rule now exists (`Alive Pro office`, `184.146.149.60/32`) where **none existed at all**, which is why the filter had never excluded anything despite sitting in Testing.
   - **Left in Testing deliberately.** Google's warning: *"Filter changes are by nature destructive and irreversible. They are also not retroactive. You should only enable this if you have already successfully tested your filter."* The rule is hours old.
   - Confirm it is actually catching Javad's visits, then set it to Active.
   - **Two caveats.** The IP is very likely dynamic; if the ISP changes it the rule silently stops matching. And an IP rule cannot catch staging, which is a hostname problem needing the repo fix below.
 
-
-- [ ] **Build the /services landing page** - Alive ProStudios site, Javad's plan for the week of 2026-09-07
-  - Javad's call 2026-09-06: he wants a real landing page at `https://aliveprostudios.com/services`. There is no content and no page today.
-  - **`/services` currently returns a 302** to `/alive-pro/our-system`, deliberately, not a 301. A 301 is permanent and browsers cache it hard, so returning visitors would keep being bounced off the new page after it shipped. Same reasoning as the existing `/precision-impact-sprints` and `/sprints` chains.
-  - **Delete the `/services` row from the redirect table in SITEMAP.md when the page ships. Do not repoint it.** The row carries a comment saying so.
-  - Google has been crawling `/services/` and getting a 404 since launch, so the URL has history worth landing on something real.
-
 - [ ] **Filter bot traffic out of GA4** - Alive ProStudios site, raised 2026-09-06
   - Measured 2026-09-06: of 297 active users in 7 days, **Singapore 148 and Vietnam 49**, against Canada 26 and Toronto 7. Direct accounted for 304 of roughly 347 sessions. Organic search was 6.
   - Until this is filtered every number in GA4 is meaningless, including the conversion rate that the new `Form_Thank_You` key event will start producing.
   - This is separate from the staging-traffic gap: that one is internal traffic, this one is external bots.
-
-- [ ] **Find out why the 404 page is the most-viewed page on the site** - Alive ProStudios site, raised 2026-09-06
-  - "Page not found | Alive ProStudios" took **163 views in 7 days, up 1,382%**, more than the homepage at 110.
-  - The 2026-09-06 trailing-slash fix should account for a large share of it: every one of the 86 redirects was 404ing when the URL ended in a slash, which is the form WordPress published. **Re-check the number before investigating further**; it may have largely resolved itself.
-  - If it has not, find the actual paths in GA4 under Pages and screens by page path, not page title.
 
 - [ ] **Decide on the two unused GTM containers** - Alive ProStudios site, raised 2026-09-06
   - The Alive ProStudios account holds three containers. Only `GTM-PJLQRZC` is on the site.
@@ -43,8 +39,8 @@
   - A URL-prefix property does not cover `https://www.` or `http://`. That cost nothing while www returned 522, but **www has redirected properly since 2026-09-06**, so a Domain property would now consolidate everything in one report.
   - A Domain property needs a DNS TXT record, which means touching Cloudflare DNS. The existing Microsoft records must not be disturbed.
 
-
 - [ ] **Four analytics measurement gaps** - Alive ProStudios site, measured 2026-09-06, scheduled for week of 2026-09-07
+  - **UPDATED 2026-11-15:** gap 3 is half solved: Google Ads call tracking now fires on `tel:` clicks (GTM v30). GA4 still does not count `tel:` or `mailto:`. Gaps 1, 2 and 4 are unchanged.
   - **UPDATED 2026-09-07.** Gap 2 is partly solved and the Search Console relink is DONE. What remains here is the staging leak (gap 1), the lack of dataLayer context (gap 2's second half), and untracked `tel:`/`mailto:` clicks (gap 3). Note `mailto:` now appears on only 2 of 74 pages after the menu footer was removed.
   - **See `ANALYTICS.md` in the repo root for the full audit**: every account ID, all ten open items ranked, and a "read this first" section for the Google Ads work starting October 2026. The two highest-value fixes are GTM trigger changes that restore conversion tracking outright.
   - All four were measured against production, not read off code. What IS working: GTM `GTM-PJLQRZC` loads, GA4 `G-L9G3DSQCJQ` sends `page_view` and `scroll`, Google Ads `AW-967661948`, Meta `314453825678590` and LinkedIn `7456860` all genuinely transmit, and `/thank-you` fires `page_view` with the correct URL and title.
@@ -60,15 +56,6 @@
   - **Still unverified, needs Javad's accounts:** whether `/thank-you` is marked a key event in GA4; whether the sitemap is submitted in Search Console and which property type it is; whether a Google Ads conversion action is tied to `/thank-you`.
   - **Search Console verification:** there is NO `google-site-verification` DNS TXT record (only Microsoft's `MS=ms79490828` and SPF) and no verification meta tag, so it is almost certainly verified via Google Analytics or Tag Manager. Both produce a URL-prefix property, which does NOT cover `https://www.` or `http://`. Now that www resolves (fixed 2026-09-06), a Domain property would consolidate them. The sitemap itself is correctly referenced in robots.txt and serves all 72 URLs.
 
-- [ ] **Supply the 7 missing YouTube video upload dates** - Alive ProStudios site, raised 2026-09-06
-  - Javad's call 2026-09-06: this matters for ranking and must be fixed, just not this week.
-  - `uploadDate` is a REQUIRED property for Google video rich results. Without it those 7 `VideoObject` nodes on `/work/videos` are ineligible for the enhancement, and Search Console will report "Missing field 'uploadDate'" as an error. No ranking penalty and no effect on the other 17, but no rich result either.
-  - 17 of 24 already carry true dates. `scripts/fetch-video-meta.mjs` reads Vimeo's oEmbed `upload_date` automatically; **YouTube's oEmbed carries no date at all**, which is the whole reason these 7 are missing. Re-running `npm run video-meta` will never fix them.
-  - The 7 are the YouTube entries in `content/work/video-meta.json` with no `uploadDate` key. Their publish dates are public on each YouTube watch page.
-  - Two ways to fix: read the dates off YouTube and enter them by hand, or call the YouTube Data API v3 (`videos.list`, `part=snippet`, field `publishedAt`), which needs an API key. Manual is roughly fifteen minutes for seven videos.
-  - Wherever they are stored, `uploadDateOf()` in `src/lib/videos.ts` must find them, and `src/pages/work/videos.astro` already omits the property when it returns null. **Do not invent a date to fill the gap**: the bug being fixed here was all 24 asserting a hardcoded `2026-01-01`, and a wrong date is worse than a missing one.
-  - `content/work/videos.md` already has an empty `Year` column in the `## All videos` table, which is the natural place to put them if a manual path is chosen.
-
 - [ ] **Privacy policy still promises a cookie banner that does not exist** - Alive ProStudios site, raised 2026-08-26
   - `content/pages/privacy-policy.md` §2 and §3 tell visitors there is a cookie consent banner and a "Cookie settings" link in the footer. Neither was ever built.
   - This became sharper on 2026-08-26: GTM now sets Google, Meta and LinkedIn cookies on first page load, so the policy describes a control the site does not offer.
@@ -76,6 +63,7 @@
   - `/privacy-policy` is a standalone route rendering its Markdown directly, NOT through MasterPage. See TEMPLATE-ANATOMY.md §4.
 
 - [ ] **Clear the two GTM Custom HTML console warnings** - Alive ProStudios site, raised 2026-08-26
+  - **HALF DONE 2026-11-15:** the HubSpot listener tag is deleted (GTM v30). The Meta pixel is still Custom HTML.
   - Work happens in the GTM container, not in this repo. Nothing on the site is broken; both are cosmetic.
   - The Meta pixel is a Custom HTML tag whose inline bootstrap the CSP blocks. It still works, because GTM retries through an allowed path. Switching it to GTM's built-in Meta template removes the warning.
   - The second is a HubSpot form listener waiting for `hsFormCallback` events. This site has no HubSpot forms; the contact form is Formspree. Safe to delete outright.
@@ -102,3 +90,39 @@
 ## Someday
 
 ## Done
+
+- [x] **Fix the dead Google Ads conversion triggers in GTM** - Alive ProStudios site, raised 2026-09-07. **DO THIS BEFORE ANY AD SPEND.**
+  - **DONE 2026-11-15**, GTM version 30: both thank-you triggers now match `https://aliveprostudios.com/thank-you`, call tracking matches `tel:`; dead HubSpot and Sprint tags removed, duplicate GA4 tag removed. Tested in Tag Assistant, then published. Two test conversions (about 18:13 EST) are Claude's. See `ANALYTICS.md`.
+  - Javad is building campaigns from October 2026. **Every Google Ads conversion tag in the container is currently dead**, so launching before this is fixed means paying for clicks with no conversion data, which also starves Smart Bidding of the signal it needs.
+  - **Two trigger edits, roughly ten minutes, then publish the container.** Full detail and evidence in `ANALYTICS.md` findings 1 and 2.
+  - **Trigger `Window Loaded (thank you page)` and `Page View Thank you contact`:** both match `https://aliveprostudios.com/thank-you/` with a TRAILING SLASH. Astro serves `/thank-you` without one, so they have never fired on this site. Change the filter to `Page URL contains /thank-you` — no domain, no trailing slash. This revives **GA4 Conversion (Dec 2023)**, **Web form 2023** and **G Ad Conversion Sept 2025 (Contact Form Submission)**.
+  - **Trigger `Just Links (call tracking)`:** matches `tel:905-553-3044`; the site writes `tel:+19055533044`. Change it to match `tel:` alone so it survives future formatting changes. The phone number is the largest element in the closing block on all 74 pages.
+  - While the container is open for publishing anyway, rename the two Google tags to carry the year (`GoAnalytics 4 | Jan 2023` and `Alive ProStudios 2023`), and delete the dead HubSpot tag and trigger plus the Sprint trigger. Bundle it into one version rather than publishing twice.
+  - **The GA4 side is already covered** by the `Form_Thank_You` event created 2026-09-07, so GA4 conversions are being counted today. This task is about Google Ads.
+
+
+- [x] **Build the /services landing page** - Alive ProStudios site, Javad's plan for the week of 2026-09-07
+  - **DONE 2026-09-07**, `a926e03`: What We Do at `/services`, and its 302 was deleted as planned.
+  - Javad's call 2026-09-06: he wants a real landing page at `https://aliveprostudios.com/services`. There is no content and no page today.
+  - **`/services` currently returns a 302** to `/alive-pro/our-system`, deliberately, not a 301. A 301 is permanent and browsers cache it hard, so returning visitors would keep being bounced off the new page after it shipped. Same reasoning as the existing `/precision-impact-sprints` and `/sprints` chains.
+  - **Delete the `/services` row from the redirect table in SITEMAP.md when the page ships. Do not repoint it.** The row carries a comment saying so.
+  - Google has been crawling `/services/` and getting a 404 since launch, so the URL has history worth landing on something real.
+
+
+- [x] **Find out why the 404 page is the most-viewed page on the site** - Alive ProStudios site, raised 2026-09-06
+  - **RESOLVED by 2026-11-15**: "Page not found" had 6 views in the last 7 days (163 on 2026-09-06). The 2026-09-06 slash fix and the 2026-11-15 redirects for 409 old WordPress addresses account for it.
+  - "Page not found | Alive ProStudios" took **163 views in 7 days, up 1,382%**, more than the homepage at 110.
+  - The 2026-09-06 trailing-slash fix should account for a large share of it: every one of the 86 redirects was 404ing when the URL ended in a slash, which is the form WordPress published. **Re-check the number before investigating further**; it may have largely resolved itself.
+  - If it has not, find the actual paths in GA4 under Pages and screens by page path, not page title.
+
+
+- [x] **Supply the 7 missing YouTube video upload dates** - Alive ProStudios site, raised 2026-09-06
+  - **DONE 2026-11-15**, `0f0dcdf`: `fetch-video-meta.mjs` now reads each date from the public YouTube watch page; all 24 videos carry a full timestamp and Google's test shows no date warning.
+  - Javad's call 2026-09-06: this matters for ranking and must be fixed, just not this week.
+  - `uploadDate` is a REQUIRED property for Google video rich results. Without it those 7 `VideoObject` nodes on `/work/videos` are ineligible for the enhancement, and Search Console will report "Missing field 'uploadDate'" as an error. No ranking penalty and no effect on the other 17, but no rich result either.
+  - 17 of 24 already carry true dates. `scripts/fetch-video-meta.mjs` reads Vimeo's oEmbed `upload_date` automatically; **YouTube's oEmbed carries no date at all**, which is the whole reason these 7 are missing. Re-running `npm run video-meta` will never fix them.
+  - The 7 are the YouTube entries in `content/work/video-meta.json` with no `uploadDate` key. Their publish dates are public on each YouTube watch page.
+  - Two ways to fix: read the dates off YouTube and enter them by hand, or call the YouTube Data API v3 (`videos.list`, `part=snippet`, field `publishedAt`), which needs an API key. Manual is roughly fifteen minutes for seven videos.
+  - Wherever they are stored, `uploadDateOf()` in `src/lib/videos.ts` must find them, and `src/pages/work/videos.astro` already omits the property when it returns null. **Do not invent a date to fill the gap**: the bug being fixed here was all 24 asserting a hardcoded `2026-01-01`, and a wrong date is worse than a missing one.
+  - `content/work/videos.md` already has an empty `Year` column in the `## All videos` table, which is the natural place to put them if a manual path is chosen.
+
