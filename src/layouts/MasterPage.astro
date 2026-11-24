@@ -319,6 +319,7 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
                     'z-content',
                     row.section && 'row--section',
                     !row.section && !row.num && 'row--plain',
+                    path === '/alive-pro/testimonials' && 'row--testimonial',
                     row.blocks.some((b) => isImageBlock(b) && b.variant !== 'full') &&
                       'row--illustrated',
                   ]}
@@ -760,6 +761,40 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
   }
 
   .row__heading { margin: 0 0 20px; }
+
+  /* Testimonials: three lines of identity above the quote. The heading is the
+     COMPANY, set large; the first paragraph is the person's name (bold only),
+     the second their title (italic only). Source order is in testimonials.md. */
+  .row--testimonial .row__heading {
+    font-size: clamp(32px, 4.4vw, 64px);
+    font-weight: 200;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    text-transform: none;
+    margin-bottom: 20px;
+  }
+  .row--testimonial .md > p:has(> strong:only-child) {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--brand-orange);
+    max-width: none;
+    margin: 0 0 4px;
+  }
+  .row--testimonial .md > p:has(> em:only-child) {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--pg-fg);
+    max-width: none;
+    margin: 0 0 32px;
+  }
+  .row--testimonial .md > p:has(> strong:only-child) > :global(strong) { color: inherit; }
+  .row--testimonial .md > p > :global(em:only-child) { font-style: normal; font-weight: 400; color: inherit; }
 
   .row__list { margin-top: 40px; max-width: 720px; }
   .row__list-label { margin: 0 0 20px; color: var(--pg-fg); }

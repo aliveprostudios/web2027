@@ -473,6 +473,12 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
                     <img class="quote__mark quote__mark--dark" src="/assets/javad-ahmadi-logo-white.svg" alt="" aria-hidden="true" width="522" height="112" loading="lazy" />
                   </a>
                 </div>
+                <a href="/alive-pro/testimonials" class="aps-btn aps-btn-primary quote__cta">
+                  <span class="roll"><span>Testimonials</span><span aria-hidden="true">Testimonials</span></span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M7 17L17 7M9 7h8v8" />
+                  </svg>
+                </a>
               </div>
             </div>
           </section>
@@ -950,6 +956,11 @@ const systemDiagram = figure('/assets/diagrams/brand-to-revenue-system.svg');
   }
   .quote__mark { display: block; width: auto; height: clamp(56px, 5.5vw, 84px); }
   .quote__javad { display: block; }
+  /* Orange pill under the marks. Primary, not ghost: this band sits on the page
+     ground, white in light and near-black in dark, and the ghost variant is
+     white ink for dark surfaces only. `display: flex` + `fit-content` so the
+     margin takes effect (an inline-flex margin does not grow the line box). */
+  .quote__cta { display: flex; width: fit-content; margin-top: 40px; }
   .quote__javad .quote__mark { height: clamp(44px, 4.2vw, 64px); }
   .quote__mark--dark { display: none; }
   :global(body[data-theme='dark']) .quote__mark--light { display: none; }

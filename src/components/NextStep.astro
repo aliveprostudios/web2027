@@ -30,6 +30,9 @@ const here =
     .replace(/\/index$/, '')
     .replace(/\/+$/, '') || '/';
 const href = here === '/contact' ? '#contact-form' : '/contact';
+// The Testimonials pill is hidden on the Testimonials page itself, for the same
+// reason as the contact self-link above: a button to the page you are on.
+const showTestimonials = here !== '/alive-pro/testimonials';
 ---
 
 <section class="next" aria-labelledby="next-heading">
@@ -51,6 +54,16 @@ const href = here === '/contact' ? '#contact-form' : '/contact';
        2026-09-01: no email, no city line, the number large and orange. -->
   <div class="next__contact z-content">
     <a class="next__phone" href="tel:+19055533044">905-553-3044</a>
+    {
+      showTestimonials && (
+        <a href="/alive-pro/testimonials" class="aps-btn aps-btn-ghost next__testimonials">
+          <span class="roll"><span>Testimonials</span><span aria-hidden="true">Testimonials</span></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 17L17 7M9 7h8v8" />
+          </svg>
+        </a>
+      )
+    }
     <div class="next__marks">
       <img src="/assets/logo-full.svg" alt="Alive ProStudios" width="375" height="140" loading="lazy" />
       <a href="https://javad.ca/" target="_blank" rel="noopener" aria-label="Javad Ahmadi, javad.ca (opens in a new window)">
