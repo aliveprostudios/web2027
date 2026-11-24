@@ -11,6 +11,38 @@ closing: false
 
 ***
 
+### Mark Mahaffy
+
+**Vice President | Relyans**
+
+“Alive ProStudios approached the Relyans CORE project with a fundamentally different mindset from conventional software development companies. From the beginning, they looked beyond our initial request for an estimate generator and helped us rethink our entire process. They challenged our assumptions, identified opportunities we had not considered, and designed a solution around how our business operates. That unconventional thinking and business-first approach proved to be a driving force behind the project’s success.
+
+One of their most significant achievements was bringing our departments together within a unified, intelligent, and collaborative ecosystem. In a manufacturing organization of our size and operational complexity, effective coordination between sales, estimating, engineering, production, and management is essential. By centralizing information, communication, workflows, and decision-making, Relyans CORE breaks down departmental silos, eliminates unnecessary back-and-forth communication, and enables our teams to work more cohesively. The combination of greater efficiency and productivity creates a stronger foundation for profitability.
+
+Where information was previously scattered across multiple spreadsheets and tools, Relyans CORE now provides a centralized, intelligent environment with exceptional visibility and control. Its customizable role-based architecture empowers each team member with the information, functionality, and authority relevant to their responsibilities. Intelligent dashboards provide tailored business insights across different departments and management levels, enabling more informed decision-making, greater accountability, and stronger organizational alignment.
+
+What truly impressed us was their genuine sense of ownership. They treated Relyans CORE as if it were their own platform, proactively introducing intelligent functionalities, features, and capabilities beyond our original expectations. Throughout the entire journey, from strategic discovery and conceptualization to custom software design, development, and implementation, their exceptional responsiveness, attention to detail, and commitment to continuous improvement demonstrated a level of dedication that extended well beyond a typical client-vendor relationship.
+
+Today, we have a comprehensive platform that enhances accuracy, operational efficiency, business intelligence, and commercial flexibility. In an increasingly unpredictable business environment, the ability to make precise adjustments to costing, pricing, tariffs, transportation, and production variables without reworking entire estimates enables us to make better-informed decisions, remain competitive, protect our margins, and identify opportunities to improve profitability.
+
+Their forward-thinking approach to scalability, operational independence, knowledge transfer, and ongoing support gives us tremendous confidence in the future of this platform. Relyans CORE was intentionally engineered not only to meet our needs today but to evolve alongside our business, accommodating new equipment, additional manufacturing facilities, changing operational requirements, and future growth.
+
+Javad and his team didn’t simply deliver software; they delivered a better way of operating our business. They have proven to be a trusted strategic technology partner genuinely invested in our success, and we couldn’t be more pleased with the outcome.”
+
+### Maz Shakour
+
+**Founder & Director | Prestiga Custom Homes**
+
+“Having known Javad and Homayra for nearly two decades, I had tremendous confidence in their depth of experience, creativity, and strategic thinking. When I decided to launch my new custom home building business, Alive ProStudios was my natural choice to help me establish a strong brand foundation and position my business in a highly competitive market.
+
+What impressed me most was their ability to look beyond the creative aspects of branding and truly understand my business, vision, and turnkey approach to custom home building. They helped me refine my service offering, establish a distinctive market position, and develop a brand strategy that reflects the quality, craftsmanship, and value we bring to our clients.
+
+One of their greatest strengths is their ability to deliver a comprehensive turnkey solution under one roof. From brand strategy, naming, and visual identity to website design, development, and corporate video production, every element was developed with a unified strategic direction. Having a single trusted partner manage the entire process ensured consistency, efficiency, and seamless execution throughout the launch of my business.
+
+What I have always valued about their team is their integrity, reliability, responsiveness, and genuine commitment to their clients’ success. They approach every project with a strong sense of ownership, treating your business as if it were their own. Their ability to combine strategic insight, creative excellence, and attention to detail is what truly sets them apart.
+
+I see Alive ProStudios as far more than a branding and marketing agency. They’re a trusted strategic partner who is genuinely invested in my business’s success. I couldn’t be happier with the results, and I highly recommend them to anyone looking to build, launch, or grow their brand with confidence.”
+
 ### Andy Douse, MBA
 
 **Category Sales Manager — Specialty | Lawrence Hardware**
