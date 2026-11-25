@@ -31,6 +31,8 @@ function escapeHtml(text: string): string {
  * off-origin and a protocol-relative `//evil.example` cannot slip through. An
  * external link simply does not match and prints as literal Markdown, which is
  * ugly on purpose; `scripts/blog-check.mjs` fails the build before it ships.
+ * (Amended 2026-11-25: `https://` links now render as new-tab anchors, see the
+ * second replace below. `blog-check.mjs` still rejects them in blog posts.)
  *
  * The href is interpolated from text that escapeHtml already ran over, so `"`
  * is `&quot;` and the attribute cannot be broken out of.
@@ -41,6 +43,15 @@ function escapeHtml(text: string): string {
 function inline(text: string): string {
   return escapeHtml(text)
     .replace(/\[([^\]]+)\]\((\/(?!\/)[^)\s]*)\)/g, '<a href="$2">$1</a>')
+    // External links, `https://` only, added 2026-11-25 for the Relyans case study.
+    // Opens in a new tab with noopener, the same treatment as the javad.ca marks,
+    // and the label says so for screen readers. `http:`, `javascript:` and
+    // protocol-relative hrefs still do not match. The escapeHtml above already
+    // turned any `"` into `&quot;`, so the attribute cannot be broken out of.
+    .replace(
+      /\[([^\]]+)\]\((https:\/\/[^)\s]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer" aria-label="$1 (opens in a new window)">$1</a>',
+    )
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
 }
