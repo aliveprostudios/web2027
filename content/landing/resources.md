@@ -11,27 +11,27 @@ source: "rendered from live site 2026-08-22"
 
 Practical tools, expert insights, and answers you can act on. Everything you need to make smarter brand and marketing decisions.
 
+01
+
+## Marketing Insights in Minutes
+
+Short videos with stories, tips and insights on brand marketing
+
 ## Digital Brochure
 
 Download our capabilities overview
 
-01
+02
 
 ## Marketing Blog
 
 Insights on brand strategy, marketing, and growth
 
-02
+03
 
 ## Common Questions
 
 Straight answers on branding, marketing, search and business systems, by topic
-
-03
-
-## Marketing Insights in Minutes
-
-Short videos with stories, tips and insights on brand marketing
 
 ## WHY RESOURCES MATTER
 
