@@ -1,7 +1,7 @@
 ---
 title: "Darmaga Hardwood"
 caption: "A long-standing Ontario flooring company with deep local roots, buying its marketing from several suppliers at once. We replaced the fragments with one system, from positioning through to invoicing."
-order: 7
+order: 8
 slug: "darmaga-hardwood"
 url: "/work/case-studies/darmaga-hardwood"
 seoTitle: "Darmaga Hardwood Case Study"

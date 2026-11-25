@@ -1,7 +1,7 @@
 ---
 title: "MCON Pipe"
 caption: "An established precast manufacturer that does not need campaigns. What they need is a marketing department that answers immediately, and it is not in their building or their city."
-order: 10
+order: 11
 slug: "mcon-pipe"
 url: "/work/case-studies/mcon-pipe"
 seoTitle: "MCON Pipe Case Study"

@@ -1,7 +1,7 @@
 ---
 title: "Alfred Smart Locks"
 caption: "Twelve years as the entire marketing arm of a smart lock brand, including the decision to stop photographing the product altogether."
-order: 1
+order: 2
 slug: "alfred-smart-locks"
 url: "/work/case-studies/alfred-smart-locks"
 seoTitle: "Alfred Smart Locks Case Study"

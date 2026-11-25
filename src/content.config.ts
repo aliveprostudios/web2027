@@ -87,6 +87,13 @@ const caseStudies = defineCollection({
      * Use the real publication date, never the year the client work began.
      */
     datePublished: z.string().optional(),
+    /**
+     * Anchor id of this client's entry on /alive-pro/testimonials, which is the
+     * client's name slugified ("relyans", "lawrence-hardware"). When set, the
+     * case study ends with a button to that testimonial. Omit it and nothing
+     * renders. Added 2026-11-25 for Relyans.
+     */
+    testimonial: z.string().optional(),
   }),
 });
 

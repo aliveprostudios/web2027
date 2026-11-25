@@ -106,6 +106,14 @@ const article = {
   {caption}
   {related}
   {gallery}
+  testimonialCta={
+    entry.data.testimonial
+      ? {
+          label: `Read what ${entry.data.client ?? entry.data.title} says`,
+          href: `/alive-pro/testimonials#${entry.data.testimonial}`,
+        }
+      : undefined
+  }
   {ogImageOverride}
   heroImage={assets.hero?.src}
   heroAlt={assets.hero ? `${entry.data.title}, hero image` : undefined}

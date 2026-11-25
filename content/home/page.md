@@ -13,9 +13,9 @@ reelCaption: "Selected work, 1997 to today."
 clientsHeading: "Our Clients"
 proofHeading: "Proof, One Client at a Time"
 caseStudies:
+  - relyans
   - alfred-smart-locks
   - gallery-specialty
-  - claritas
 videoUrl: "https://youtu.be/YoudIrML8lU"
 videoHeading: "Watch the Reel"
 videoCaption: "The work, the clients and the thinking behind them, in one sitting."

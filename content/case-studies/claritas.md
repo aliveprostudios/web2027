@@ -1,7 +1,7 @@
 ---
 title: "Claritas"
 caption: "Their sales team was learning to pitch the platform from a 70-page training document. We replaced it with one slide, and then with the visual language the company now runs on."
-order: 4
+order: 5
 slug: "claritas"
 url: "/work/case-studies/claritas"
 seoTitle: "Claritas Case Study"

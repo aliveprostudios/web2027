@@ -1,7 +1,7 @@
 ---
 title: "Brading Specialty Shades"
 caption: "Our second-oldest client, since 1997. A shading company that runs at capacity and therefore does not need advertising, which leaves the brand as the only thing left to get right."
-order: 3
+order: 4
 slug: "brading-specialty-shades"
 url: "/work/case-studies/brading-specialty-shades"
 seoTitle: "Brading Specialty Shades Case Study"

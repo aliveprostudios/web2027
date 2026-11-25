@@ -1,7 +1,7 @@
 ---
 title: "Gallery Specialty"
 caption: "A 380-page catalogue, hundreds of products, and sales presentations that sometimes have to exist inside 48 hours. We have been Gallery's marketing infrastructure for more than a decade."
-order: 2
+order: 3
 slug: "gallery-specialty"
 url: "/work/case-studies/gallery-specialty"
 seoTitle: "Gallery Specialty Case Study"

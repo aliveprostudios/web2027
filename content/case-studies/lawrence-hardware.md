@@ -1,7 +1,7 @@
 ---
 title: "Lawrence Hardware"
 caption: "A technical drawing tells an architect what the product is. We build what the finished room becomes. Fourteen years managing virtually every aspect of a 140-year-old brand."
-order: 5
+order: 6
 slug: "lawrence-hardware"
 url: "/work/case-studies/lawrence-hardware"
 seoTitle: "Lawrence Hardware Case Study"

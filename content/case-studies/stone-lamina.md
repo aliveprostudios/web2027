@@ -1,7 +1,7 @@
 ---
 title: "Stone Lamina"
 caption: "They asked for a catalogue. The actual problem was that the category their product belonged to did not exist yet, and an architect cannot specify what they cannot compare."
-order: 11
+order: 12
 slug: "stone-lamina"
 url: "/work/case-studies/stone-lamina"
 seoTitle: "Stone Lamina Case Study"

@@ -1,12 +1,13 @@
 ---
 title: "Relyans"
 caption: "Alive ProStudios developed Relyans CORE, a custom platform connecting manufacturing estimating, workflows and business intelligence."
-order: 12
+order: 1
 slug: "relyans"
 url: "/work/case-studies/relyans"
 seoTitle: "Relyans Case Study"
 seoDescription: "Explore how Alive ProStudios developed Relyans CORE, a custom software platform unifying industrial estimating, collaboration and business intelligence."
 datePublished: "2026-11-25"
+testimonial: "relyans"
 ---
 
 ## Custom software development for industrial manufacturing.

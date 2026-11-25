@@ -1,7 +1,7 @@
 ---
 title: "ASSA ABLOY Door Security Solutions"
 caption: "ASSA ABLOY Door Security Solutions runs its own marketing department. We are who they call when a project outruns it, and the work has to arrive already on brand."
-order: 6
+order: 7
 slug: "assa-abloy-door-security-solutions"
 url: "/work/case-studies/assa-abloy-door-security-solutions"
 seoTitle: "ASSA ABLOY Door Security Solutions Case Study"

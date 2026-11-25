@@ -1,7 +1,7 @@
 ---
 title: "Vitality Dentistry"
 caption: "Beginning in 1998, one of our longest relationships. We positioned an implant practice above a market competing on price, then built the education that made the difference legible to patients."
-order: 9
+order: 10
 slug: "vitality-dentistry"
 url: "/work/case-studies/vitality-dentistry"
 seoTitle: "Vitality Dentistry Case Study"

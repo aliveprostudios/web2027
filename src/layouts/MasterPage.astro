@@ -59,6 +59,8 @@ interface Props {
   breadcrumbs: Array<{ name: string; url: string }>;
   footerLabel: string;
   footerHref: string;
+  /** A button after the closing statement, to a client's testimonial. */
+  testimonialCta?: { label: string; href: string } | undefined;
   /** schema.org type for this page. Service pages are Services; the rest WebPage. */
   schemaType?: string;
   /** Additional JSON-LD entities to add to the graph (e.g. Article, FAQPage). */
@@ -127,6 +129,7 @@ const {
   inlineFigures = false,
   topics = [],
   heroImage,
+  testimonialCta,
   heroAlt,
   gallery = [],
   ogImageOverride,
@@ -324,6 +327,7 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
                       'row--illustrated',
                   ]}
                   data-stack
+                  id={path === '/alive-pro/testimonials' ? row.heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') : undefined}
                 >
                   {row.num && <span class="row__num">{row.num}</span>}
                   <div>
@@ -479,6 +483,19 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
               <span class="muted" set:html={anatomy.closing.muted} />{' '}
               <Fragment set:html={anatomy.closing.tail} />
             </p>
+          </section>
+        )
+      }
+
+      {
+        testimonialCta && (
+          <section class="section testimonial-cta">
+            <a href={testimonialCta.href} class="aps-btn aps-btn-primary z-content">
+              <span class="roll"><span>{testimonialCta.label}</span><span aria-hidden="true">{testimonialCta.label}</span></span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17L17 7M9 7h8v8" />
+              </svg>
+            </a>
           </section>
         )
       }
@@ -899,6 +916,10 @@ const itemTag = hasH2Above ? 'h3' : 'h2';
 
   /* ---- 6. Closing ------------------------------------------------------ */
   .closing { max-width: 760px; margin: 0; }
+  /* The pill after the closing statement. `display: flex` + `fit-content` so the
+     top margin takes effect (an inline-flex margin does not grow the line box). */
+  .testimonial-cta :global(.aps-btn) { display: flex; width: fit-content; }
+  .row[id] { scroll-margin-top: 96px; }
 
   /* ---- Topics (articles only) ------------------------------------------
      Labels, not links. `--pg-band` keeps them legible in both themes without

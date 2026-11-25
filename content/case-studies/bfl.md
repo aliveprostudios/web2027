@@ -1,7 +1,7 @@
 ---
 title: "BFL"
 caption: "An award-winning shade manufacturer with seven product brands. We have been their brand and marketing partner since the early years of the company."
-order: 8
+order: 9
 slug: "bfl"
 url: "/work/case-studies/bfl"
 seoTitle: "BFL Case Study"
