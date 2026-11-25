@@ -27,6 +27,12 @@ Insights on brand strategy, marketing, and growth
 
 Straight answers on branding, marketing, search and business systems, by topic
 
+03
+
+## Marketing Insights in Minutes
+
+Short videos with stories, tips and insights on brand marketing
+
 ## WHY RESOURCES MATTER
 
 Great decisions start with the right information. Our resources are built for business owners and marketing leaders who want to understand the strategy behind the work — not just the deliverables.

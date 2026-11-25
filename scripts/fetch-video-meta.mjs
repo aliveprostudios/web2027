@@ -43,6 +43,7 @@ const table = md.slice(start === -1 ? 0 : start, end === -1 ? undefined : end);
  */
 const extraSources = [
   '../content/work/hero-videos.md',
+  '../content/resources/marketing-insights-in-minutes.md',
   '../content/home/page.md',
   '../src/pages/index.astro',
 ].map((rel) => fileURLToPath(new URL(rel, import.meta.url)));

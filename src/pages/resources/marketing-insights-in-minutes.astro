@@ -1,0 +1,345 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BgRails from '../../components/BgRails.astro';
+import SiteNav from '../../components/SiteNav.astro';
+import VideoHero from '../../components/VideoHero.astro';
+import BookConsult from '../../components/BookConsult.astro';
+import NextStep from '../../components/NextStep.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { SERIES } from '../../lib/marketingInsights';
+import { schemaDateTime } from '../../lib/seo';
+
+/**
+ * /resources/marketing-insights-in-minutes: the Marketing Insights in Minutes video series, moved from javad.ca.
+ *
+ * Titles, descriptions and order come from `content/resources/marketing-insights-in-minutes.md`;
+ * adding a row adds a tile. Tiles are poster frames and the embed is created on
+ * click, the same player as `/work/videos`. Menu label and URL are separate
+ * decisions: see CHILD_URL_OVERRIDES in lib/landing.ts.
+ */
+const path = '/resources/marketing-insights-in-minutes';
+const title = 'Marketing Insights in Minutes';
+const description =
+  'A short series of educational videos from Javad Ahmadi on brand marketing: ' +
+  'core values, brand experience, storytelling, culture, rebranding and scaling.';
+
+const posters = import.meta.glob<{ default: ImageMetadata }>(
+  '../../../content/assets/video-posters/*.jpg',
+  { eager: true },
+);
+
+const tiles = SERIES.map((video) => ({
+  ...video,
+  posterImage: video.poster
+    ? (posters[`../../../content/assets/video-posters/${video.poster}`]?.default ?? null)
+    : null,
+}));
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `https://aliveprostudios.com${path}#collection`,
+    name: title,
+    description,
+    publisher: { '@id': 'https://aliveprostudios.com/#organization' },
+  },
+  ...tiles.map((video) => ({
+    '@type': 'VideoObject',
+    name: video.title,
+    ...(video.description ? { description: video.description } : {}),
+    embedUrl: video.embed,
+    ...(video.posterImage ? { thumbnailUrl: `https://aliveprostudios.com${video.posterImage.src}` } : {}),
+    ...(video.uploadDate ? { uploadDate: schemaDateTime(video.uploadDate) } : {}),
+    publisher: { '@id': 'https://aliveprostudios.com/#organization' },
+  })),
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Resources', url: '/resources' },
+  { name: title, url: path },
+];
+---
+
+<BaseLayout {title} {description} {path} {schema} {breadcrumbs}>
+  <div class="page-root">
+    <BgRails />
+
+    <section class="hero">
+      <div class="hero__inner">
+        <SiteNav active={path} />
+        <div class="hero__copy">
+          <p class="hero__crumb t-eyebrow">Resources&nbsp;&nbsp;·&nbsp;&nbsp;Marketing Insights in Minutes</p>
+          <h1 class="hero__title t-h1">
+            <span class="hero__line-mask"><span class="hero__line dot">{title}</span></span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <VideoHero route={path} title="Alive ProStudios showreel" />
+
+    <main id="main">
+      <section class="wall section" aria-label={`Marketing Insights in Minutes videos, ${tiles.length} episodes`}>
+        <div class="wall__head z-content">
+          <p class="wall__eyebrow t-eyebrow">
+            <span class="wall__num">(01)</span>&nbsp;&nbsp;The Series&nbsp;&nbsp;
+            <span class="wall__count">({tiles.length})</span>
+          </p>
+        </div>
+
+        <div class="wall__grid z-content">
+          {
+            tiles.map((video, i) => (
+              <article class="vtile">
+                <button
+                  type="button"
+                  class="vtile__btn"
+                  data-video-embed={video.embed}
+                  data-video-title={video.title}
+                  aria-label={`Play: ${video.title}`}
+                >
+                  {video.posterImage ? (
+                    <Image
+                      src={video.posterImage}
+                      alt=""
+                      widths={[400, 800]}
+                      sizes="(max-width: 760px) 100vw, 33vw"
+                      loading={i < 6 ? 'eager' : 'lazy'}
+                    />
+                  ) : (
+                    <span class="vtile__blank" />
+                  )}
+                  <span class="vtile__play" aria-hidden="true">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </span>
+                </button>
+                <h2 class="vtile__title">{video.title}</h2>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- 4. Player -->
+      <div class="player" data-player hidden role="dialog" aria-modal="true" aria-label="Video player">
+        <div class="player__scrim" data-player-close></div>
+        <div class="player__frame">
+          <div class="player__ratio"><div data-player-slot></div></div>
+          <p class="player__caption" data-player-caption></p>
+        </div>
+        <button type="button" class="player__close" data-player-close aria-label="Close video">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M5 5l14 14M19 5L5 19"></path>
+          </svg>
+        </button>
+      </div>
+
+      <BookConsult />
+    </main>
+
+    <NextStep sectionNum="02" />
+
+    <SiteFooter backLabel="Common Questions" backHref="/common-questions" nextLabel="Contact" nextHref="/contact" />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-hero-top) 0%, var(--surface-hero-bottom) 100%);
+    color: #fff;
+    padding-bottom: 88px;
+    overflow: hidden;
+  }
+  .hero__inner { position: relative; z-index: var(--z-nav); }
+  .hero__copy { padding: 56px var(--gutter) 0; }
+  .hero__crumb {
+    color: var(--brand-lime);
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--brand-orange);
+    width: fit-content;
+    animation: heroFade 800ms var(--ease-settle) both 100ms;
+  }
+  .hero__title { margin: 0; }
+  .hero__line-mask { display: block; overflow: hidden; }
+  .hero__line { display: block; animation: heroRise var(--dur-hero) var(--ease-settle) both 150ms; }
+
+  /* ---- Filter tabs ------------------------------------------------------ */
+  .wall { padding: 96px var(--gutter); }
+  .wall__head { margin-bottom: 48px; }
+  .wall__eyebrow { color: var(--pg-fg); margin: 0 0 28px; }
+  .wall__num { color: var(--brand-orange); }
+  .wall__count { color: var(--pg-fg3); }
+
+  /* ---- Wall grid: same geometry as the photo gallery -------------------- */
+  .wall__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+
+  .vtile[hidden] { display: none; }
+
+  .vtile__btn {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: var(--surface-video);
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+    transform: translateY(0);
+    transition: transform 500ms var(--ease-settle);
+  }
+  .vtile__btn:hover { transform: translateY(-6px); }
+
+  .vtile__btn :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 19 / 9;
+    object-fit: cover;
+    border-radius: 8px;
+    transform: scale(1);
+    transition: opacity 300ms ease, transform 700ms var(--ease-settle);
+  }
+  .vtile__btn:hover :global(img) { opacity: 0.85; transform: scale(1.07); }
+
+  .vtile__blank { display: block; width: 100%; aspect-ratio: 19 / 9; background: var(--surface-video); }
+
+  .vtile__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    transition: background-color var(--dur-micro) ease, color var(--dur-micro) ease;
+  }
+  .vtile__btn:hover .vtile__play { background: var(--brand-orange); color: #000; }
+
+  .vtile__title {
+    margin: 18px 0 6px;
+    font-family: var(--font-sans);
+    font-weight: 200;
+    font-size: clamp(19px, 1.5vw, 23px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--pg-fg);
+  }
+
+
+
+  /* ---- Player ----------------------------------------------------------- */
+  .player {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .player[hidden] { display: none; }
+
+  .player__scrim { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.9); cursor: pointer; }
+
+  .player__frame { position: relative; width: min(1100px, 92vw); }
+
+  .player__ratio {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    overflow: hidden;
+  }
+  .player__ratio :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .player__caption {
+    margin: 18px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .player__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: color var(--dur-micro) ease;
+  }
+  .player__close:hover { color: var(--brand-orange); }
+
+  @media (max-width: 760px) {
+    .wall__grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  // ---- Player ------------------------------------------------------------
+  // The iframe is created on open and destroyed on close, so no video keeps
+  // running (or loading) behind the scrim.
+  const player = document.querySelector<HTMLElement>('[data-player]');
+  const slot = document.querySelector<HTMLElement>('[data-player-slot]');
+  const caption = document.querySelector<HTMLElement>('[data-player-caption]');
+  const closeBtn = player?.querySelector<HTMLButtonElement>('.player__close');
+  let opener: HTMLElement | null = null;
+
+  function closePlayer() {
+    if (!player || !slot) return;
+    slot.replaceChildren();
+    player.hidden = true;
+    document.documentElement.classList.remove('is-menu-open');
+    opener?.focus();
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-video-embed]').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (!player || !slot) return;
+      opener = button;
+
+      const iframe = document.createElement('iframe');
+      iframe.src = button.dataset.videoEmbed!;
+      iframe.title = button.dataset.videoTitle ?? 'Video';
+      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+      iframe.setAttribute('allowfullscreen', '');
+      slot.replaceChildren(iframe);
+
+      if (caption) caption.textContent = button.dataset.videoTitle ?? '';
+      player.hidden = false;
+      document.documentElement.classList.add('is-menu-open');
+      closeBtn?.focus();
+    });
+  });
+
+  player?.querySelectorAll('[data-player-close]').forEach((el) =>
+    el.addEventListener('click', closePlayer),
+  );
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && player && !player.hidden) closePlayer();
+  });
+</script>

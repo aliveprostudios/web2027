@@ -41,6 +41,7 @@ export const CHILD_URL_OVERRIDES: Record<string, string> = {
   'digital brochure': '/resources/brochure',
   'brand marketing blog': '/resources/blog',
   'marketing blog': '/resources/blog',
+  'marketing insights in minutes': '/resources/marketing-insights-in-minutes',
   // Common Questions lives at /common-questions, not /resources/common-questions:
   // Javad put it in the Resources menu on 2026-09-02, the URL stayed put.
   'common questions': '/common-questions',
