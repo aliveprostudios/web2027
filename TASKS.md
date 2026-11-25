@@ -2,6 +2,20 @@
 
 ## Active
 
+- [ ] **Decide how the Testimonials page connects to every case study** - Alive ProStudios site, raised 2026-11-25
+  - The Testimonials page is buried (menu, footer pill and home pill are the only ways in). Relyans now ends with a `Read what Relyans says` button; the `testimonial: "<anchor>"` field in a case study's frontmatter turns it on for any other, with no code change.
+  - **Only three case studies have a testimonial of their own**: Relyans, Lawrence Hardware, Gallery Specialty (both via Andy Douse; anchor `lawrence-hardware`). The other eight (Alfred, BFL, Brading, Claritas, Darmaga, MCON Pipe, Stone Lamina, Vitality Dentistry) have none.
+  - Recommended: the matching button on Lawrence Hardware and Gallery Specialty; a general `Read what our clients say` button (top of the page) on the other eight, which needs a small `testimonialLabel` field; a "Read the case study" link under each testimonial that has one, so the two point at each other.
+  - **Javad's call:** whether to put one verbatim line from the testimonial above the button (for Relyans, Mark's "Javad and his team didn't simply deliver software; they delivered a better way of operating our business."). It places a client's words on a new page.
+
+- [ ] **Update the case study counts in the docs and anywhere the site states one** - Alive ProStudios site, raised 2026-11-25
+  - Now 11 clients, 12 routes, 76 built routes, 74 sitemap URLs. CLAUDE.md's Current state is updated; older prose in Known gaps still says ten in places. The home module's `(11)` count is automatic.
+
+- [ ] **Check Relyans' name and a few details with Javad** - Alive ProStudios site, raised 2026-11-25
+  - The first draft said "Relyans Max", the corrected one "Relyans", the testimonial "Relyans". Confirm the legal name if it ever needs one.
+  - The opening paragraph runs three sentences; the 2 to 3 sentence rule holds.
+  - Diagrams are 1920px slides: on a phone the labels are too small to read. Consider opening them larger on tap.
+
 - [ ] **Write the 24 video descriptions** - Alive ProStudios site, raised 2026-11-15
   - One plain line per video in `docs/audits/2026-11-15/copy-drafts.md`. Google's only remaining note on every video on `/work/videos` is "Missing field description". No source exists: Vimeo descriptions are empty and YouTube's are dated links, so this needs Javad.
 
@@ -102,6 +116,9 @@
 ## Someday
 
 ## Done
+
+- [x] **Two testimonials, the restyle, the Testimonials buttons, and the Relyans case study** - raised and shipped 2026-11-25 (`ca40993`, `8f9286d`, `8efa676`). See CLAUDE.md "Current state".
+- [x] **Reusable audit runbook** - `docs/audits/AUDIT-RUNBOOK.md`, shipped 2026-11-16 (`c1c2fc2`).
 
 - [x] **Fix the dead Google Ads conversion triggers in GTM** - Alive ProStudios site, raised 2026-09-07. **DO THIS BEFORE ANY AD SPEND.**
   - **DONE 2026-11-15**, GTM version 30: both thank-you triggers now match `https://aliveprostudios.com/thank-you`, call tracking matches `tel:`; dead HubSpot and Sprint tags removed, duplicate GA4 tag removed. Tested in Tag Assistant, then published. Two test conversions (about 18:13 EST) are Claude's. See `ANALYTICS.md`.
