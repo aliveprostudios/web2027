@@ -299,6 +299,30 @@ const breadcrumbs = [
 </style>
 
 <script>
+  // ---- Filter tabs -------------------------------------------------------
+  const tabs = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const tiles = document.querySelectorAll<HTMLElement>('.vtile');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const filter = tab.dataset.filter!;
+      tabs.forEach((other) => {
+        const active = other === tab;
+        other.classList.toggle('is-active', active);
+        other.setAttribute('aria-pressed', String(active));
+      });
+
+      let shown = 0;
+      tiles.forEach((tile) => {
+        const match = filter === 'all' || (tile.dataset.tags ?? '').split('|').includes(filter);
+        tile.hidden = !match;
+        if (match) shown++;
+      });
+      if (empty) empty.hidden = shown > 0;
+    });
+  });
+
   // ---- Player ------------------------------------------------------------
   // The iframe is created on open and destroyed on close, so no video keeps
   // running (or loading) behind the scrim.

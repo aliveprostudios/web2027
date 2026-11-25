@@ -642,6 +642,15 @@ neither `_headers` nor `_redirects`, so it cannot tell you whether either works.
   (0,2,0), never by weakening `.md a`. Same family as the `a.aps-btn-primary`
   trap above, and the same rule applies: raise the winner, never lower the loser.
 
+- **Cloudflare rejects a `_headers` line over 2000 characters, and the CSP line is at about
+  1,990.** Each DISTINCT inline `<script>` adds a ~60 character hash to it. A new page with
+  its own script passed `npm run build` locally and then failed the deploy on both staging
+  pushes (`Invalid _headers configuration: Line 6 exceeds limit of 2000 characters`, code
+  100324, found 2026-11-25 in the Cloudflare build log, not in any local check).
+  `postbuild.mjs` now throws if any line is over 2000. A page that needs the video player
+  must carry the `/work/videos` script BYTE-IDENTICAL, as `/resources/marketing-insights-in-minutes`
+  does, so both share one hash. Importing it from a module does NOT work: Astro then emits
+  `<script src>`, which the strict-dynamic rule above forbids. Real headroom is about 11 characters.
 - **The anatomy parser IGNORES heading level.** `tokenize()` matches `^#{2,6}`, so `##` and
   `###` are the same token and the first one is the slot 3 H2. A file written with `##`
   sections and `###` items rendered as one flat numbered list. A section head comes ONLY from

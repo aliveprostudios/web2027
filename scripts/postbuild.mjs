@@ -204,6 +204,17 @@ ${isStaging ? '  X-Robots-Tag: noindex, nofollow\n' : ''}
   Cache-Control: public, max-age=31536000, immutable
 `;
 
+// Cloudflare rejects a `_headers` line over 2000 characters (error 100324), and the
+// CSP line grows by about 60 characters per distinct inline script hash. This failed
+// the 2026-11-25 staging deploy while `npm run build` passed locally, so fail here.
+for (const [i, line] of headers.split('\n').entries()) {
+  if (line.length > 2000) {
+    throw new Error(
+      `postbuild: _headers line ${i + 1} is ${line.length} characters; Cloudflare's limit is 2000. ` +
+        'A new distinct inline <script> adds a CSP hash. Reuse an existing script byte for byte, or trim the CSP.',
+    );
+  }
+}
 writeFileSync(join(dist, '_headers'), headers);
 
 /* ------------------------------------------------------------- robots.txt */
